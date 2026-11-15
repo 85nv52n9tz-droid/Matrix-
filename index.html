@@ -959,6 +959,7 @@ async function registerPlayer(email, password) {
 }
 
 async function loginPlayer(email, password) {
+  alert("Login button is working!");
   const { data, error } = await supabaseClient.auth.signInWithPassword({
     email,
     password
