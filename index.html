@@ -904,6 +904,46 @@ const supabaseClient = window.supabase.createClient(
 );
 
 console.log("Hacker HQ Supabase connected!");
+
+async function registerPlayer(email, password) {
+  const { data, error } = await supabaseClient.auth.signUp({
+    email,
+    password
+  });
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
+  alert("Account created! Welcome to Hacker HQ.");
+}
+
+async function loginPlayer(email, password) {
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
+  alert("Welcome back to Hacker HQ!");
+}
+
+async function logoutPlayer() {
+  const { error } = await supabaseClient.auth.signOut();
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
+  alert("You have logged out.");
+}
+
 </script>
 </body>
 </html>
