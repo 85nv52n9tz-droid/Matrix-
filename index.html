@@ -181,7 +181,8 @@ REGISTER
 </button>
 
 </div>
-
+<div id="gameContent" style="display:none;">
+  
 <main>
 <div class="top">
   <div class="hdr"><canvas id="rain"></canvas><h1>Backdoor HQ<span class="cur">_</span></h1></div>
@@ -954,6 +955,7 @@ async function registerPlayer(email, password) {
   }
 
   alert("Account created! Welcome to Hacker HQ.");
+  showGameAfterLogin();
 }
 
 async function loginPlayer(email, password) {
@@ -980,7 +982,11 @@ async function logoutPlayer() {
 
   alert("You have logged out.");
 }
-
+function showGameAfterLogin() {
+  document.getElementById("loginPanel").style.display = "none";
+  document.getElementById("gameContent").style.display = "block";
+}
 </script>
+  </div>
 </body>
 </html>
