@@ -308,9 +308,9 @@ function render(){
     E.ch.m.textContent='Slots '+running()+'/'+S.sl+' in use';
     E.ch.d.textContent='Mission rewards +'+Math.round((rewM()-1)*100)+'%, mission time -'+Math.round((1-timeM())*100)+'%. Open the Missions tab to send the crew out.';
     E.tr.e.textContent='level '+S.tr+'/20';
-    if(S.tr>=10){E.tr.b.textContent='Crew fully trained';E.tr.b.disabled=true}else{var tc=trainCost();E.tr.b.textContent='Train · '+cs(tc);E.tr.b.disabled=!afford(tc)}
+    if(S.tr>=20){E.tr.b.textContent='Crew fully trained';E.tr.b.disabled=true}else{var tc=trainCost();E.tr.b.textContent='Train · '+cs(tc);E.tr.b.disabled=!afford(tc)}
     E.hi.e.textContent=S.sl+'/5 hackers';
-    if(S.sl>=4){E.hi.b.textContent='Crew is full';E.hi.b.disabled=true}else{var hc2=hireCost();E.hi.b.textContent='Recruit · '+cs(hc2);E.hi.b.disabled=!afford(hc2)}
+    if(S.sl>=5){E.hi.b.textContent='Crew is full';E.hi.b.disabled=true}else{var hc2=hireCost();E.hi.b.textContent='Recruit · '+cs(hc2);E.hi.b.disabled=!afford(hc2)}
   }
 }
 function renderMis(){
