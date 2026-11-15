@@ -145,6 +145,43 @@ svg[id^="map"] text{fill:var(--dim);font-size:4px;pointer-events:none;text-ancho
 </style>
 </head>
 <body>
+  
+<div id="loginPanel" style="
+background:#050505;
+color:#00ff66;
+padding:25px;
+border:1px solid #00ff66;
+border-radius:12px;
+max-width:400px;
+margin:20px auto;
+font-family:monospace;
+text-align:center;">
+
+<h2>HACKER HQ</h2>
+<p>PLAYER ACCESS TERMINAL</p>
+
+<input id="playerEmail" type="email"
+placeholder="Email address"
+style="display:block;width:90%;padding:12px;margin:10px auto;">
+
+<input id="playerPassword" type="password"
+placeholder="Password"
+style="display:block;width:90%;padding:12px;margin:10px auto;">
+
+<button onclick="loginPlayer(
+document.getElementById('playerEmail').value,
+document.getElementById('playerPassword').value)">
+LOGIN
+</button>
+
+<button onclick="registerPlayer(
+document.getElementById('playerEmail').value,
+document.getElementById('playerPassword').value)">
+REGISTER
+</button>
+
+</div>
+
 <main>
 <div class="top">
   <div class="hdr"><canvas id="rain"></canvas><h1>Backdoor HQ<span class="cur">_</span></h1></div>
