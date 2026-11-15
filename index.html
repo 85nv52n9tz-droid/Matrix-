@@ -231,7 +231,7 @@ function build(){
   E.tr=card(cc,'','crew');E.tr.t.textContent='Train the crew';E.tr.d.textContent='Each level adds 10% to mission rewards and cuts mission time by 4%.';E.tr.b.onclick=train;
   E.hi=card(cc,'','crew');E.hi.t.textContent='Recruit a hacker';E.hi.d.textContent='Every hacker lets you run one more mission at the same time (max 4).';E.hi.b.onclick=hire;
   E.nl=card($('nlab'),'hq','bot');E.nl.t.textContent='Nanobot lab';E.nl.b.parentNode.hidden=true;
-  [[1,'x1'],[10,'x10'],['max','Max']].forEach(function(a){var b=document.createElement('button');b.textContent=a[1];b.onclick=function(){qty=a[0];render()};$('qty').appendChild(b);qb.push(b);qv.push(a[0])});
+  [[1,'x1'],[20,'x20'],['max','Max']].forEach(function(a){var b=document.createElement('button');b.textContent=a[1];b.onclick=function(){qty=a[0];render()};$('qty').appendChild(b);qb.push(b);qv.push(a[0])});
   TR.forEach(function(t,i){var e=E['t'+i]=card($('tiers'),'','bot');e.t.textContent=t.name;e.e.textContent='T'+(i+1);e.d.textContent='Uses '+(i+1)+' capacity each.';e.i.style.color=TC[i];e.b.onclick=function(){nbTrain(i)};e.f.onclick=function(){nbFinish(i)}});
   buildMap();
 }
