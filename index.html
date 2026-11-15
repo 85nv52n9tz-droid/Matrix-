@@ -943,10 +943,16 @@ const supabaseClient = window.supabase.createClient(
 
 console.log("Hacker HQ Supabase connected!");
 
+
 async function registerPlayer(email, password) {
+  if (!email || !password) {
+    alert("Please enter your email and password.");
+    return;
+  }
+
   const { data, error } = await supabaseClient.auth.signUp({
-    email,
-    password
+    email: email,
+    password: password
   });
 
   if (error) {
@@ -954,15 +960,23 @@ async function registerPlayer(email, password) {
     return;
   }
 
-  alert("Account created! Welcome to Hacker HQ.");
-  showGameAfterLogin();
+  if (data.session) {
+    alert("Account created! Welcome to Hacker HQ.");
+    showGameAfterLogin();
+  } else {
+    alert("Account created! Please confirm your email, then log in.");
+  }
 }
 
 async function loginPlayer(email, password) {
-  
+  if (!email || !password) {
+    alert("Please enter your email and password.");
+    return;
+  }
+
   const { data, error } = await supabaseClient.auth.signInWithPassword({
-    email,
-    password
+    email: email,
+    password: password
   });
 
   if (error) {
@@ -971,6 +985,7 @@ async function loginPlayer(email, password) {
   }
 
   alert("Welcome back to Hacker HQ!");
+  showGameAfterLogin();
 }
 
 async function logoutPlayer() {
@@ -981,6 +996,9 @@ async function logoutPlayer() {
     return;
   }
 
+  document.getElementById("loginPanel").style.display = "block";
+  document.getElementById("gameContent").style.display = "none";
+
   alert("You have logged out.");
 }
 
@@ -988,6 +1006,8 @@ function showGameAfterLogin() {
   document.getElementById("loginPanel").style.display = "none";
   document.getElementById("gameContent").style.display = "block";
 }
+
+
   
 }
 
