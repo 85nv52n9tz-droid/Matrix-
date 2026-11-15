@@ -959,7 +959,7 @@ async function registerPlayer(email, password) {
 }
 
 async function loginPlayer(email, password) {
-  alert("Login button is working!");
+  
   const { data, error } = await supabaseClient.auth.signInWithPassword({
     email,
     password
@@ -984,39 +984,11 @@ async function logoutPlayer() {
   alert("You have logged out.");
 }
 
-async function showGameAfterLogin() {
-  const { data: { user }, error: userError } =
-    await supabaseClient.auth.getUser();
-
-  if (userError || !user) {
-    alert("Could not load your player account.");
-    return;
-  }
-
-  const { error } = await supabaseClient
-    .from("players")
-    .upsert(
-      {
-        id: user.id,
-        username: "Player_" + user.id.slice(0, 8)
-      },
-      {
-        onConflict: "id",
-        ignoreDuplicates: true
-      }
-    );
-
-  if (error) {
-    alert("Profile error: " + error.message);
-    return;
-  }
-
+function showGameAfterLogin() {
   document.getElementById("loginPanel").style.display = "none";
   document.getElementById("gameContent").style.display = "block";
-
-  console.log("Player profile loaded!");
 }
-
+  
 }
 
 checkPlayerSession();
