@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Backdoor HQ</title>
+<style>
+:root{color-scheme:dark;--lv:#5ab8ff;--rw:#ffb347;--pi:#c08bff;--bg:#040a06;--panel:#08130c;--line:#12402a;--text:#b9ffd0;--dim:#5fa27c;--ok:#39ff88;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;background:var(--bg);color:var(--text);font:13px/1.3 ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 1px,transparent 1px 3px);z-index:20}
+main{max-width:560px;margin:0 auto;padding:0 10px 14px}
+.hdr{position:relative;height:40px;margin:6px 0;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#020604}
+.hdr canvas{position:absolute;inset:0;width:100%;height:100%;opacity:.5}
+.hdr h1{position:relative;margin:0;padding:0 10px;line-height:38px;font-size:16px;color:var(--ok);text-shadow:0 0 8px #39ff88}
+.cur{animation:bl 1s steps(1) infinite}
+@keyframes bl{50%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.cur{animation:none}}
+.top{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5;padding-bottom:6px}
+.chips{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+.chip{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:4px 5px;min-width:0}
+.chip .cl{display:flex;align-items:center;gap:3px}
+.chip svg{width:13px;height:13px;flex:none}
+.chip b{font-size:12px;overflow:hidden;white-space:nowrap;text-shadow:0 0 6px currentColor}
+.chip small{display:block;font-size:9px;color:var(--pi);white-space:nowrap;overflow:hidden}
+nav{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:6px}
+nav button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:5px 0;background:var(--panel);border:1px solid var(--line);border-radius:6px;font-size:9px;overflow:hidden}
+nav svg{width:14px;height:14px}
+nav button.on{border-color:var(--ok);color:var(--ok);background:#0c2415;box-shadow:0 0 8px rgba(57,255,136,.25)}
+button{font:inherit;color:var(--text);cursor:pointer}
+.card{display:flex;gap:8px;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:8px;margin:6px 0}
+.card.hq{border-color:var(--ok);box-shadow:0 0 10px rgba(57,255,136,.18)}
+.ico{flex:none;width:34px;height:34px;border:1px solid var(--line);border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--ok);background:#050f08}
+.ico svg{width:22px;height:22px}
+.hq .ico{width:42px;height:42px}.hq .ico svg{width:28px;height:28px}
+.bd{flex:1;min-width:0}
+.row{display:flex;justify-content:space-between;gap:8px}
+.name{font-weight:700}.name em{font-style:normal;color:var(--lv);font-weight:400;font-size:12px}
+.locked{color:var(--dim);font-size:11px;text-align:right}
+.desc{color:var(--dim);font-size:11px;margin:1px 0 6px;white-space:pre-line}
+.buy{width:100%;padding:6px 8px;border-radius:5px;border:1px solid var(--line);background:#0b1f12;text-align:left;font-size:12px}
+.buy:disabled{opacity:.45;cursor:default}
+.buy:not(:disabled){border-color:var(--ok);color:var(--ok)}
+.prog{height:4px;background:#020604;border-radius:2px;margin:0 0 6px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--ok);width:0}
+#log{background:#020604;border:1px solid var(--line);border-radius:6px;padding:6px 8px;height:84px;overflow:auto;font-size:11px;color:var(--ok);margin-top:8px}
+#map{width:100%;display:block;background:#030805;border:1px solid var(--line);border-radius:6px}
+#map circle.n{cursor:pointer}
+#map text{fill:var(--dim);font-size:3.6px;pointer-events:none;text-anchor:middle}
+.foot{display:flex;justify-content:space-between;margin-top:10px;color:var(--dim);font-size:11px;gap:8px}
+.foot button{background:none;border:1px solid var(--line);border-radius:6px;padding:3px 8px;color:var(--dim)}
+.btns{display:flex;gap:6px}
+.btns .buy{flex:1;min-width:0}
+.fin{flex:none;padding:6px 8px;border-radius:5px;border:1px solid #5bff7a;background:#0d2412;color:#5bff7a;font-size:11px;max-width:45%}
+.fin:disabled{opacity:.45;cursor:default}
+#blds{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px}
+#blds .card{flex-direction:column;gap:6px;margin:0}
+#blds .ico{width:28px;height:28px}#blds .ico svg{width:18px;height:18px}
+#blds .row{flex-direction:column;gap:0}
+#blds .locked{text-align:left}
+#blds .btns{flex-direction:column}
+#blds .fin{max-width:none}
+.lv{color:var(--lv)}
+#blds .locked,#nd .locked,#hqc .locked{color:var(--pi)}
+#mlist .locked{color:var(--rw)}
+#tiers{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px}
+#tiers .card{flex-direction:column;gap:6px;margin:0}
+#tiers .ico{width:28px;height:28px}#tiers .ico svg{width:18px;height:18px}
+#tiers .row{flex-direction:column;gap:0}
+#tiers .locked{text-align:left}
+#tiers .btns{flex-direction:column}
+#tiers .fin{max-width:none}
+#qty{display:flex;gap:4px;margin:6px 0 0}
+#qty button{flex:1;padding:5px;background:var(--panel);border:1px solid var(--line);border-radius:6px;font-size:12px}
+#qty button.on{border-color:var(--ok);color:var(--ok)}
+.rwd{color:var(--rw)}
+#warn{margin-top:6px;padding:5px 8px;border:1px solid #ff6b5a;border-radius:6px;background:#240c0c;color:#ff9a8c;font-size:12px;cursor:pointer}
+.al{border:1px solid #ff6b5a;border-radius:6px;padding:8px;margin:6px 0;background:#240c0c;color:#ff9a8c;font-size:12px;line-height:1.5}
+.rk{display:flex;gap:8px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:6px 8px;margin:4px 0}
+.rk.me{border-color:var(--ok);box-shadow:0 0 8px rgba(57,255,136,.2)}
+.rn{width:26px;color:var(--dim);font-size:12px;flex:none}
+.rb{flex:1;min-width:0}.rb b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rb small{display:block;font-size:11px;color:var(--dim)}
+.ra{flex:none;text-align:right;min-width:62px}
+.ra span{display:block;font-weight:700;font-size:13px}
+.ab{width:100%;padding:4px 6px;border:1px solid var(--ok);background:#0b1f12;border-radius:5px;font-size:11px;color:var(--ok)}
+.ab:disabled{opacity:.45;border-color:var(--line)}
+#rsort{display:flex;gap:4px;margin:6px 0 0}
+#rsort button{flex:1;padding:5px;background:var(--panel);border:1px solid var(--line);border-radius:6px;font-size:12px}
+#rsort button.on{border-color:var(--ok);color:var(--ok)}
+#rrep{background:#020604;border:1px solid var(--line);border-radius:6px;padding:6px 8px;margin-top:8px;font-size:11px;color:var(--ok)}
+.back{width:100%;padding:7px 8px;margin:6px 0;text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:6px;font-size:12px}
+.bgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px}
+.bgrid .card{flex-direction:column;gap:6px;margin:0}
+.bgrid .ico{width:28px;height:28px}.bgrid .ico svg{width:18px;height:18px}
+.bgrid .row{flex-direction:column;gap:0}
+.bgrid .locked{text-align:left}
+.bgrid .btns{flex-direction:column}
+.card.bld{cursor:pointer}
+.pi{color:var(--pi)}
+#msub{display:flex;gap:4px;margin:6px 0 0}
+#msub button{flex:1;padding:5px;background:var(--panel);border:1px solid var(--line);border-radius:6px;font-size:12px}
+#msub button.on{border-color:var(--ok);color:var(--ok)}
+#csub{display:flex;gap:4px;margin:6px 0 0}
+#csub button{flex:1;padding:5px;background:var(--panel);border:1px solid var(--line);border-radius:6px;font-size:12px}
+#csub button.on{border-color:var(--ok);color:var(--ok)}
+.sub{color:var(--dim);font-size:12px;margin:10px 0 2px}
+.pk{display:block;width:100%;text-align:left;padding:7px 8px;margin:4px 0;background:var(--panel);border:1px solid var(--line);border-radius:6px;font-size:12px}
+.pk.on{border-color:var(--ok);color:var(--ok)}
+.pk:disabled{opacity:.45}
+.doll{display:grid;grid-template-columns:repeat(3,1fr);grid-template-areas:". h ." "al fig ar" "ll fig lr" ". sp .";gap:6px;margin-top:6px}
+.doll .card{flex-direction:column;gap:4px;margin:0;padding:6px}
+.doll .ico{width:22px;height:22px}.doll .ico svg{width:14px;height:14px}
+.doll .row{flex-direction:column;gap:0}.doll .locked{text-align:left}.doll .desc{display:none}
+.doll .btns{flex-direction:column}.doll .buy{padding:5px;font-size:11px}
+#fig{grid-area:fig;width:100%;height:100%;color:var(--ok);opacity:.35}
+.rk{flex-wrap:wrap;padding:4px 6px;gap:6px}
+.rbt{display:flex;gap:3px;justify-content:flex-end}
+.rbt .ab{width:auto;padding:3px 5px}
+.rx{flex-basis:100%;font-size:11px;color:var(--dim);white-space:pre-line;border-top:1px solid var(--line);padding-top:4px}
+</style>
+</head>
+<body>
+<main>
+<div class="top">
+  <div class="hdr"><canvas id="rain"></canvas><h1>Backdoor HQ<span class="cur">_</span></h1></div>
+  <div class="chips" id="chips"></div>
+  <nav id="tabs"></nav>
+  <div id="warn" hidden></div>
+</div>
+<section id="t-hq">
+  <div id="hqmain"><div id="hqc"></div><div id="blds"></div><div id="pblds" class="bgrid" hidden></div><div id="log"></div></div>
+  <div id="bpage" hidden><button id="bback" class="back"></button><div id="bhead"></div><div id="bgrids"></div></div>
+  <div id="ppage" hidden><button id="pback" class="back"></button><div id="phead"></div><div id="pup"></div><div class="sub">Module sockets (modules come from the Shop)</div><div id="psock"></div><div id="pmods"></div><div id="presw" hidden><div class="sub">Research (costs Quantum)</div><div id="pres" class="bgrid"></div></div></div>
+</section>
+<section id="t-mis"><div id="mlist"></div></section>
+<section id="t-map"><div id="msub"></div><div id="mp0"><svg id="map" viewBox="0 0 200 100"></svg><div id="nd"></div></div><div id="mp1" hidden><svg id="map2" viewBox="0 0 200 100"></svg><div id="nd2"></div></div><div id="mp2" hidden><svg id="map3" viewBox="0 0 200 100"></svg><div id="nd3"></div></div></section>
+<section id="t-bot"><div id="alert" class="al" hidden></div><div id="nlab"></div><div id="qty"></div><div id="tiers"></div></section>
+<section id="t-rank"><div id="rprof"></div><div id="rsort"></div><div id="rlist"></div><div id="rrep"></div></section>
+<section id="t-crew"><div id="csub"></div>
+  <div id="cp0"><div id="crew"></div></div>
+  <div id="cp1" hidden><div id="roster" class="bgrid"></div></div>
+  <div id="cp2" hidden><button id="cback" class="back"></button><div id="chead"></div><div id="cgear" class="doll"><svg id="fig" viewBox="0 0 60 120" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="30" cy="14" r="9"/><rect x="18" y="26" width="24" height="42" rx="5"/><path d="M18 30l-10 34M42 30l10 34M24 68l-4 44M36 68l4 44"/></svg></div><div class="sub">Accessory (buy items in the Shop)</div><div id="citems"></div><div class="sub">Battle slot (attack and defence items)</div><div id="citems2"></div></div>
+</section>
+<section id="t-shop"><div id="shead"></div><div id="sgrid" class="bgrid"></div></section>
+<div class="foot"><span>Offline income is capped at 8 hours.</span><button id="reset">Wipe save</button></div>
+</main>
+<script>
+var RS=[['cr','Credits','#e8ff5a'],['da','Data','#3ff2d0'],['cy','Crypto','#5bff7a'],['ex','Exploits','#ff6b5a'],['in','Influence','#b3ffd9'],['qt','Quantum','#ff4fd8']];
+var NM={},CL={};RS.forEach(function(r){NM[r[0]]=r[1].toLowerCase();CL[r[0]]=r[2]});
+var B=[
+ {id:'node',name:'Botnet node',desc:'Hijacked devices that farm credits.',res:'cr',rate:1,cost:{cr:20},u:1},
+ {id:'siphon',name:'Data siphon',desc:'Quietly copies databases.',res:'da',rate:0.5,cost:{cr:60},u:1},
+ {id:'miner',name:'Crypto miner',desc:'Racks of stolen GPUs mining crypto.',res:'cy',rate:0.25,cost:{cr:400,da:40},u:1},
+ {id:'lab',name:'Exploit lab',desc:'Researchers who find zero-days.',res:'ex',rate:0.12,cost:{cr:1500,da:200,cy:30},u:1}
+];
+var N=[
+ {id:'sf',name:'San Francisco',desc:'Seize the cloud providers.',res:'cr',rate:3,cost:{cr:100},u:1,x:30,y:38},
+ {id:'fra',name:'Frankfurt',desc:'Tap the internet exchange.',res:'da',rate:1.2,cost:{cr:300,da:15},u:2,x:101,y:27},
+ {id:'lag',name:'Lagos',desc:'Crypto flows through here.',res:'cy',rate:0.5,cost:{cr:1000,da:60},u:3,x:100,y:57},
+ {id:'tok',name:'Tokyo',desc:'Source of rare zero-days.',res:'ex',rate:0.3,cost:{cr:2500,da:150,cy:15},u:4,x:160,y:34},
+ {id:'sao',name:'São Paulo',desc:'A huge audience to sway.',res:'in',rate:0.2,cost:{cr:4000,da:300,cy:30},u:3,x:66,y:73},
+ {id:'syd',name:'Sydney',desc:'Wealthy banks, weak firewalls.',res:'cr',rate:400,cost:{cr:40000,da:2000,cy:200,ex:20},u:6,x:167,y:75}
+];
+var T=[
+ {id:'tw1',name:'Austin',desc:'A startup hub full of cheap talent.',res:'cr',bonus:0.03,cost:{cr:600,da:40},u:2,x:38,y:42},
+ {id:'tw2',name:'Tallinn',desc:'A digital government with open data.',res:'da',bonus:0.03,cost:{cr:1500,da:100},u:3,x:108,y:22},
+ {id:'tw3',name:'Bangalore',desc:'Server farms and cheap labour.',res:'cy',bonus:0.03,cost:{cr:4000,da:250},u:4,x:130,y:46},
+ {id:'tw4',name:'Nairobi',desc:'Mobile money everywhere.',res:'cr',bonus:0.03,cost:{cr:9000,da:600,cy:40},u:5,x:112,y:62},
+ {id:'tw5',name:'Medellin',desc:'A growing underground scene.',res:'ex',bonus:0.03,cost:{cr:20000,da:1500,cy:100},u:6,x:56,y:58},
+ {id:'tw6',name:'Reykjavik',desc:'Cheap power and quiet networks.',res:'in',bonus:0.03,cost:{cr:40000,da:3000,cy:200},u:7,x:84,y:17}
+];
+var C=[
+ {id:'ct1',name:'New York',desc:'Wall Street trading floors.',res:'cr',bonus:0.05,cost:{cr:8000,da:500,cy:30},u:5,x:48,y:34},
+ {id:'ct2',name:'London',desc:'Banks and data brokers.',res:'da',bonus:0.05,cost:{cr:20000,da:1200,cy:80},u:7,x:96,y:25},
+ {id:'ct3',name:'Dubai',desc:'Crypto-friendly money.',res:'cy',bonus:0.05,cost:{cr:50000,da:3000,cy:200},u:9,x:124,y:41},
+ {id:'ct4',name:'Singapore',desc:'A global research hub.',res:'ex',bonus:0.05,cost:{cr:120000,da:7000,cy:500,ex:20},u:11,x:147,y:54},
+ {id:'ct5',name:'Moscow',desc:'Media networks with huge reach.',res:'in',bonus:0.05,cost:{cr:300000,da:18000,cy:1200,ex:50},u:13,x:122,y:19},
+ {id:'ct6',name:'Cape Town',desc:'Gateway to submarine cables.',res:'cr',bonus:0.05,cost:{cr:700000,da:40000,cy:3000,ex:100},u:15,x:104,y:72}
+];
+var PB=[
+ {id:'tech',pb:1,name:'Singularity Lab',desc:'Makes Quantum. Open it for research.',res:'qt',rate:0.05,col:'#ff4fd8',i:'atom',u:1,cost:{cr:5e7,da:5e6,qt:30}},
+ {id:'bank',pb:1,name:'Quantum Bank',desc:'Prints credits.',res:'cr',rate:5e4,col:'#ffc933',i:'bank',u:1,cost:{cr:8e7,da:8e6,cy:1e6,qt:30}},
+ {id:'vault',pb:1,name:'Neural Vault',desc:'Hoards stolen data.',res:'da',rate:6e3,col:'#4dc3ff',i:'da',u:1,cost:{cr:1e8,da:1e7,cy:1.2e6,qt:30}},
+ {id:'forge',pb:1,name:'Fusion Forge',desc:'Forges crypto.',res:'cy',rate:2.5e3,col:'#57ff6a',i:'cy',u:1,cost:{cr:1.2e8,da:1.2e7,cy:1.5e6,qt:35}},
+ {id:'foundry',pb:1,name:'Zero-day Foundry',desc:'Mass-produces exploits.',res:'ex',rate:600,col:'#ff5a4d',i:'ex',u:1,cost:{cr:1.5e8,da:1.5e7,cy:2e6,ex:2e5,qt:35}},
+ {id:'hive',pb:1,name:'Hive Mind',desc:'Shapes opinion everywhere.',res:'in',rate:100,col:'#b388ff',i:'in',u:1,cost:{cr:2e8,da:2e7,cy:3e6,ex:3e5,qt:40}}
+];
+var PM={},PBI={};PB.forEach(function(o){PM[o.id]=o;PBI[o.id]=1});
+var RSH=[
+ {id:'atk',n:'Assault Algorithms',d:'+4% attack power per level.',v:0.04},
+ {id:'def',n:'Neural Armour',d:'+4% defence power per level.',v:0.04},
+ {id:'crew',n:'Crew Synergy',d:'+5% crew gear bonuses per level.',v:0.05},
+ {id:'cap',n:'Nano Boss Command',d:'+3% nanobot capacity per level.',v:0.03},
+ {id:'loot',n:'Raid Doctrine',d:'+4% loot from attacks and steals per level.',v:0.04},
+ {id:'trn',n:'Rapid Assembly',d:'-3% nanobot training time per level.',v:0.03}
+];
+var RSM={};RSH.forEach(function(r){RSM[r.id]=r.v});
+var M=[
+ {id:'m0',name:'Post fake reviews',desc:'Free and easy. Builds a little influence.',time:45,cost:{},rew:{in:4},u:1},
+ {id:'m1',name:'Phish the intern',desc:'Easy credentials, small payout.',time:20,cost:{},rew:{cr:60,da:5},u:1},
+ {id:'m2',name:'Skim a payment terminal',desc:'Quick card skimming job.',time:45,cost:{cr:50},rew:{cr:220,da:20},u:1},
+ {id:'m3',name:'Leak a database',desc:'Sell a customer list on the dark market.',time:120,cost:{cr:300},rew:{da:200,cy:8},u:2},
+ {id:'m4',name:'Ransom a rival startup',desc:'They pay in crypto and credits.',time:240,cost:{cr:1500},rew:{cr:6000,cy:25},u:3},
+ {id:'m5',name:'Steal a zero-day',desc:'Break into a security vendor.',time:480,cost:{da:300},rew:{ex:15,cy:30},u:4},
+ {id:'m6',name:'Topple a corrupt CEO',desc:'Leak the emails. Watch the markets move.',time:900,cost:{cr:15000},rew:{in:30,cr:40000},u:4},
+ {id:'m7',name:'Scrape a forum',desc:'Harvest public posts and emails.',time:30,cost:{},rew:{da:25},u:1},
+ {id:'m8',name:'Breach a university server',desc:'Weak security, plenty of research data.',time:90,cost:{cr:120},rew:{da:150,cr:50},u:2},
+ {id:'m9',name:'Run a disinformation campaign',desc:'Spread a story and gain followers.',time:180,cost:{cr:400},rew:{in:6},u:2},
+ {id:'m10',name:'Sniff airport wifi',desc:'Capture unencrypted traffic.',time:150,cost:{},rew:{da:300},u:3},
+ {id:'m11',name:'Clone a telecom database',desc:'Subscriber records worth a fortune.',time:360,cost:{cr:2500},rew:{da:1800,cy:40},u:4},
+ {id:'m12',name:'Drain an exchange hot wallet',desc:'High risk, high crypto reward.',time:420,cost:{cr:5000},rew:{cy:120,da:800},u:5},
+ {id:'m13',name:'Crack a government archive',desc:'Decades of classified files.',time:600,cost:{da:500},rew:{da:6000,ex:12},u:6},
+ {id:'m14',name:'Leak a defence contractor',desc:'Blueprints and zero-days.',time:780,cost:{cr:20000,da:1500},rew:{ex:40,da:9000,in:12},u:8}
+];
+var MAXHQ=30,KEY='backdoorhq3',OLD='';
+function fresh(){return{r:{cr:50,da:0,cy:0,ex:0,in:5,qt:0},hq:1,lv:{},up:{},nb:[0,0,0,0,0,0],nq:{},mis:{},ub:{},pr:0,rs:{},ps:{},gr:mkGr(),eq:mkEq(),eq2:mkEq(),vs:{},inv:{},st:{aw:0,al:0,dw:0,dl:0},kills:0,cd:{},inc:null,nxt:Date.now()+15*60000,rep:[],rv:mkRv(),rvt:Date.now(),tr:0,sl:1,t:Date.now()}}
+function mkRv(){var nm=['NullPointer','Cipher77','Kernel_Panic','Packet','Vex','Daemon','Glitch','Rootless','Sable','Wraith','Byte','Echo'],a=[],now=Date.now();nm.forEach(function(n){var act=0.45+Math.random()*0.55;a.push({n:n,hq:1,bl:[0,0,0,0],u:null,tr:[0,0,0,0,0,0],act:act,mil:0.3+Math.random()*0.5,fill:0.5+Math.random()*0.45,w:(0.65/act)*(0.9+Math.random()*0.25),k:Math.floor(Math.random()*10),res:{cr:0,da:0,cy:0,ex:0},stolen:0,wn:0,lo:0,t:now-(10+Math.random()*50)*60000})});return a}
+function hrsTo(h){return 180*(Math.pow(1.15,h-1)-1)/0.15/3600}
+function rvWarm(h){var now=Date.now();S.rv.forEach(function(r){r.t=now-h*3600000*(0.7+Math.random()*0.45);while(r.t<now)rvAdvance(r,Math.min(now,r.t+3600000))})}
+var S=fresh();
+function load(){
+  try{var s=JSON.parse(localStorage.getItem(KEY));if(s&&s.r){var f=fresh();S=f;for(var k in s)S[k]=s[k];for(var k2 in f.r)if(typeof S.r[k2]!=='number')S.r[k2]=0;return}}catch(e){}
+  try{var o=JSON.parse(localStorage.getItem(OLD));if(o&&typeof o.cr==='number'){S.r.cr=o.cr;S.r.da=o.d||0;S.hq=o.hq||1;S.lv=o.lv||{};S.t=o.t||Date.now()}}catch(e){}
+}
+function save(){S.t=Date.now();try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+var $=function(i){return document.getElementById(i)};
+function fmt(n){if(n<1000)return n<10?n.toFixed(1).replace(/\.0$/,''):Math.floor(n)+'';var u=['K','M','B','T','Qa'],i=-1;while(n>=1000&&i<u.length-1){n/=1000;i++}return n.toFixed(n<10?2:1)+u[i]}
+function fmtT(s){s=Math.max(0,Math.ceil(s));var h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60,p=function(n){return n<10?'0'+n:n};return h?h+':'+p(m)+':'+p(x):m+':'+p(x)}
+function mult(){return 1+0.15*(S.hq-1)}
+function isNode(o){return o.x!==undefined}
+function cap(o){return o.pb?10*S.pr:S.hq}
+function lvl(o){return S.lv[o.id]||0}
+function scale(base,g){var c={};for(var k in base)c[k]=Math.ceil(base[k]*g);return c}
+function cost(o){var c=scale(o.cost,Math.pow(o.pb?1.6:1.7,lvl(o)));if(o.id==='tech'&&lvl(o)<5)delete c.qt;return c}
+function hqCost(){var g=S.hq-1,c={cr:Math.ceil(200*Math.pow(1.7,g)),da:Math.ceil(40*Math.pow(1.7,g))};
+  if(S.hq>=2)c.cy=Math.ceil(8*Math.pow(1.7,g-1));
+  if(S.hq>=3)c.ex=Math.ceil(3*Math.pow(1.7,g-2));
+  if(S.hq>=5)c.in=Math.ceil(2*Math.pow(1.7,g-4));return c}
+function upTime(k,to){return (k==='hq'?120:PBI[k]?150:60)*Math.pow(1.15,to-1)}
+function finCost(k,to,rem){return Math.max(1,Math.ceil(rem/15*Math.pow(1.3,to-1)))}
+function mf(){return Math.pow(1.5,S.hq-1)}
+var TR=[
+ {name:'Swarm drone',cost:{cr:30},t:10,p:1},
+ {name:'Worm',cost:{cr:300,da:40},t:25,p:3},
+ {name:'Trojan',cost:{cr:3000,da:300,cy:30},t:62,p:9},
+ {name:'Rootkit',cost:{cr:30000,da:3000,cy:300,ex:30},t:156,p:27},
+ {name:'Phantom',cost:{cr:300000,da:30000,cy:3000,ex:300,in:30},t:390,p:81},
+ {name:'Singularity',cost:{cr:3000000,da:300000,cy:30000,ex:3000,in:300},t:976,p:243}
+];
+var TC=['#5bff7a','#3ff2d0','#5ab8ff','#c08bff','#ffb347','#ff6b5a'];
+function tierMax(){return Math.ceil(S.hq/5)}
+function capN(){return Math.floor(10*S.hq*(1+rsum('cap')))}
+function used(){var u=0;TR.forEach(function(t,i){u+=((S.nb[i]||0)+(S.nq[i]?S.nq[i].n:0))*(i+1)});return u}
+function power(){var p=0;TR.forEach(function(t,i){p+=(S.nb[i]||0)*t.p});return p*(1+gsum(5)+isum('pw'))}
+function armyB(){return Math.sqrt(power())/100}
+function batchN(i){var room=Math.max(0,Math.floor((capN()-used())/(i+1))),c=TR[i].cost,m=room;if(qty!=='max')return Math.min(qty,room);for(var k in c)m=Math.min(m,Math.floor(S.r[k]/c[k]));return Math.max(0,m)}
+function nbTrain(i){
+  if(S.nq[i]||i>=tierMax())return;var n=batchN(i);if(n<1)return;var c=scale(TR[i].cost,n);if(!afford(c))return;pay(c);
+  var now=Date.now();S.nq[i]={n:n,s:now,end:now+TR[i].t*n*trnM()*1000};log('Training '+n+' '+TR[i].name+(n>1?'s':''));save();render();
+}
+function nbDone(i){var q=S.nq[i];if(!q)return;S.nb[i]=(S.nb[i]||0)+q.n;delete S.nq[i];log(q.n+' '+TR[i].name+(q.n>1?'s':'')+' ready')}
+function nbFinish(i){var q=S.nq[i];if(!q)return;var c=finCost('nb'+i,(i+1)*5,(q.end-Date.now())/1000);if(S.r.in<c)return;S.r.in-=c;nbDone(i);save();render()}
+function maxPow(h){h=Math.max(1,Math.floor(h));var t=Math.min(6,Math.ceil(h/5));return 10*h/t*TR[t-1].p}
+function rvPow(r){var p=0;for(var i=0;i<6;i++)p+=r.tr[i]*TR[i].p;return p}
+function chance(P,D){if(P<=0)return 0;var a=Math.pow(P,1.5);return a/(a+Math.pow(D,1.5))}
+function foeCount(r){var c=0;for(var i=0;i<6;i++)c+=r.tr[i];return Math.max(1,Math.round(c))}
+function rvGrow(r,dt){
+  var t=Math.min(6,Math.ceil(r.hq/5)),lim=10*r.hq*r.fill,i,u=0;
+  r.tr[t-1]+=(lim/t)*dt/(2400/(r.act*(0.5+r.mil)));r.k+=dt*r.act*r.mil*r.hq*0.002;
+  var hm=1+0.15*(r.hq-1),ks=['cr','da','cy','ex'],tin=0;
+  for(var q=0;q<4;q++){var inc=B[q].rate*r.bl[q]*Math.pow(1.2,Math.max(0,r.bl[q]-1))*hm*r.act;tin+=inc;r.res[ks[q]]=Math.min((r.res[ks[q]]||0)+inc*dt,inc*1800)}
+  r.stolen+=dt*tin*r.mil*0.03;r.wn+=dt*r.act*r.mil/600;r.lo+=dt*r.act*(1-r.mil)/900;
+  for(i=0;i<6;i++)u+=r.tr[i]*(i+1);
+  var ex=u-lim;for(i=0;i<t-1&&ex>0;i++){var rm=Math.min(r.tr[i],ex/(i+1));r.tr[i]-=rm;ex-=rm*(i+1)}
+  if(ex>0)r.tr[t-1]=Math.max(0,r.tr[t-1]-ex/t);
+}
+function rvAdvance(r,to){
+  var t=r.t;
+  while(t<to){
+    if(!r.u){
+      var lo=0;for(var i=1;i<4;i++)if(r.bl[i]<r.bl[lo])lo=i;
+      if(r.bl[lo]>=r.hq){
+        if(r.hq>=MAXHQ){rvGrow(r,(to-t)/1000);t=to;break}
+        r.u={k:'hq',end:t+upTime('hq',r.hq+1)*1000*r.w};
+      }else r.u={k:lo,end:t+upTime('b',r.bl[lo]+1)*1000*r.w*0.25};
+    }
+    var e=Math.min(to,r.u.end);rvGrow(r,(e-t)/1000);t=e;
+    if(r.u.end<=to){if(r.u.k==='hq')r.hq++;else r.bl[r.u.k]++;r.u=null}
+  }
+  r.t=to;
+}
+function rvStep(){var n=Date.now();S.rv.forEach(function(r){if(n-r.t>8*3600000)r.t=n-8*3600000;rvAdvance(r,n)})}
+function loseTroops(f){var tot=0;for(var i=0;i<6;i++){var n=S.nb[i]||0,l=Math.min(n,Math.ceil(n*f));S.nb[i]=n-l;tot+=l}return tot}
+function note(t){S.rep.unshift(t);if(S.rep.length>6)S.rep.pop();log(t)}
+function vsr(i){return S.vs[i]||(S.vs[i]={})}
+function attack(i){
+  var r=S.rv[i],n=Date.now(),P=atkP();
+  if(P<=0||(S.cd[i]||0)>n)return;
+  var p=chance(P,rvPow(r)),fc=foeCount(r),v=vsr(i);S.cd[i]=n+120000;
+  if(Math.random()<p){
+    var rt=rates(),f=Math.min(2,Math.max(0.5,r.hq/S.hq)),got=[],K=Math.max(1,Math.round(fc*0.4));
+    for(var k in rt)if(rt[k]>0&&k!=='in'&&k!=='qt'){var g=rt[k]*300*f*(1+rsum('loot'));S.r[k]+=g;got.push(fmt(g)+' '+NM[k])}
+    for(var j=0;j<6;j++)r.tr[j]*=0.6;
+    S.kills+=K;S.st.aw++;v.aw=(v.aw||0)+1;v.kl=(v.kl||0)+K;note('Victory vs '+r.n+': +'+got.join(', ')+', '+fmt(K)+' kills');
+  }else{
+    var K2=Math.round(fc*0.1),lost=loseTroops(0.4);S.kills+=K2;r.k+=lost;S.st.al++;v.al=(v.al||0)+1;note('Defeat vs '+r.n+': lost '+fmt(lost)+' nanobots');
+  }
+  save();render();
+}
+function steal(i){
+  var r=S.rv[i],n=Date.now(),P=atkP();
+  if(P<=0||(S.cd[i]||0)>n)return;
+  var p=chance(P,rvPow(r))*0.85,v=vsr(i);S.cd[i]=n+120000;
+  if(Math.random()<p){
+    var fr=Math.min(0.35,(0.04+0.006*S.hq)*(1+rsum('loot'))),rt=rates(),got=[],tot=0;
+    ['cr','da','cy','ex'].forEach(function(k){var g=Math.min((r.res[k]||0)*fr,rt[k]*900);if(g>0){S.r[k]+=g;r.res[k]-=g;tot+=g;got.push(fmt(g)+' '+NM[k])}});
+    S.st.sw=(S.st.sw||0)+1;S.st.stl=(S.st.stl||0)+tot;v.sw=(v.sw||0)+1;v.tk=(v.tk||0)+tot;
+    note(got.length?'Stole from '+r.n+': '+got.join(', '):r.n+' had nothing worth stealing');
+  }else{var lost=loseTroops(0.25);r.k+=lost;S.st.sl=(S.st.sl||0)+1;v.sl=(v.sl||0)+1;note('Steal failed vs '+r.n+': lost '+fmt(lost)+' nanobots')}
+  save();render();
+}
+function resolveInc(){
+  var a=S.inc,r=S.rv[a.id],D=defP(),fc=foeCount(r),v=vsr(a.id);S.inc=null;S.nxt=Date.now()+(8+Math.random()*10)*60000;
+  if(Math.random()<chance(D,a.pw)){var K=Math.max(1,Math.round(fc*0.4));S.kills+=K;S.st.dw++;v.dw=(v.dw||0)+1;for(var j=0;j<6;j++)r.tr[j]*=0.7;note('Defended against '+r.n+': '+fmt(K)+' kills')}
+  else{
+    var lost=loseTroops(0.4),fr=Math.min(0.2,0.03+0.004*S.hq),got=[],tot=0;
+    ['cr','da','cy','ex'].forEach(function(k){var g=S.r[k]*fr;if(g>0){S.r[k]-=g;tot+=g;got.push(fmt(g)+' '+NM[k])}});
+    r.k+=lost;r.stolen+=tot;S.st.dl++;v.dl=(v.dl||0)+1;note(r.n+' breached you: lost '+fmt(lost)+' nanobots'+(got.length?' and '+got.join(', '):''));
+  }
+  save();
+}
+function incoming(){
+  var n=Date.now();
+  if(S.inc){if(S.inc.end<=n)resolveInc();return}
+  if(n>=S.nxt){
+    if(S.hq<2){S.nxt=n+5*60000;return}
+    var pool=S.rv.map(function(q,j){return j}).sort(function(a,b){return rvPow(S.rv[b])-rvPow(S.rv[a])}).slice(0,6),i=pool[Math.floor(Math.random()*pool.length)],r=S.rv[i];
+    S.inc={id:i,pw:Math.max(rvPow(r)*(1+Math.random()*0.6),defP()*(0.6+Math.random()*0.7)),end:n+(3+Math.random()*3)*60000};
+    log('WARNING: '+r.n+' is attacking in '+fmtT((S.inc.end-n)/1000)+'. Train defence now.');
+  }
+}
+function renderRank(){
+  var n=Date.now(),P=atkP(),list=S.rv.map(function(r,i){return{i:i,hq:r.hq,pw:rvPow(r),k:Math.floor(r.k),r:r}});
+  list.push({i:S.rv.length,hq:S.hq,pw:P,k:Math.floor(S.kills),me:true});
+  var cmp={hq:function(a,b){return(b.hq-a.hq)||(b.pw-a.pw)},pw:function(a,b){return(b.pw-a.pw)||(b.hq-a.hq)},k:function(a,b){return(b.k-a.k)||(b.hq-a.hq)}};
+  var sorted=list.slice().sort(cmp[rsort]),ord=sorted.map(function(x){return x.i}).join(',');
+  if(ord!==lastOrd){lastOrd=ord;sorted.forEach(function(x){$('rlist').appendChild(rows[x.i].c)})}
+  var isMe=function(x){return x.me},rh=list.slice().sort(cmp.hq).findIndex(isMe)+1,rp=list.slice().sort(cmp.pw).findIndex(isMe)+1;
+  sorted.forEach(function(x,pos){
+    var w=rows[x.i];w.n.textContent='#'+(pos+1);
+    w.s.innerHTML='HQ <span class="lv">'+x.hq+'</span> \u00b7 pw '+fmt(x.pw)+' \u00b7 '+fmt(x.k)+' kills';
+    if(x.me){w.nm.textContent='You';return}
+    var r=x.r,pc=Math.round(chance(P,x.pw)*100),cd=(S.cd[x.i]||0)-n,v=S.vs[x.i]||{};
+    w.nm.textContent=r.n;w.pc.textContent=pc+'%';w.pc.style.color=pc>=60?'var(--ok)':pc>=40?'var(--rw)':'#ff6b5a';
+    w.ba.textContent=cd>0?fmtT(cd/1000):'Atk';w.ba.disabled=P<=0||cd>0;w.bs.disabled=P<=0||cd>0;
+    w.rx.hidden=rinfo!==x.i;
+    if(rinfo===x.i){
+      var avg=(r.bl[0]+r.bl[1]+r.bl[2]+r.bl[3])/4,vt=['cr','da','cy','ex'].map(function(k){return fmt(r.res[k]||0)+' '+NM[k]}).join(', ');
+      w.rx.textContent='Lifetime: '+fmt(r.stolen)+' resources taken \u00b7 '+fmt(r.k)+' kills \u00b7 '+fmt(r.wn)+'W/'+fmt(r.lo)+'L battles\nBuildings avg lv '+avg.toFixed(1)+' \u00b7 nanobots '+fmt(foeCount(r))+'\nVault: '+vt+'\nYou vs them: attacks '+(v.aw||0)+'W/'+(v.al||0)+'L \u00b7 steals '+(v.sw||0)+'W/'+(v.sl||0)+'L \u00b7 you took '+fmt(v.tk||0)+' \u00b7 your kills '+fmt(v.kl||0)+' \u00b7 raids on you '+(v.dw||0)+'W/'+(v.dl||0)+'L';
+    }
+  });
+  rb.forEach(function(b,j){b.className=rbv[j]===rsort?'on':''});
+  var st=S.st,att=st.aw+st.al,df=st.dw+st.dl,tot=att+df,wr=tot?Math.round((st.aw+st.dw)/tot*100):0,tn=0,rt=rates();for(var q=0;q<6;q++)tn+=S.nb[q]||0;
+  var pf=E.pf;pf.e.textContent='#'+rh+' HQ \u00b7 #'+rp+' power';
+  pf.d.innerHTML='HQ <span class="lv">'+S.hq+'</span> \u00b7 attack '+fmt(P)+' \u00b7 defence '+fmt(defP())+' \u00b7 nanobots '+fmt(tn)+' <span class="lv">('+fmt(used())+'/'+fmt(capN())+')</span>\nKills '+fmt(S.kills)+' \u00b7 attacks '+st.aw+'W/'+st.al+'L \u00b7 defences '+st.dw+'W/'+st.dl+'L \u00b7 win rate '+wr+'%\nSteals '+(st.sw||0)+'W/'+(st.sl||0)+'L \u00b7 resources stolen '+fmt(st.stl||0)+'\nIncome <span class="pi">+'+fmt(rt.cr)+' credits/s, +'+fmt(rt.da)+' data/s</span> \u00b7 crew lv '+S.tr+', '+S.sl+' hackers';
+  $('rrep').innerHTML=S.rep.length?S.rep.map(function(t){return '<div>> '+t+'</div>'}).join(''):'<div>> No battles yet. Win chance compares your attack power with theirs.</div>';
+}
+function renderNano(){
+  var tm=tierMax(),u=used(),cp=capN(),L=E.nl,n=Date.now(),al=$('alert');
+  if(S.inc){var A=S.inc.pw,D0=defP();al.hidden=false;al.innerHTML='<b>Incoming attack</b> from '+S.rv[S.inc.id].n+'<br>Lands in '+fmtT((S.inc.end-n)/1000)+' \u00b7 enemy power '+fmt(A)+' \u00b7 your defence '+fmt(D0)+' \u00b7 hold chance <b>'+Math.round(chance(D0,A)*100)+'%</b><br>Train or finish bots before it lands. Bots still in training do not defend. If you lose, expect to lose about 40% of your nanobots and some resources.'}else al.hidden=true;
+  L.e.textContent='T'+tm+' unlocked';
+  L.d.innerHTML='Capacity <span class="lv">'+fmt(u)+'/'+fmt(cp)+'</span> \u00b7 attack '+fmt(atkP())+' \u00b7 defence '+fmt(defP())+' \u00b7 <span class="rwd">+'+Math.round(armyB()*100)+'% mission rewards</span>';
+  L.p.hidden=false;L.pi.style.width=Math.min(100,u/cp*100)+'%';
+  qb.forEach(function(b,j){b.className=qv[j]===qty?'on':''});
+  TR.forEach(function(t,i){
+    var e=E['t'+i],q=S.nq[i];e.c.style.opacity=i>=tm?.5:1;
+    if(i>=tm){e.m.textContent='';e.b.textContent='Unlocks at HQ level '+(i*5+1);e.b.disabled=true;e.f.hidden=true;e.p.hidden=true;return}
+    e.m.textContent='x'+fmt(S.nb[i]||0)+' \u00b7 power '+fmt(t.p);
+    if(q){var rem=(q.end-n)/1000,fc=finCost('nb'+i,(i+1)*5,rem);e.p.hidden=false;e.pi.style.width=Math.min(100,(n-q.s)/(q.end-q.s)*100)+'%';e.b.textContent='Training '+q.n+' \u00b7 '+fmtT(rem);e.b.disabled=true;e.f.hidden=false;e.f.textContent='Finish \u00b7 '+fmt(fc)+' influence';e.f.disabled=S.r.in<fc;return}
+    e.p.hidden=true;e.f.hidden=true;
+    var nn=batchN(i),room=Math.floor((cp-u)/(i+1));
+    if(room<1){e.b.textContent='Capacity full. Upgrade HQ.';e.b.disabled=true;return}
+    if(nn<1){e.b.textContent='Need '+cs(t.cost);e.b.disabled=true;return}
+    var c=scale(t.cost,nn);e.b.textContent='Train x'+nn+' \u00b7 '+cs(c)+' \u00b7 '+fmtT(t.t*nn*trnM());e.b.disabled=!afford(c);
+  });
+}
+function reqs(){return B.map(function(o){return{name:o.name,l:lvl(o),ok:lvl(o)>=S.hq}})}
+function out(o,l){return o.rate*l*Math.pow(1.2,l-1)*(o.pb?1+modB(o):o.x===undefined?1+upBonus(o):1)}
+function trainCost(){var g=Math.pow(2.1,S.tr);return{cr:Math.ceil(150*g),da:Math.ceil(30*g)}}
+function hireCost(){var g=Math.pow(4,S.sl-1);return{cr:Math.ceil(600*g),da:Math.ceil(150*g)}}
+function afford(c){for(var k in c)if(S.r[k]<c[k])return false;return true}
+function pay(c){for(var k in c)S.r[k]-=c[k]}
+function cs(c){var p=[];for(var k in c)if(c[k])p.push(fmt(c[k])+' '+NM[k]);return p.join(', ')||'free'}
+function rates(){var r={cr:0,da:0,cy:0,ex:0,in:0,qt:0},bm={cr:0,da:0,cy:0,ex:0,in:0,qt:0},m=mult(),gm=1+gsum(4)+isum('all');B.concat(PB,N).forEach(function(o){r[o.res]+=out(o,lvl(o))*m});T.concat(C).forEach(function(o){bm[o.res]+=o.bonus*lvl(o)});for(var k in r)r[k]*=(1+bm[k])*gm;itemFlat(r);return r}
+function rewM(){return 1+0.08*S.tr+armyB()+gsum(0)+isum('rw')}
+function timeM(){return Math.max(0.2,1-0.03*S.tr-gsum(3)-isum('ts'))}
+function running(){var n=Date.now(),c=0;for(var k in S.mis)if(S.mis[k].end>n)c++;return c}
+function log(t){var l=$('log'),d=document.createElement('div');d.textContent='> '+t;l.appendChild(d);while(l.children.length>40)l.removeChild(l.firstChild);l.scrollTop=l.scrollHeight}
+var IC={
+ cr:'<circle cx="12" cy="12" r="8"/><path d="M12 7v10M9.5 9.5h4a1.8 1.8 0 010 3.6h-3a1.8 1.8 0 000 3.6h4.5"/>',
+ da:'<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3"/>',
+ cy:'<path d="M12 3l7 4v10l-7 4-7-4V7z"/><circle cx="12" cy="12" r="2.5"/>',
+ ex:'<path d="M12 8a4 4 0 014 4v3a4 4 0 01-8 0v-3a4 4 0 014-4zM8 12H4M16 12h4M8 16l-3 2M16 16l3 2M9 5l1.5 2M15 5l-1.5 2"/>',
+ in:'<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+ node:'<circle cx="6" cy="7" r="2"/><circle cx="18" cy="7" r="2"/><circle cx="12" cy="18" r="2"/><circle cx="12" cy="11" r="1.5"/><path d="M7.7 8.2l3.3 2M16.3 8.2L13 10.2M12 12.5V16"/>',
+ siphon:'<path d="M4 5h16l-6 7v6l-4 2v-8z"/>',
+ miner:'<rect x="6" y="6" width="12" height="12" rx="1"/><rect x="9.5" y="9.5" width="5" height="5"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/>',
+ lab:'<path d="M9 3h6M10 3v6L5 19a1.5 1.5 0 001.3 2h11.4a1.5 1.5 0 001.3-2l-5-10V3"/><path d="M7.5 15h9"/>',
+ hq:'<path d="M4 21V9l8-5 8 5v12M9 21v-6h6v6M12 4V2"/><path d="M8 11h2M14 11h2"/>',
+ mis:'<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>',
+ map:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',
+ atom:'<circle cx="12" cy="12" r="2"/><ellipse cx="12" cy="12" rx="9" ry="3.5"/><ellipse cx="12" cy="12" rx="9" ry="3.5" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="3.5" transform="rotate(120 12 12)"/>',
+ qt:'<circle cx="12" cy="12" r="2"/><ellipse cx="12" cy="12" rx="9" ry="3.5"/><ellipse cx="12" cy="12" rx="9" ry="3.5" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="3.5" transform="rotate(120 12 12)"/>',
+ bank:'<path d="M3 9l9-5 9 5M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18"/>',
+ shop:'<path d="M5 8h14l-1 12H6zM9 8a3 3 0 016 0"/>',
+ deck:'<rect x="4" y="5" width="16" height="11" rx="1.5"/><path d="M2 19h20"/>',
+ tool:'<path d="M15 4a4 4 0 00-3.5 5.8L4 17.3 6.7 20l7.5-7.5A4 4 0 0020 9l-2.5 2.5L14 8.5 16.5 6z"/>',
+ shield:'<path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6z"/>',
+ rank:'<path d="M7 4h10v5a5 5 0 01-10 0zM7 6H4v1a3 3 0 003 3M17 6h3v1a3 3 0 01-3 3M12 14v4M8 21h8M10 18h4"/>',
+ bot:'<rect x="5" y="8" width="14" height="11" rx="2"/><path d="M12 4v4M9 13h.01M15 13h.01M9 16h6M3 12v3M21 12v3"/><circle cx="12" cy="3.5" r="1"/>',
+ crew:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/>'
+};
+function ic(k){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">'+(IC[k]||IC.mis)+'</svg>'}
+function card(parent,cls,icon){
+  var c=document.createElement('div');c.className='card '+(cls||'');
+  c.innerHTML='<div class="ico">'+ic(icon)+'</div><div class="bd"><div class="row"><div class="name"><span></span> <em></em></div><div class="locked"></div></div><div class="desc"></div><div class="prog" hidden><i></i></div><div class="btns"><button class="buy"></button><button class="fin" hidden></button></div></div>';
+  parent.appendChild(c);
+  return{c:c,i:c.querySelector('.ico'),t:c.querySelector('span'),e:c.querySelector('em'),m:c.querySelector('.locked'),d:c.querySelector('.desc'),p:c.querySelector('.prog'),pi:c.querySelector('i'),b:c.querySelector('.buy'),f:c.querySelector('.fin')};
+}
+var E={},tab='hq',sel='sf',chips={},tb={},qty=1,qb=[],qv=[],rsort='hq',rb=[],rbv=[],rows=[],lastOrd='',bview=null,mb=[],csub=0,cview=null,csb=[],pks={},rinfo=-1,pconf=false,pview=null,psb=[],pmb={};
+function build(){
+  RS.forEach(function(r){var d=document.createElement('div');d.className='chip';d.title=r[1];d.style.color=r[2];d.innerHTML='<div class="cl">'+ic(r[0])+'<b></b></div><small></small>';$('chips').appendChild(d);chips[r[0]]={d:d,v:d.querySelector('b'),r:d.querySelector('small')}});
+  [['hq','HQ'],['mis','Missions'],['map','Map'],['bot','Nano'],['rank','Ranks'],['crew','Crew'],['shop','Shop']].forEach(function(t){var b=document.createElement('button');b.innerHTML=ic(t[0])+'<span>'+t[1]+'</span>';b.onclick=function(){show(t[0])};$('tabs').appendChild(b);tb[t[0]]=b});
+  E.hq=card($('hqc'),'hq','hq');E.hq.t.textContent='Headquarters';E.hq.b.onclick=upHQ;E.hq.f.onclick=function(){finish('hq')};
+  B.forEach(function(o){var e=E[o.id]=card($('blds'),'',o.id);e.t.textContent=o.name;e.d.textContent=o.desc+' Tap to open upgrades.';e.c.className+=' bld';e.c.onclick=function(ev){if(ev.target.closest&&ev.target.closest('button'))return;if(lvl(o)>0)openB(o.id)};e.b.onclick=function(){buy(o)};e.f.onclick=function(){finish(o.id)}});
+  M.forEach(function(o){var e=E[o.id]=card($('mlist'),'','mis');e.t.textContent=o.name;e.d.textContent=o.desc;e.b.onclick=function(){mission(o)}});
+  [[N,'nd'],[T,'nd2'],[C,'nd3']].forEach(function(a,mi){var e=E[a[1]]=card($(a[1]),'','map');e.b.onclick=function(){buy(a[0].filter(function(n){return n.id===msel[mi]})[0])}});
+  var cc=$('crew');
+  E.ch=card(cc,'','crew');E.ch.t.textContent='Ghost';E.ch.e.textContent='crew chief';E.ch.e.style.color='var(--dim)';E.ch.b.hidden=true;
+  E.tr=card(cc,'','crew');E.tr.t.textContent='Train the crew';E.tr.d.textContent='Each level recruits a crew member (up to 20), adds 8% to mission rewards and cuts mission time by 3%.';E.tr.b.onclick=train;
+  E.hi=card(cc,'','crew');E.hi.t.textContent='Recruit a hacker';E.hi.d.textContent='Every hacker lets you run one more mission at the same time (max 6).';E.hi.b.onclick=hire;
+  E.nl=card($('nlab'),'hq','bot');E.nl.t.textContent='Nanobot lab';E.nl.b.parentNode.hidden=true;
+  E.pf=card($('rprof'),'hq','crew');E.pf.t.textContent='You';E.pf.b.parentNode.hidden=true;
+  ['Regions','Towns','Cities'].forEach(function(t,i){var b=document.createElement('button');b.textContent=t;b.onclick=function(){msub=i;render()};$('msub').appendChild(b);mb.push(b)});
+  E.bh=card($('bhead'),'hq','node');E.bh.b.parentNode.hidden=true;$('bback').textContent='\u2190 Back to HQ';$('bback').onclick=closeB;
+  B.forEach(function(o){var g=document.createElement('div');g.className='bgrid';g.id='bg-'+o.id;g.hidden=true;$('bgrids').appendChild(g);for(var j=0;j<10;j++)(function(j){var e=E['u'+o.id+j]=card(g,'',o.id);e.t.textContent=UN[o.id][j];e.m.style.color='var(--pi)';e.b.onclick=function(){ubBuy(o,j)}})(j)});
+  ['Training','Roster'].forEach(function(t,i){var b=document.createElement('button');b.onclick=function(){if(i===1&&S.tr<1)return;csub=i;cview=null;render()};b.textContent=t;$('csub').appendChild(b);csb.push(b)});
+  $('cback').textContent='\u2190 Back to roster';$('cback').onclick=function(){cview=null;render()};
+  CM.forEach(function(nm,i){var e=E['r'+i]=card($('roster'),'','crew');e.t.textContent=nm;e.e.style.color='var(--dim)';e.f.hidden=true;e.c.className+=' bld';e.c.onclick=function(ev){if(ev.target.closest&&ev.target.closest('button'))return;if(recruited(i)){cview=i;render()}};e.b.onclick=function(){if(recruited(i)){cview=i;render()}}});
+  E.mh=card($('chead'),'hq','crew');E.mh.b.parentNode.hidden=true;
+  GS.forEach(function(g,j){var e=E['g'+j]=card($('cgear'),'',g.i);e.t.textContent=g.n;e.m.style.color='var(--pi)';e.c.style.gridArea=GA[j];e.b.onclick=function(){gbuy(cview,j)}});
+  var pk=document.createElement('button');pk.className='pk';pk.textContent='No item';pk.onclick=function(){equip(cview,'',1)};$('citems').appendChild(pk);pks.none=pk;
+  var pk2=document.createElement('button');pk2.className='pk';pk2.textContent='No item';pk2.onclick=function(){equip(cview,'',2)};$('citems2').appendChild(pk2);pks.none2=pk2;
+  IT.forEach(function(it){if(it.m)return;var b=document.createElement('button');b.className='pk';b.onclick=function(){equip(cview,it.id,it.b?2:1)};$(it.b?'citems2':'citems').appendChild(b);pks[it.id]=b});
+  E.sh=card($('shead'),'hq','shop');E.sh.t.textContent='Shop';E.sh.b.parentNode.hidden=true;
+  IT.forEach(function(it){var e=E['s'+it.id]=card($('sgrid'),'',it.i);e.t.textContent=it.n;e.d.textContent=it.d;e.m.style.color='var(--pi)';e.b.onclick=function(){ibuy(it)}});
+  PB.forEach(function(o){var e=E[o.id]=card($('pblds'),'',o.i);e.t.textContent=o.name;e.t.style.color=o.col;e.d.textContent=o.desc+' Tap to open.';e.i.style.color=o.col;e.c.style.borderColor=o.col;e.c.className+=' bld';e.c.onclick=function(ev){if(ev.target.closest&&ev.target.closest('button'))return;if(lvl(o)>0)openP(o.id)};e.b.onclick=function(){buy(o)};e.f.onclick=function(){finish(o.id)}});
+  E.ph=card($('phead'),'hq','atom');E.ph.b.parentNode.hidden=true;E.pu=card($('pup'),'','atom');E.pu.b.onclick=function(){buy(PM[pview])};E.pu.f.onclick=function(){finish(pview)};
+  $('pback').textContent='\u2190 Back to HQ';$('pback').onclick=closeP;
+  [0,1].forEach(function(k){var b=document.createElement('button');b.className='pk';b.onclick=function(){unsock(k)};$('psock').appendChild(b);psb.push(b)});
+  IT.forEach(function(it){if(!it.m)return;var b=document.createElement('button');b.className='pk';b.onclick=function(){sock(it.id)};$('pmods').appendChild(b);pmb[it.id]=b});
+  RSH.forEach(function(r){var e=E['rs'+r.id]=card($('pres'),'','atom');e.t.textContent=r.n;e.d.textContent=r.d;e.m.style.color='var(--pi)';e.b.onclick=function(){rbuy(r)}});
+  $('warn').onclick=function(){show('bot')};
+  [['hq','HQ level'],['pw','Power'],['k','Kills']].forEach(function(a){var b=document.createElement('button');b.textContent=a[1];b.onclick=function(){rsort=a[0];lastOrd='';render()};$('rsort').appendChild(b);rb.push(b);rbv.push(a[0])});
+  for(var j=0;j<=S.rv.length;j++)(function(j){var c=document.createElement('div'),me=j===S.rv.length;c.className='rk'+(me?' me':'');c.innerHTML='<div class="rn"></div><div class="rb"><b></b><small></small></div><div class="ra"><span></span><div class="rbt"><button class="ab">Atk</button><button class="ab">Steal</button><button class="ab">Info</button></div></div><div class="rx" hidden></div>';var bs=c.querySelectorAll('button'),o={c:c,n:c.querySelector('.rn'),nm:c.querySelector('b'),s:c.querySelector('small'),pc:c.querySelector('.ra span'),ba:bs[0],bs:bs[1],bi:bs[2],rx:c.querySelector('.rx')};if(me)c.querySelector('.ra').hidden=true;else{o.ba.onclick=function(){attack(j)};o.bs.onclick=function(){steal(j)};o.bi.onclick=function(){rinfo=rinfo===j?-1:j;render()}}rows.push(o);$('rlist').appendChild(c)})(j);
+  [[1,'x1'],[10,'x10'],['max','Max']].forEach(function(a){var b=document.createElement('button');b.textContent=a[1];b.onclick=function(){qty=a[0];render()};$('qty').appendChild(b);qb.push(b);qv.push(a[0])});
+  TR.forEach(function(t,i){var e=E['t'+i]=card($('tiers'),'','bot');e.t.textContent=t.name;e.e.textContent='T'+(i+1);e.d.textContent='Uses '+(i+1)+' capacity each.';e.i.style.color=TC[i];e.b.onclick=function(){nbTrain(i)};e.f.onclick=function(){nbFinish(i)}});
+  buildMap();
+}
+var CM=['Nyx','Cobalt','Rook','Pixel','Vandal','Lynx','Static','Halo','Mirage','Torque','Hex','Quill','Ember','Drift','Onyx','Nova','Razor','Sprite','Titan','Zephyr'];
+var CR=['Infiltrator','Striker','Guardian','Courier','Engineer','Operative'];
+var GS=[
+ {n:'Head',d:'Mission rewards',v:0.004,c:{cr:60,da:10},i:'deck'},
+ {n:'L. arm',d:'Attack power',v:0.004,c:{cr:80,da:15},i:'bot'},
+ {n:'R. arm',d:'Defence power',v:0.004,c:{cr:80,da:15},i:'shield'},
+ {n:'L. leg',d:'Mission speed',v:0.001,c:{cr:80,da:20,cy:5},i:'miner'},
+ {n:'R. leg',d:'Passive income',v:0.003,c:{cr:100,cy:8},i:'tool'},
+ {n:'Special',d:'Nanobot power',v:0.003,c:{cr:90,da:15,cy:6},i:'cy'}
+];
+var GA=['h','al','ar','ll','lr','sp'];
+var IT=[
+ {id:'ghostmask',n:'Ghost Mask',d:'A mask that makes people talk.',i:'in',res:'in',rate:0.3,u:1,cost:{cr:300,cy:15}},
+ {id:'charisma',n:'Charisma Chip',d:'A neural chip that wins crowds over.',i:'in',res:'in',rate:1.2,u:6,cost:{cr:2500,cy:120}},
+ {id:'skimmer',n:'Wallet Skimmer',d:'Quietly skims small payments.',i:'cr',res:'cr',rate:3,u:1,cost:{cr:200,cy:10}},
+ {id:'leech',n:'Data Leech',d:'Copies files in the background.',i:'da',res:'da',rate:1.5,u:2,cost:{cr:400,cy:20}},
+ {id:'hashboost',n:'Hash Booster',d:'Squeezes extra hashes from the rigs.',i:'cy',res:'cy',rate:0.8,u:3,cost:{cr:800,cy:30}},
+ {id:'charm',n:'Zero-day Charm',d:'Sniffs out unpatched bugs.',i:'ex',res:'ex',rate:0.3,u:4,cost:{cr:1500,cy:60}},
+ {id:'gloves',n:'Overclock Gloves',d:'Faster hands, faster missions.',i:'mis',pct:'ts',val:0.02,lab:'mission speed',u:2,cost:{cr:600,cy:25}},
+ {id:'lucky',n:'Lucky Charm',d:'Bigger payouts from every job.',i:'mis',pct:'rw',val:0.03,lab:'mission rewards',u:3,cost:{cr:900,cy:40}},
+ {id:'shieldimp',n:'Shield Implant',d:'Hardens your nanobots.',i:'shield',pct:'pw',val:0.03,lab:'nanobot power',u:4,cost:{cr:1200,cy:50}},
+ {id:'masterkey',n:'Master Key',d:'Opens every door a little wider.',i:'hq',pct:'all',val:0.02,lab:'all income',u:5,cost:{cr:3000,cy:150}},
+ {id:'crown',n:'Network Crown',d:'Rules the feeds. Huge influence.',i:'in',res:'in',rate:6,u:12,cost:{cr:40000,cy:2000}},
+ {id:'core',n:'Quantum Core',d:'A tiny reactor of free income.',i:'hq',pct:'all',val:0.05,lab:'all income',u:16,cost:{cr:90000,cy:5000}},
+ {id:'pulse',n:'Pulse Blade',d:'Sharper nanobot strikes.',i:'bot',pct:'atk',val:0.03,lab:'attack power',b:1,u:2,cost:{cr:700,cy:30}},
+ {id:'overdrive',n:'Overdrive Core',d:'Pushes nanobots past their limits.',i:'bot',pct:'atk',val:0.06,lab:'attack power',b:1,u:8,cost:{cr:8000,cy:400}},
+ {id:'siege',n:'Siege Protocol',d:'Coordinated swarm assaults.',i:'bot',pct:'atk',val:0.1,lab:'attack power',b:1,u:16,cost:{cr:80000,cy:4000}},
+ {id:'plating',n:'Firewall Plating',d:'Basic armour for your swarm.',i:'shield',pct:'def',val:0.03,lab:'defence power',b:1,u:2,cost:{cr:700,cy:30}},
+ {id:'mesh',n:'Ablative Mesh',d:'Absorbs hits and rebuilds.',i:'shield',pct:'def',val:0.06,lab:'defence power',b:1,u:8,cost:{cr:8000,cy:400}},
+ {id:'bastion',n:'Bastion Matrix',d:'A fortress of overlapping shields.',i:'shield',pct:'def',val:0.1,lab:'defence power',b:1,u:16,cost:{cr:80000,cy:4000}},
+ {id:'amp',n:'Amplifier Module',d:'Boosts one prestige building.',i:'atom',pct:'bld',val:0.08,lab:'building output',m:1,pr:1,u:1,cost:{cr:5e5,cy:2e4}},
+ {id:'fusion',n:'Fusion Module',d:'A stronger building booster.',i:'atom',pct:'bld',val:0.15,lab:'building output',m:1,pr:1,u:1,cost:{cr:4e6,cy:1.5e5}},
+ {id:'sing',n:'Singularity Module',d:'The best building booster.',i:'atom',pct:'bld',val:0.25,lab:'building output',m:1,pr:1,u:1,cost:{cr:3e7,cy:1e6}}
+];
+var IM={};IT.forEach(function(it){IM[it.id]=it});
+function mkGr(){var a=[];for(var i=0;i<20;i++)a.push([0,0,0,0,0,0]);return a}
+function mkEq(){var a=[];for(var i=0;i<20;i++)a.push('');return a}
+function recruited(i){return S.tr>=i+1}
+function gcost(i,j){return scale(GS[j].c,Math.pow(1.5,S.gr[i][j])*(1+0.35*i))}
+function gval(i,j){return GS[j].v*S.gr[i][j]*(i%6===j?1.5:1)}
+function gsum(j){var t=0;for(var i=0;i<20;i++)if(recruited(i))t+=gval(i,j);return t*(1+rsum('crew'))}
+function gbuy(i,j){if(!recruited(i)||S.gr[i][j]>=S.hq)return;var c=gcost(i,j);if(!afford(c))return;pay(c);S.gr[i][j]++;log(CM[i]+' '+GS[j].n+' is now level '+S.gr[i][j]);save();render()}
+function irate(it){return it.rate*Math.pow(1.25,S.hq-1)}
+function iprice(it){return scale(it.cost,Math.pow(1.35,S.inv[it.id]||0)*Math.pow(1.25,S.hq-1))}
+function itFx(it){return it.pct?'+'+Math.round(it.val*100)+'% '+it.lab:'+'+fmt(irate(it))+'/s '+NM[it.res]}
+function worn(id){var n=0;for(var i=0;i<20;i++)if((S.eq[i]===id||S.eq2[i]===id)&&recruited(i))n++;for(var b in S.ps)S.ps[b].forEach(function(x){if(x===id)n++});return n}
+function isum(k){var t=0;for(var i=0;i<20;i++){if(!recruited(i))continue;var a=S.eq[i]?IM[S.eq[i]]:null,b=S.eq2[i]?IM[S.eq2[i]]:null;if(a&&a.pct===k)t+=a.val;if(b&&b.pct===k)t+=b.val}return t}
+function atkP(){return power()*(1+gsum(1)+isum('atk')+rsum('atk'))}
+function defP(){return power()*(1+gsum(2)+isum('def')+rsum('def'))}
+function itemFlat(r){for(var i=0;i<20;i++){var it=S.eq[i]&&recruited(i)?IM[S.eq[i]]:null;if(it&&it.res)r[it.res]+=irate(it)}}
+function ibuy(it){if(S.hq<it.u)return;var c=iprice(it);if(!afford(c))return;pay(c);S.inv[it.id]=(S.inv[it.id]||0)+1;log('Bought '+it.n);save();render()}
+function equip(i,id,sl){var arr=sl===2?S.eq2:S.eq;if(!recruited(i))return;if(id){var it=IM[id];if(!it||it.m||!!it.b!==(sl===2))return;if(arr[i]!==id&&(S.inv[id]||0)-worn(id)<1)return}arr[i]=id||'';save();render()}
+function renderCrewTabs(){
+  if(S.tr<1){csub=0;cview=null}
+  csb.forEach(function(b,i){b.className=i===csub?'on':'';if(i===1)b.textContent=S.tr<1?'Roster (train first)':'Roster ('+S.tr+'/20)'});
+  $('cp0').hidden=csub!==0;$('cp1').hidden=csub!==1||cview!==null;$('cp2').hidden=csub!==1||cview===null;
+  if(csub===1){if(cview===null)renderRoster();else renderMember()}
+}
+function renderRoster(){
+  for(var i=0;i<20;i++){
+    var e=E['r'+i];e.e.textContent=CR[i%6];
+    if(!recruited(i)){e.c.style.opacity=0.5;e.m.textContent='';e.d.textContent='Not recruited yet.';e.b.textContent='Train crew to level '+(i+1);e.b.disabled=true;continue}
+    var g=S.gr[i],it=S.eq[i]?IM[S.eq[i]]:null,bt=S.eq2[i]?IM[S.eq2[i]]:null;e.c.style.opacity=1;
+    e.m.textContent='gear '+(g[0]+g[1]+g[2]+g[3]+g[4]+g[5]);
+    e.d.textContent='Head '+g[0]+' \u00b7 Arms '+g[1]+'/'+g[2]+' \u00b7 Legs '+g[3]+'/'+g[4]+' \u00b7 Special '+g[5]+'\nItem: '+(it?it.n:'none')+'\nBattle: '+(bt?bt.n:'none');
+    e.b.textContent='Open gear';e.b.disabled=false;
+  }
+}
+function renderMember(){
+  var i=cview,h=E.mh,sp=i%6,tot=0,j;
+  for(j=0;j<6;j++)tot+=S.gr[i][j];
+  h.t.textContent=CM[i];h.e.textContent=CR[sp];h.e.style.color='var(--dim)';
+  h.d.innerHTML='Specialty: '+GS[sp].n+' (x1.5 effect) \u00b7 gear levels <span class="lv">'+tot+'</span>';
+  for(j=0;j<6;j++){
+    var e=E['g'+j],l=S.gr[i][j],c=gcost(i,j);
+    e.e.textContent='lv '+l+'/'+S.hq;e.m.textContent='+'+(gval(i,j)*100).toFixed(1)+'% '+GS[j].d.toLowerCase();
+    if(l>=S.hq){e.b.textContent='At HQ cap';e.b.disabled=true}else{e.b.textContent='Up \u00b7 '+cs(c);e.b.disabled=!afford(c)}
+  }
+  pks.none.className='pk'+(S.eq[i]?'':' on');pks.none2.className='pk'+(S.eq2[i]?'':' on');
+  IT.forEach(function(it){if(it.m)return;var b=pks[it.id],own=S.inv[it.id]||0,free=own-worn(it.id),mine=(it.b?S.eq2:S.eq)[i]===it.id;
+    b.hidden=own<1;b.className='pk'+(mine?' on':'');b.disabled=free<1&&!mine;
+    b.textContent=(mine?'Wearing: ':'Wear: ')+it.n+' \u00b7 '+itFx(it)+' \u00b7 '+free+' free'});
+}
+function renderShop(){
+  var w=0,i;for(i=0;i<20;i++)if(S.eq[i]&&recruited(i))w++;
+  E.sh.e.textContent=w+' worn';
+  E.sh.d.textContent='Buy items with credits and crypto, then wear them on crew members from the Crew roster. Attack and defence items go in the battle slot. Prices rise as you buy more and as your HQ levels up.';
+  IT.forEach(function(it){
+    var e=E['s'+it.id],own=S.inv[it.id]||0;
+    if(S.hq<it.u||(it.pr&&S.pr<it.pr)){e.c.style.opacity=0.5;e.e.textContent='';e.m.textContent='';e.b.textContent=it.pr&&S.pr<it.pr?'Unlocks at prestige P'+it.pr:'Unlocks at HQ level '+it.u;e.b.disabled=true;return}
+    var c=iprice(it);e.c.style.opacity=1;e.e.textContent='x'+own;e.m.textContent=itFx(it);e.b.textContent='Buy \u00b7 '+cs(c);e.b.disabled=!afford(c);
+  });
+}
+var msel=['sf','tw1','ct1'],msub=0;
+var UN={
+ node:['Zombie recruiter','Faster scanner','Bulletproof hosting','Self-spreading worm','Residential proxies','Load balancer','Polymorphic payload','Peer-to-peer mesh','AI task scheduler','Planet-scale botnet'],
+ siphon:['Packet sniffer','SQL injector','Indexed archives','Deduplication','Parallel crawlers','Zero-copy pipes','Dark-web broker','ML classifier','Cold storage vault','Data lake'],
+ miner:['Overclocked GPUs','Liquid cooling','Custom ASICs','Solar array','Mining pool','Undervolting','Immersion tanks','Firmware mod','Heat recycling','Fusion power'],
+ lab:['Fuzzing cluster','Reverse engineers','Sandbox escape kit','Bug bounty network','Exploit marketplace','Symbolic execution','Hardware lab','Patch diffing','Kernel specialists','Zero-day factory']
+};
+var UD=['Better tooling.','Smarter scheduling.','Cheaper hosting.','Faster hardware.','Process automation.','Bigger capacity.','Optimised code.','Redundant systems.','Expert staff.','Endgame overhaul.'];
+var UU=[2,4,6,8,10,13,16,19,23,27];
+function ubC(o,j){return scale(o.cost,6*Math.pow(2.3,j))}
+function ubE(j){return 0.1+0.02*j}
+function upBonus(o){var t=0;for(var j=0;j<10;j++)if(S.ub[o.id+j])t+=ubE(j);return t}
+function ubBuy(o,j){if(S.ub[o.id+j]||S.hq<UU[j])return;var c=ubC(o,j);if(!afford(c))return;pay(c);S.ub[o.id+j]=1;log('Installed '+UN[o.id][j]+' (+'+Math.round(ubE(j)*100)+'% '+NM[o.res]+')');save();render()}
+function openB(id){bview=id;$('hqmain').hidden=true;$('bpage').hidden=false;B.forEach(function(o){$('bg-'+o.id).hidden=o.id!==id});window.scrollTo(0,0);render()}
+function closeB(){bview=null;$('hqmain').hidden=false;$('bpage').hidden=true;render()}
+function renderB(){
+  var o=B.filter(function(b){return b.id===bview})[0],h=E.bh,l=lvl(o),n=0,j;
+  for(j=0;j<10;j++)if(S.ub[o.id+j])n++;
+  h.t.textContent=o.name;h.e.textContent='lv '+l+'/'+cap(o);h.i.innerHTML=ic(o.id);
+  h.m.textContent=l?'+'+fmt(out(o,l)*mult())+'/s '+NM[o.res]:'';
+  h.d.innerHTML='Upgrades <span class="lv">'+n+'/10</span> \u00b7 <span class="pi">+'+Math.round(upBonus(o)*100)+'% '+NM[o.res]+' output</span>. New upgrades unlock as your HQ levels up.';
+  for(j=0;j<10;j++){
+    var e=E['u'+o.id+j],c=ubC(o,j);
+    e.e.textContent='HQ '+UU[j];e.m.textContent='+'+Math.round(ubE(j)*100)+'% output';e.d.textContent=UD[j];
+    if(S.ub[o.id+j]){e.b.textContent='Installed';e.b.disabled=true;e.c.style.opacity=0.7}
+    else if(S.hq<UU[j]){e.b.textContent='Unlocks at HQ level '+UU[j];e.b.disabled=true;e.c.style.opacity=0.5}
+    else{e.c.style.opacity=1;e.b.textContent='Install \u00b7 '+cs(c);e.b.disabled=!afford(c)}
+  }
+}
+function renderMapTab(){
+  mb.forEach(function(b,i){b.className=i===msub?'on':''});
+  [0,1,2].forEach(function(i){$('mp'+i).hidden=i!==msub});
+  var cfg=[[N,'map','nd'],[T,'map2','nd2'],[C,'map3','nd3']][msub],list=cfg[0],sv=$(cfg[1]),e=E[cfg[2]],sl=msel[msub];
+  list.forEach(function(n){var c=sv.querySelector('[data-id="'+n.id+'"]'),l=lvl(n),locked=S.hq<n.u;
+    c.setAttribute('stroke',locked?'#1a5a38':CL[n.res]);c.setAttribute('fill',locked?'#08130c':(l?CL[n.res]:'#030805'));c.setAttribute('stroke-width',n.id===sl?'2':'1')});
+  var n=list.filter(function(x){return x.id===sl})[0];
+  e.t.textContent=n.name;e.i.innerHTML=ic(n.res);e.i.style.color=CL[n.res];
+  e.d.textContent=n.desc+(n.bonus?' Boosts all '+NM[n.res]+' income.':' Produces '+NM[n.res]+'.');leveled(e,n);
+}
+function buildMap(){
+  var el=[[45,32,22,14],[62,68,9,16],[100,28,10,8],[102,55,12,17],[140,32,30,15],[165,72,10,6]],dots='';
+  for(var x=4;x<198;x+=3)for(var y=4;y<98;y+=3)for(var i=0;i<el.length;i++){var e=el[i],dx=(x-e[0])/e[2],dy=(y-e[1])/e[3];if(dx*dx+dy*dy<=1){dots+='<circle cx="'+x+'" cy="'+y+'" r=".7" fill="#14402a"/>';break}}
+  [[N,'map',3.6],[T,'map2',2.8],[C,'map3',4.4]].forEach(function(a,mi){
+    var s=dots;a[0].forEach(function(n){s+='<circle class="n" data-id="'+n.id+'" cx="'+n.x+'" cy="'+n.y+'" r="'+a[2]+'" stroke-width="1"/><text x="'+n.x+'" y="'+(n.y+8)+'">'+n.name+'</text>'});
+    var sv=$(a[1]);sv.innerHTML=s;
+    sv.addEventListener('click',function(ev){var id=ev.target.getAttribute&&ev.target.getAttribute('data-id');if(id){msel[mi]=id;render()}});
+  });
+}
+function show(t){tab=t;['hq','mis','map','bot','rank','crew','shop'].forEach(function(k){$('t-'+k).hidden=k!==t;tb[k].className=k===t?'on':''});render()}
+function buy(o){
+  if(S.hq<o.u||lvl(o)>=cap(o)||S.up[o.id])return;var c=cost(o);if(!afford(c))return;
+  pay(c);
+  if(isNode(o)){var first=lvl(o)===0;S.lv[o.id]=lvl(o)+1;log((first?'Infiltrated ':'Reinforced ')+o.name+' to level '+S.lv[o.id])}
+  else{var n=Date.now();S.up[o.id]={s:n,end:n+upTime(o.id,lvl(o)+1)*1000};log('Started '+o.name+' upgrade to level '+(lvl(o)+1))}
+  save();render();
+}
+function doneUp(k){
+  delete S.up[k];
+  if(k==='hq'){if(S.pr>0){S.pr++;log('Prestige HQ is now P'+S.pr);return}if(S.hq>=MAXHQ){prestigeNow();return}S.hq++;var nb=N.concat(T,C,M).filter(function(b){return b.u===S.hq});log('HQ is now level '+S.hq+(nb.length?'. Unlocked: '+nb.map(function(b){return b.name}).join(', '):'')+'.');if(S.hq>1&&(S.hq-1)%5===0)log('Nanobot tier T'+((S.hq-1)/5+1)+' unlocked: '+TR[(S.hq-1)/5].name)}
+  else{var o=B.concat(PB).filter(function(b){return b.id===k})[0];S.lv[k]=lvl(o)+1;log(o.name+' is now level '+S.lv[k])}
+}
+function settle(){var n=Date.now();for(var k in S.up)if(S.up[k].end<=n)doneUp(k);for(var j in S.nq)if(S.nq[j].end<=n)nbDone(+j)}
+function finish(k){var u=S.up[k];if(!u)return;var to=(k==='hq'?S.hq+S.pr:lvl(B.concat(PB).filter(function(b){return b.id===k})[0]))+1,c=finCost(k,to,(u.end-Date.now())/1000);if(S.r.in<c)return;S.r.in-=c;doneUp(k);save();render()}
+function preqs(){return PB.map(function(o){return{name:o.name,l:lvl(o),ok:lvl(o)>=10*S.pr}})}
+function pHqCost(){var g=Math.pow(4,S.pr-1);return{cr:Math.ceil(2e9*g),da:Math.ceil(2e8*g),cy:Math.ceil(2e7*g),ex:Math.ceil(2e6*g),in:Math.ceil(2e5*g),qt:Math.ceil(300*Math.pow(3,S.pr-1))}}
+function rsum(id){return (S.rs[id]||0)*RSM[id]}
+function trnM(){return timeM()*Math.max(0.3,1-rsum('trn'))}
+function modB(o){var t=0;(S.ps[o.id]||[]).forEach(function(id){if(id&&IM[id])t+=IM[id].val});return t}
+function prestigeNow(){
+  B.forEach(function(o){S.lv[o.id]=0;delete S.up[o.id];for(var j=0;j<10;j++)delete S.ub[o.id+j]});
+  S.pr=1;bview=null;$('hqmain').hidden=false;$('bpage').hidden=true;
+  log('PRESTIGE! Your old buildings are gone. Six prestige buildings are now available.');
+}
+function upHQ(){
+  if(S.up.hq)return;
+  var pre=S.hq>=MAXHQ&&S.pr===0,ph=S.pr>0;
+  if(ph&&S.pr>=5)return;
+  var ok=(ph?preqs():reqs()).every(function(x){return x.ok});if(!ok)return;
+  var c=ph?pHqCost():hqCost();if(!afford(c))return;
+  if(pre&&!pconf){pconf=true;render();return}
+  pconf=false;pay(c);var n=Date.now();S.up.hq={s:n,end:n+upTime('hq',S.hq+S.pr+1)*1000};
+  log(ph?'Started Prestige HQ upgrade to P'+(S.pr+1):pre?'Started prestige. Your old buildings are removed when it finishes.':'Started HQ upgrade to level '+(S.hq+1));save();render();
+}
+function openP(id){pview=id;$('hqmain').hidden=true;$('ppage').hidden=false;window.scrollTo(0,0);render()}
+function closeP(){pview=null;$('hqmain').hidden=false;$('ppage').hidden=true;render()}
+function sock(id){var a=S.ps[pview]||(S.ps[pview]=['','']);if((S.inv[id]||0)-worn(id)<1||(a[0]&&a[1]))return;a[a[0]?1:0]=id;save();render()}
+function unsock(k){var a=S.ps[pview];if(a&&a[k]){a[k]='';save();render()}}
+function rcost(r){return{qt:Math.ceil(40*Math.pow(1.8,S.rs[r.id]||0))}}
+function rbuy(r){if((S.rs[r.id]||0)>=10*S.pr)return;var c=rcost(r);if(!afford(c))return;pay(c);S.rs[r.id]=(S.rs[r.id]||0)+1;log('Researched '+r.n+' level '+S.rs[r.id]);save();render()}
+function renderP(){
+  var o=PM[pview],h=E.ph,l=lvl(o),a=S.ps[o.id]||['',''];
+  h.t.textContent=o.name;h.t.style.color=o.col;h.i.innerHTML=ic(o.i);h.i.style.color=o.col;h.e.textContent='lv '+l+'/'+cap(o);
+  h.m.textContent=l?'+'+fmt(out(o,l)*mult())+'/s '+NM[o.res]:'';
+  h.d.innerHTML=o.desc+' Modules: <span class="pi">+'+Math.round(modB(o)*100)+'% output</span>';
+  E.pu.t.textContent='Upgrade';E.pu.i.style.color=o.col;leveled(E.pu,o);
+  psb.forEach(function(b,k){b.textContent='Socket '+(k+1)+': '+(a[k]?IM[a[k]].n+' (tap to remove)':'empty');b.className='pk'+(a[k]?' on':'')});
+  IT.forEach(function(it){if(!it.m)return;var b=pmb[it.id],own=S.inv[it.id]||0,free=own-worn(it.id);b.hidden=own<1;b.disabled=free<1||!!(a[0]&&a[1]);b.textContent='Install: '+it.n+' \u00b7 '+itFx(it)+' \u00b7 '+free+' free'});
+  $('presw').hidden=o.id!=='tech';
+  if(o.id==='tech')RSH.forEach(function(r){var e=E['rs'+r.id],l2=S.rs[r.id]||0,c=rcost(r);e.e.textContent='lv '+l2+'/'+(10*S.pr);e.m.textContent='+'+Math.round(l2*r.v*100)+'%';if(l2>=10*S.pr){e.b.textContent='At prestige cap';e.b.disabled=true}else{e.b.textContent='Research \u00b7 '+cs(c);e.b.disabled=!afford(c)}});
+}
+function mission(o){
+  var st=S.mis[o.id],n=Date.now();
+  if(st&&st.end<=n){var rm=rewM()*mf(),out=[];for(var k in o.rew){S.r[k]+=o.rew[k]*rm;out.push(fmt(o.rew[k]*rm)+' '+NM[k])}delete S.mis[o.id];log('Mission complete: '+o.name+'. Gained '+out.join(', ')+'.');save();render();return}
+  var mc=scale(o.cost,mf());if(st||S.hq<o.u||running()>=S.sl||!afford(mc))return;
+  pay(mc);S.mis[o.id]={s:n,end:n+o.time*1000*timeM()};log('Started mission: '+o.name);save();render();
+}
+function train(){if(S.tr>=20)return;var c=trainCost();if(!afford(c))return;pay(c);S.tr++;log('Crew trained to level '+S.tr+'. '+CM[S.tr-1]+' joined the crew.');save();render()}
+function hire(){if(S.sl>=6)return;var c=hireCost();if(!afford(c))return;pay(c);S.sl++;log('New hacker recruited. You can run '+S.sl+' missions at once.');save();render()}
+function leveled(e,o){
+  var l=lvl(o),m=mult(),up=!isNode(o)&&S.up[o.id];
+  if(S.hq<o.u){e.m.textContent='Locked';e.m.style.color='var(--dim)';e.e.textContent='';e.b.textContent='Unlocks at HQ level '+o.u;e.b.disabled=true;return}
+  var c=cost(o);e.m.style.color='';e.e.textContent='lv '+l+'/'+cap(o);
+  e.m.textContent=l?(o.bonus?'+'+Math.round(o.bonus*l*100)+'% '+NM[o.res]+' income':'+'+fmt(out(o,l)*m)+'/s '+NM[o.res]):'';
+  if(up)return timerUI(e,o.id,l+1);
+  e.p.hidden=true;e.f.hidden=true;
+  if(l>=cap(o)){e.b.textContent='At HQ level cap. Upgrade HQ to continue.';e.b.disabled=true}
+  else{e.b.textContent=(l?(isNode(o)?'Reinforce':'Upgrade'):(isNode(o)?'Infiltrate':'Build'))+' · '+cs(c)+(isNode(o)?'':' · '+fmtT(upTime(o.id,l+1)));e.b.disabled=!afford(c)}
+}
+function timerUI(e,k,to){
+  var u=S.up[k],n=Date.now(),rem=(u.end-n)/1000,fc=finCost(k,to,rem);
+  e.p.hidden=false;e.pi.style.width=Math.min(100,(n-u.s)/(u.end-u.s)*100)+'%';
+  e.b.textContent='Upgrading to level '+to+' · '+fmtT(rem);e.b.disabled=true;
+  e.f.hidden=false;e.f.textContent='Finish · '+fmt(fc)+' influence';e.f.disabled=S.r.in<fc;
+}
+function render(){
+  var r=rates(),m=mult(),wb=$('warn');
+  if(S.inc){wb.hidden=false;wb.textContent='\u26a0 Attack from '+S.rv[S.inc.id].n+' lands in '+fmtT((S.inc.end-Date.now())/1000)+' \u00b7 tap to defend'}else wb.hidden=true;
+  tb.bot.style.color=S.inc?'#ff6b5a':'';
+  RS.forEach(function(x){chips[x[0]].v.textContent=fmt(S.r[x[0]]);chips[x[0]].r.textContent='+'+fmt(r[x[0]])+'/s'});
+  chips.qt.d.hidden=S.pr<1;$('chips').style.gridTemplateColumns='repeat('+(S.pr>0?6:5)+',1fr)';
+  if(tab==='hq'){
+    var h=E.hq,ph=S.pr>0,need=ph?preqs():reqs(),ok=need.every(function(x){return x.ok}),lv0=ph?10*S.pr:S.hq,done=ph&&S.pr>=5;
+    h.t.textContent=ph?'Prestige HQ':'Headquarters';
+    h.e.textContent=ph?'P'+S.pr+'/5':'level '+S.hq+'/'+MAXHQ;h.m.textContent='+'+Math.round((m-1)*100)+'% to all income';
+    h.d.innerHTML=done?'Your Prestige HQ is fully upgraded.':(ph?'To reach P'+(S.pr+1)+', all six prestige buildings must be level <span class="lv">'+lv0+'</span>:':(S.hq>=MAXHQ?'Ready to prestige. All four buildings are level <span class="lv">'+S.hq+'</span>:':'To reach level <span class="lv">'+(S.hq+1)+'</span>, all four buildings must be level <span class="lv">'+S.hq+'</span>:'))+(done?'':'\n'+need.map(function(x){return (x.ok?'\u2713 ':'\u2717 ')+x.name+' <span class="lv">'+x.l+'/'+lv0+'</span>'}).join('\n'));
+    if(done){h.p.hidden=true;h.f.hidden=true;h.b.textContent='Prestige HQ at max';h.b.disabled=true}
+    else if(S.up.hq)timerUI(h,'hq',S.hq+S.pr+1);
+    else{var hc=ph?pHqCost():hqCost(),pre=!ph&&S.hq>=MAXHQ;h.p.hidden=true;h.f.hidden=true;
+      h.b.textContent=(pconf&&pre?'Tap again to confirm. Old buildings will be removed. ':(pre?'Prestige to P1':ph?'Upgrade to P'+(S.pr+1):'Upgrade HQ'))+' \u00b7 '+cs(hc)+' \u00b7 '+fmtT(upTime('hq',S.hq+S.pr+1));h.b.disabled=!ok||!afford(hc)}
+    $('blds').hidden=ph;$('pblds').hidden=!ph;
+    B.forEach(function(o){leveled(E[o.id],o)});
+    if(S.pr>0)PB.forEach(function(o){leveled(E[o.id],o)});
+    if(bview)renderB();
+    if(pview)renderP();
+  }
+  if(tab==='mis')renderMis();
+  if(tab==='map')renderMapTab();
+  if(tab==='bot')renderNano();
+  if(tab==='rank')renderRank();
+  if(tab==='crew'){
+    E.ch.m.textContent='Slots '+running()+'/'+S.sl+' in use';
+    E.ch.d.textContent='Mission rewards +'+Math.round((rewM()-1)*100)+'%, mission time -'+Math.round((1-timeM())*100)+'%. Open the Missions tab to send the crew out.';
+    E.tr.e.textContent='level '+S.tr+'/20';
+    if(S.tr>=20){E.tr.b.textContent='Crew fully trained';E.tr.b.disabled=true}else{var tc=trainCost();E.tr.b.textContent='Train · '+cs(tc);E.tr.b.disabled=!afford(tc)}
+    E.hi.e.textContent=S.sl+'/6 hackers';
+    if(S.sl>=6){E.hi.b.textContent='Crew is full';E.hi.b.disabled=true}else{var hc2=hireCost();E.hi.b.textContent='Recruit · '+cs(hc2);E.hi.b.disabled=!afford(hc2)}
+    renderCrewTabs();
+  }
+  if(tab==='shop')renderShop();
+}
+function renderMis(){
+  var n=Date.now(),rm=rewM()*mf();
+  M.forEach(function(o){
+    var e=E[o.id],st=S.mis[o.id],rw=[];for(var k in o.rew)rw.push(fmt(o.rew[k]*rm)+' '+NM[k]);
+    e.m.textContent='Reward: '+rw.join(', ');e.m.style.color='';
+    e.p.hidden=!st;
+    if(S.hq<o.u){e.m.textContent='Locked';e.m.style.color='var(--dim)';e.b.textContent='Unlocks at HQ level '+o.u;e.b.disabled=true;return}
+    if(st&&st.end<=n){e.pi.style.width='100%';e.b.textContent='Collect rewards';e.b.disabled=false}
+    else if(st){e.pi.style.width=Math.min(100,(n-st.s)/(st.end-st.s)*100)+'%';e.b.textContent='In progress · '+fmtT((st.end-n)/1000);e.b.disabled=true}
+    else{var mc=scale(o.cost,mf());e.b.textContent='Start · '+cs(mc)+' · '+fmtT(o.time*timeM());e.b.disabled=running()>=S.sl||!afford(mc)}
+  });
+}
+var last=Date.now(),sv=0;
+function tick(){
+  var n=Date.now(),dt=Math.min((n-last)/1000,1);last=n;
+  settle();rvStep();incoming();var r=rates();for(var k in r)S.r[k]+=r[k]*dt;render();
+  sv+=dt;if(sv>5){sv=0;save()}
+}
+load();
+if(!S.gr||!S.gr[0]||S.gr[0].length!==6){var og=S.gr;S.gr=mkGr();if(og&&og[0]&&og[0].length===4)og.forEach(function(a,i){S.gr[i]=[a[0],0,0,a[1],a[2],a[3]]})}
+if(!S.rv||!S.rv[0]||!S.rv[0].bl||!S.rv[0].res){S.rv=mkRv();rvWarm(hrsTo(S.hq))}
+build();
+var away=Math.min((Date.now()-S.t)/1000,8*3600),r0=rates();
+log('Connection established.');
+if(away>30){var g=[];for(var k in r0)if(r0[k]>0){S.r[k]+=r0[k]*away;g.push(fmt(r0[k]*away)+' '+NM[k])}if(g.length)log('Away '+Math.round(away/60)+' min. Earned '+g.join(', ')+'.')}
+$('reset').onclick=function(){if(confirm('Wipe all progress?')){try{localStorage.removeItem(KEY);localStorage.removeItem(OLD)}catch(e){}S=fresh();$('log').innerHTML='';log('Save wiped. Starting over.');render()}};
+document.addEventListener('visibilitychange',function(){if(document.hidden)save();else last=Date.now()});
+(function(){var c=$('rain'),x=c.getContext('2d'),w,h,cols,d=[],ch='01<>/{}#$%&';
+w=c.width=c.clientWidth||300;h=c.height=c.clientHeight||40;cols=Math.ceil(w/10);for(var i=0;i<cols;i++)d.push(Math.random()*h/10);
+function step(){x.fillStyle='rgba(2,6,4,.2)';x.fillRect(0,0,w,h);x.fillStyle='#39ff88';x.font='10px monospace';for(var i=0;i<cols;i++){x.fillText(ch[Math.floor(Math.random()*ch.length)],i*10,d[i]*10);if(d[i]*10>h&&Math.random()>.95)d[i]=0;d[i]++}}
+if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches){for(var k=0;k<20;k++)step()}else setInterval(step,90);
+})();
+show('hq');setInterval(tick,100);
+</script>
+</body>
+</html>
