@@ -982,25 +982,40 @@ async function logoutPlayer() {
 
   alert("You have logged out.");
 }
-function showGameAfterLogin() {
-  document.getElementById("loginPanel").style.display = "none";
-  document.getElementById("gameContent").style.display = "block";
-}
-  async function checkPlayerSession() {
-  const { data, error } =
-    await supabaseClient.auth.getSession();
 
-  if (error) {
-    console.error(error.message);
+async function showGameAfterLogin() {
+  const { data: { user }, error: userError } =
+    await supabaseClient.auth.getUser();
+
+  if (userError || !user) {
+    alert("Could not load your player account.");
     return;
   }
 
-  if (data.session) {
-    showGameAfterLogin();
-  } else {
-    document.getElementById("loginPanel").style.display = "block";
-    document.getElementById("gameContent").style.display = "none";
+  const { error } = await supabaseClient
+    .from("players")
+    .upsert(
+      {
+        id: user.id,
+        username: "Player_" + user.id.slice(0, 8)
+      },
+      {
+        onConflict: "id",
+        ignoreDuplicates: true
+      }
+    );
+
+  if (error) {
+    alert("Profile error: " + error.message);
+    return;
   }
+
+  document.getElementById("loginPanel").style.display = "none";
+  document.getElementById("gameContent").style.display = "block";
+
+  console.log("Player profile loaded!");
+}
+
 }
 
 checkPlayerSession();
