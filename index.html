@@ -233,7 +233,7 @@ function build(){
   E.nl=card($('nlab'),'hq','bot');E.nl.t.textContent='Nanobot lab';E.nl.b.parentNode.hidden=true;
   [[1,'x1'],[20,'x20'],['max','Max']].forEach(function(a){var b=document.createElement('button');b.textContent=a[1];b.onclick=function(){qty=a[0];render()};$('qty').appendChild(b);qb.push(b);qv.push(a[0])});
   TR.forEach(function(t,i){var e=E['t'+i]=card($('tiers'),'','bot');e.t.textContent=t.name;e.e.textContent='T'+(i+1);e.d.textContent='Uses '+(i+1)+' capacity each.';e.i.style.color=TC[i];e.b.onclick=function(){nbTrain(i)};e.f.onclick=function(){nbFinish(i)}});
-  buildMap();
+  buildMap();k
 }
 function buildMap(){
   var el=[[45,32,22,14],[62,68,9,16],[100,28,10,8],[102,55,12,17],[140,32,30,15],[165,72,10,6]],s='';
@@ -307,9 +307,9 @@ function render(){
   if(tab==='crew'){
     E.ch.m.textContent='Slots '+running()+'/'+S.sl+' in use';
     E.ch.d.textContent='Mission rewards +'+Math.round((rewM()-1)*100)+'%, mission time -'+Math.round((1-timeM())*100)+'%. Open the Missions tab to send the crew out.';
-    E.tr.e.textContent='level '+S.tr+'/10';
+    E.tr.e.textContent='level '+S.tr+'/20';
     if(S.tr>=10){E.tr.b.textContent='Crew fully trained';E.tr.b.disabled=true}else{var tc=trainCost();E.tr.b.textContent='Train · '+cs(tc);E.tr.b.disabled=!afford(tc)}
-    E.hi.e.textContent=S.sl+'/4 hackers';
+    E.hi.e.textContent=S.sl+'/5 hackers';
     if(S.sl>=4){E.hi.b.textContent='Crew is full';E.hi.b.disabled=true}else{var hc2=hireCost();E.hi.b.textContent='Recruit · '+cs(hc2);E.hi.b.disabled=!afford(hc2)}
   }
 }
