@@ -168,7 +168,10 @@ style="display:block;width:90%;padding:12px;margin:10px auto;">
 placeholder="Password"
 style="display:block;width:90%;padding:12px;margin:10px auto;">
 
-<button onclick="alert('BUTTON WORKING')">
+<button onclick="loginPlayer(
+document.getElementById('playerEmail').value,
+document.getElementById('playerPassword').value
+)">
 LOGIN
 </button>
 <button onclick="registerPlayer(
