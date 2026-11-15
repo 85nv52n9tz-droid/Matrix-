@@ -986,6 +986,24 @@ function showGameAfterLogin() {
   document.getElementById("loginPanel").style.display = "none";
   document.getElementById("gameContent").style.display = "block";
 }
+  async function checkPlayerSession() {
+  const { data, error } =
+    await supabaseClient.auth.getSession();
+
+  if (error) {
+    console.error(error.message);
+    return;
+  }
+
+  if (data.session) {
+    showGameAfterLogin();
+  } else {
+    document.getElementById("loginPanel").style.display = "block";
+    document.getElementById("gameContent").style.display = "none";
+  }
+}
+
+checkPlayerSession();
 </script>
   </div>
 </body>
