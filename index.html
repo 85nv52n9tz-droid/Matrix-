@@ -4213,7 +4213,7 @@ function renderTestHqStatus(){
 function renderTestArea(){
   renderTestHqStatus();var layer=$('testBuildingLayer');if(!layer)return;
   var prestige=S.pr>0,list=prestige?PB:B;
-  var spots=prestige?[[50,29],[79,42],[79,69],[50,80],[21,69],[21,42]]:[[25,31],[75,31],[75,72],[25,72]];
+  var spots=prestige?[[50,29],[79,42],[79,69],[50,80],[21,69],[21,42]]:[[11,14],[89,14],[11,86],[89,86]];
   var centreX=50,centreY=50,bulk=testBulkUpgradeState(list),html='',paths='';
   if(!prestige){
     html+='<div class="hq-cyber-ground" aria-hidden="true"><i class="ground-ring ring-one"></i><i class="ground-ring ring-two"></i><i class="ground-cross cross-one"></i><i class="ground-cross cross-two"></i><i class="ground-node node-one"></i><i class="ground-node node-two"></i><i class="ground-node node-three"></i><i class="ground-node node-four"></i></div>';
@@ -5519,6 +5519,95 @@ show('hq');checkUpdateNotice();checkSystemGiftDelivery();setInterval(tick,1000);
  if(Array.isArray(window.BHQ_UPDATE_RELEASES)){
   window.BHQ_UPDATE_RELEASES=window.BHQ_UPDATE_RELEASES.filter(function(x){return x&&x.version!=='1.0.57'});
   window.BHQ_UPDATE_RELEASES.unshift({version:'1.0.57',date:'18 NOV 2026',title:'HQ ARCHITECTURE // SLIM GREEN BUILDING TEST',tag:'ORIGINAL GREEN HQ LOOK · NARROW VERTICAL BUILDINGS',items:['Restored the green HQ colour direction and limited the visual test to the central HQ and surrounding standard buildings.','Reworked the building silhouettes into taller, narrower structures with slim footprints, vertical illuminated details and restrained green energy accents. The resource bar, surrounding HQ interface, navigation, building positions and game systems remain unchanged.','Retained the compact floating timer and crew drawer beneath the resource bar; it overlays the HQ scene without shifting the buildings.']});
+ }
+})();
+</script>
+
+<style id="bhq-1-0-58-fresh-green-hq-test">
+/* Fresh HQ-area visual test: remove the old building models, retain their live clickable containers and game logic. */
+#t-hq .test-world{
+ background-color:#030b07!important;
+ background-image:radial-gradient(ellipse at 50% 48%,rgba(16,83,43,.34),transparent 58%),linear-gradient(rgba(47,255,123,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(47,255,123,.045) 1px,transparent 1px)!important;
+ background-size:auto,28px 28px,28px 28px!important;
+}
+#t-hq .hq-cyber-ground,#t-hq .test-data-links{display:none!important}
+#t-hq .test-building{min-width:0!important;filter:drop-shadow(0 0 10px rgba(37,255,112,.2))!important}
+#t-hq .test-building .structure{display:none!important}
+#t-hq .test-building.normal-building{
+ width:112px!important;height:132px!important;display:flex!important;align-items:center!important;justify-content:flex-end!important;
+ padding:0 2px 2px!important;box-sizing:border-box!important;z-index:3!important;
+}
+#t-hq .test-building.normal-building:before{
+ content:"";position:absolute;left:50%;bottom:31px;transform:translateX(-50%);
+ width:34px;height:75px;box-sizing:border-box;
+ clip-path:polygon(50% 0,82% 9%,100% 100%,0 100%,18% 9%);
+ border:1px solid #5cff91;
+ background:linear-gradient(90deg,#06170c 0%,#164b28 22%,#092012 46%,#1d6035 52%,#07180d 78%,#06140a 100%);
+ box-shadow:0 0 12px #39ff8855,inset 0 0 12px #39ff8833;
+}
+#t-hq .test-building.normal-building:after{
+ content:"";position:absolute;left:50%;bottom:31px;transform:translateX(-50%);
+ width:48px;height:91px;box-sizing:border-box;
+ background:linear-gradient(90deg,transparent 0 15%,#42ff8730 16% 18%,transparent 19% 47%,#8affb5 48% 51%,transparent 52% 82%,#42ff8730 83% 85%,transparent 86%),linear-gradient(180deg,transparent 0 12%,#8affb5 13% 14%,transparent 15% 31%,#39ff8866 32% 33%,transparent 34% 52%,#39ff8866 53% 54%,transparent 55% 73%,#39ff8866 74% 75%,transparent 76%);
+ clip-path:polygon(50% 0,54% 20%,76% 24%,100% 100%,0 100%,24% 24%,46% 20%);
+ filter:drop-shadow(0 0 5px #39ff88);
+}
+#t-hq .test-building.normal-building .building-name{position:relative;z-index:5;margin:0!important;max-width:110px!important;white-space:nowrap!important;text-align:center!important;color:#c6ffd7!important;font-size:8px!important;letter-spacing:.45px!important;text-shadow:0 0 7px #39ff88,0 2px 5px #000!important}
+#t-hq .test-building.normal-building .building-level{position:relative;z-index:5;margin:2px 0 0!important;color:#79f9a0!important;font-size:7px!important}
+#t-hq .test-building.normal-building .test-building-tap{z-index:8!important;inset:0!important}
+/* Central command tower: a new silhouette, not a recolour of the old HQ model. */
+#t-hq .test-building.hq-redesign{
+ width:170px!important;height:190px!important;display:flex!important;align-items:center!important;justify-content:flex-end!important;
+ padding:0 2px 2px!important;box-sizing:border-box!important;z-index:5!important;
+ filter:drop-shadow(0 0 16px #39ff8877)!important;
+}
+#t-hq .test-building.hq-redesign:before{
+ content:"";position:absolute;left:50%;bottom:34px;transform:translateX(-50%);
+ width:70px;height:126px;box-sizing:border-box;
+ clip-path:polygon(50% 0,66% 8%,66% 17%,83% 22%,100% 100%,0 100%,17% 22%,34% 17%,34% 8%);
+ border:1px solid #8dffb2;
+ background:linear-gradient(90deg,#04140a 0%,#0d3219 18%,#1d6534 31%,#092012 45%,#2a8045 50%,#071b0d 58%,#1b5b30 78%,#04140a 100%);
+ box-shadow:0 0 18px #39ff8877,inset 0 0 18px #6cff9d55;
+}
+#t-hq .test-building.hq-redesign:after{
+ content:"";position:absolute;left:50%;bottom:34px;transform:translateX(-50%);
+ width:94px;height:156px;
+ background:linear-gradient(90deg,transparent 0 17%,#39ff8870 18% 19%,transparent 20% 46%,#c0ffd2 49% 51%,transparent 52% 80%,#39ff8870 81% 82%,transparent 83%),linear-gradient(180deg,transparent 0 10%,#aaffc3 11% 12%,transparent 13% 28%,#39ff88 29% 30%,transparent 31% 47%,#39ff88 48% 49%,transparent 50% 66%,#39ff88 67% 68%,transparent 69% 84%,#39ff88 85% 86%,transparent 87%);
+ clip-path:polygon(50% 0,54% 16%,72% 21%,100% 100%,0 100%,28% 21%,46% 16%);
+ filter:drop-shadow(0 0 7px #39ff88);
+}
+#t-hq .test-building.hq-redesign .building-name{position:relative;z-index:7;margin:0!important;color:#d4ffe0!important;font-size:10px!important;letter-spacing:1px!important;text-shadow:0 0 9px #39ff88,0 2px 5px #000!important}
+#t-hq .test-building.hq-redesign .building-level{position:relative;z-index:7;margin:3px 0 0!important;color:#8dffad!important;font-size:8px!important}
+#t-hq .test-building.hq-redesign .test-hq-tap{z-index:9!important;inset:0!important}
+/* Move the thin status/incoming handle closer to the resource strip; it remains an overlay. */
+#t-hq .hq-upcoming-toggle{top:68px!important;border-color:#39ff88!important;background:linear-gradient(90deg,rgba(3,18,8,.96),rgba(7,38,17,.96))!important}
+#t-hq .test-hq-status-grid{top:86px!important}
+#t-hq .test-shell.hq-status-open .test-hq-status-grid{top:86px!important}
+#t-hq .test-shell:not(.hq-status-open) .test-viewport,
+#t-hq .test-shell.hq-status-open .test-viewport{top:82px!important}
+@media(max-width:520px){
+ #t-hq .hq-upcoming-toggle{top:63px!important}
+ #t-hq .test-hq-status-grid,#t-hq .test-shell.hq-status-open .test-hq-status-grid{top:81px!important}
+ #t-hq .test-shell:not(.hq-status-open) .test-viewport,#t-hq .test-shell.hq-status-open .test-viewport{top:77px!important}
+ #t-hq .test-building.normal-building{width:94px!important;height:116px!important}
+ #t-hq .test-building.normal-building:before{width:29px;height:65px;bottom:29px}
+ #t-hq .test-building.normal-building:after{width:42px;height:79px;bottom:29px}
+ #t-hq .test-building.hq-redesign{width:140px!important;height:164px!important}
+ #t-hq .test-building.hq-redesign:before{width:60px;height:108px;bottom:32px}
+ #t-hq .test-building.hq-redesign:after{width:82px;height:132px;bottom:32px}
+ #t-hq .test-building.normal-building .building-name{font-size:7px!important;max-width:92px!important}
+}
+</style>
+<script id="bhq-1-0-58-release">
+(function(){
+ window.BHQ_UPDATE_VERSION='1.0.58';
+ if(Array.isArray(window.BHQ_UPDATE_RELEASES)){
+  window.BHQ_UPDATE_RELEASES=window.BHQ_UPDATE_RELEASES.filter(function(x){return x&&x.version!=='1.0.58'});
+  window.BHQ_UPDATE_RELEASES.unshift({version:'1.0.58',date:'18 NOV 2026',title:'HQ ARCHITECTURE // FRESH GREEN TEST',tag:'CLEAN SLATE · FIVE NEW BUILDING SILHOUETTES',items:[
+   'Removed the previous HQ building artwork and started the physical design again, while retaining the existing live building containers, upgrade interactions, timers, HQ controls and game functionality.',
+   'Added one new central HQ tower and four surrounding green cyber-architecture test buildings, positioned at the top-left, top-right, bottom-left and bottom-right of the HQ area.',
+   'Moved the thin HQ status handle closer to the resource strip and raised the HQ scene to reduce the gap. The timer and crew drawer remains a floating overlay.'
+  ]});
  }
 })();
 </script>
