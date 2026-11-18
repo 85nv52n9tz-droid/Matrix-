@@ -2159,6 +2159,16 @@ section[id^="t-"]:not(#t-hq){padding-left:0!important;padding-right:60px!importa
  #testHqModal .test-hq-actions,#testBuildingModal .test-hq-actions{bottom:25px!important;}
 }
 </style>
+
+<style id="bhq-1-0-55-infiltrate-fixed-navigation">
+/* Infiltrate building navigation is fixed in the header, directly left of Exit. */
+#testInsideModal .test-inside-dialog{padding-top:58px!important;}
+#testInsideModal #testInsideNav.ti-nav-fixed{position:absolute!important;top:9px!important;right:60px!important;left:auto!important;z-index:45!important;display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:6px!important;width:148px!important;height:42px!important;min-height:42px!important;margin:0!important;padding:0!important;background:transparent!important;}
+#testInsideModal #testInsideNav .test-bnav-btn{position:static!important;flex:0 0 36px!important;width:36px!important;height:36px!important;min-width:36px!important;margin:0!important;}
+#testInsideModal #testInsideNav .test-bnav-pos{display:block!important;flex:1 1 auto!important;min-width:0!important;text-align:center!important;font-size:10px!important;white-space:nowrap!important;color:#b8f4cb!important;}
+#testInsideModal #testInsideClose{right:9px!important;top:9px!important;z-index:46!important;}
+@media(max-width:520px){#testInsideModal #testInsideNav.ti-nav-fixed{right:58px!important;width:142px!important;gap:4px!important;}#testInsideModal #testInsideNav .test-bnav-btn{flex-basis:34px!important;width:34px!important;min-width:34px!important;height:34px!important;}}
+</style>
 </head>
 <body>
 <div id="authGate">
@@ -2222,7 +2232,7 @@ section[id^="t-"]:not(#t-hq){padding-left:0!important;padding-right:60px!importa
     </form>
   </div>
 </div></div><div class="test-hq-modal" id="testBuildingModal" hidden><div class="test-hq-dialog test-building-dialog" role="dialog" aria-modal="true" aria-labelledby="testBuildingTitle"><button class="test-hq-close" id="testBuildingClose" aria-label="Close">×</button><div class="test-bnav"><button type="button" id="testBuildingPrev" class="test-bnav-btn" aria-label="Previous building">◀</button><span id="testBuildingPos" class="test-bnav-pos"></span><button type="button" id="testBuildingNext" class="test-bnav-btn" aria-label="Next building">▶</button></div><div class="test-modal-scroll"><div class="test-hq-kicker">PRESTIGE NETWORK // BUILDING CONTROL</div><h2 id="testBuildingTitle">BUILDING</h2><div class="test-hq-rank" id="testBuildingRank"></div><div class="test-hq-requirements" id="testBuildingInfo"></div><div class="test-hq-cost" id="testBuildingCost"></div><div class="test-hq-progress" id="testBuildingProgress" hidden></div><div class="test-hq-actions"><button class="buy" id="testBuildingUpgrade">UPGRADE BUILDING</button><button class="buy" id="testBuildingFinish" hidden>INSTANT FINISH</button><button class="buy secondary" id="testBuildingBuilder">INFILTRATE</button></div><div class="test-hq-foot">Uses the same building levels, resources and timers as your HQ. Infiltrate opens the inside of the building.</div></div></div></div>
-<div class="test-hq-modal" id="testInsideModal" hidden><div class="test-hq-dialog test-inside-dialog" role="dialog" aria-modal="true" aria-label="Inside building"><button class="test-hq-close" id="testInsideClose" aria-label="Close">×</button><div id="testInsideBody"></div></div></div>
+<div class="test-hq-modal" id="testInsideModal" hidden><div class="test-hq-dialog test-inside-dialog" role="dialog" aria-modal="true" aria-label="Inside building"><div id="testInsideNav" class="ti-nav ti-nav-fixed"><button type="button" class="test-bnav-btn" data-ti="prev" aria-label="Previous building">◀</button><span id="testInsidePos" class="test-bnav-pos">1 / 1</span><button type="button" class="test-bnav-btn" data-ti="next" aria-label="Next building">▶</button></div><button class="test-hq-close" id="testInsideClose" aria-label="Close">×</button><div id="testInsideBody"></div></div></div>
 <div class="test-hq-modal" id="testHqModal" hidden><div class="test-hq-dialog" role="dialog" aria-modal="true" aria-labelledby="testHqTitle"><button class="test-hq-close" id="testHqClose" aria-label="Close">×</button><div class="test-modal-scroll"><div class="test-hq-kicker">CENTRAL COMMAND // HQ CONTROL</div><h2 id="testHqTitle">HEADQUARTERS</h2><div class="test-hq-rank" id="testHqRank"></div><div class="test-hq-requirements" id="testHqRequirements"></div><div class="test-hq-cost" id="testHqCost"></div><div class="test-hq-progress" id="testHqProgress" hidden></div><div class="test-hq-actions"><button class="buy" id="testHqUpgrade">UPGRADE HQ</button><button class="buy" id="testHqFinish" hidden>INSTANT FINISH</button><button class="buy secondary" id="testHqBuilder">BUILDER</button></div><div class="test-hq-foot">Instant finish uses Influence. Builder opens the full HQ construction screen.</div></div></div></div></section>
 <section id="t-user" hidden><div class="chief-wrap"><div class="chief-head"><div><div class="chief-kicker">PERSONAL COMMAND // CHIEF PROFILE</div><b>OPERATIVE LOADOUT</b></div><span class="badge">HQ <b id="chiefHqLevel">1</b></span></div><div class="chief-stage"><div class="chief-avatar" aria-label="Animated cybernetic chief avatar"><svg viewBox="0 0 160 270" role="img"><defs><linearGradient id="chiefArmor" x2="1" y2="1"><stop stop-color="#a7e6c2"/><stop offset=".48" stop-color="#397e68"/><stop offset="1" stop-color="#132e2a"/></linearGradient><linearGradient id="chiefVisor" x2="0" y2="1"><stop stop-color="#baffdc"/><stop offset="1" stop-color="#20c88a"/></linearGradient></defs><ellipse cx="80" cy="255" rx="48" ry="8" fill="#39ff88" opacity=".22"/><path d="M54 56 48 30 76 10 107 29 104 65 91 83 65 78Z" fill="#263c3b" stroke="#7dd5a9" stroke-width="2"/><path d="M53 43 77 21 104 39 99 56 58 57Z" fill="#0b1718" stroke="#39ff9a"/><path d="M59 48 98 43 95 51 62 55Z" fill="url(#chiefVisor)"/><path d="M68 77 47 91 28 153 42 177 56 143 62 116 98 116 105 146 120 177 136 154 116 92 94 77Z" fill="url(#chiefArmor)" stroke="#9be8bf" stroke-width="2"/><path d="M58 84 80 98 101 83 113 112 80 132 47 112Z" fill="#1b3933" stroke="#54c995" stroke-width="2"/><path d="M80 101 92 115 80 126 68 115Z" fill="#baffd7"/><path d="M46 94 24 107 12 167 28 175 47 130M114 94 137 107 149 167 133 175 113 130" fill="#244b40" stroke="#79d4a7" stroke-width="3"/><path d="M48 171 112 171 120 225 102 244 58 244 40 225Z" fill="#18332f" stroke="#6dc99b" stroke-width="2"/><path d="M54 184 106 184 101 213 59 213Z" fill="#315e4e"/><path d="M58 239 52 258 76 262 80 246 84 262 108 258 102 239" fill="#0b1716" stroke="#69c99a" stroke-width="2"/><path d="M80 131V172" stroke="#baffd7" stroke-width="2" opacity=".7"/><circle cx="80" cy="115" r="3" fill="#fff"/></svg></div><div class="chief-slots"><button class="chief-slot" data-chief-slot="helmet"><i>◈</i><small>HEAD</small><b>Neural Visor</b></button><button class="chief-slot" data-chief-slot="chest"><i>⬡</i><small>CHEST</small><b>Core Armour</b></button><button class="chief-slot" data-chief-slot="gloves"><i>✣</i><small>HANDS</small><b>Pulse Gloves</b></button><button class="chief-slot" data-chief-slot="boots"><i>⌁</i><small>BOOTS</small><b>Vector Boots</b></button><button class="chief-slot" data-chief-slot="weapon"><i>⚡</i><small>WEAPON</small><b>Data Blade</b></button><button class="chief-slot" data-chief-slot="accessory"><i>◇</i><small>MODULE</small><b>Signal Core</b></button></div></div><div id="chiefSlotInfo" class="chief-slot-info">Tap any of the six equipment slots to inspect your personal loadout.</div><div class="chief-stats"><div class="chief-stat"><small>HQ LEVEL</small><b id="chiefStatHq">1</b></div><div class="chief-stat"><small>COMBAT POWER</small><b id="chiefStatPower">—</b></div><div class="chief-stat"><small>TOTAL KILLS</small><b id="chiefStatKills">0</b></div><div class="chief-stat"><small>CREW TRAINED</small><b id="chiefStatCrew">0 / 15</b></div></div><div class="chief-identity"><b id="chiefPlayerName">YOUR CHIEF</b><small>PERSONAL PROFILE · YOUR EQUIPMENT AND PROGRESSION ARE SEPARATE FROM CREW ASSIGNMENTS</small></div><button type="button" class="progression-profile-button" id="openProgressionArchive">⌁ OPEN COMMANDER PROGRESSION ARCHIVE</button><div class="chief-shortcuts"><button type="button" data-chief-go="shop"><span>✦</span>Skins</button><button type="button" data-chief-go="crew"><span>♟</span>Troops</button><button type="button" data-chief-go="rank"><span>🏆</span>Leaderboard</button><button type="button" data-chief-go="settings"><span>⚙</span>Settings</button></div></div></section>
 <section id="t-progression" hidden><div class="progression-hub"><div class="progression-head"><div><div class="progression-kicker">COMMANDER RECORDS // ACCOUNT PROGRESSION</div><h2>PROGRESSION <em>ARCHIVE</em></h2><p>Permanent milestone snapshots, frozen comparisons and Prestige records. Each report reflects the actual account state recorded when the milestone was achieved.</p></div><div class="progression-status">SECURE RECORD</div></div><div id="progressionCurrent" class="progression-current"></div><div class="progression-archive" id="progressionArchive"></div><div class="progression-archive-note">Historical snapshots are saved to this player's account. Temporary boosts are identified separately and are not included in permanent combat or income bonuses. Existing accounts begin tracking from their current state if earlier milestone records were not available.</div></div></section>
@@ -2950,6 +2960,7 @@ function build(){
   if($('testInsideClose'))$('testInsideClose').onclick=closeTestInside;
   if($('testInsideModal'))$('testInsideModal').addEventListener('click',function(ev){if(ev.target===$('testInsideModal'))closeTestInside()});
   if($('testInsideBody'))$('testInsideBody').addEventListener('click',testInsideClick);
+  if($('testInsideNav'))$('testInsideNav').addEventListener('click',testInsideClick);
   document.querySelectorAll('[data-test-go]').forEach(function(b){b.onclick=function(){show(b.getAttribute('data-test-go'))}});
 $('progressionReportClose').onclick=function(){$('progressionReportModal').hidden=true};$('progressionReportModal').addEventListener('click',function(ev){if(ev.target===$('progressionReportModal'))$('progressionReportModal').hidden=true});document.addEventListener('keydown',function(ev){if(ev.key==='Escape'&&!$('progressionReportModal').hidden)$('progressionReportModal').hidden=true});
   initTestChat();
@@ -3868,7 +3879,7 @@ function renderSettings(){
 function renderChiefProfile(){var h=$('chiefHqLevel'),sh=$('chiefStatHq'),pw=$('chiefStatPower'),ki=$('chiefStatKills'),cr=$('chiefStatCrew');if(h)h.textContent=S.hq;if(sh)sh.textContent=S.hq;if(pw)pw.textContent=fmt(power());if(ki)ki.textContent=fmt(S.kills||0);if(cr)cr.textContent=crewAvailableCount()+' / 7';var nm=$('chiefPlayerName');if(nm)nm.textContent=(window.backdoorPlayerName||'YOUR CHIEF').toString().slice(0,24);var pa=$('openProgressionArchive');if(pa)pa.onclick=function(){show('progression')};document.querySelectorAll('[data-chief-slot]').forEach(function(b){b.onclick=function(){document.querySelectorAll('[data-chief-slot]').forEach(function(x){x.classList.remove('active')});b.classList.add('active');var labels={helmet:'Neural Visor · head protection and signal focus.',chest:'Core Armour · personal defensive plating.',gloves:'Pulse Gloves · precision control and combat handling.',boots:'Vector Boots · mobility and movement systems.',weapon:'Data Blade · personal chief weapon slot.',accessory:'Signal Core · auxiliary chief enhancement module.'};$('chiefSlotInfo').textContent=labels[b.getAttribute('data-chief-slot')]+' Equipment upgrades can be connected here in a later pass.'}});document.querySelectorAll('[data-chief-go]').forEach(function(b){b.onclick=function(){show(b.getAttribute('data-chief-go'))}})}
 var BHQ_UPDATE_VERSION='1.0.55';
 var BHQ_UPDATE_RELEASES=[
- {version:'1.0.55',date:'18 NOV 2026',title:'HQ STATUS DRAWER // FLOATING OVERLAY',tag:'RESOURCE-BAR HANDLE · BUILDINGS STAY IN PLACE',items:['Moved the slim UPCOMING handle to sit directly beneath the resource bar, with a small arrow to show when the timer and crew panels are tucked away or open.','The timer and crew panels now slide down as a floating overlay above the HQ buildings. Opening or closing the drawer no longer moves, resizes or repositions the HQ viewport or any buildings.']},
+ {version:'1.0.55',date:'18 NOV 2026',title:'INFILTRATE NAVIGATION // FIXED BUILDING SWITCHER',tag:'PREVIOUS · BUILDING NUMBER · NEXT BESIDE EXIT',items:['Moved the previous-building arrow, building position counter and next-building arrow out of the scrolling Infiltrate content and into the fixed top-right header, immediately to the left of the Exit button, for every standard and Prestige building.','Connected both header arrows to the existing building-switching actions and kept the live building number in sync when switching buildings. The controls remain visible while the Infiltrate content scrolls; existing crew, upgrades, modules, research and save behaviour are unchanged.']},
  {version:'1.0.54',date:'18 NOV 2026',title:'HQ STATUS DRAWER // RETRACTABLE UPCOMING STRIP',tag:'COMPACT COLLAPSIBLE TIMER & CREW PANELS',items:['Added a slim UPCOMING handle with a small arrow at the top of the HQ scene. The timer and active crew panels now retract by default and slide down when tapped, then close again when tapped a second time.','The HQ buildings move up into the reclaimed space while the drawer is closed; opening it shifts the HQ scene down to reveal the existing timer and crew panels without changing their horizontal three-card scrolling behaviour.']},
  {version:'1.0.53',date:'18 NOV 2026',title:'HQ COMMAND STRIP // COMPACT HORIZONTAL STATUS CARDS',tag:'THREE BUILDINGS VISIBLE · SWIPEABLE TIMERS & CREW',items:['Reduced the HQ & Building Timers and Active Crew Members panels and arranged them as compact full-width strips above the HQ scene. Each strip shows three building cards at a time and scrolls horizontally to reveal the remaining cards.','Timer cards now show only the building name, remaining countdown and exact Influence finish cost. Tapping an eligible timer still uses the existing instant-finish action. Crew cards retain each building’s active crew count and production bonus.','Moved the HQ scene upward to reclaim screen space while preserving the existing building positions, upgrade-ready flashes, HQ Upgrade All control, account saves and game progression.']},
  {version:'1.0.52',date:'18 NOV 2026',title:'COMMAND NETWORK // HQ LAYOUT, PRESTIGE & COLLECTION ALERTS',tag:'SIX-BUILDING STATUS PANELS · TARGETED NOTIFICATIONS · REBALANCED ALLIANCE REWARDS',items:['Expanded the HQ timer and Active Crew Members panels so all six Prestige facilities and their active timers or crew assignments can be viewed without being cut off.','Added a staged Alliance Event alert from the main Alliance shortcut to the Alliance HQ header and Events tab. The hourly alert clears only when Events is opened.','Added individual Daily, Weekly, Monthly and Alliance competition tab badges. Visiting one tab clears only that tab’s unseen alert; the main Competitions badge continues to count every unclaimed reward. Ready rewards are marked with a blue COLLECT action.','Grouped Prestige gear requirements by hero, showing the current Prestige gear tier and remaining upgrades in a dedicated scroll area. The panel is updated in place to prevent flicker.','Corrected Prestige resource handling: stored resources reset only on the confirmed HQ30 → Prestige 1 transition. Later Prestige advances do not reset resources. The reset warning appears only for the first transition.','Reordered all building and HQ upgrade costs to HAVE, NEED and SHORT with distinct colours, and moved the building next arrow clear of the close button.','Increased the Alliance Competition reward track to approximately five times its previous base rewards while retaining HQ, Prestige and alliance-size scaling.','Kept existing account-specific saves, Supabase authentication, crew assignments, timers, progression and game systems intact.']},
@@ -4210,24 +4221,80 @@ function renderTestHqStatus(){
   if(upHost){var timerScroll=upHost.scrollTop;upHost.innerHTML=active.length?active.map(function(o){var u=S.up[o.id],remaining=Math.max(0,(u.end-Date.now())/1000),fc=finCost(o.id,o.level,remaining),can=S.r.in>=fc;return '<button type="button" class="test-hq-status-line timer-finish '+(can?'ready':'')+'" data-finish-upgrade="'+o.id+'" '+(can?'':'disabled')+' title="'+(can?'Tap to finish immediately using Influence':'Need '+fmt(fc)+' Influence to finish')+'"><b>'+o.name+'</b><span>LV '+o.level+' · '+fmtT(remaining)+' · '+fmt(fc)+' I</span></button>'}).join(''):'<div class="test-hq-status-empty">No active HQ or building timers</div>';upHost.querySelectorAll('[data-finish-upgrade]').forEach(function(b){b.onclick=function(){finish(b.getAttribute('data-finish-upgrade'))}})}
   if(buffHost){var buffs=[];list.forEach(function(o){var assigned=crewFor(o.id)||[],bonus=buildingCrewBonus(o);if(assigned.length&&bonus>0)buffs.push({name:o.name,bonus:bonus,count:assigned.length})});buffHost.innerHTML=buffs.length?buffs.slice(0,4).map(function(x){return '<div class="test-hq-status-line"><b>'+x.name+'</b><span>+'+(x.bonus*100).toFixed(1).replace(/\.0$/,'')+'% · '+x.count+' crew</span></div>'}).join(''):'<div class="test-hq-status-empty">No active crew buffs</div>'}
 }
+
+/* ===== TRON ART: HQ (new look every level / tier) + 4 starter buildings (new look every 5 levels) ===== */
+var TRC={node:'#ff9a1f',siphon:'#28e6ff',miner:'#5cff9a',lab:'#ff5a7a'},TRH=['#28e6ff','#34f0d0','#8dff7a','#ffd23f','#ff9a1f','#ff5a3a'];
+function tronHqColor(l){return TRH[Math.min(5,Math.floor((Math.max(1,Math.min(30,l))-1)/5))]}
+function tA(a,v,d,x){return '<animate attributeName="'+a+'" values="'+v+'" dur="'+d+'s" repeatCount="indefinite" '+(x||'')+'/>'}
+function tBox(cx,cy,a,h,c,n){var b=a/2,t=cy-h,s,i,k;
+ s='<path d="M'+(cx-a)+' '+cy+'L'+cx+' '+(cy+b)+'V'+(t+b)+'L'+(cx-a)+' '+t+'Z" fill="#020a0f" stroke="'+c+'" stroke-width=".9"/><path d="M'+cx+' '+(cy+b)+'L'+(cx+a)+' '+cy+'V'+t+'L'+cx+' '+(t+b)+'Z" fill="#03141c" stroke="'+c+'" stroke-width=".9"/><path d="M'+cx+' '+(t-b)+'L'+(cx+a)+' '+t+'L'+cx+' '+(t+b)+'L'+(cx-a)+' '+t+'Z" fill="'+c+'2a" stroke="'+c+'" stroke-width="1"/>';
+ for(i=1;i<=(n||0);i++){k=h*i/(n+1);s+='<path d="M'+(cx-a+1.5)+' '+(cy-k+.7)+'L'+(cx-1.5)+' '+(cy+b-k-.7)+'M'+(cx+1.5)+' '+(cy+b-k-.7)+'L'+(cx+a-1.5)+' '+(cy-k+.7)+'" stroke="'+c+'" stroke-width=".9" opacity=".85"/>'}
+ return s}
+function tPad(c,cx,cy,a){var b=a/2,N=[cx,cy-b],E=[cx+a,cy],S=[cx,cy+b],W=[cx-a,cy],P=function(p){return p[0].toFixed(1)+' '+p[1].toFixed(1)},L=function(p,q,f){return [p[0]+(q[0]-p[0])*f,p[1]+(q[1]-p[1])*f]},d='M'+P(N)+'L'+P(E)+'L'+P(S)+'L'+P(W)+'Z',s,i,f;
+ s='<path d="'+d+'" fill="#010608" stroke="'+c+'" stroke-width="1.1"/>';
+ for(i=1;i<4;i++){f=i/4;s+='<path d="M'+P(L(W,N,f))+'L'+P(L(S,E,f))+'M'+P(L(N,E,f))+'L'+P(L(W,S,f))+'" stroke="'+c+'" stroke-width=".5" opacity=".35"/>'}
+ return s+'<path d="'+d+'" pathLength="100" fill="none" stroke="#fff" stroke-width="1.7" stroke-dasharray="9 91" stroke-linecap="round">'+tA('stroke-dashoffset','0;-100',3.2)+'</path>'}
+function tRing(cx,cy,rx,ry,c,d,rev){return '<ellipse cx="'+cx+'" cy="'+cy+'" rx="'+rx+'" ry="'+ry+'" fill="none" stroke="'+c+'" stroke-width="1.2" stroke-dasharray="7 5">'+tA('stroke-dashoffset',rev?'0;24':'0;-24',d)+'</ellipse>'}
+function tOrb(rx,ry,cx,cy,d,c,r){return '<circle r="'+(r||1.8)+'" fill="'+c+'"><animateMotion dur="'+d+'s" repeatCount="indefinite" path="M'+(cx-rx)+' '+cy+'a'+rx+' '+ry+' 0 1 0 '+(2*rx)+' 0a'+rx+' '+ry+' 0 1 0 '+(-2*rx)+' 0"/></circle>'}
+function tPing(x,y,r,d,dl,c){return '<circle cx="'+x+'" cy="'+y+'" r="'+r+'" fill="none" stroke="'+c+'" stroke-width="1">'+tA('r',r+';'+(r+12),d,'begin="'+dl+'s"')+tA('opacity','.9;0',d,'begin="'+dl+'s"')+'</circle>'}
+function tronBld(id,lv){var c=TRC[id]||'#28e6ff',t=Math.max(0,Math.min(5,Math.floor((lv-1)/5))),s=tPad(c,50,84,40),i,h,tip,n,a,fy,xs;
+ if(id==='node'){h=9+t*3;tip=82-h-20-t*5;n=Math.min(3,1+(t>>1));s+=tBox(50,82,11+t,h,c,n);
+  if(t>=2)s+=tBox(25,86,5,10+t*3,c,1)+tBox(75,86,5,10+t*3,c,1);
+  s+='<path d="M50 '+(82-h)+'V'+tip+'" stroke="'+c+'" stroke-width="1.6"/>';
+  for(i=0;i<n;i++)s+=tPing(50,tip,2,2.4,i*.8,c);
+  if(t>=3)s+='<path d="M36 '+(tip+14)+'Q50 '+(tip+30)+' 64 '+(tip+14)+'" fill="'+c+'22" stroke="'+c+'"/>'+tRing(50,tip+6,22,6,c,2.4)+tOrb(22,6,50,tip+6,3,'#fff');
+  if(t>=5)s+='<circle cx="50" cy="'+tip+'" r="6" fill="'+c+'33" stroke="'+c+'"/><ellipse cx="50" cy="'+tip+'" rx="6" ry="2" fill="none" stroke="'+c+'"/>'+tOrb(26,8,50,tip+10,2,'#fff',1.4);
+  s+='<circle cx="50" cy="'+tip+'" r="2.2" fill="#fff">'+tA('opacity','1;.3;1',1.2)+'</circle>'}
+ else if(id==='siphon'){h=22+t*4;a=8+t*.8;fy=82-h;s+=tBox(50,82,a,h,c,2+t);
+  if(t>=4)s+=tBox(22,86,4,16+t*2,c,2)+tBox(78,86,4,16+t*2,c,2);
+  if(t>=2)s+=tRing(50,fy+6,a+8,(a+8)/2,c,2.2);
+  s+='<path d="M'+(50-a-8)+' '+(fy-12)+'H'+(50+a+8)+'L53 '+(fy-2)+'H47Z" fill="'+c+'33" stroke="'+c+'"/>';
+  n=2+(t>>1);for(i=0;i<n;i++){xs=n===1?50:16+i*68/(n-1);s+='<path d="M'+xs+' 6L50 '+(fy-12)+'" stroke="'+c+'" stroke-width="1.2" stroke-dasharray="3 5">'+tA('stroke-dashoffset','0;-16',.9+i*.15)+'</path>'}
+  if(t>=5)s+=tRing(50,6,16,4.5,'#fff',2)}
+ else if(id==='miner'){n=1+(t>=2?1:0)+(t>=4?1:0);xs=n===1?[50]:n===2?[34,66]:[26,50,74];xs.forEach(function(x){s+=tBox(x,82,8,24+t*3,c,3+t)});
+  s+='<g>'+tA('transform','translate(0 0);translate(0 -3);translate(0 0)',2).replace('attributeName="transform"','attributeName="transform" type="translate"')+tBox(50,36-t*2,5+t,5+t,c,1)+'<path d="M50 '+(36-t*2+3)+'V'+(58-3*t)+'" stroke="'+c+'" stroke-dasharray="2 3"/></g>';
+  if(t>=3)s+=tRing(50,30-t,22,6,c,2.2)+tOrb(22,6,50,30-t,2.6,'#fff');
+  if(t>=5)s+=tOrb(30,9,50,34,3.4,c,2)}
+ else{s+=tBox(50,82,13+t,8,c,1);
+  if(t>=1)s+='<path d="M'+(39-t)+' 76A'+(11+t)+' '+(14+t*2)+' 0 0 1 '+(61+t)+' 76Z" fill="'+c+'1f" stroke="'+c+'"/>';
+  s+='<circle cx="50" cy="'+(68-t)+'" r="'+(3+t*.6)+'" fill="'+c+'">'+tA('opacity','1;.45;1',1.4)+'</circle>';
+  if(t>=2)s+=tRing(50,68-t,18+t,5,c,1.8);
+  if(t>=3)s+='<ellipse cx="50" cy="'+(66-t)+'" rx="5" ry="'+(16+t)+'" fill="none" stroke="'+c+'" stroke-dasharray="5 4">'+tA('stroke-dashoffset','0;-18',2)+'</ellipse>'+tOrb(18+t,5,50,68-t,2.2,'#fff');
+  if(t>=4)s+=tBox(22,86,3.5,22,c,2)+tBox(78,86,3.5,22,c,2);
+  if(t>=5)s+='<path d="M22 62L36 54L50 60L64 52L78 62" fill="none" stroke="#fff" stroke-width="1.2">'+tA('opacity','0;1;0;0;1;0',1.8)+'</path>'}
+ return '<svg viewBox="0 0 100 100" aria-hidden="true"><g opacity="'+(lv?1:.45)+'">'+s+'</g></svg>'}
+function tronHq(lv){lv=Math.max(1,Math.min(30,Number(lv)||1));var t=Math.min(5,Math.floor((lv-1)/5)),k=(lv-1)%5,c=TRH[t],o='#ff9a1f',cx=70,
+ st=[[[16,22]],[[22,14],[14,20]],[[26,14],[18,18],[11,14]],[[28,14],[20,18],[13,16]],[[30,14],[22,16],[15,16],[9,14]],[[32,14],[24,16],[17,16],[11,14],[6,10]]][t],s=tPad(c,cx,100,58),y=100,sc=1+k*.06,i,top,x;
+ if(t>=2)s+=tBox(cx-40,104,9,14+t*2,c,2)+tBox(cx+40,104,9,14+t*2,c,2);
+ if(t>=1)s+=tRing(cx,100-st[0][1]-3,st[0][0]+24,(st[0][0]+24)/2.6,o,3)+tOrb(st[0][0]+24,(st[0][0]+24)/2.6,cx,100-st[0][1]-3,4,'#fff',2);
+ st.forEach(function(q,ix){var h=q[1]*(ix===st.length-1?sc:1);s+=tBox(cx,y,q[0],h,c,Math.max(1,Math.floor(h/6)));y-=h});
+ top=y;
+ if(t>=4)s+=tRing(cx,top+8,24,9,o,2.4,1)+tBox(cx-13,top+6,2.5,18,c,1)+tBox(cx+13,top+6,2.5,18,c,1);
+ if(t===3)s+='<path d="M'+cx+' '+(top-28)+'L'+(cx-10)+' '+top+'L'+cx+' '+(top+5)+'L'+(cx+10)+' '+top+'ZM'+cx+' '+(top-28)+'V'+(top+5)+'" fill="'+c+'18" stroke="'+c+'" stroke-width="1">'+tA('opacity','1;.5;1',1.8)+'</path>';
+ if(t===5){s+='<ellipse cx="'+cx+'" cy="'+(top-22)+'" rx="22" ry="6" fill="'+c+'22" stroke="'+c+'" stroke-width="1.2"/>'+tRing(cx,top-22,17,4.5,'#fff',2);for(i=0;i<3;i++){x=cx-10+i*10;s+='<path d="M'+x+' '+(top-20)+'V'+(top+2)+'" stroke="'+c+'" stroke-dasharray="2 3">'+tA('stroke-dashoffset','0;-10',.8+i*.2)+'</path>'}}
+ else s+='<path d="M'+cx+' '+top+'V'+(top-12-t*3)+'" stroke="'+c+'" stroke-width="1.6"/><circle cx="'+cx+'" cy="'+(top-12-t*3)+'" r="2.4" fill="#fff">'+tA('opacity','1;.25;1',1.1)+'</circle>';
+ for(i=0;i<5;i++){x=54+i*8;s+='<path d="M'+x+' 115.4L'+(x+3.6)+' 118L'+x+' 120.6L'+(x-3.6)+' 118Z" fill="'+(i<=k?c:'#061018')+'" stroke="'+c+'" stroke-width=".7" opacity="'+(i<=k?1:.5)+'"/>'}
+ return '<svg viewBox="0 0 140 138" aria-hidden="true">'+s+'</svg>'}
+function tronRoad(cx,cy,x,y,id,i,up,done){var c=TRC[id]||'#28e6ff',d='M'+(cx*10)+' '+(cy*7)+' H'+(x*10)+' V'+(y*7);
+ return '<path d="'+d+'" class="tron-road" stroke="'+c+'" pathLength="400" opacity="'+(done||up?.8:.42)+'"/><path d="'+d+'" class="tron-run" stroke="'+(up?'#fff':c)+'" pathLength="400" style="animation-delay:-'+(i*.65)+'s"/><path d="'+d+'" class="tron-run rev" stroke="#fff" pathLength="400" style="animation-delay:-'+(i*.9+1)+'s"/>'}
 function renderTestArea(){
   renderTestHqStatus();var layer=$('testBuildingLayer');if(!layer)return;
   var prestige=S.pr>0,list=prestige?PB:B;
-  var spots=prestige?[[50,29],[79,42],[79,69],[50,80],[21,69],[21,42]]:[[11,14],[89,14],[11,86],[89,86]];
+  var spots=prestige?[[50,29],[79,42],[79,69],[50,80],[21,69],[21,42]]:[[25,31],[75,31],[75,72],[25,72]];
   var centreX=50,centreY=50,bulk=testBulkUpgradeState(list),html='',paths='';
   if(!prestige){
     html+='<div class="hq-cyber-ground" aria-hidden="true"><i class="ground-ring ring-one"></i><i class="ground-ring ring-two"></i><i class="ground-cross cross-one"></i><i class="ground-cross cross-two"></i><i class="ground-node node-one"></i><i class="ground-node node-two"></i><i class="ground-node node-three"></i><i class="ground-node node-four"></i></div>';
   }
   list.forEach(function(o,i){
     var xy=spots[i],x=xy[0],y=xy[1],lv=lvl(o),maximum=cap(o),complete=lv>=maximum,canUpgrade=!complete&&S.hq>=o.u&&!S.up[o.id]&&afford(cost(o)),col=o.col||(o.res==='cr'?'#ffc933':o.res==='da'?'#55c9ff':o.res==='cy'?'#65e89a':o.res==='ex'?'#ff786b':'#bd91ff'),glyph=ic(o.i||o.res||'node');
-    var stage=lv<=4?1:Math.min(7,Math.floor((lv-5)/5)+2),arch=!prestige?' cyber-building cyber-'+o.id+' cyber-stage-'+stage:'';
-    paths+='<path d="M'+(centreX*10)+' '+(centreY*7)+' L'+(x*10)+' '+(y*7)+'" class="'+(canUpgrade?'upgrade-link':'')+'" stroke="'+(canUpgrade?'#58f6ff':complete?'#6aebff':'#397eaa')+'" stroke-width="'+(canUpgrade?'3.5':complete?'2.5':'1.4')+'" opacity="'+(canUpgrade?'.98':complete?'.8':'.32')+'" '+(canUpgrade||complete?'':'stroke-dasharray="5 8"')+'/>';
-    html+='<div class="test-building normal-building'+(complete?' complete':'')+(canUpgrade?' upgrade-ready':'')+arch+'" data-test-building="'+o.id+'" data-visual-stage="'+stage+'" data-building-level="'+lv+'" style="left:'+x+'%;top:'+y+'%;--bw:clamp(50px,11vw,64px);--bh:48px;--accent:'+col+';transform:translate(-50%,-50%)"><div class="structure"><i class="arch-side arch-side-a"></i><i class="arch-side arch-side-b"></i><i class="arch-spire"></i><i class="arch-core"></i><i class="arch-energy"></i><span class="glyph">'+glyph+'</span></div><b class="building-name">'+o.name+'</b><small class="building-level">LV '+lv+' / '+maximum+'</small><button class="test-building-tap" aria-label="Open '+o.name+' upgrades"></button></div>';
+    var stage=lv<=4?1:Math.min(7,Math.floor((lv-5)/5)+2),arch=!prestige?' tron-b':'';
+    if(prestige){paths+='<path d="M'+(centreX*10)+' '+(centreY*7)+' L'+(x*10)+' '+(y*7)+'" class="'+(canUpgrade?'upgrade-link':'')+'" stroke="'+(canUpgrade?'#58f6ff':complete?'#6aebff':'#397eaa')+'" stroke-width="'+(canUpgrade?'3.5':complete?'2.5':'1.4')+'" opacity="'+(canUpgrade?'.98':complete?'.8':'.32')+'" '+(canUpgrade||complete?'':'stroke-dasharray="5 8"')+'/>';}else{paths+=tronRoad(centreX,centreY,x,y,o.id,i,canUpgrade,complete)}
+    html+='<div class="test-building normal-building'+(complete?' complete':'')+(canUpgrade?' upgrade-ready':'')+arch+'" data-test-building="'+o.id+'" data-visual-stage="'+stage+'" data-building-level="'+lv+'" style="left:'+x+'%;top:'+y+'%;--bw:clamp(50px,11vw,64px);--bh:48px;--accent:'+col+';transform:translate(-50%,-50%)">'+(prestige?'<div class="structure"><i class="arch-side arch-side-a"></i><i class="arch-side arch-side-b"></i><i class="arch-spire"></i><i class="arch-core"></i><i class="arch-energy"></i><span class="glyph">'+glyph+'</span></div>':'<div class="structure tron" style="color:'+(TRC[o.id]||'#28e6ff')+'">'+tronBld(o.id,lv)+'</div>')+'<b class="building-name">'+o.name+'</b><small class="building-level">LV '+lv+' / '+maximum+'</small><button class="test-building-tap" aria-label="Open '+o.name+' upgrades"></button></div>';
   });
   var hqLevel=Math.max(1,Math.min(30,Number(S.hq)||1));
-  var hqStage=hqLevel>=30?4:hqLevel>=20?3:hqLevel>=10?2:1;
+  var hqStage=Math.min(6,Math.floor((hqLevel-1)/5)+1);
   var hqRise=58+Math.round(hqLevel*1.25),hqWidth=94+Math.round(hqLevel*.8),hqCore=42+Math.round(hqLevel*.45),hqHue=188+(hqLevel-1)*1.9,hqCrown=54+(hqLevel%5)*2+Math.floor((hqLevel-1)/5)*3,hqRing=112+(hqLevel%4)*3,hqSpire=28+Math.round(hqLevel*1.6);
-  html+='<div class="test-building hq'+(bulk.ready?' bulk-ready':'')+(prestige?'':' hq-redesign hq-tier-'+hqStage)+'" data-hq-level="'+hqLevel+'" data-hq-stage="'+hqStage+'" style="left:'+centreX+'%;top:'+centreY+'%;--hq-rise:'+hqRise+'px;--hq-width:'+hqWidth+'px;--hq-core:'+hqCore+'px;--hq-accent:hsl('+hqHue+',92%,68%);--hq-crown-w:'+hqCrown+'%;--hq-ring-w:'+hqRing+'%;--hq-spire-height:'+hqSpire+'px;transform:translate(-50%,-50%)"><div class="structure"><i class="hq-arch-platform"></i><i class="hq-arch-wing wing-left"></i><i class="hq-arch-wing wing-right"></i><i class="hq-arch-core"></i><i class="hq-arch-crown"></i><i class="hq-arch-ring ring-low"></i><i class="hq-arch-ring ring-high"></i><i class="hq-arch-spire"></i><i class="hq-arch-beacon"></i><i class="hq-arch-window"></i><span class="glyph">⌂</span><i class="roof-mark">BD // HQ</i></div><b class="building-name">'+(prestige?'PRESTIGE HQ':'CENTRAL HQ')+'</b><small class="building-level">'+(bulk.ready?'BATCH UPGRADE READY':prestige?'PRESTIGE P'+S.pr:'HQ LEVEL '+S.hq+' / 30')+'</small><button class="test-hq-tap" id="testHqTap" aria-label="'+(bulk.ready?'Upgrade all buildings one level':'Open HQ requirements and upgrade controls')+'"></button></div>';
+  html+='<div class="test-building hq'+(bulk.ready?' bulk-ready':'')+(prestige?'':' tron-hq')+'" data-hq-level="'+hqLevel+'" data-hq-stage="'+hqStage+'" style="left:'+centreX+'%;top:'+centreY+'%;--hq-rise:'+hqRise+'px;--hq-width:'+hqWidth+'px;--hq-core:'+hqCore+'px;--hq-accent:hsl('+hqHue+',92%,68%);--hq-crown-w:'+hqCrown+'%;--hq-ring-w:'+hqRing+'%;--hq-spire-height:'+hqSpire+'px;transform:translate(-50%,-50%)">'+(prestige?'<div class="structure"><i class="hq-arch-platform"></i><i class="hq-arch-wing wing-left"></i><i class="hq-arch-wing wing-right"></i><i class="hq-arch-core"></i><i class="hq-arch-crown"></i><i class="hq-arch-ring ring-low"></i><i class="hq-arch-ring ring-high"></i><i class="hq-arch-spire"></i><i class="hq-arch-beacon"></i><i class="hq-arch-window"></i><span class="glyph">⌂</span><i class="roof-mark">BD // HQ</i></div>':'<div class="structure tron" style="color:'+tronHqColor(hqLevel)+'">'+tronHq(hqLevel)+'</div>')+'<b class="building-name">'+(prestige?'PRESTIGE HQ':'CENTRAL HQ')+'</b><small class="building-level">'+(bulk.ready?'BATCH UPGRADE READY':prestige?'PRESTIGE P'+S.pr:'HQ LEVEL '+S.hq+' / 30')+'</small><button class="test-hq-tap" id="testHqTap" aria-label="'+(bulk.ready?'Upgrade all buildings one level':'Open HQ requirements and upgrade controls')+'"></button></div>';
   layer.innerHTML='<svg class="test-data-links" viewBox="0 0 1000 700" preserveAspectRatio="none" aria-hidden="true"><g fill="none">'+paths+'</g></svg>'+html;
   if(testHqModalOpen)renderTestHqModal();
   if(testBuildingModalId)renderTestBuildingModal();
@@ -4242,7 +4309,7 @@ function renderTestInside(){
   var o=testBuildingById(testInsideId);if(!o)return;
   var isP=!!PBI[o.id],l=lvl(o),mx=cap(o),cb=buildingCrewBonus(o),crew=crewFor(o.id),list=S.pr>0?PB:B,pos=0,j,h='';
   list.forEach(function(x,k){if(x.id===o.id)pos=k+1});
-  h+='<div class="ti-nav"><button type="button" class="test-bnav-btn" data-ti="prev" aria-label="Previous building">\u25c0</button><span class="test-bnav-pos">'+pos+' / '+list.length+'</span><button type="button" class="test-bnav-btn" data-ti="next" aria-label="Next building">\u25b6</button></div>';
+  var navPos=$('testInsidePos');if(navPos)navPos.textContent=pos+' / '+list.length;
   h+='<div class="test-hq-kicker">INFILTRATION // INSIDE FEED</div><h2>'+o.name.toUpperCase()+'</h2><div class="test-hq-rank">'+(isP?'PRESTIGE BUILDING':'HQ BUILDING')+' \u00b7 LEVEL '+l+' / '+mx+'</div>';
   h+='<div class="ti-stat"><span>Output</span><b>'+(l?'+'+fmt(out(o,l)*mult()*(1+cb))+'/s '+NM[o.res]:'Not built yet')+'</b></div>';
   h+='<div class="ti-stat"><span>Crew bonus</span><b>+'+(cb*100).toFixed(1).replace(/\.0$/,'')+'%</b></div>';
@@ -4918,32 +4985,13 @@ enforceUniqueCrewAssignments();
 refreshCompPointValues();
 
 /* BACKDOOR HQ 1.0.53 — NEON COMMAND CAMPUS VISUAL REDESIGN */
-var BHQ_UPDATE_VERSION='1.0.61';
+var BHQ_UPDATE_VERSION='1.0.53';
 if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.53',date:'18 NOV 2026',title:'NEON COMMAND CAMPUS // HQ ARCHITECTURE REDESIGN',tag:'30 HQ LEVEL DESIGNS · FOUR BUILDING EVOLUTIONS · CYBER-GRID ENVIRONMENT',items:[
  'Redesigned the standard HQ area as a central futuristic command campus, with the main HQ centred and the four standard resource buildings arranged around it. Prestige buildings retain their existing visuals.',
  'Added 30 level-specific HQ architecture variants: the command tower grows in height and width, subtly shifts its energy colour and crown geometry at every level, and gains additional decks, antenna structures and energy rings as HQ levels increase.',
  'Added seven visual milestones for each of the four standard buildings at levels 1, 5, 10, 15, 20, 25 and 30, with distinct silhouettes and evolving futuristic components.',
  'Introduced a dark cyber-grid ground platform, illuminated energy routes, holographic-style lighting and subtle animated energy effects. Existing upgrade-ready flashing, completed-building states, building interactions, timers and HQ Upgrade All controls remain connected to the live game state.'
 ]});
-
-// RANKING STABILITY: the one-second game tick calls render() repeatedly. Keep the
-// player/alliance ranking DOM intact unless a value actually shown by the board changes.
-var _bhqRankRenderOriginal=renderRank;
-var _bhqRankRenderSignature='';
-function _bhqBuildRankSignature(){
-  var players=(S.rv||[]).map(function(r,i){return [r.n,r.hq,rvPow(r),Math.floor(Number(r.k)||0),Math.floor(Number(r.stolen)||0),Math.floor(Number(r.wn)||0),Math.floor(Number(r.lo)||0),isAlly(i)?1:0]});
-  var alliances=(S.al&&S.al.n)?[S.al.n,(S.al.mem||[]).slice().sort(function(a,b){return a-b}).map(function(i){var r=S.rv[i]||{};return [i,r.n,r.hq,rvPow(r),Math.floor(Number(r.k)||0)]})]:[];
-  var expandedPlayer=rtop===0&&rinfo!==null&&S.rv[rinfo]?function(){var r=S.rv[rinfo],v=S.vs[rinfo]||{};return [rinfo,r.stolen,r.k,r.wn,r.lo,r.bl,r.res,v.aw,v.al,v.sw,v.sl,v.tk,v.kl,v.dw,v.dl]}():null;
-  var expandedAlliance=rtop===1&&ralb!==null?ralb:null;
-  return JSON.stringify([rtop,rsort,ralb,rinfo,S.hq,S.pr,S.kills,atkP(),players,alliances,expandedPlayer,expandedAlliance]);
-}
-renderRank=function(){
-  var signature;
-  try{signature=_bhqBuildRankSignature()}catch(e){signature='__bhq-rank-signature-unavailable__'}
-  if(signature===_bhqRankRenderSignature)return;
-  _bhqRankRenderSignature=signature;
-  return _bhqRankRenderOriginal.apply(this,arguments);
-};
 
 show('hq');checkUpdateNotice();checkSystemGiftDelivery();setInterval(tick,1000);
 
@@ -5423,14 +5471,42 @@ show('hq');checkUpdateNotice();checkSystemGiftDelivery();setInterval(tick,1000);
 }
 @media(prefers-reduced-motion:reduce){#t-hq .hq-upcoming-toggle .hq-upcoming-arrow,#t-hq .test-viewport,#t-hq .test-hq-status-grid{transition:none!important}}
 </style>
+<style id="bhq-tron-hq">
+/* TRON HQ: grid floor, light-cycle roads, neon HQ + four buildings */
+#t-hq .test-world{background-image:linear-gradient(#28e6ff1c 1px,transparent 1px),linear-gradient(90deg,#28e6ff1c 1px,transparent 1px),radial-gradient(ellipse at 50% 50%,#04202b 0,#010609 78%)!important;background-size:26px 26px,26px 26px,100% 100%!important}
+#t-hq .hq-cyber-ground{display:none!important}
+#t-hq .test-viewport{container-type:size}
+#t-hq .test-building.tron-b .structure.tron,#t-hq .test-building.tron-hq .structure.tron{background:none!important;border:0!important;box-shadow:none!important;transform:none!important;animation:none!important;clip-path:none!important;border-radius:0!important;overflow:visible!important;display:block!important}
+#t-hq .test-building.tron-b .structure.tron:before,#t-hq .test-building.tron-b .structure.tron:after,#t-hq .test-building.tron-hq .structure.tron:before,#t-hq .test-building.tron-hq .structure.tron:after{display:none!important;content:none!important}
+#t-hq .test-building.tron-b .structure.tron{width:min(clamp(60px,16vw,74px),16cqh)!important;height:min(clamp(60px,16vw,74px),16cqh)!important}
+#t-hq .test-building.tron-hq .structure.tron{width:min(clamp(104px,30vw,128px),30cqh)!important;height:min(clamp(100px,29vw,124px),29cqh)!important}
+.structure.tron svg{width:100%;height:100%;display:block;overflow:visible;filter:drop-shadow(0 0 3px currentColor)}
+#t-hq .test-building.upgrade-ready .structure.tron svg,#t-hq .test-building.bulk-ready .structure.tron svg{animation:tronReady 1.3s ease-in-out infinite}
+@keyframes tronReady{0%,100%{filter:drop-shadow(0 0 3px currentColor)}50%{filter:drop-shadow(0 0 11px #fff) drop-shadow(0 0 6px currentColor)}}
+#t-hq .test-data-links{filter:drop-shadow(0 0 3px #28e6ff99)}
+#t-hq .test-data-links path.tron-road{stroke-width:4;fill:none;stroke-linejoin:miter}
+#t-hq .test-data-links path.tron-run{stroke-width:6;fill:none;stroke-dasharray:34 366;stroke-linecap:round;animation:tronRun 2.6s linear infinite}
+#t-hq .test-data-links path.tron-run.rev{stroke-width:4;stroke-dasharray:20 380;animation-direction:reverse;animation-duration:3.4s}
+@keyframes tronRun{from{stroke-dashoffset:0}to{stroke-dashoffset:-400}}
+/* UPCOMING drawer: thin line + gold arrow; panels overlay the HQ instead of pushing it */
+#t-hq .hq-upcoming-toggle{top:2px!important;left:10px!important;right:54px!important;height:20px!important;min-height:20px!important;padding:0!important;border:0!important;background:none!important;box-shadow:none!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:flex-start!important;overflow:visible!important}
+#t-hq .hq-upcoming-toggle:before{content:"";position:absolute;left:0;right:0;top:3px;height:2px;border-radius:1px;background:linear-gradient(90deg,transparent,#2e8fa8 16%,#2e8fa8 84%,transparent)}
+#t-hq .hq-upcoming-toggle .hq-upcoming-arrow{position:relative;margin-top:5px!important;font-size:14px!important;line-height:10px!important;font-weight:900!important;color:#ffd23f!important;text-shadow:0 0 6px #ffd23f,0 0 12px #ffb30099!important}
+#t-hq .test-shell .test-viewport,#t-hq .test-shell:not(.hq-status-open) .test-viewport,#t-hq .test-shell.hq-status-open .test-viewport{top:24px!important;transition:none!important}
+#t-hq .test-shell:not(.hq-status-open) .test-hq-status-grid,#t-hq .test-shell.hq-status-open .test-hq-status-grid{top:24px!important;z-index:40!important}
+#t-hq .test-shell.hq-status-open .test-hq-status-grid,#t-hq .test-shell.hq-status-open .test-hq-status-card{pointer-events:auto!important}
+#t-hq .test-hq-status-card{background:#03121aee!important;box-shadow:0 8px 22px #000a!important}
+@media(max-width:520px){#t-hq .hq-upcoming-toggle{left:7px!important;right:48px!important;top:2px!important;height:20px!important;min-height:20px!important}#t-hq .test-shell .test-viewport,#t-hq .test-shell:not(.hq-status-open) .test-viewport,#t-hq .test-shell.hq-status-open .test-viewport{top:22px!important}#t-hq .test-shell:not(.hq-status-open) .test-hq-status-grid,#t-hq .test-shell.hq-status-open .test-hq-status-grid{top:22px!important}}
+</style>
+
 <script id="bhq-1-0-54-hq-status-toggle">
 (function(){
  var shell=document.querySelector('#t-hq .test-shell');
  var grid=document.getElementById('testHqStatusGrid');
  if(!shell||!grid||document.getElementById('hqUpcomingToggle'))return;
  var btn=document.createElement('button');btn.type='button';btn.id='hqUpcomingToggle';btn.className='hq-upcoming-toggle';
- btn.setAttribute('aria-expanded','false');btn.setAttribute('aria-controls','testHqStatusGrid');btn.setAttribute('aria-label','Show or hide HQ timers and active crew');
- btn.innerHTML='<span class="hq-upcoming-arrow" aria-hidden="true">⌄</span>';
+ btn.setAttribute('aria-expanded','false');btn.setAttribute('aria-controls','testHqStatusGrid');
+ btn.setAttribute('aria-label','Show HQ timers and active crew');btn.innerHTML='<span class="hq-upcoming-arrow" aria-hidden="true">⌄</span>';
  grid.parentNode.insertBefore(btn,grid);
  btn.addEventListener('click',function(){
   var open=!shell.classList.contains('hq-status-open');
@@ -5440,622 +5516,5 @@ show('hq');checkUpdateNotice();checkSystemGiftDelivery();setInterval(tick,1000);
 })();
 </script>
 
-
-<style id="bhq-1-0-55-hq-floating-status-overlay">
-/* UPCOMING sits immediately below the resource strip; the drawer floats above the HQ scene. */
-#t-hq .hq-upcoming-toggle{
- top:78px!important;left:10px!important;right:54px!important;height:12px!important;min-height:12px!important;justify-content:center!important;
- padding:0!important;border-radius:0!important;border-left:0!important;border-right:0!important;
- font-size:7px!important;letter-spacing:0!important;z-index:40!important;box-shadow:none!important;background:transparent!important;border-color:#347b8d!important;
- background:linear-gradient(90deg,rgba(4,18,25,.96),rgba(7,31,40,.94))!important;
-}
-#t-hq .test-hq-status-grid{
- top:98px!important;left:10px!important;right:54px!important;z-index:35!important;
- max-height:0!important;opacity:0!important;visibility:hidden!important;overflow:hidden!important;
- transform:translateY(-7px)!important;pointer-events:none!important;
- transition:max-height .28s ease,opacity .2s ease,transform .28s ease,visibility .2s!important;
-}
-#t-hq .test-hq-status-grid .test-hq-status-card{pointer-events:auto!important}
-#t-hq .test-shell.hq-status-open .test-hq-status-grid{
- top:98px!important;max-height:148px!important;opacity:1!important;visibility:visible!important;
- transform:translateY(0)!important;overflow:visible!important;pointer-events:auto!important;
-}
-#t-hq .test-shell.hq-status-open .hq-upcoming-arrow{transform:rotate(180deg)!important}
-/* Keep the building viewport at its original coordinates in both drawer states. */
-#t-hq .test-shell:not(.hq-status-open) .test-viewport,
-#t-hq .test-shell.hq-status-open .test-viewport{top:91px!important;transition:none!important}
-@media(max-width:520px){
- #t-hq .hq-upcoming-toggle{top:72px!important;left:7px!important;right:48px!important;height:12px!important;min-height:12px!important}
- #t-hq .test-hq-status-grid{top:92px!important;left:7px!important;right:48px!important}
- #t-hq .test-shell.hq-status-open .test-hq-status-grid{top:92px!important;max-height:142px!important}
- #t-hq .test-shell:not(.hq-status-open) .test-viewport,
- #t-hq .test-shell.hq-status-open .test-viewport{top:83px!important;transition:none!important}
-}
-@media(prefers-reduced-motion:reduce){#t-hq .test-hq-status-grid{transition:none!important}}
-</style>
-
-
-<!-- BACKDOOR HQ 1.0.63 — RESOURCE NAVIGATION & RANKING STABILITY -->
-<style id="bhq-1-0-63-resource-status">
-/* The old separate UPCOMING strip is removed; STATUS lives in the HQ resource row. */
-#t-hq #hqUpcomingToggle{display:none!important}
-#gameShell .top.bhq-hq-resource-view #chips{display:flex!important;align-items:center!important;flex-wrap:wrap!important;gap:6px!important}
-#gameShell .top.bhq-hq-resource-view #chips #hqStatusNav{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:6px!important;min-height:30px!important;padding:4px 10px!important;margin:0 0 0 auto!important;border:1px solid #39ff88!important;border-radius:5px!important;background:linear-gradient(135deg,#06170d,#10351d)!important;color:#baffce!important;font:900 9px/1 system-ui,sans-serif!important;letter-spacing:1.2px!important;box-shadow:0 0 10px #39ff8830,inset 0 0 8px #39ff8818!important;cursor:pointer!important;white-space:nowrap!important}
-#gameShell .top.bhq-hq-resource-view #chips #hqStatusNav:before{content:"◈";font-size:12px;color:#67ff9a;text-shadow:0 0 7px #39ff88}
-#gameShell .top.bhq-hq-resource-view #chips #hqStatusNav[aria-expanded="true"]{background:linear-gradient(135deg,#0b2a16,#18552d)!important;box-shadow:0 0 14px #39ff8860!important}
-#t-hq .test-shell.hq-status-open .test-hq-status-grid{z-index:80!important}
-@media(max-width:520px){#gameShell .top.bhq-hq-resource-view #chips #hqStatusNav{min-height:27px!important;padding:4px 7px!important;font-size:8px!important}}
-</style>
-<script id="bhq-1-0-63-resource-status-script">
-(function(){
- 'use strict';
- function integrate(){
-  var btn=document.getElementById('hqUpcomingToggle');
-  var chips=document.getElementById('chips');
-  if(!btn||!chips)return false;
-  btn.id='hqStatusNav';btn.textContent='STATUS';btn.setAttribute('aria-label','Show or hide HQ timers and active crew');
-  chips.appendChild(btn);
-  return true;
- }
- if(!integrate()){
-  var tries=0,wait=setInterval(function(){if(integrate()||++tries>40)clearInterval(wait)},100);
- }
- var top=document.querySelector('#gameShell .top');
- function sync(t){if(top)top.classList.toggle('bhq-hq-resource-view',t==='hq')}
- if(typeof window.show==='function'&&!window.show.__bhqResource631){
-  var old=window.show;var wrapped=function(t){var out=old.apply(this,arguments);sync(t);return out};wrapped.__bhqResource631=true;window.show=wrapped;
- }
- sync(typeof tab==='string'?tab:'hq');
-})();
-</script>
-<script id="bhq-1-0-63-release">
-(function(){
- window.BHQ_UPDATE_VERSION='1.0.63';
- if(typeof BHQ_UPDATE_VERSION!=='undefined')BHQ_UPDATE_VERSION='1.0.63';
- if(Array.isArray(window.BHQ_UPDATE_RELEASES)){
-  window.BHQ_UPDATE_RELEASES=window.BHQ_UPDATE_RELEASES.filter(function(r){return r&&r.version!=='1.0.63'});
-  window.BHQ_UPDATE_RELEASES.unshift({version:'1.0.63',date:'18 NOV 2026',title:'RESOURCE NAVIGATION // STATUS INTEGRATION & RANKING STABILITY',tag:'HQ-ONLY RESOURCE STRIP · INTEGRATED STATUS · STEADIER RANKINGS',items:[
-   'Restricted the resource banner to the HQ area. It is hidden throughout Missions, Competitions and other non-HQ sections; the Alliance banner is left unchanged.',
-   'Removed the separate UPCOMING bar and integrated the STATUS control into the HQ resource navigation at the top. The existing timers and active crew panel still open as a floating overlay.',
-   'Strengthened ranking render stability so a ranking-signature error cannot trigger a forced rebuild on every one-second game tick. Player and alliance rankings retain their displayed rows unless their tracked data changes.'
-  ]});
- }
-})();
-</script>
-
-
-
-<!-- BACKDOOR HQ 1.0.64 — GLOBAL & ALLIANCE RANKING FLICKER FIX -->
-<style id="bhq-1-0-64-ranking-stability">
-/* Ranking boards are information displays, not animated feeds. Repeated one-second
-   game renders must never restart podium shine, entrance fades or row transitions. */
-#rpodium,#alpodium,#rlist,#alist,#amem.ally-rank-feed{animation:none!important;transition:none!important}
-#rpodium .rank-podium-card,#alpodium .rank-podium-card,
-#rpodium .rank-podium-card:before,#alpodium .rank-podium-card:before,
-#rpodium .podium-crown,#alpodium .podium-crown,
-#rlist .rk,#alist .rk,#amem.ally-rank-feed .rk{
- animation:none!important;transition:none!important;scroll-behavior:auto!important
-}
-#rpodium .rank-podium-card:before,#alpodium .rank-podium-card:before{display:none!important}
-</style>
-<script id="bhq-1-0-64-ranking-stability-script">
-(function(){
- 'use strict';
- /* Global alliance leaderboard is rendered by a separate function from Players.
-    Cache its actual displayed data independently so the one-second game tick does
-    not replace its podium/list DOM when the ranking has not changed. */
- var originalAllianceRank=renderAlRank;
- var lastAllianceRankSignature=null;
- renderAlRank=function(){
-  var sig;
-  try{
-   var rows=allyList().filter(function(a){return a.me||a.m.length}).map(function(a){
-    return [a.k,a.n,a.m.slice(),Math.round(a.pw),a.hq,a.kl];
-   });
-   sig=JSON.stringify([rows,ralb,window.BHQ_USERNAME||'You']);
-  }catch(e){sig='__alliance_rank_signature_error__'}
-  if(sig===lastAllianceRankSignature)return;
-  lastAllianceRankSignature=sig;
-  return originalAllianceRank.apply(this,arguments);
- };
- /* Ensure the in-Alliance member ranking also remains visually still between changes. */
- var style=document.createElement('style');
- style.textContent='#allyTown .ally-rank-feed .rk,#allyTown .ally-rank-feed .rk *{animation:none!important;transition:none!important}';
- document.head.appendChild(style);
- /* Consolidated release note: update the existing login notice and Update Log. */
- window.BHQ_UPDATE_VERSION='1.0.64';
- if(typeof BHQ_UPDATE_VERSION!=='undefined')BHQ_UPDATE_VERSION='1.0.64';
- if(Array.isArray(window.BHQ_UPDATE_RELEASES)){
-  window.BHQ_UPDATE_RELEASES=window.BHQ_UPDATE_RELEASES.filter(function(x){return x&&x.version!=='1.0.64'});
-  window.BHQ_UPDATE_RELEASES.unshift({version:'1.0.64',date:'18 NOV 2026',title:'GLOBAL RANKINGS // COMPLETE FLICKER CONTROL',tag:'PLAYER LEADERBOARD · ALLIANCE LEADERBOARD · ALLIANCE HQ MEMBERS',items:[
-   'Extended ranking stability protection to the separate Global Alliance leaderboard, which uses its own rendering function and was not fully covered by the earlier Players leaderboard fix.',
-   'Disabled repeating podium shine, entrance and row animations across Global Player Rankings, Global Alliance Rankings and Alliance HQ member rankings so the one-second game refresh cannot restart visual effects.',
-   'Global Alliance ranking rows and podium now retain their existing DOM until the displayed alliance data or selected expanded profile actually changes.',
-   'Kept live ranking values, sorting, alliance membership, player data, account saves and all gameplay systems intact.'
-  ]});
- }
-})();
-</script>
-
 </body>
 </html>
-
-<style id="bhq-1-0-57-green-slim-building-test">
-/* Version 1.0.57: restore the original green HQ palette and test a slim vertical building silhouette only. */
-#t-hq .test-building.normal-building{filter:drop-shadow(0 0 7px #39ff8860) drop-shadow(0 6px 5px #000c)!important}
-#t-hq .test-building.normal-building .structure{
- width:var(--arch-width,38px)!important;height:var(--arch-height,76px)!important;min-width:0!important;
- border:1px solid #39ff88!important;border-radius:3px 3px 1px 1px!important;
- background:linear-gradient(90deg,#071b10 0%,#123c25 28%,#07180e 52%,#17452a 76%,#06140b 100%)!important;
- box-shadow:inset 0 0 10px #39ff8830,0 0 8px #39ff8860,0 5px 0 #020805,0 7px 0 #10351e!important;
- transform:perspective(700px) rotateX(4deg)!important;
-}
-#t-hq .test-building.normal-building .structure:before{
- left:16%!important;right:16%!important;top:-13px!important;height:14px!important;
- border:1px solid #64ff9e!important;border-radius:2px 2px 0 0!important;
- background:linear-gradient(180deg,#b8ffd0,#25894c 55%,#092314)!important;box-shadow:0 0 9px #39ff8870!important;
-}
-#t-hq .test-building.normal-building .structure:after{
- left:20%!important;right:20%!important;bottom:7%!important;height:68%!important;
- border:0!important;background:repeating-linear-gradient(180deg,transparent 0 8px,#39ff88 9px 10px,transparent 11px 14px)!important;
- opacity:.75!important;box-shadow:0 0 7px #39ff8860!important;
-}
-#t-hq .test-building.normal-building .arch-side{top:7%!important;bottom:4%!important;width:7%!important;border:0!important;background:linear-gradient(180deg,#9affba,#0b4a25 45%,#06160c)!important;box-shadow:0 0 5px #39ff8870!important}
-#t-hq .test-building.normal-building .arch-side-a{left:-8%!important;clip-path:polygon(40% 0,100% 5%,100% 95%,0 100%,0 5%)!important}
-#t-hq .test-building.normal-building .arch-side-b{right:-8%!important;clip-path:polygon(0 5%,60% 0,100% 5%,100% 100%,0 95%)!important}
-#t-hq .test-building.normal-building .arch-spire{top:-28%!important;width:2px!important;height:32%!important;border:0!important;background:#9bffbb!important;box-shadow:0 0 6px #39ff88!important}
-#t-hq .test-building.normal-building .arch-core{top:20%!important;width:15%!important;height:58%!important;border:1px solid #8cffad!important;background:linear-gradient(180deg,#caffd8aa,#168344aa 48%,#061d0d)!important;box-shadow:0 0 8px #39ff88,inset 0 0 5px #fff5!important}
-#t-hq .test-building.normal-building .arch-energy{left:18%!important;right:18%!important;top:10%!important;height:2px!important;background:#70ffa1!important;box-shadow:0 0 6px #39ff88!important}
-#t-hq .test-building.normal-building .glyph{font-size:clamp(15px,3vw,21px)!important;color:#d9ffe5!important;text-shadow:0 0 6px #39ff88,0 0 12px #39ff88!important}
-#t-hq .test-building.normal-building .building-name{color:#baffd0!important;font-size:8px!important;letter-spacing:.35px!important;text-shadow:0 0 6px #39ff88,0 2px 4px #000!important}
-#t-hq .test-building.normal-building .building-level{color:#75e99b!important;font-size:7px!important}
-#t-hq .test-building.normal-building.upgrade-ready .structure{border-color:#b5ffca!important;animation:testBuildingReady 1.8s ease-in-out infinite!important}
-#t-hq .test-building.normal-building.complete .structure{border-color:#8dffb5!important;box-shadow:inset 0 0 12px #62ff9633,0 0 9px #45ff85aa,0 5px 0 #020805!important}
-/* A tall, narrow central HQ rather than a wide block. */
-#t-hq .test-building.hq-redesign{filter:drop-shadow(0 0 12px #39ff8870) drop-shadow(0 8px 7px #000e)!important}
-#t-hq .test-building.hq-redesign .structure{
- width:clamp(66px,13vw,88px)!important;height:clamp(112px,22vw,146px)!important;
- border:1px solid #6bffa0!important;border-radius:5px 5px 2px 2px!important;
- background:linear-gradient(90deg,#06170c,#17452a 25%,#082012 52%,#1a5030 78%,#06170c)!important;
- box-shadow:inset 0 0 18px #75ffa033,0 0 13px #39ff8870,0 7px 0 #020805,0 10px 0 #10351e!important;
- transform:perspective(800px) rotateX(4deg)!important;
-}
-#t-hq .test-building.hq-redesign .structure:before{left:19%!important;right:19%!important;top:-12px!important;height:13px!important;border:1px solid #9bffb7!important;background:linear-gradient(180deg,#d5ffe0,#25894c 55%,#092314)!important;box-shadow:0 0 12px #39ff8880!important}
-#t-hq .test-building.hq-redesign .structure:after{left:28%!important;right:28%!important;bottom:9%!important;height:70%!important;border:1px solid #7cffaa!important;background:repeating-linear-gradient(180deg,#092314 0 9px,#65ff9a 10px 11px,#0b2b18 12px 16px)!important;box-shadow:0 0 10px #39ff88!important}
-#t-hq .test-building.hq-redesign .hq-arch-platform{border-color:#39ff88!important;box-shadow:0 0 12px #39ff8870!important}
-#t-hq .test-building.hq-redesign .hq-arch-wing{background:linear-gradient(180deg,#8dffb2,#174b2b 45%,#06170c)!important;border-color:#39ff88!important;box-shadow:0 0 8px #39ff8870!important}
-#t-hq .test-building.hq-redesign .hq-arch-core{background:linear-gradient(180deg,#d4ffe0,#2b9b54 40%,#06190c)!important;border-color:#9bffb7!important;box-shadow:0 0 14px #39ff88,inset 0 0 9px #fff5!important}
-#t-hq .test-building.hq-redesign .hq-arch-crown,#t-hq .test-building.hq-redesign .hq-arch-spire,#t-hq .test-building.hq-redesign .hq-arch-beacon{background:#8dffb2!important;border-color:#baffca!important;box-shadow:0 0 10px #39ff88!important}
-#t-hq .test-building.hq-redesign .hq-arch-ring{border-color:#65ff9a!important;box-shadow:0 0 10px #39ff88!important}
-#t-hq .test-building.hq-redesign .building-name{color:#caffd8!important;text-shadow:0 0 8px #39ff88,0 2px 4px #000!important}
-#t-hq .test-building.hq-redesign .building-level{color:#85f9a8!important}
-@media(max-width:520px){
- #t-hq .test-building.normal-building .structure{width:clamp(30px,8vw,38px)!important;height:64px!important}
- #t-hq .test-building.hq-redesign .structure{width:clamp(58px,17vw,72px)!important;height:108px!important}
- #t-hq .test-building.normal-building .building-name{max-width:72px!important;font-size:7px!important}
-}
-</style>
-<script id="bhq-1-0-57-release">
-(function(){
- window.BHQ_UPDATE_VERSION='1.0.57';
- if(Array.isArray(window.BHQ_UPDATE_RELEASES)){
-  window.BHQ_UPDATE_RELEASES=window.BHQ_UPDATE_RELEASES.filter(function(x){return x&&x.version!=='1.0.57'});
-  window.BHQ_UPDATE_RELEASES.unshift({version:'1.0.57',date:'18 NOV 2026',title:'HQ ARCHITECTURE // SLIM GREEN BUILDING TEST',tag:'ORIGINAL GREEN HQ LOOK · NARROW VERTICAL BUILDINGS',items:['Restored the green HQ colour direction and limited the visual test to the central HQ and surrounding standard buildings.','Reworked the building silhouettes into taller, narrower structures with slim footprints, vertical illuminated details and restrained green energy accents. The resource bar, surrounding HQ interface, navigation, building positions and game systems remain unchanged.','Retained the compact floating timer and crew drawer beneath the resource bar; it overlays the HQ scene without shifting the buildings.']});
- }
-})();
-</script>
-
-<style id="bhq-1-0-58-fresh-green-hq-test">
-/* Fresh HQ-area visual test: remove the old building models, retain their live clickable containers and game logic. */
-#t-hq .test-world{
- background-color:#030b07!important;
- background-image:radial-gradient(ellipse at 50% 48%,rgba(16,83,43,.34),transparent 58%),linear-gradient(rgba(47,255,123,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(47,255,123,.045) 1px,transparent 1px)!important;
- background-size:auto,28px 28px,28px 28px!important;
-}
-#t-hq .hq-cyber-ground,#t-hq .test-data-links{display:none!important}
-#t-hq .test-building{min-width:0!important;filter:drop-shadow(0 0 10px rgba(37,255,112,.2))!important}
-#t-hq .test-building .structure{display:none!important}
-#t-hq .test-building.normal-building{
- width:112px!important;height:132px!important;display:flex!important;align-items:center!important;justify-content:flex-end!important;
- padding:0 2px 2px!important;box-sizing:border-box!important;z-index:3!important;
-}
-#t-hq .test-building.normal-building:before{
- content:"";position:absolute;left:50%;bottom:31px;transform:translateX(-50%);
- width:34px;height:75px;box-sizing:border-box;
- clip-path:polygon(50% 0,82% 9%,100% 100%,0 100%,18% 9%);
- border:1px solid #5cff91;
- background:linear-gradient(90deg,#06170c 0%,#164b28 22%,#092012 46%,#1d6035 52%,#07180d 78%,#06140a 100%);
- box-shadow:0 0 12px #39ff8855,inset 0 0 12px #39ff8833;
-}
-#t-hq .test-building.normal-building:after{
- content:"";position:absolute;left:50%;bottom:31px;transform:translateX(-50%);
- width:48px;height:91px;box-sizing:border-box;
- background:linear-gradient(90deg,transparent 0 15%,#42ff8730 16% 18%,transparent 19% 47%,#8affb5 48% 51%,transparent 52% 82%,#42ff8730 83% 85%,transparent 86%),linear-gradient(180deg,transparent 0 12%,#8affb5 13% 14%,transparent 15% 31%,#39ff8866 32% 33%,transparent 34% 52%,#39ff8866 53% 54%,transparent 55% 73%,#39ff8866 74% 75%,transparent 76%);
- clip-path:polygon(50% 0,54% 20%,76% 24%,100% 100%,0 100%,24% 24%,46% 20%);
- filter:drop-shadow(0 0 5px #39ff88);
-}
-#t-hq .test-building.normal-building .building-name{position:relative;z-index:5;margin:0!important;max-width:110px!important;white-space:nowrap!important;text-align:center!important;color:#c6ffd7!important;font-size:8px!important;letter-spacing:.45px!important;text-shadow:0 0 7px #39ff88,0 2px 5px #000!important}
-#t-hq .test-building.normal-building .building-level{position:relative;z-index:5;margin:2px 0 0!important;color:#79f9a0!important;font-size:7px!important}
-#t-hq .test-building.normal-building .test-building-tap{z-index:8!important;inset:0!important}
-/* Central command tower: a new silhouette, not a recolour of the old HQ model. */
-#t-hq .test-building.hq-redesign{
- width:170px!important;height:190px!important;display:flex!important;align-items:center!important;justify-content:flex-end!important;
- padding:0 2px 2px!important;box-sizing:border-box!important;z-index:5!important;
- filter:drop-shadow(0 0 16px #39ff8877)!important;
-}
-#t-hq .test-building.hq-redesign:before{
- content:"";position:absolute;left:50%;bottom:34px;transform:translateX(-50%);
- width:70px;height:126px;box-sizing:border-box;
- clip-path:polygon(50% 0,66% 8%,66% 17%,83% 22%,100% 100%,0 100%,17% 22%,34% 17%,34% 8%);
- border:1px solid #8dffb2;
- background:linear-gradient(90deg,#04140a 0%,#0d3219 18%,#1d6534 31%,#092012 45%,#2a8045 50%,#071b0d 58%,#1b5b30 78%,#04140a 100%);
- box-shadow:0 0 18px #39ff8877,inset 0 0 18px #6cff9d55;
-}
-#t-hq .test-building.hq-redesign:after{
- content:"";position:absolute;left:50%;bottom:34px;transform:translateX(-50%);
- width:94px;height:156px;
- background:linear-gradient(90deg,transparent 0 17%,#39ff8870 18% 19%,transparent 20% 46%,#c0ffd2 49% 51%,transparent 52% 80%,#39ff8870 81% 82%,transparent 83%),linear-gradient(180deg,transparent 0 10%,#aaffc3 11% 12%,transparent 13% 28%,#39ff88 29% 30%,transparent 31% 47%,#39ff88 48% 49%,transparent 50% 66%,#39ff88 67% 68%,transparent 69% 84%,#39ff88 85% 86%,transparent 87%);
- clip-path:polygon(50% 0,54% 16%,72% 21%,100% 100%,0 100%,28% 21%,46% 16%);
- filter:drop-shadow(0 0 7px #39ff88);
-}
-#t-hq .test-building.hq-redesign .building-name{position:relative;z-index:7;margin:0!important;color:#d4ffe0!important;font-size:10px!important;letter-spacing:1px!important;text-shadow:0 0 9px #39ff88,0 2px 5px #000!important}
-#t-hq .test-building.hq-redesign .building-level{position:relative;z-index:7;margin:3px 0 0!important;color:#8dffad!important;font-size:8px!important}
-#t-hq .test-building.hq-redesign .test-hq-tap{z-index:9!important;inset:0!important}
-/* Move the thin status/incoming handle closer to the resource strip; it remains an overlay. */
-#t-hq .hq-upcoming-toggle{top:68px!important;border-color:#39ff88!important;background:linear-gradient(90deg,rgba(3,18,8,.96),rgba(7,38,17,.96))!important}
-#t-hq .test-hq-status-grid{top:86px!important}
-#t-hq .test-shell.hq-status-open .test-hq-status-grid{top:86px!important}
-#t-hq .test-shell:not(.hq-status-open) .test-viewport,
-#t-hq .test-shell.hq-status-open .test-viewport{top:82px!important}
-@media(max-width:520px){
- #t-hq .hq-upcoming-toggle{top:63px!important}
- #t-hq .test-hq-status-grid,#t-hq .test-shell.hq-status-open .test-hq-status-grid{top:81px!important}
- #t-hq .test-shell:not(.hq-status-open) .test-viewport,#t-hq .test-shell.hq-status-open .test-viewport{top:77px!important}
- #t-hq .test-building.normal-building{width:94px!important;height:116px!important}
- #t-hq .test-building.normal-building:before{width:29px;height:65px;bottom:29px}
- #t-hq .test-building.normal-building:after{width:42px;height:79px;bottom:29px}
- #t-hq .test-building.hq-redesign{width:140px!important;height:164px!important}
- #t-hq .test-building.hq-redesign:before{width:60px;height:108px;bottom:32px}
- #t-hq .test-building.hq-redesign:after{width:82px;height:132px;bottom:32px}
- #t-hq .test-building.normal-building .building-name{font-size:7px!important;max-width:92px!important}
-}
-</style>
-<script id="bhq-1-0-58-release">
-(function(){
- window.BHQ_UPDATE_VERSION='1.0.58';
- if(Array.isArray(window.BHQ_UPDATE_RELEASES)){
-  window.BHQ_UPDATE_RELEASES=window.BHQ_UPDATE_RELEASES.filter(function(x){return x&&x.version!=='1.0.58'});
-  window.BHQ_UPDATE_RELEASES.unshift({version:'1.0.58',date:'18 NOV 2026',title:'HQ ARCHITECTURE // FRESH GREEN TEST',tag:'CLEAN SLATE · FIVE NEW BUILDING SILHOUETTES',items:[
-   'Removed the previous HQ building artwork and started the physical design again, while retaining the existing live building containers, upgrade interactions, timers, HQ controls and game functionality.',
-   'Added one new central HQ tower and four surrounding green cyber-architecture test buildings, positioned at the top-left, top-right, bottom-left and bottom-right of the HQ area.',
-   'Moved the thin HQ status handle closer to the resource strip and raised the HQ scene to reduce the gap. The timer and crew drawer remains a floating overlay.'
-  ]});
- }
-})();
-</script>
-
-<style id="bhq-1-0-59-expand-hq-stage">
-/* Expand the HQ stage upward while preserving the five-building formation. */
-#t-hq .test-shell .test-viewport{top:70px!important;bottom:60px!important}
-#t-hq .test-building-layer{transform:translateY(-12px)!important;transform-origin:top center!important}
-@media(max-width:520px){
- #t-hq .test-shell .test-viewport{top:65px!important;bottom:57px!important}
- #t-hq .test-building-layer{transform:translateY(-12px)!important;transform-origin:top center!important}
-}
-</style>
-<script id="bhq-1-0-59-release">
-(function(){
- window.BHQ_UPDATE_VERSION='1.0.59';
- if(Array.isArray(window.BHQ_UPDATE_RELEASES)){
-  window.BHQ_UPDATE_RELEASES=window.BHQ_UPDATE_RELEASES.filter(function(x){return x&&x.version!=='1.0.59'});
-  window.BHQ_UPDATE_RELEASES.unshift({version:'1.0.59',date:'18 NOV 2026',title:'HQ STAGE // EXPANDED UPPER SPACE',tag:'FIVE-BUILDING FORMATION PRESERVED',items:[
-   'Raised the entire HQ building formation together so the top of the HQ stage sits closer beneath the UPCOMING line. The central HQ and four corner buildings keep their top-left, top-right, bottom-left and bottom-right arrangement.',
-   'Moved the top edge of the HQ viewport upward to reclaim the unused dark strip and give the building area more usable height, without individually repositioning or redesigning any building.',
-   'Kept the existing building interactions, timers, upgrades, HQ controls and floating timer/crew drawer behaviour.'
-  ]});
- }
-})();
-</script>
-
-<style id="bhq-1-0-60-cyberpunk-architecture-progression">
-/* Backdoor HQ cyberpunk architecture test: distinct silhouettes at each visual milestone. */
-#t-hq .test-world{
- background-color:#020906!important;
- background-image:radial-gradient(ellipse at 50% 46%,rgba(12,112,54,.34),transparent 48%),radial-gradient(ellipse at 50% 100%,rgba(0,255,110,.12),transparent 58%),linear-gradient(rgba(45,255,125,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(45,255,125,.055) 1px,transparent 1px)!important;
- background-size:auto,auto,26px 26px,26px 26px!important;
-}
-#t-hq .test-building.normal-building{filter:drop-shadow(0 0 10px rgba(33,255,115,.28)) drop-shadow(0 10px 9px #000e)!important}
-#t-hq .test-building.normal-building:before{
- bottom:30px!important;width:40px!important;height:82px!important;clip-path:polygon(50% 0,78% 8%,78% 19%,100% 30%,88% 100%,12% 100%,0 30%,22% 19%,22% 8%)!important;
- border:1px solid #79ffad!important;background:linear-gradient(90deg,#031109 0%,#0b351b 18%,#1c7540 31%,#062012 47%,#1d6c39 67%,#04130a 100%)!important;
- box-shadow:0 0 18px #39ff8877,inset 0 0 17px #39ff8855!important;
-}
-#t-hq .test-building.normal-building:after{
- bottom:30px!important;width:58px!important;height:98px!important;
- background:linear-gradient(90deg,transparent 0 13%,#54ff9b 14% 15%,transparent 16% 43%,#c4ffda 48% 51%,transparent 52% 84%,#54ff9b 85% 86%,transparent 87%),linear-gradient(180deg,transparent 0 9%,#baffce 10% 11%,transparent 12% 27%,#49ff8c 28% 30%,transparent 31% 48%,#49ff8c 49% 51%,transparent 52% 69%,#49ff8c 70% 72%,transparent 73% 89%,#49ff8c 90% 91%,transparent 92%)!important;
- clip-path:polygon(50% 0,57% 15%,78% 22%,100% 100%,0 100%,22% 22%,43% 15%)!important;filter:drop-shadow(0 0 7px #39ff88)!important;
-}
-/* Four building identities: botnet spire, data siphon fins, crypto-mining stacks, exploit-lab crown. */
-#t-hq [data-test-building="node"]:before{width:32px!important;height:88px!important;clip-path:polygon(50% 0,64% 16%,64% 25%,100% 100%,0 100%,36% 25%,36% 16%)!important}
-#t-hq [data-test-building="node"]:after{width:48px!important;height:104px!important;clip-path:polygon(50% 0,53% 100%,47% 100%,47% 0,0 100%,16% 25%,84% 25%,100% 100%)!important}
-#t-hq [data-test-building="siphon"]:before{width:46px!important;height:75px!important;clip-path:polygon(15% 0,85% 0,100% 100%,0 100%)!important}
-#t-hq [data-test-building="siphon"]:after{width:66px!important;height:94px!important;clip-path:polygon(10% 0,28% 8%,28% 100%,0 100%,0 20%,100% 20%,100% 100%,72% 100%,72% 8%,90% 0)!important}
-#t-hq [data-test-building="miner"]:before{width:54px!important;height:67px!important;clip-path:polygon(0 10%,28% 10%,28% 0,72% 0,72% 10%,100% 10%,100% 100%,0 100%)!important}
-#t-hq [data-test-building="miner"]:after{width:68px!important;height:84px!important;clip-path:polygon(0 0,30% 0,30% 100%,0 100%,0 0,35% 0,65% 0,65% 100%,35% 100%,35% 0,70% 0,100% 0,100% 100%,70% 100%)!important}
-#t-hq [data-test-building="lab"]:before{width:44px!important;height:84px!important;clip-path:polygon(50% 0,100% 28%,86% 100%,14% 100%,0 28%)!important}
-#t-hq [data-test-building="lab"]:after{width:62px!important;height:101px!important;clip-path:polygon(50% 0,58% 18%,100% 36%,88% 100%,12% 100%,0 36%,42% 18%)!important}
-/* Milestone tiers 1, 5, 10, 15, 20, 25 and 30: each tier changes the actual outline. */
-#t-hq .test-building.normal-building[data-visual-stage="1"]:before{height:66px!important;filter:saturate(.78)}
-#t-hq .test-building.normal-building[data-visual-stage="2"]:before{height:74px!important;box-shadow:0 0 16px #39ff88,inset 0 0 16px #39ff8877!important}
-#t-hq .test-building.normal-building[data-visual-stage="3"]:before{height:82px!important;clip-path:polygon(50% 0,82% 12%,82% 24%,100% 100%,0 100%,18% 24%,18% 12%)!important}
-#t-hq .test-building.normal-building[data-visual-stage="4"]:before{height:89px!important;width:48px!important;clip-path:polygon(50% 0,72% 12%,72% 22%,100% 100%,0 100%,28% 22%,28% 12%)!important}
-#t-hq .test-building.normal-building[data-visual-stage="5"]:before{height:96px!important;width:50px!important;clip-path:polygon(50% 0,100% 24%,84% 100%,16% 100%,0 24%)!important}
-#t-hq .test-building.normal-building[data-visual-stage="6"]:before{height:102px!important;width:54px!important;clip-path:polygon(50% 0,70% 9%,70% 20%,100% 35%,88% 100%,12% 100%,0 35%,30% 20%,30% 9%)!important}
-#t-hq .test-building.normal-building[data-visual-stage="7"]:before{height:110px!important;width:58px!important;clip-path:polygon(50% 0,62% 8%,62% 18%,100% 30%,88% 100%,12% 100%,0 30%,38% 18%,38% 8%)!important;box-shadow:0 0 25px #39ff88,inset 0 0 22px #b4ffd077!important}
-#t-hq .test-building.normal-building[data-visual-stage="7"]:after{height:122px!important;width:76px!important}
-/* HQ has four major silhouettes: levels 1, 10, 20 and 30. */
-#t-hq .test-building.hq-redesign{filter:drop-shadow(0 0 22px #39ff8899) drop-shadow(0 13px 10px #000f)!important}
-#t-hq .test-building.hq-redesign:before{
- width:78px!important;height:132px!important;bottom:34px!important;clip-path:polygon(50% 0,61% 9%,61% 17%,79% 23%,79% 34%,100% 100%,0 100%,21% 34%,21% 23%,39% 17%,39% 9%)!important;
- border:1px solid #a4ffc1!important;background:linear-gradient(90deg,#020b06,#0b3219 18%,#1b7540 32%,#061b0d 48%,#2a8a4e 53%,#06170b 72%,#020b06)!important;box-shadow:0 0 24px #39ff88,inset 0 0 24px #39ff8866!important;
-}
-#t-hq .test-building.hq-redesign:after{
- width:112px!important;height:162px!important;bottom:34px!important;clip-path:polygon(50% 0,56% 15%,72% 20%,100% 100%,0 100%,28% 20%,44% 15%)!important;
- background:linear-gradient(90deg,transparent 0 18%,#39ff88 19% 20%,transparent 21% 46%,#d1ffe0 49% 51%,transparent 52% 79%,#39ff88 80% 81%,transparent 82%),linear-gradient(180deg,transparent 0 8%,#c5ffd8 9% 10%,transparent 11% 23%,#39ff88 24% 25%,transparent 26% 41%,#39ff88 42% 43%,transparent 44% 59%,#39ff88 60% 61%,transparent 62% 77%,#39ff88 78% 79%,transparent 80%)!important;
-}
-#t-hq .test-building.hq-tier-1:before{height:112px!important;width:66px!important}
-#t-hq .test-building.hq-tier-2:before{height:142px!important;width:78px!important;clip-path:polygon(50% 0,72% 13%,72% 25%,100% 100%,0 100%,28% 25%,28% 13%)!important}
-#t-hq .test-building.hq-tier-2:after{height:172px!important;width:124px!important}
-#t-hq .test-building.hq-tier-3:before{height:154px!important;width:88px!important;clip-path:polygon(50% 0,62% 8%,62% 20%,86% 26%,100% 100%,0 100%,14% 26%,38% 20%,38% 8%)!important;box-shadow:0 0 28px #39ff88,inset 0 0 26px #b4ffd088!important}
-#t-hq .test-building.hq-tier-3:after{height:188px!important;width:140px!important}
-#t-hq .test-building.hq-tier-4:before{height:168px!important;width:96px!important;clip-path:polygon(50% 0,60% 8%,60% 18%,78% 23%,78% 34%,100% 100%,0 100%,22% 34%,22% 23%,40% 18%,40% 8%)!important;box-shadow:0 0 34px #39ff88,inset 0 0 32px #c7ffda99!important}
-#t-hq .test-building.hq-tier-4:after{height:204px!important;width:158px!important}
-#t-hq .test-building.hq-tier-4 .building-name{color:#e1ffea!important;text-shadow:0 0 14px #39ff88,0 2px 5px #000!important;letter-spacing:1.5px!important}
-@media(max-width:520px){
- #t-hq .test-building.normal-building:before{bottom:29px!important;width:32px!important;height:65px!important}
- #t-hq .test-building.normal-building:after{bottom:29px!important;width:46px!important;height:78px!important}
- #t-hq .test-building.normal-building[data-visual-stage="5"]:before{height:77px!important}
- #t-hq .test-building.normal-building[data-visual-stage="6"]:before{height:82px!important}
- #t-hq .test-building.normal-building[data-visual-stage="7"]:before{height:88px!important}
- #t-hq .test-building.hq-redesign:before{width:58px!important;height:108px!important;bottom:32px!important}
- #t-hq .test-building.hq-redesign:after{width:84px!important;height:132px!important;bottom:32px!important}
- #t-hq .test-building.hq-tier-2:before{height:118px!important}
- #t-hq .test-building.hq-tier-3:before{height:128px!important}
- #t-hq .test-building.hq-tier-4:before{height:140px!important}
-}
-</style>
-<script id="bhq-1-0-61-release">
-(function(){
- window.BHQ_UPDATE_VERSION='1.0.61';
- if(Array.isArray(window.BHQ_UPDATE_RELEASES)){
-  window.BHQ_UPDATE_RELEASES=window.BHQ_UPDATE_RELEASES.filter(function(x){return x&&x.version!=='1.0.61'});
-  window.BHQ_UPDATE_RELEASES.unshift({version:'1.0.61',date:'18 NOV 2026',title:'RANKING STABILITY // HQ CYBERPUNK UPDATE',tag:'STEADIER PLAYER & ALLIANCE LEADERBOARDS',items:[
-   'Reworked the fresh HQ scene toward a cohesive high-tech cyberpunk headquarters, with deep-black city ground, emerald energy lighting and distinct architectural identities for the Botnet Node, Data Siphon, Crypto Miner and Exploit Lab.',
-   'Added seven surrounding-building visual milestones at levels 1, 5, 10, 15, 20, 25 and 30. Each milestone changes the building silhouette and architectural profile, not just its colour.',
-   'Added four central HQ architectural eras at HQ levels 1, 10, 20 and 30, with increasingly tall and elaborate command-tower silhouettes.',
-   'Kept the existing building positions, live click targets, upgrade logic, timers, resource systems, HQ controls and floating status drawer intact.',
-   'Fixed the right-hand Ranked area repeatedly rebuilding its player and alliance leaderboards on every one-second game tick. Ranking panels now redraw only when a displayed ranking value or selected ranking view changes, preventing the constant flicker while keeping genuine ranking changes visible.'
-  ]});
- }
-})();
-</script>
-
-
-<!-- BACKDOOR HQ 1.0.62 — CONSOLIDATED TEST BUILD -->
-<style id="bhq-1-0-62-consolidated">
-/* Resource chips are visible on HQ only; Alliance banner and Alliance UI remain untouched. */
-#gameShell .top:not(.bhq-hq-resource-view) #chips{display:none!important}
-#gameShell .top.bhq-hq-resource-view #chips{display:grid!important;position:relative!important;padding-bottom:7px!important;margin-bottom:4px!important;border-bottom:1px solid #39ff8877!important;box-shadow:0 5px 12px -8px #39ff88aa!important}
-#gameShell .top.bhq-hq-resource-view #chips:after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:4px;pointer-events:none;background:linear-gradient(90deg,transparent,#39ff8866 18%,#aaffc5 50%,#39ff8866 82%,transparent);filter:blur(2px)}
-/* Slim UPCOMING control reads as the illuminated continuation of the resource platform. */
-#t-hq .hq-upcoming-toggle{top:6px!important;left:10px!important;right:54px!important;height:13px!important;min-height:13px!important;padding:0 8px!important;border:0!important;border-bottom:1px solid #63ff98!important;border-radius:0!important;background:linear-gradient(90deg,#031008f5,#0b3b1cf5,#031008f5)!important;color:#aaffc1!important;font:900 7px/1 system-ui,sans-serif!important;letter-spacing:1.2px!important;box-shadow:inset 0 -3px 7px #39ff8828,0 3px 9px #39ff8825!important}
-#t-hq .hq-upcoming-toggle:before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,transparent,#c6ffd7aa,transparent)}
-#t-hq .hq-upcoming-toggle .hq-upcoming-arrow{color:#9dffb8!important;text-shadow:0 0 8px #39ff88!important}
-#t-hq .test-building-layer{transform:translateY(-9px)!important}
-@media(max-width:520px){#t-hq .hq-upcoming-toggle{left:7px!important;right:48px!important;top:5px!important;height:13px!important;min-height:13px!important}#t-hq .test-building-layer{transform:translateY(-7px)!important}}
-
-/* Replace abstract spikes with recognisable, slim architectural buildings. */
-#t-hq .test-building.normal-building{filter:drop-shadow(0 7px 7px #000e) drop-shadow(0 0 8px #39ff8830)!important}
-#t-hq .test-building.normal-building .structure{width:var(--arch-w,54px)!important;height:var(--arch-h,58px)!important;border:1px solid #53e985!important;border-radius:3px 3px 1px 1px!important;background:repeating-linear-gradient(180deg,transparent 0 9px,#8cffaa8c 9px 10px,transparent 10px 14px),repeating-linear-gradient(90deg,transparent 0 8px,#5cff8a66 8px 9px,transparent 9px 13px),linear-gradient(90deg,#020b05 0%,#0c3218 22%,#06170c 50%,#14532a 76%,#020b05 100%)!important;box-shadow:inset 0 0 16px #39ff8838,0 0 10px #39ff8844,0 5px 0 #020704,0 9px 13px #000!important;transform:none!important;overflow:visible!important}
-#t-hq .test-building.normal-building .structure:before{left:8%!important;right:8%!important;top:-7px!important;height:7px!important;border:1px solid #8dffad!important;border-bottom:0!important;border-radius:2px 2px 0 0!important;background:linear-gradient(180deg,#baffcc,#15552a)!important;box-shadow:0 0 8px #39ff8866!important}
-#t-hq .test-building.normal-building .structure:after{left:12%!important;right:12%!important;bottom:7%!important;height:16%!important;border:1px solid #7bffa0!important;background:repeating-linear-gradient(90deg,#041008 0 6px,#83ffa0 7px 8px,#08200f 9px 12px)!important;box-shadow:0 0 8px #39ff8877!important}
-#t-hq .test-building.normal-building .arch-side{top:17%!important;bottom:13%!important;width:9%!important;clip-path:none!important;border:1px solid #4dce75!important;background:linear-gradient(180deg,#3b9b57,#071b0d)!important;box-shadow:0 0 6px #39ff8844!important}
-#t-hq .test-building.normal-building .arch-side-a{left:-10%!important}#t-hq .test-building.normal-building .arch-side-b{right:-10%!important}
-#t-hq .test-building.normal-building .arch-spire{display:none!important}
-#t-hq .test-building.normal-building .arch-core{top:21%!important;width:17%!important;height:56%!important;border:1px solid #c6ffd5!important;background:linear-gradient(180deg,#baffcc,#249c4c 48%,#06200d)!important;box-shadow:0 0 9px #39ff88!important}
-#t-hq .test-building.normal-building .arch-energy{top:12%!important;height:2px!important;background:#baffca!important;box-shadow:0 0 9px #39ff88!important}
-#t-hq .test-building.normal-building .glyph{font-size:16px!important;color:#d8ffe2!important;text-shadow:0 0 9px #39ff88!important}
-#t-hq .test-building.normal-building .building-name{color:#caffd7!important;font-size:8px!important;letter-spacing:.25px!important;text-shadow:0 0 7px #39ff88,0 2px 4px #000!important}
-#t-hq .test-building.normal-building .building-level{color:#83f5a4!important;font-size:7px!important}
-/* Individual facility profiles: research, comms, manufacturing and defence. */
-#t-hq .cyber-node .structure{--arch-w:54px!important;border-top:5px solid #9bffb6!important}
-#t-hq .cyber-siphon .structure{--arch-w:43px!important;border-left:4px double #79ff9e!important;border-right:4px double #79ff9e!important}
-#t-hq .cyber-miner .structure{--arch-w:62px!important;border-top:3px solid #9bffb6!important}
-#t-hq .cyber-lab .structure{--arch-w:48px!important;border-top:2px solid #9bffb6!important}
-#t-hq .cyber-stage-1 .structure{--arch-h:48px!important}
-#t-hq .cyber-stage-2 .structure{--arch-h:53px!important;--arch-w:52px!important}
-#t-hq .cyber-stage-3 .structure{--arch-h:58px!important;border-top-width:4px!important}
-#t-hq .cyber-stage-4 .structure{--arch-h:63px!important;--arch-w:58px!important}
-#t-hq .cyber-stage-5 .structure{--arch-h:68px!important;border-left-width:3px!important;border-right-width:3px!important}
-#t-hq .cyber-stage-6 .structure{--arch-h:73px!important;--arch-w:62px!important;border-top-width:6px!important}
-#t-hq .cyber-stage-7 .structure{--arch-h:78px!important;--arch-w:66px!important;border-top:8px solid #baffcc!important;box-shadow:inset 0 0 20px #39ff8866,0 0 16px #39ff8877,0 5px 0 #020704!important}
-#t-hq .test-building.normal-building.complete .structure{border-color:#8dffb8!important;box-shadow:inset 0 0 18px #39ff8844,0 0 12px #39ff88aa,0 5px 0 #020704!important}
-
-/* Central HQ command tower. Four actual architectural eras at levels 1 / 10 / 20 / 30. */
-#t-hq .test-building.hq-redesign{filter:drop-shadow(0 9px 12px #000f) drop-shadow(0 0 14px #39ff8866)!important}
-#t-hq .test-building.hq-redesign .structure{width:var(--hq-width)!important;height:var(--hq-rise)!important;overflow:visible!important;border:2px solid #83ffa5!important;border-radius:4px 4px 1px 1px!important;background:repeating-linear-gradient(180deg,transparent 0 11px,#baffceaa 11px 12px,transparent 12px 18px),repeating-linear-gradient(90deg,transparent 0 9px,#6aff9666 9px 10px,transparent 10px 15px),linear-gradient(90deg,#020a04,#0c3b1b 24%,#04170a 50%,#14532a 76%,#020a04)!important;box-shadow:inset 0 0 24px #39ff8855,0 0 18px #39ff8877,0 7px 0 #020704,0 12px 20px #000!important;transform:none!important}
-#t-hq .test-building.hq-redesign .structure:before{top:-9px!important;left:12%!important;right:12%!important;height:9px!important;border:1px solid #baffcc!important;border-bottom:0!important;border-radius:3px 3px 0 0!important;background:linear-gradient(180deg,#d8ffe2,#17632f)!important}
-#t-hq .test-building.hq-redesign .structure:after{left:14%!important;right:14%!important;bottom:7%!important;height:17%!important;border:1px solid #aaffc1!important;background:repeating-linear-gradient(90deg,#031008 0 7px,#baffce 8px 9px,#08200f 10px 14px)!important;box-shadow:0 0 12px #39ff88!important}
-#t-hq .test-building.hq-redesign .hq-arch-platform{border-color:#62ff91!important;background:linear-gradient(90deg,#03150a,#39ff88,#03150a)!important;box-shadow:0 0 14px #39ff88,0 0 28px #39ff8866!important}
-#t-hq .test-building.hq-redesign .hq-arch-wing{clip-path:none!important;border:1px solid #54d97c!important;border-radius:2px!important;background:linear-gradient(180deg,#176331,#06190b)!important;box-shadow:0 0 10px #39ff8855!important}
-#t-hq .test-building.hq-redesign .hq-arch-core{clip-path:none!important;border-color:#d1ffdc!important;border-radius:2px!important;background:linear-gradient(90deg,#0b3c1a,#baffca 48%,#0b3c1a)!important;box-shadow:0 0 18px #39ff88,inset 0 0 12px #fff!important}
-#t-hq .test-building.hq-redesign .hq-arch-crown{clip-path:none!important;border:2px solid #baffcc!important;border-radius:3px!important;background:linear-gradient(180deg,#caffd7,#17632f)!important;box-shadow:0 0 14px #39ff88!important}
-#t-hq .test-building.hq-redesign .hq-arch-ring{border-color:#74ff9b!important;box-shadow:0 0 12px #39ff88,inset 0 0 8px #39ff8877!important}
-#t-hq .test-building.hq-redesign .hq-arch-spire{background:linear-gradient(90deg,#0b451d,#d5ffe0,#0b451d)!important;box-shadow:0 0 12px #39ff88!important}
-#t-hq .test-building.hq-redesign .hq-arch-beacon{background:#aaffc2!important;box-shadow:0 0 12px #fff,0 0 25px #39ff88!important}
-#t-hq .test-building.hq-redesign .hq-arch-window{background:repeating-linear-gradient(0deg,#eaffef 0 4px,#39ff88 5px 8px,transparent 9px 12px)!important;filter:drop-shadow(0 0 5px #39ff88)!important}
-#t-hq .test-building.hq-redesign .glyph{display:none!important}
-#t-hq .test-building.hq-redesign .building-name{color:#d8ffe2!important;text-shadow:0 0 10px #39ff88,0 2px 5px #000!important}
-#t-hq .test-building.hq-redesign .building-level{color:#9affb5!important}
-#t-hq .test-building.hq-tier-2 .structure{border-left-width:5px!important;border-right-width:5px!important}
-#t-hq .test-building.hq-tier-3 .structure{border-left-width:7px!important;border-right-width:7px!important}
-#t-hq .test-building.hq-tier-4 .structure{border-width:3px!important;border-top:7px solid #caffd7!important;box-shadow:inset 0 0 28px #39ff8877,0 0 24px #39ff88,0 7px 0 #020704!important}
-
-/* All standard and Prestige building navigation controls sit together left of Exit. */
-#testBuildingModal .test-building-dialog{padding-top:58px!important}
-#testBuildingModal .test-building-dialog .test-bnav{position:absolute!important;top:9px!important;left:auto!important;right:59px!important;width:auto!important;height:38px!important;display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:5px!important;margin:0!important;z-index:36!important}
-#testBuildingModal .test-building-dialog .test-bnav-btn{position:static!important;flex:0 0 32px!important;width:32px!important;height:32px!important}
-#testBuildingModal .test-building-dialog .test-bnav-pos{position:static!important;display:block!important;min-width:38px!important;width:auto!important;text-align:center!important;font-size:9px!important;white-space:nowrap!important}
-#testBuildingModal .test-building-dialog .test-hq-close{right:9px!important;z-index:40!important}
-/* Infiltrate navigation is moved into the dialog header by the script below. */
-#testInsideModal .test-inside-dialog{padding-top:58px!important}
-#testInsideModal .test-inside-dialog>.ti-nav{position:absolute!important;top:9px!important;left:auto!important;right:59px!important;display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:5px!important;width:auto!important;margin:0!important;padding:0!important;background:transparent!important;z-index:36!important}
-#testInsideModal .test-inside-dialog>.ti-nav .test-bnav-btn{position:static!important;flex:0 0 32px!important;width:32px!important;height:32px!important}
-#testInsideModal .test-inside-dialog>.ti-nav .test-bnav-pos{position:static!important;min-width:38px!important;text-align:center!important}
-#testInsideModal .test-inside-dialog .test-hq-close{right:9px!important;z-index:40!important}
-@media(max-width:390px){#testBuildingModal .test-building-dialog .test-bnav,#testInsideModal .test-inside-dialog>.ti-nav{right:53px!important;gap:3px!important}#testBuildingModal .test-building-dialog .test-bnav-btn,#testInsideModal .test-inside-dialog>.ti-nav .test-bnav-btn{flex-basis:28px!important;width:28px!important;height:30px!important}#testBuildingModal .test-building-dialog .test-bnav-pos,#testInsideModal .test-inside-dialog>.ti-nav .test-bnav-pos{min-width:31px!important;font-size:8px!important}}
-</style>
-<script id="bhq-1-0-62-consolidated-script">
-(function(){
- 'use strict';
- var top=document.querySelector('#gameShell .top');
- function setResourceTab(t){if(top)top.classList.toggle('bhq-hq-resource-view',t==='hq')}
- setResourceTab(typeof tab==='string'?tab:'hq');
- if(typeof window.show==='function'&&!window.show.__bhqResourceWrapped){
-  var originalShow=window.show;
-  var wrappedShow=function(t){var result=originalShow.apply(this,arguments);setResourceTab(t);return result};
-  wrappedShow.__bhqResourceWrapped=true;window.show=wrappedShow;
- }
- /* Move the Infiltrate navigation into the fixed modal header, retaining the existing click handler. */
- var insideDialog=document.querySelector('#testInsideModal .test-inside-dialog');
- var insideBody=document.getElementById('testInsideBody');
- if(insideDialog&&insideBody){
-  var moveInsideNav=function(){var nav=insideBody.querySelector('.ti-nav');if(nav&&nav.parentNode!==insideDialog)insideDialog.insertBefore(nav,insideBody)};
-  var observer=new MutationObserver(moveInsideNav);observer.observe(insideBody,{childList:true});moveInsideNav();
-  insideDialog.addEventListener('click',function(ev){var b=ev.target.closest('.ti-nav [data-ti]');if(!b||b.disabled)return;var a=b.getAttribute('data-ti');if(a==='prev'){ev.preventDefault();ev.stopPropagation();testInsideStep(-1)}else if(a==='next'){ev.preventDefault();ev.stopPropagation();testInsideStep(1)}});
- }
- /* Release note feeds the existing once-per-version login announcement and the in-game Update Log. */
- window.BHQ_UPDATE_VERSION='1.0.62';
- if(typeof BHQ_UPDATE_VERSION!=='undefined')BHQ_UPDATE_VERSION='1.0.62';
- if(Array.isArray(window.BHQ_UPDATE_RELEASES)){
-  window.BHQ_UPDATE_RELEASES=window.BHQ_UPDATE_RELEASES.filter(function(r){return r&&r.version!=='1.0.62'});
-  window.BHQ_UPDATE_RELEASES.unshift({version:'1.0.62',date:'18 NOV 2026',title:'HQ CAMPUS // ARCHITECTURE & INTERFACE CONSOLIDATION',tag:'HQ-ONLY RESOURCES · BUILDING EVOLUTION · STABLE RANKINGS',items:[
-   'The resource strip now appears only in the HQ area. The Alliance area and its existing banner remain unchanged; resource balances, production, upgrades and timers continue to use the existing game systems.',
-   'Integrated the green UPCOMING handle visually with the HQ resource platform edge. Its existing timer and crew panels continue to open as a floating overlay without moving the buildings.',
-   'Refined the five-building HQ campus in a slimmer emerald cyberpunk architectural direction, with rectangular structures, floor bands, entrances, roof decks and distinct facility profiles. The four surrounding buildings remain in their existing corner positions around the central HQ.',
-   'Surrounding buildings use seven architectural progression milestones at levels 1, 5, 10, 15, 20, 25 and 30. The central HQ changes architectural era at levels 1, 10, 20 and 30.',
-   'Moved the previous/next arrows and page indicator into one aligned header row immediately to the left of Exit in standard and Prestige building windows, and in the Infiltrate view.',
-   'Kept player and alliance rankings from rebuilding every second when their displayed ranking data has not changed.',
-   'Restored the login What’s New announcement and retained the in-game Update Log and Development Roadmap so players can revisit release notes.'
-  ]});
- }
-})();
-</script>
-
-
-<!-- BACKDOOR HQ 1.0.65 — HQ BUILDING STATUS & BONUS DISPLAY CONSOLIDATION -->
-<style id="bhq-1-0-65-hq-building-status">
-/* Remove the former STATUS control and its floating drawer. The resource strip
-   itself remains HQ-only; other sections keep their own navigation and displays. */
-#gameShell .top #chips #hqStatusNav,
-#gameShell .top #chips #hqUpcomingToggle,
-#t-hq #hqUpcomingToggle,
-#t-hq #testHqStatusGrid{display:none!important}
-#gameShell .top:not(.bhq-hq-resource-view) #chips{display:none!important}
-#gameShell .top.bhq-hq-resource-view #chips{display:grid!important}
-/* Small countdown directly below each HQ/facility name. */
-#t-hq .building-live-timer{display:block!important;margin:2px auto 1px!important;padding:2px 5px!important;max-width:100%!important;border:1px solid #56d98a!important;border-radius:4px!important;background:#03170cdd!important;color:#baffcc!important;font:900 8px/1.15 ui-monospace,monospace!important;letter-spacing:.35px!important;text-shadow:0 0 6px #39ff88!important;white-space:nowrap!important;box-shadow:0 0 7px #39ff8833!important}
-#t-hq .test-building.hq .building-live-timer{border-color:#e8c35e!important;color:#ffe9a5!important;text-shadow:0 0 7px #d6a63b!important;background:#211605e8!important}
-/* HQ batch-upgrade availability is gold, distinct from normal green upgrades. */
-#t-hq .test-building.hq.bulk-ready .structure{animation:bhqGoldBatchPulse 1.1s ease-in-out infinite!important;border-color:#ffe08a!important;box-shadow:inset 0 0 26px #ffe6a566,0 0 18px #ffc83d,0 0 38px #ffc83d99,0 8px 0 #281605,0 12px 20px #000!important}
-#t-hq .test-building.hq.bulk-ready .building-name,#t-hq .test-building.hq.bulk-ready .building-level{color:#fff0ad!important;text-shadow:0 0 10px #ffc83d,0 0 20px #ffb52c!important}
-@keyframes bhqGoldBatchPulse{0%,100%{filter:brightness(1);box-shadow:inset 0 0 20px #ffe6a544,0 0 12px #ffc83d99,0 0 24px #ffc83d55,0 8px 0 #281605,0 12px 20px #000}50%{filter:brightness(1.55);box-shadow:inset 0 0 30px #fff3bbaa,0 0 24px #ffe08a,0 0 48px #ffc83d,0 8px 0 #281605,0 12px 20px #000}}
-/* An upgrade that can be finished immediately with Influence flashes white. */
-#t-hq .test-building.instant-finish-ready .structure{animation:bhqWhiteFinishPulse 1.05s ease-in-out infinite!important;border-color:#fff!important;box-shadow:inset 0 0 20px #fff9,0 0 12px #fff,0 0 28px #fff9,0 5px 0 #08120e!important}
-#t-hq .test-building.instant-finish-ready .building-name,#t-hq .test-building.instant-finish-ready .building-level{color:#fff!important;text-shadow:0 0 8px #fff,0 0 16px #fff!important}
-@keyframes bhqWhiteFinishPulse{0%,100%{filter:brightness(1);box-shadow:inset 0 0 14px #fff6,0 0 8px #fff,0 0 18px #fff8,0 5px 0 #08120e}50%{filter:brightness(1.75);box-shadow:inset 0 0 26px #fff,0 0 18px #fff,0 0 38px #fff,0 5px 0 #08120e}}
-/* Compact active-bonus readout sits in the open space between the two lower facilities. */
-#t-hq .hq-active-bonus-dock{position:absolute!important;left:50%!important;top:77%!important;transform:translate(-50%,-50%)!important;width:min(34%,220px)!important;max-height:92px!important;overflow:hidden!important;z-index:3!important;pointer-events:none!important;padding:5px 7px!important;border:1px solid #39ff8877!important;border-radius:7px!important;background:linear-gradient(145deg,#03150deF,#061d12eF)!important;box-shadow:0 0 12px #39ff8828,inset 0 0 12px #39ff8812!important;color:#d8ffe4!important;text-align:center!important}
-#t-hq .hq-active-bonus-dock .bonus-dock-title{display:block!important;margin-bottom:3px!important;color:#aaffc2!important;font:900 7px/1.1 ui-monospace,monospace!important;letter-spacing:.8px!important}
-#t-hq .hq-active-bonus-dock .bonus-dock-line{display:block!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;color:#e1ffeb!important;font:700 7px/1.35 ui-monospace,monospace!important}
-#t-hq .hq-active-bonus-dock .bonus-dock-empty{color:#8da99a!important;font:700 7px/1.3 ui-monospace,monospace!important}
-@media(max-width:520px){#t-hq .hq-active-bonus-dock{top:77%!important;width:min(38%,164px)!important;max-height:86px!important;padding:4px 5px!important}#t-hq .hq-active-bonus-dock .bonus-dock-title{font-size:6px!important}#t-hq .hq-active-bonus-dock .bonus-dock-line,#t-hq .hq-active-bonus-dock .bonus-dock-empty{font-size:6px!important}#t-hq .building-live-timer{font-size:7px!important;padding:2px 3px!important}}
-@media(prefers-reduced-motion:reduce){#t-hq .test-building.instant-finish-ready .structure,#t-hq .test-building.hq.bulk-ready .structure{animation:none!important}}
-</style>
-<script id="bhq-1-0-65-hq-building-status-script">
-(function(){
- 'use strict';
- /* The former status button is no longer needed: timers and bonuses now live on HQ. */
- function removeOldStatus(){
-  var b=document.getElementById('hqStatusNav');if(b)b.remove();
-  var old=document.getElementById('hqUpcomingToggle');if(old)old.remove();
-  var grid=document.getElementById('testHqStatusGrid');if(grid)grid.setAttribute('aria-hidden','true');
- }
- removeOldStatus();
- var oldShow=window.show;
- if(typeof oldShow==='function'&&!oldShow.__bhqNoStatusNav){
-  var wrapped=function(){var r=oldShow.apply(this,arguments);removeOldStatus();return r};
-  wrapped.__bhqNoStatusNav=true;window.show=wrapped;
- }
- function activeBonusLines(){
-  var list=S.pr>0?PB:B,lines=[],hqCrew=crewFor('hq')||[],hqBonus=hqCrew.length?crewBonus(hqCrew,4,'all'):0;
-  if(hqCrew.length&&hqBonus>0)lines.push('CENTRAL HQ  +'+(hqBonus*100).toFixed(1).replace(/\.0$/,'')+'% · '+hqCrew.length+' crew');
-  list.forEach(function(o){
-   var assigned=crewFor(o.id)||[],bonus=buildingCrewBonus(o);
-   if(assigned.length&&bonus>0)lines.push(o.name+'  +'+(bonus*100).toFixed(1).replace(/\.0$/,'')+'% · '+assigned.length+' crew');
-  });
-  return lines;
- }
- function decorateHq(){
-  removeOldStatus();
-  var layer=document.getElementById('testBuildingLayer');if(!layer||!window.S)return;
-  var list=S.pr>0?PB:B;
-  var nodes=Array.prototype.slice.call(layer.querySelectorAll('.test-building'));
-  nodes.forEach(function(node){
-   var isHq=node.classList.contains('hq'),key=isHq?'hq':node.getAttribute('data-test-building');
-   if(!key)return;
-   var name=node.querySelector('.building-name');if(!name)return;
-   var timer=node.querySelector('.building-live-timer'),u=S.up&&S.up[key];
-   if(u){
-    if(!timer){timer=document.createElement('small');timer.className='building-live-timer';name.insertAdjacentElement('afterend',timer)}
-    var remain=Math.max(0,(Number(u.end)-Date.now())/1000);
-    timer.textContent='⏱ '+fmtT(remain);
-    timer.setAttribute('aria-label','Upgrade time remaining '+fmtT(remain));
-    var target=isHq?(Number(S.hq)||1)+(Number(S.pr)||0)+1:lvl(list.filter(function(x){return x.id===key})[0])+1;
-    var finishCost=finCost(key,target,remain),canFinish=Number(S.r.in||0)>=finishCost;
-    node.classList.toggle('instant-finish-ready',!!canFinish);
-   }else{
-    if(timer)timer.remove();
-    node.classList.remove('instant-finish-ready');
-   }
-  });
-  var dock=layer.querySelector('.hq-active-bonus-dock');
-  if(!dock){dock=document.createElement('div');dock.className='hq-active-bonus-dock';dock.setAttribute('aria-label','Active crew and building bonuses');layer.appendChild(dock)}
-  if(S.pr>0){dock.hidden=true;return}
-  dock.hidden=false;
-  var lines=activeBonusLines();
-  dock.innerHTML='<b class="bonus-dock-title">ACTIVE CREW & BUILDING BONUSES</b>'+(lines.length?lines.slice(0,5).map(function(x){return '<span class="bonus-dock-line">'+x+'</span>'}).join(''):'<span class="bonus-dock-empty">No active building crew bonuses</span>');
- }
- var originalRender=window.renderTestArea;
- if(typeof originalRender==='function'&&!originalRender.__bhq1065){
-  var wrappedRender=function(){var r=originalRender.apply(this,arguments);decorateHq();return r};
-  wrappedRender.__bhq1065=true;window.renderTestArea=wrappedRender;
- }
- /* Countdown labels and instant-finish eligibility update independently of full game renders. */
- window.setInterval(function(){try{decorateHq()}catch(e){}},1000);
- /* Publish one consolidated version/release note for the existing login notice and Update Log. */
- window.BHQ_UPDATE_VERSION='1.0.65';
- if(typeof BHQ_UPDATE_VERSION!=='undefined')BHQ_UPDATE_VERSION='1.0.65';
- if(Array.isArray(window.BHQ_UPDATE_RELEASES)){
-  window.BHQ_UPDATE_RELEASES=window.BHQ_UPDATE_RELEASES.filter(function(r){return r&&r.version!=='1.0.65'});
-  window.BHQ_UPDATE_RELEASES.unshift({version:'1.0.65',date:'18 NOV 2026',title:'HQ COMMAND // BUILDING ALERTS & LIVE BONUS DISPLAY',tag:'GOLD HQ BATCH ALERT · WHITE INSTANT FINISH · LIVE BUILDING TIMERS',items:[
-   'Kept the personal passive-income resource strip visible only in the HQ area. It is hidden in Missions and every other non-HQ area; the existing Alliance resource display and resource calculations are preserved.',
-   'The central HQ flashes gold when Upgrade All is available, making the batch-upgrade state distinct from ordinary building upgrade readiness.',
-   'Any HQ facility currently upgrading flashes white when the player has enough Influence to finish that upgrade immediately. Normal upgrade-ready building indicators remain green.',
-   'Added a small live countdown directly beneath the name of the central HQ and each surrounding building while its upgrade is in progress. The countdown refreshes once per second and uses the existing upgrade and finish calculations.',
-   'Removed the STATUS button and its floating drawer. Active crew/building bonuses now appear in a compact panel between the two lower HQ buildings, showing only bonuses that are currently active.',
-   'Preserved existing upgrade actions, Influence costs, building progression, passive production, Alliance resources, account-specific saves, Supabase authentication, rankings and other gameplay systems.'
-  ]});
- }
-})();
-</script>
