@@ -3866,8 +3866,9 @@ function renderSettings(){
  });
 }
 function renderChiefProfile(){var h=$('chiefHqLevel'),sh=$('chiefStatHq'),pw=$('chiefStatPower'),ki=$('chiefStatKills'),cr=$('chiefStatCrew');if(h)h.textContent=S.hq;if(sh)sh.textContent=S.hq;if(pw)pw.textContent=fmt(power());if(ki)ki.textContent=fmt(S.kills||0);if(cr)cr.textContent=crewAvailableCount()+' / 7';var nm=$('chiefPlayerName');if(nm)nm.textContent=(window.backdoorPlayerName||'YOUR CHIEF').toString().slice(0,24);var pa=$('openProgressionArchive');if(pa)pa.onclick=function(){show('progression')};document.querySelectorAll('[data-chief-slot]').forEach(function(b){b.onclick=function(){document.querySelectorAll('[data-chief-slot]').forEach(function(x){x.classList.remove('active')});b.classList.add('active');var labels={helmet:'Neural Visor · head protection and signal focus.',chest:'Core Armour · personal defensive plating.',gloves:'Pulse Gloves · precision control and combat handling.',boots:'Vector Boots · mobility and movement systems.',weapon:'Data Blade · personal chief weapon slot.',accessory:'Signal Core · auxiliary chief enhancement module.'};$('chiefSlotInfo').textContent=labels[b.getAttribute('data-chief-slot')]+' Equipment upgrades can be connected here in a later pass.'}});document.querySelectorAll('[data-chief-go]').forEach(function(b){b.onclick=function(){show(b.getAttribute('data-chief-go'))}})}
-var BHQ_UPDATE_VERSION='1.0.54';
+var BHQ_UPDATE_VERSION='1.0.55';
 var BHQ_UPDATE_RELEASES=[
+ {version:'1.0.55',date:'18 NOV 2026',title:'HQ STATUS DRAWER // FLOATING OVERLAY',tag:'RESOURCE-BAR HANDLE · BUILDINGS STAY IN PLACE',items:['Moved the slim UPCOMING handle to sit directly beneath the resource bar, with a small arrow to show when the timer and crew panels are tucked away or open.','The timer and crew panels now slide down as a floating overlay above the HQ buildings. Opening or closing the drawer no longer moves, resizes or repositions the HQ viewport or any buildings.']},
  {version:'1.0.54',date:'18 NOV 2026',title:'HQ STATUS DRAWER // RETRACTABLE UPCOMING STRIP',tag:'COMPACT COLLAPSIBLE TIMER & CREW PANELS',items:['Added a slim UPCOMING handle with a small arrow at the top of the HQ scene. The timer and active crew panels now retract by default and slide down when tapped, then close again when tapped a second time.','The HQ buildings move up into the reclaimed space while the drawer is closed; opening it shifts the HQ scene down to reveal the existing timer and crew panels without changing their horizontal three-card scrolling behaviour.']},
  {version:'1.0.53',date:'18 NOV 2026',title:'HQ COMMAND STRIP // COMPACT HORIZONTAL STATUS CARDS',tag:'THREE BUILDINGS VISIBLE · SWIPEABLE TIMERS & CREW',items:['Reduced the HQ & Building Timers and Active Crew Members panels and arranged them as compact full-width strips above the HQ scene. Each strip shows three building cards at a time and scrolls horizontally to reveal the remaining cards.','Timer cards now show only the building name, remaining countdown and exact Influence finish cost. Tapping an eligible timer still uses the existing instant-finish action. Crew cards retain each building’s active crew count and production bonus.','Moved the HQ scene upward to reclaim screen space while preserving the existing building positions, upgrade-ready flashes, HQ Upgrade All control, account saves and game progression.']},
  {version:'1.0.52',date:'18 NOV 2026',title:'COMMAND NETWORK // HQ LAYOUT, PRESTIGE & COLLECTION ALERTS',tag:'SIX-BUILDING STATUS PANELS · TARGETED NOTIFICATIONS · REBALANCED ALLIANCE REWARDS',items:['Expanded the HQ timer and Active Crew Members panels so all six Prestige facilities and their active timers or crew assignments can be viewed without being cut off.','Added a staged Alliance Event alert from the main Alliance shortcut to the Alliance HQ header and Events tab. The hourly alert clears only when Events is opened.','Added individual Daily, Weekly, Monthly and Alliance competition tab badges. Visiting one tab clears only that tab’s unseen alert; the main Competitions badge continues to count every unclaimed reward. Ready rewards are marked with a blue COLLECT action.','Grouped Prestige gear requirements by hero, showing the current Prestige gear tier and remaining upgrades in a dedicated scroll area. The panel is updated in place to prevent flicker.','Corrected Prestige resource handling: stored resources reset only on the confirmed HQ30 → Prestige 1 transition. Later Prestige advances do not reset resources. The reset warning appears only for the first transition.','Reordered all building and HQ upgrade costs to HAVE, NEED and SHORT with distinct colours, and moved the building next arrow clear of the close button.','Increased the Alliance Competition reward track to approximately five times its previous base rewards while retaining HQ, Prestige and alliance-size scaling.','Kept existing account-specific saves, Supabase authentication, crew assignments, timers, progression and game systems intact.']},
@@ -5409,8 +5410,8 @@ show('hq');checkUpdateNotice();checkSystemGiftDelivery();setInterval(tick,1000);
  var grid=document.getElementById('testHqStatusGrid');
  if(!shell||!grid||document.getElementById('hqUpcomingToggle'))return;
  var btn=document.createElement('button');btn.type='button';btn.id='hqUpcomingToggle';btn.className='hq-upcoming-toggle';
- btn.setAttribute('aria-expanded','false');btn.setAttribute('aria-controls','testHqStatusGrid');
- btn.innerHTML='<span>UPCOMING</span><span class="hq-upcoming-arrow" aria-hidden="true">⌄</span>';
+ btn.setAttribute('aria-expanded','false');btn.setAttribute('aria-controls','testHqStatusGrid');btn.setAttribute('aria-label','Show or hide HQ timers and active crew');
+ btn.innerHTML='<span class="hq-upcoming-arrow" aria-hidden="true">⌄</span>';
  grid.parentNode.insertBefore(btn,grid);
  btn.addEventListener('click',function(){
   var open=!shell.classList.contains('hq-status-open');
@@ -5418,6 +5419,132 @@ show('hq');checkUpdateNotice();checkSystemGiftDelivery();setInterval(tick,1000);
   btn.setAttribute('aria-expanded',open?'true':'false');
  });
 })();
+</script>
+
+
+<style id="bhq-1-0-55-hq-floating-status-overlay">
+/* UPCOMING sits immediately below the resource strip; the drawer floats above the HQ scene. */
+#t-hq .hq-upcoming-toggle{
+ top:78px!important;left:10px!important;right:54px!important;height:12px!important;min-height:12px!important;justify-content:center!important;
+ padding:0!important;border-radius:0!important;border-left:0!important;border-right:0!important;
+ font-size:7px!important;letter-spacing:0!important;z-index:40!important;box-shadow:none!important;background:transparent!important;border-color:#347b8d!important;
+ background:linear-gradient(90deg,rgba(4,18,25,.96),rgba(7,31,40,.94))!important;
+}
+#t-hq .test-hq-status-grid{
+ top:98px!important;left:10px!important;right:54px!important;z-index:35!important;
+ max-height:0!important;opacity:0!important;visibility:hidden!important;overflow:hidden!important;
+ transform:translateY(-7px)!important;pointer-events:none!important;
+ transition:max-height .28s ease,opacity .2s ease,transform .28s ease,visibility .2s!important;
+}
+#t-hq .test-hq-status-grid .test-hq-status-card{pointer-events:auto!important}
+#t-hq .test-shell.hq-status-open .test-hq-status-grid{
+ top:98px!important;max-height:148px!important;opacity:1!important;visibility:visible!important;
+ transform:translateY(0)!important;overflow:visible!important;pointer-events:auto!important;
+}
+#t-hq .test-shell.hq-status-open .hq-upcoming-arrow{transform:rotate(180deg)!important}
+/* Keep the building viewport at its original coordinates in both drawer states. */
+#t-hq .test-shell:not(.hq-status-open) .test-viewport,
+#t-hq .test-shell.hq-status-open .test-viewport{top:91px!important;transition:none!important}
+@media(max-width:520px){
+ #t-hq .hq-upcoming-toggle{top:72px!important;left:7px!important;right:48px!important;height:12px!important;min-height:12px!important}
+ #t-hq .test-hq-status-grid{top:92px!important;left:7px!important;right:48px!important}
+ #t-hq .test-shell.hq-status-open .test-hq-status-grid{top:92px!important;max-height:142px!important}
+ #t-hq .test-shell:not(.hq-status-open) .test-viewport,
+ #t-hq .test-shell.hq-status-open .test-viewport{top:83px!important;transition:none!important}
+}
+@media(prefers-reduced-motion:reduce){#t-hq .test-hq-status-grid{transition:none!important}}
+</style>
+
+
+<style id="bhq-1-0-56-neon-hq-command-ui">
+/* NEON COMMAND UI — HQ-only HUD and campus skin; gameplay markup and handlers remain intact. */
+body:has(#t-hq:not([hidden])){--bg:#020914;--panel:#071a2a;--line:#176080;--text:#e4f8ff;--dim:#83b5ca;--ok:#35e8ff;--lv:#75dfff;--pi:#c59aff;background:#020914!important}
+body:has(#t-hq:not([hidden])) main#gameShell{width:100%!important;max-width:none!important;margin:0!important;padding:0 0 0!important;background:#020914!important}
+body:has(#t-hq:not([hidden])) .top{width:100%!important;max-width:none!important;left:0!important;transform:none!important;padding:env(safe-area-inset-top,0px) 12px 8px!important;background:linear-gradient(180deg,#061a2bfa,#04111ff5 78%,#030d18f0)!important;border-bottom:1px solid #25cfff66!important;box-shadow:0 8px 26px #000c,0 1px 15px #12cfff22!important;backdrop-filter:blur(14px)!important}
+body:has(#t-hq:not([hidden])) .hdr{height:43px!important;margin:0 0 7px!important;border:1px solid #248eb8!important;border-radius:13px!important;background:linear-gradient(105deg,#0b2942,#061421 48%,#102b42)!important;box-shadow:inset 0 0 20px #26dfff19,0 0 18px #10bfff22!important;overflow:visible!important}
+body:has(#t-hq:not([hidden])) .hdr:before{content:"";position:absolute;left:9px;top:7px;width:27px;height:27px;border:1px solid #70eaff;border-radius:50%;background:radial-gradient(circle at 50% 40%,#dffcff 0 5%,#28bde9 8% 18%,#082d49 43%,#020b16 70%);box-shadow:0 0 12px #27dfff99,inset 0 0 9px #7ceeff66}
+body:has(#t-hq:not([hidden])) .hdr h1{padding-left:46px!important;line-height:41px!important;font-size:clamp(13px,2.8vw,18px)!important;letter-spacing:1.8px!important;color:#e6fbff!important;text-shadow:0 0 7px #42dfff,0 0 18px #138edb!important}
+body:has(#t-hq:not([hidden])) .hdr h1 .cur{color:#5beaff!important}
+body:has(#t-hq:not([hidden])) #hbtns{right:6px!important;top:6px!important;bottom:6px!important;gap:5px!important}
+body:has(#t-hq:not([hidden])) #hbtns button{width:31px!important;min-width:31px!important;height:29px!important;justify-content:center!important;padding:0!important;border:1px solid #237da5!important;border-radius:8px!important;background:linear-gradient(145deg,#12344e,#071625)!important;color:#dffaff!important;box-shadow:inset 0 0 9px #39dfff20,0 2px 7px #0009!important;font-size:15px!important}
+body:has(#t-hq:not([hidden])) #hbtns button.on{border-color:#8af4ff!important;color:#fff!important;box-shadow:0 0 11px #26dfff77,inset 0 0 10px #26dfff33!important}
+body:has(#t-hq:not([hidden])) .chips{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:5px!important;margin:0!important}
+body:has(#t-hq:not([hidden])) .chip{position:relative;min-width:0!important;padding:5px 5px 4px!important;border:1px solid #1d6e91!important;border-radius:9px!important;background:linear-gradient(145deg,#10314aee,#061421f5)!important;box-shadow:inset 0 0 11px #31dfff15,0 3px 8px #0008!important;overflow:hidden!important}
+body:has(#t-hq:not([hidden])) .chip:after{content:"";position:absolute;left:5px;right:5px;bottom:2px;height:1px;background:linear-gradient(90deg,transparent,#42dfff88,transparent)}
+body:has(#t-hq:not([hidden])) .chip .cl{gap:4px!important;min-width:0}
+body:has(#t-hq:not([hidden])) .chip svg{width:15px!important;height:15px!important;filter:drop-shadow(0 0 4px currentColor)}
+body:has(#t-hq:not([hidden])) .chip b{font-size:clamp(9px,2.3vw,12px)!important;color:#f0fcff!important;text-shadow:0 0 7px #40cfff77!important}
+body:has(#t-hq:not([hidden])) .chip small{font-size:7px!important;letter-spacing:.55px!important;color:#82d5ef!important;margin-top:2px!important}
+body:has(#t-hq:not([hidden])) #tabs{display:flex!important;gap:4px!important;margin-top:6px!important;overflow-x:auto!important;scrollbar-width:none!important}
+body:has(#t-hq:not([hidden])) #tabs::-webkit-scrollbar{display:none}
+body:has(#t-hq:not([hidden])) #tabs button{flex:1 0 auto!important;min-height:26px!important;padding:4px 8px!important;border:1px solid #1c6686!important;border-radius:7px!important;background:linear-gradient(145deg,#0d2a40,#061521)!important;color:#a9d8e8!important;font-size:8px!important;letter-spacing:.6px!important}
+body:has(#t-hq:not([hidden])) #tabs button.on{border-color:#5beaff!important;color:#f1fdff!important;background:linear-gradient(145deg,#155274,#09243a)!important;box-shadow:0 0 10px #21cfff44,inset 0 0 10px #35dfff22!important}
+body:has(#t-hq:not([hidden])) .top-spacer{height:var(--top-spacer-height,150px)!important}
+/* Full-width cinematic HQ campus. */
+#t-hq .test-shell{border:0!important;border-radius:0!important;background:radial-gradient(ellipse at 50% 42%,#0b3150 0,#06182b 48%,#020813 100%)!important;box-shadow:inset 0 0 70px #000e!important}
+#t-hq .test-viewport{left:0!important;right:0!important;bottom:0!important;background:radial-gradient(ellipse at 50% 42%,#12527a 0,#092842 36%,#041321 72%,#020813 100%)!important}
+#t-hq .test-world{background-color:#03101d!important;background-image:radial-gradient(ellipse at 50% 52%,#12618b44 0,transparent 58%),linear-gradient(90deg,#35dfff0d 1px,transparent 1px),linear-gradient(0deg,#35dfff0d 1px,transparent 1px)!important;background-size:100% 100%,34px 34px,34px 34px!important}
+#t-hq .test-world:before{background:radial-gradient(ellipse at 50% 50%,#12bfff2b,transparent 56%),radial-gradient(ellipse at 15% 85%,#0879a333,transparent 28%),radial-gradient(ellipse at 88% 18%,#0a6b9b2b,transparent 27%),linear-gradient(145deg,#020a14aa,transparent 45%,#020914cc)!important}
+#t-hq .test-world:after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(115deg,transparent 0 62px,#36dfff08 63px 64px,transparent 65px 124px),linear-gradient(180deg,transparent 72%,#02081388);}
+#t-hq .hq-cyber-ground{border:1px solid #29dfff55!important;border-radius:26px!important;background:radial-gradient(ellipse at 50% 50%,#0d8dbb24,transparent 65%),repeating-linear-gradient(30deg,transparent 0 34px,#3be5ff12 35px 36px,transparent 37px 70px)!important;box-shadow:inset 0 0 45px #18bfff18,0 0 28px #08aeea18!important}
+#t-hq .ground-ring{border-color:#36dcff66!important;box-shadow:0 0 18px #15cfff44,inset 0 0 15px #15cfff20!important}
+#t-hq .ground-cross{background:linear-gradient(90deg,transparent,#27dfff88,transparent)!important;box-shadow:0 0 9px #21cfff66}
+#t-hq .ground-node{background:#c9fbff!important;border-color:#70edff!important;box-shadow:0 0 10px #24dfff,0 0 24px #24dfffaa!important}
+#t-hq .test-data-links path{stroke:#38dfff!important;opacity:.58!important;filter:drop-shadow(0 0 5px #21cfff88)!important}
+#t-hq .test-data-links path.upgrade-link{stroke:#8dffcf!important;filter:drop-shadow(0 0 8px #61ffc8)!important}
+/* Building shells become layered dark-metal structures with bright cyan glass and illuminated bases. */
+#t-hq .test-building{filter:drop-shadow(0 0 11px #16caff66) drop-shadow(0 10px 8px #000e)!important}
+#t-hq .test-building.normal-building .structure{border:1px solid var(--accent,#48eaff)!important;border-radius:10px 10px 5px 5px!important;background:linear-gradient(145deg,#34728b 0%,#123c59 20%,#071c31 58%,#020b17 100%)!important;box-shadow:inset 0 0 22px #5ceaff3b,inset 0 -8px 12px #0009,0 0 15px color-mix(in srgb,var(--accent) 55%,transparent),0 6px 0 #020812,0 9px 0 #0d3b55,0 13px 22px #000e!important}
+#t-hq .test-building.normal-building .structure:before{top:-12px!important;height:14px!important;border:1px solid #a1f7ff!important;border-radius:5px 5px 1px 1px!important;background:linear-gradient(180deg,#e2feff 0%,#39cce9 22%,#126184 58%,#061b2c 100%)!important;box-shadow:0 0 16px var(--accent),inset 0 0 8px #fff9!important}
+#t-hq .test-building.normal-building .structure:after{height:18%!important;bottom:6%!important;border:1px solid var(--accent)!important;background:repeating-linear-gradient(90deg,#061320 0 6px,#b3faff 7px 8px,#0a3c58 9px 13px)!important;box-shadow:0 0 12px var(--accent),0 0 24px color-mix(in srgb,var(--accent) 45%,transparent)!important}
+#t-hq .test-building.normal-building .glyph{color:#f0fdff!important;text-shadow:0 0 8px #8af6ff,0 0 18px var(--accent),0 2px 3px #00101b!important}
+#t-hq .test-building .building-name{color:#dffaff!important;text-shadow:0 1px 4px #00101b,0 0 8px #20cfff99!important;font-weight:900!important;letter-spacing:.55px!important}
+#t-hq .test-building .building-level{color:#82eaff!important;text-shadow:0 0 7px #22cfff!important}
+#t-hq .test-building.hq .structure{border:2px solid #9af5ff!important;border-radius:15px!important;background:linear-gradient(145deg,#d7fbff 0%,#3bc9ee 12%,#126b9a 32%,#07304e 62%,#020d1b 100%)!important;box-shadow:inset 0 0 30px #e4fdff99,inset 0 -12px 18px #00101b,0 0 18px #3be7ff,0 0 42px #08bfff99,0 9px 0 #020711,0 14px 0 #0c4563,0 19px 28px #000f!important}
+#t-hq .test-building.hq .structure:before{background:linear-gradient(180deg,#f1ffff,#65eaff 35%,#0e7fac 75%,#05243a)!important;border-color:#d4fcff!important;box-shadow:0 0 18px #44eaff,inset 0 0 10px white!important}
+#t-hq .test-building.hq .glyph{color:#f4ffff!important;text-shadow:0 0 10px #fff,0 0 22px #26dfff,0 0 36px #18bfff!important}
+#t-hq .test-building.hq .building-name{color:#e9fdff!important;text-shadow:0 0 10px #19cfff!important}
+#t-hq .test-building.hq .building-level{color:#9af3ff!important}
+/* Navigation rail, live chat and drawer share the same glass-metal treatment. */
+.global-rail-wrap{border:1px solid #2589ae!important;border-radius:17px!important;background:linear-gradient(180deg,#0b2a40ed,#04121feF)!important;box-shadow:0 10px 30px #000d,0 0 20px #12bfff22,inset 0 0 16px #24dfff12!important;backdrop-filter:blur(12px)!important}
+.global-rail-wrap .test-side-icon{border:1px solid #287da1!important;border-radius:11px!important;background:linear-gradient(145deg,#17415b,#071a2b)!important;color:#dffaff!important;box-shadow:inset 0 0 12px #3adfff1c,0 3px 9px #000a!important;text-shadow:0 0 8px #38dfff88!important}
+.global-rail-wrap .test-side-icon.current{border-color:#8cf5ff!important;background:linear-gradient(145deg,#176b8b,#0b2a43)!important;box-shadow:0 0 0 1px #72eaff66,0 0 16px #1acfff77,inset 0 0 14px #68efff33!important}
+.global-rail-wrap .home-gold{border:1px solid #8df3ff!important;background:linear-gradient(145deg,#1e8db6,#07304d)!important;color:#fff!important;box-shadow:0 0 16px #21dfff88,inset 0 0 14px #a9f7ff44!important}
+.global-rail-wrap .utility-vip{background:linear-gradient(145deg,#5a451d,#211707)!important;border-color:#d8b75b!important;color:#ffe8a5!important}
+#t-hq .test-chat{border:1px solid #2385a9!important;border-radius:13px!important;background:linear-gradient(145deg,#09243aee,#04111ded)!important;box-shadow:0 8px 24px #000c,0 0 15px #14bfff22!important;backdrop-filter:blur(12px)!important}
+#t-hq .test-chat-bar{background:transparent!important}
+#t-hq .test-chat-copy b{color:#dffaff!important}
+#t-hq .test-chat-copy span{color:#8fc8dc!important}
+#t-hq .test-chat-channel.active,#t-hq #testChatExpand,#t-hq #testChatSend{border-color:#2e9ec3!important;background:linear-gradient(145deg,#14506d,#09253a)!important;color:#e8fbff!important}
+#t-hq .hq-upcoming-toggle{border-color:#38c9eb!important;background:linear-gradient(90deg,#051827f5,#0a3045f5,#051827f5)!important;color:#c9f8ff!important;box-shadow:0 0 13px #13bfff33!important}
+#t-hq .test-hq-status-card{border:1px solid #2b9bc0!important;border-radius:10px!important;background:linear-gradient(145deg,#0b2d45f5,#041421f7)!important;box-shadow:0 8px 22px #000d,0 0 18px #0cbfff44,inset 0 0 16px #25dfff14!important;backdrop-filter:blur(14px)!important}
+#t-hq .test-hq-status-kicker{color:#a6f2ff!important;text-shadow:0 0 8px #20cfff77!important}
+#t-hq .test-hq-status-line{border-color:#247c9e!important;background:linear-gradient(145deg,#103b57,#061a2b)!important;color:#eafaff!important}
+#t-hq .test-hq-status-line b{color:#effdff!important}
+#t-hq .test-hq-status-line span{color:#89e8ff!important}
+@media(max-width:520px){
+ body:has(#t-hq:not([hidden])) .top{padding-left:7px!important;padding-right:7px!important;padding-bottom:6px!important}
+ body:has(#t-hq:not([hidden])) .hdr{height:39px!important;margin-bottom:5px!important}
+ body:has(#t-hq:not([hidden])) .hdr:before{width:23px;height:23px;top:7px;left:7px}
+ body:has(#t-hq:not([hidden])) .hdr h1{padding-left:36px!important;line-height:37px!important;font-size:12px!important;letter-spacing:1px!important}
+ body:has(#t-hq:not([hidden])) #hbtns{right:4px!important;top:5px!important;bottom:5px!important;gap:3px!important}
+ body:has(#t-hq:not([hidden])) #hbtns button{width:25px!important;min-width:25px!important;height:27px!important;font-size:13px!important}
+ body:has(#t-hq:not([hidden])) .chips{gap:3px!important}
+ body:has(#t-hq:not([hidden])) .chip{padding:4px 3px 3px!important;border-radius:7px!important}
+ body:has(#t-hq:not([hidden])) .chip svg{width:12px!important;height:12px!important}
+ body:has(#t-hq:not([hidden])) .chip b{font-size:8px!important}
+ body:has(#t-hq:not([hidden])) .chip small{font-size:6px!important;letter-spacing:0!important}
+ body:has(#t-hq:not([hidden])) #tabs{gap:3px!important;margin-top:4px!important}
+ body:has(#t-hq:not([hidden])) #tabs button{min-height:23px!important;padding:3px 6px!important;font-size:7px!important}
+ #t-hq .test-building .building-name{font-size:clamp(7px,1.9vw,9px)!important}
+ .global-rail-wrap{border-radius:13px!important}
+}
+@media(prefers-reduced-motion:reduce){#t-hq .ground-ring,.global-rail-wrap .test-side-icon{animation:none!important;transition:none!important}}
+</style>
+<script id="bhq-1-0-56-release">
+var BHQ_UPDATE_VERSION='1.0.56';
+if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.56',date:'18 NOV 2026',title:'NEON COMMAND CAMPUS // COMPLETE HQ INTERFACE REDESIGN',tag:'CYBER-CITY HQ · RESOURCE HUD · NAVIGATION RAIL · GLASS-METAL PANELS',items:[
+ 'Redesigned the full Headquarters presentation around the approved neon cyber-city concept, including the command header, resource display, navigation rail, HQ campus environment, building surfaces, chat panel and floating status drawer.','Introduced a dark metallic and electric-cyan visual system with illuminated resource tiles, glass-metal controls, glowing data paths, layered building bases and a brighter central HQ focal point.','Kept the existing building positions, building selection, level progression, upgrade actions, resource calculations, account saves, navigation destinations and timer/crew rendering connected to the existing game systems.','The new visual treatment is scoped to the HQ screen so other game sections retain their existing layouts.']});
 </script>
 
 </body>
