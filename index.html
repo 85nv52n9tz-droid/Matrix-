@@ -4225,7 +4225,7 @@ function renderTestArea(){
     html+='<div class="test-building normal-building'+(complete?' complete':'')+(canUpgrade?' upgrade-ready':'')+arch+'" data-test-building="'+o.id+'" data-visual-stage="'+stage+'" data-building-level="'+lv+'" style="left:'+x+'%;top:'+y+'%;--bw:clamp(50px,11vw,64px);--bh:48px;--accent:'+col+';transform:translate(-50%,-50%)"><div class="structure"><i class="arch-side arch-side-a"></i><i class="arch-side arch-side-b"></i><i class="arch-spire"></i><i class="arch-core"></i><i class="arch-energy"></i><span class="glyph">'+glyph+'</span></div><b class="building-name">'+o.name+'</b><small class="building-level">LV '+lv+' / '+maximum+'</small><button class="test-building-tap" aria-label="Open '+o.name+' upgrades"></button></div>';
   });
   var hqLevel=Math.max(1,Math.min(30,Number(S.hq)||1));
-  var hqStage=Math.min(6,Math.floor((hqLevel-1)/5)+1);
+  var hqStage=Math.min(4,Math.floor((hqLevel-1)/10)+1);
   var hqRise=58+Math.round(hqLevel*1.25),hqWidth=94+Math.round(hqLevel*.8),hqCore=42+Math.round(hqLevel*.45),hqHue=188+(hqLevel-1)*1.9,hqCrown=54+(hqLevel%5)*2+Math.floor((hqLevel-1)/5)*3,hqRing=112+(hqLevel%4)*3,hqSpire=28+Math.round(hqLevel*1.6);
   html+='<div class="test-building hq'+(bulk.ready?' bulk-ready':'')+(prestige?'':' hq-redesign hq-tier-'+hqStage)+'" data-hq-level="'+hqLevel+'" data-hq-stage="'+hqStage+'" style="left:'+centreX+'%;top:'+centreY+'%;--hq-rise:'+hqRise+'px;--hq-width:'+hqWidth+'px;--hq-core:'+hqCore+'px;--hq-accent:hsl('+hqHue+',92%,68%);--hq-crown-w:'+hqCrown+'%;--hq-ring-w:'+hqRing+'%;--hq-spire-height:'+hqSpire+'px;transform:translate(-50%,-50%)"><div class="structure"><i class="hq-arch-platform"></i><i class="hq-arch-wing wing-left"></i><i class="hq-arch-wing wing-right"></i><i class="hq-arch-core"></i><i class="hq-arch-crown"></i><i class="hq-arch-ring ring-low"></i><i class="hq-arch-ring ring-high"></i><i class="hq-arch-spire"></i><i class="hq-arch-beacon"></i><i class="hq-arch-window"></i><span class="glyph">⌂</span><i class="roof-mark">BD // HQ</i></div><b class="building-name">'+(prestige?'PRESTIGE HQ':'CENTRAL HQ')+'</b><small class="building-level">'+(bulk.ready?'BATCH UPGRADE READY':prestige?'PRESTIGE P'+S.pr:'HQ LEVEL '+S.hq+' / 30')+'</small><button class="test-hq-tap" id="testHqTap" aria-label="'+(bulk.ready?'Upgrade all buildings one level':'Open HQ requirements and upgrade controls')+'"></button></div>';
   layer.innerHTML='<svg class="test-data-links" viewBox="0 0 1000 700" preserveAspectRatio="none" aria-hidden="true"><g fill="none">'+paths+'</g></svg>'+html;
@@ -5607,6 +5607,111 @@ show('hq');checkUpdateNotice();checkSystemGiftDelivery();setInterval(tick,1000);
    'Removed the previous HQ building artwork and started the physical design again, while retaining the existing live building containers, upgrade interactions, timers, HQ controls and game functionality.',
    'Added one new central HQ tower and four surrounding green cyber-architecture test buildings, positioned at the top-left, top-right, bottom-left and bottom-right of the HQ area.',
    'Moved the thin HQ status handle closer to the resource strip and raised the HQ scene to reduce the gap. The timer and crew drawer remains a floating overlay.'
+  ]});
+ }
+})();
+</script>
+
+<style id="bhq-1-0-59-expand-hq-stage">
+/* Expand the HQ stage upward while preserving the five-building formation. */
+#t-hq .test-shell .test-viewport{top:70px!important;bottom:60px!important}
+#t-hq .test-building-layer{transform:translateY(-12px)!important;transform-origin:top center!important}
+@media(max-width:520px){
+ #t-hq .test-shell .test-viewport{top:65px!important;bottom:57px!important}
+ #t-hq .test-building-layer{transform:translateY(-12px)!important;transform-origin:top center!important}
+}
+</style>
+<script id="bhq-1-0-59-release">
+(function(){
+ window.BHQ_UPDATE_VERSION='1.0.59';
+ if(Array.isArray(window.BHQ_UPDATE_RELEASES)){
+  window.BHQ_UPDATE_RELEASES=window.BHQ_UPDATE_RELEASES.filter(function(x){return x&&x.version!=='1.0.59'});
+  window.BHQ_UPDATE_RELEASES.unshift({version:'1.0.59',date:'18 NOV 2026',title:'HQ STAGE // EXPANDED UPPER SPACE',tag:'FIVE-BUILDING FORMATION PRESERVED',items:[
+   'Raised the entire HQ building formation together so the top of the HQ stage sits closer beneath the UPCOMING line. The central HQ and four corner buildings keep their top-left, top-right, bottom-left and bottom-right arrangement.',
+   'Moved the top edge of the HQ viewport upward to reclaim the unused dark strip and give the building area more usable height, without individually repositioning or redesigning any building.',
+   'Kept the existing building interactions, timers, upgrades, HQ controls and floating timer/crew drawer behaviour.'
+  ]});
+ }
+})();
+</script>
+
+<style id="bhq-1-0-60-cyberpunk-architecture-progression">
+/* Backdoor HQ cyberpunk architecture test: distinct silhouettes at each visual milestone. */
+#t-hq .test-world{
+ background-color:#020906!important;
+ background-image:radial-gradient(ellipse at 50% 46%,rgba(12,112,54,.34),transparent 48%),radial-gradient(ellipse at 50% 100%,rgba(0,255,110,.12),transparent 58%),linear-gradient(rgba(45,255,125,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(45,255,125,.055) 1px,transparent 1px)!important;
+ background-size:auto,auto,26px 26px,26px 26px!important;
+}
+#t-hq .test-building.normal-building{filter:drop-shadow(0 0 10px rgba(33,255,115,.28)) drop-shadow(0 10px 9px #000e)!important}
+#t-hq .test-building.normal-building:before{
+ bottom:30px!important;width:40px!important;height:82px!important;clip-path:polygon(50% 0,78% 8%,78% 19%,100% 30%,88% 100%,12% 100%,0 30%,22% 19%,22% 8%)!important;
+ border:1px solid #79ffad!important;background:linear-gradient(90deg,#031109 0%,#0b351b 18%,#1c7540 31%,#062012 47%,#1d6c39 67%,#04130a 100%)!important;
+ box-shadow:0 0 18px #39ff8877,inset 0 0 17px #39ff8855!important;
+}
+#t-hq .test-building.normal-building:after{
+ bottom:30px!important;width:58px!important;height:98px!important;
+ background:linear-gradient(90deg,transparent 0 13%,#54ff9b 14% 15%,transparent 16% 43%,#c4ffda 48% 51%,transparent 52% 84%,#54ff9b 85% 86%,transparent 87%),linear-gradient(180deg,transparent 0 9%,#baffce 10% 11%,transparent 12% 27%,#49ff8c 28% 30%,transparent 31% 48%,#49ff8c 49% 51%,transparent 52% 69%,#49ff8c 70% 72%,transparent 73% 89%,#49ff8c 90% 91%,transparent 92%)!important;
+ clip-path:polygon(50% 0,57% 15%,78% 22%,100% 100%,0 100%,22% 22%,43% 15%)!important;filter:drop-shadow(0 0 7px #39ff88)!important;
+}
+/* Four building identities: botnet spire, data siphon fins, crypto-mining stacks, exploit-lab crown. */
+#t-hq [data-test-building="node"]:before{width:32px!important;height:88px!important;clip-path:polygon(50% 0,64% 16%,64% 25%,100% 100%,0 100%,36% 25%,36% 16%)!important}
+#t-hq [data-test-building="node"]:after{width:48px!important;height:104px!important;clip-path:polygon(50% 0,53% 100%,47% 100%,47% 0,0 100%,16% 25%,84% 25%,100% 100%)!important}
+#t-hq [data-test-building="siphon"]:before{width:46px!important;height:75px!important;clip-path:polygon(15% 0,85% 0,100% 100%,0 100%)!important}
+#t-hq [data-test-building="siphon"]:after{width:66px!important;height:94px!important;clip-path:polygon(10% 0,28% 8%,28% 100%,0 100%,0 20%,100% 20%,100% 100%,72% 100%,72% 8%,90% 0)!important}
+#t-hq [data-test-building="miner"]:before{width:54px!important;height:67px!important;clip-path:polygon(0 10%,28% 10%,28% 0,72% 0,72% 10%,100% 10%,100% 100%,0 100%)!important}
+#t-hq [data-test-building="miner"]:after{width:68px!important;height:84px!important;clip-path:polygon(0 0,30% 0,30% 100%,0 100%,0 0,35% 0,65% 0,65% 100%,35% 100%,35% 0,70% 0,100% 0,100% 100%,70% 100%)!important}
+#t-hq [data-test-building="lab"]:before{width:44px!important;height:84px!important;clip-path:polygon(50% 0,100% 28%,86% 100%,14% 100%,0 28%)!important}
+#t-hq [data-test-building="lab"]:after{width:62px!important;height:101px!important;clip-path:polygon(50% 0,58% 18%,100% 36%,88% 100%,12% 100%,0 36%,42% 18%)!important}
+/* Milestone tiers 1, 5, 10, 15, 20, 25 and 30: each tier changes the actual outline. */
+#t-hq .test-building.normal-building[data-visual-stage="1"]:before{height:66px!important;filter:saturate(.78)}
+#t-hq .test-building.normal-building[data-visual-stage="2"]:before{height:74px!important;box-shadow:0 0 16px #39ff88,inset 0 0 16px #39ff8877!important}
+#t-hq .test-building.normal-building[data-visual-stage="3"]:before{height:82px!important;clip-path:polygon(50% 0,82% 12%,82% 24%,100% 100%,0 100%,18% 24%,18% 12%)!important}
+#t-hq .test-building.normal-building[data-visual-stage="4"]:before{height:89px!important;width:48px!important;clip-path:polygon(50% 0,72% 12%,72% 22%,100% 100%,0 100%,28% 22%,28% 12%)!important}
+#t-hq .test-building.normal-building[data-visual-stage="5"]:before{height:96px!important;width:50px!important;clip-path:polygon(50% 0,100% 24%,84% 100%,16% 100%,0 24%)!important}
+#t-hq .test-building.normal-building[data-visual-stage="6"]:before{height:102px!important;width:54px!important;clip-path:polygon(50% 0,70% 9%,70% 20%,100% 35%,88% 100%,12% 100%,0 35%,30% 20%,30% 9%)!important}
+#t-hq .test-building.normal-building[data-visual-stage="7"]:before{height:110px!important;width:58px!important;clip-path:polygon(50% 0,62% 8%,62% 18%,100% 30%,88% 100%,12% 100%,0 30%,38% 18%,38% 8%)!important;box-shadow:0 0 25px #39ff88,inset 0 0 22px #b4ffd077!important}
+#t-hq .test-building.normal-building[data-visual-stage="7"]:after{height:122px!important;width:76px!important}
+/* HQ has four major silhouettes: levels 1, 10, 20 and 30. */
+#t-hq .test-building.hq-redesign{filter:drop-shadow(0 0 22px #39ff8899) drop-shadow(0 13px 10px #000f)!important}
+#t-hq .test-building.hq-redesign:before{
+ width:78px!important;height:132px!important;bottom:34px!important;clip-path:polygon(50% 0,61% 9%,61% 17%,79% 23%,79% 34%,100% 100%,0 100%,21% 34%,21% 23%,39% 17%,39% 9%)!important;
+ border:1px solid #a4ffc1!important;background:linear-gradient(90deg,#020b06,#0b3219 18%,#1b7540 32%,#061b0d 48%,#2a8a4e 53%,#06170b 72%,#020b06)!important;box-shadow:0 0 24px #39ff88,inset 0 0 24px #39ff8866!important;
+}
+#t-hq .test-building.hq-redesign:after{
+ width:112px!important;height:162px!important;bottom:34px!important;clip-path:polygon(50% 0,56% 15%,72% 20%,100% 100%,0 100%,28% 20%,44% 15%)!important;
+ background:linear-gradient(90deg,transparent 0 18%,#39ff88 19% 20%,transparent 21% 46%,#d1ffe0 49% 51%,transparent 52% 79%,#39ff88 80% 81%,transparent 82%),linear-gradient(180deg,transparent 0 8%,#c5ffd8 9% 10%,transparent 11% 23%,#39ff88 24% 25%,transparent 26% 41%,#39ff88 42% 43%,transparent 44% 59%,#39ff88 60% 61%,transparent 62% 77%,#39ff88 78% 79%,transparent 80%)!important;
+}
+#t-hq .test-building.hq-tier-1:before{height:112px!important;width:66px!important}
+#t-hq .test-building.hq-tier-2:before{height:142px!important;width:78px!important;clip-path:polygon(50% 0,72% 13%,72% 25%,100% 100%,0 100%,28% 25%,28% 13%)!important}
+#t-hq .test-building.hq-tier-2:after{height:172px!important;width:124px!important}
+#t-hq .test-building.hq-tier-3:before{height:154px!important;width:88px!important;clip-path:polygon(50% 0,62% 8%,62% 20%,86% 26%,100% 100%,0 100%,14% 26%,38% 20%,38% 8%)!important;box-shadow:0 0 28px #39ff88,inset 0 0 26px #b4ffd088!important}
+#t-hq .test-building.hq-tier-3:after{height:188px!important;width:140px!important}
+#t-hq .test-building.hq-tier-4:before{height:168px!important;width:96px!important;clip-path:polygon(50% 0,60% 8%,60% 18%,78% 23%,78% 34%,100% 100%,0 100%,22% 34%,22% 23%,40% 18%,40% 8%)!important;box-shadow:0 0 34px #39ff88,inset 0 0 32px #c7ffda99!important}
+#t-hq .test-building.hq-tier-4:after{height:204px!important;width:158px!important}
+#t-hq .test-building.hq-tier-4 .building-name{color:#e1ffea!important;text-shadow:0 0 14px #39ff88,0 2px 5px #000!important;letter-spacing:1.5px!important}
+@media(max-width:520px){
+ #t-hq .test-building.normal-building:before{bottom:29px!important;width:32px!important;height:65px!important}
+ #t-hq .test-building.normal-building:after{bottom:29px!important;width:46px!important;height:78px!important}
+ #t-hq .test-building.normal-building[data-visual-stage="5"]:before{height:77px!important}
+ #t-hq .test-building.normal-building[data-visual-stage="6"]:before{height:82px!important}
+ #t-hq .test-building.normal-building[data-visual-stage="7"]:before{height:88px!important}
+ #t-hq .test-building.hq-redesign:before{width:58px!important;height:108px!important;bottom:32px!important}
+ #t-hq .test-building.hq-redesign:after{width:84px!important;height:132px!important;bottom:32px!important}
+ #t-hq .test-building.hq-tier-2:before{height:118px!important}
+ #t-hq .test-building.hq-tier-3:before{height:128px!important}
+ #t-hq .test-building.hq-tier-4:before{height:140px!important}
+}
+</style>
+<script id="bhq-1-0-60-release">
+(function(){
+ window.BHQ_UPDATE_VERSION='1.0.60';
+ if(Array.isArray(window.BHQ_UPDATE_RELEASES)){
+  window.BHQ_UPDATE_RELEASES=window.BHQ_UPDATE_RELEASES.filter(function(x){return x&&x.version!=='1.0.60'});
+  window.BHQ_UPDATE_RELEASES.unshift({version:'1.0.60',date:'18 NOV 2026',title:'HQ ARCHITECTURE // CYBERPUNK PROGRESSION TEST',tag:'FOUR DISTINCT FACILITIES · FOUR HQ ERAS',items:[
+   'Reworked the fresh HQ scene toward a cohesive high-tech cyberpunk headquarters, with deep-black city ground, emerald energy lighting and distinct architectural identities for the Botnet Node, Data Siphon, Crypto Miner and Exploit Lab.',
+   'Added seven surrounding-building visual milestones at levels 1, 5, 10, 15, 20, 25 and 30. Each milestone changes the building silhouette and architectural profile, not just its colour.',
+   'Added four central HQ architectural eras at HQ levels 1, 10, 20 and 30, with increasingly tall and elaborate command-tower silhouettes.',
+   'Kept the existing building positions, live click targets, upgrade logic, timers, resource systems, HQ controls and floating status drawer intact.'
   ]});
  }
 })();
