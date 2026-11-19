@@ -2463,12 +2463,13 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   <div class="update-notice-card" role="dialog" aria-modal="true" aria-labelledby="updateNoticeTitle">
     <div class="update-notice-scan"></div>
     <div class="update-notice-emblem"><span>✦</span><i></i></div>
-    <div class="update-notice-kicker">INCOMING SYSTEM TRANSMISSION</div>
-    <h2 id="updateNoticeTitle">BACKDOOR HQ <em>UPDATED</em></h2>
-    <p>A new deployment has reached your command network. Review the release notes to see what has changed.</p>
-    <div class="update-notice-build"><span>NEW BUILD DETECTED</span><b id="updateNoticeVersion">VERSION 1.0.0</b></div>
-    <button type="button" id="updateNoticeRead">OPEN UPDATE LOG <span>↗</span></button>
-    <small>READ THE TRANSMISSION TO CONTINUE</small>
+    <div class="update-notice-kicker">BACKDOOR HQ // COMMANDER BRIEFING</div>
+    <h2 id="updateNoticeTitle">NEW UPDATE <em>DEPLOYED</em></h2>
+    <p>The game has been updated successfully. While you play, please visit <b>More → Recent Updates</b> to see what has changed in this release.</p>
+    <div class="update-notice-build"><span>NOW LIVE</span><b id="updateNoticeVersion">VERSION 1.0.81</b></div>
+    <p class="update-notice-thanks">Thank you for playing BACKDOOR HQ. A small compensation package is being prepared and will arrive shortly.</p>
+    <button type="button" id="updateNoticeRead">CONTINUE PLAYING <span>↗</span></button>
+    <small>YOUR COMMAND NETWORK IS READY</small>
   </div>
 </div>
 <div id="systemGiftModal" class="update-notice" hidden><div class="update-notice-card system-gift-card" role="dialog" aria-modal="true" aria-labelledby="systemGiftTitle"><div class="update-notice-scan"></div><div class="update-notice-emblem"><span>🎁</span><i></i></div><div class="update-notice-kicker">BACKDOOR HQ // PLAYER COMPENSATION</div><h2 id="systemGiftTitle">SYSTEM <em>GIFTS</em></h2><p>Thank you for your cooperation. We apologise for any inconvenience caused during recent updates. These supplies are a goodwill compensation package for all players.</p><div id="systemGiftContents" class="system-gift-contents"></div><button type="button" id="systemGiftClaim">ACCEPT COMPENSATION <span>↗</span></button><small id="systemGiftFoot">ONE-TIME PLAYER COMPENSATION PACKAGE</small></div></div>
@@ -4128,7 +4129,7 @@ window.BHQ_SHOW_LOGIN_UPDATE_NOTICE=function(){
  n.hidden=false;
 };
 // Decorative HQ dartboard and calendar shortcuts removed; roadmap content remains preserved.
-document.querySelectorAll('[data-update-pane]').forEach(function(b){b.onclick=function(){var target=b.getAttribute('data-update-pane');document.querySelectorAll('[data-update-pane]').forEach(function(x){x.classList.toggle('active',x===b);x.setAttribute('aria-selected',x===b?'true':'false')});$('updateReleasesPane').hidden=target!=='releases';$('updateRoadmapPane').hidden=target!=='roadmap';if(target==='releases')renderUpdateLog()}});var updateReadBtn=$('updateNoticeRead');if(updateReadBtn)updateReadBtn.onclick=function(){markUpdateLogRead();show('updates')};var giftBtn=$('systemGiftButton');if(giftBtn)giftBtn.remove();var featureGift=$('featureCompensation');if(featureGift)featureGift.remove();var giftClaim=$('systemGiftClaim');if(giftClaim)giftClaim.onclick=claimSystemGifts;checkSystemGiftDelivery();setInterval(checkSystemGiftDelivery,1000);
+document.querySelectorAll('[data-update-pane]').forEach(function(b){b.onclick=function(){var target=b.getAttribute('data-update-pane');document.querySelectorAll('[data-update-pane]').forEach(function(x){x.classList.toggle('active',x===b);x.setAttribute('aria-selected',x===b?'true':'false')});$('updateReleasesPane').hidden=target!=='releases';$('updateRoadmapPane').hidden=target!=='roadmap';if(target==='releases')renderUpdateLog()}});var updateReadBtn=$('updateNoticeRead');if(updateReadBtn)updateReadBtn.onclick=function(){markUpdateLogRead();startSystemGiftDeliveryTimer();var notice=$('updateNotice');if(notice)notice.hidden=true;toast('Update briefing acknowledged. Check More → Recent Updates for the full release notes. Compensation is being prepared.');};var giftBtn=$('systemGiftButton');if(giftBtn)giftBtn.remove();var featureGift=$('featureCompensation');if(featureGift)featureGift.remove();var giftClaim=$('systemGiftClaim');if(giftClaim)giftClaim.onclick=claimSystemGifts;checkSystemGiftDelivery();setInterval(checkSystemGiftDelivery,1000);
 var COMP_POINT_VALUES={missions:90,upgrades:55,launches:35,attacks:120,scouts:45,training:20,raids:160};
 var COMP_RIVALS=[['ShadowByte',5820],['ZeroTrace',5310],['GhostProtocol',3890],['NeonViper',3270],['DarkCircuit',2910],['NullSignal',2450],['PacketWraith',1980]];
 var COMP_ALLIANCE_RIVALS=[['Digital Reapers',36000],['Blackout Syndicate',30000],['Zero Day Crew',26000],['Phantom Network',22000],['Redline Collective',18000]];
@@ -5424,7 +5425,7 @@ show('hq');checkUpdateNotice();checkSystemGiftDelivery();setInterval(tick,1000);
     }
     // Show the same five-second system breach sequence after login and when restoring a session.
     if(window.BHQ_SHOW_LOADING)window.BHQ_SHOW_LOADING();
-    // After the normal entry loading sequence, show the update transmission only when this account has not read the current release.
+    // Show the in-game deployment briefing after the login/entry sequence; never request a refresh or re-login.
     if(window.BHQ_SHOW_LOGIN_UPDATE_NOTICE)setTimeout(window.BHQ_SHOW_LOGIN_UPDATE_NOTICE,5700);
     const h=document.getElementById('hbtns');
     if(!testMode&&h&&!document.getElementById('logoutBtn')){
@@ -6480,78 +6481,9 @@ html body .hdr{margin-bottom:0!important}
 @media(max-width:520px){#t-hq #resPanel{top:26px!important;left:6px!important;right:6px!important;padding:4px!important}#t-hq .test-hq-status-grid,#t-hq .test-shell:not(.hq-status-open) .test-hq-status-grid,#t-hq .test-shell.hq-status-open .test-hq-status-grid{left:6px!important;right:6px!important;bottom:124px!important;height:76px!important}#t-hq .test-hq-status-card.buffs{left:6px!important;right:6px!important;bottom:52px!important;height:66px!important;min-height:66px!important;max-height:66px!important;padding:4px!important}#t-hq .test-hq-status-card.buffs .test-hq-status-content{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:3px!important}#t-hq .test-hq-status-card.buffs .test-hq-status-line{padding:3px!important}#t-hq .test-hq-status-card.buffs .test-hq-status-line b{font-size:8px!important;line-height:10px!important}#t-hq .test-hq-status-card.buffs .test-hq-status-line span{font-size:7px!important;line-height:9px!important}#t-hq .test-shell .test-viewport,#t-hq .test-shell.hq-status-open .test-viewport{top:69px!important;bottom:194px!important}}
 </style>
 
-<style id="bhq-live-update-lock-style">
-#bhqLiveUpdateLock{position:fixed;inset:0;z-index:2147483000;display:none;align-items:center;justify-content:center;padding:20px;background:radial-gradient(ellipse at 50% 20%,rgba(24,66,73,.98),rgba(2,7,13,.99) 70%);color:#eaffff;font-family:Arial,sans-serif}
-#bhqLiveUpdateLock.is-visible{display:flex}
-#bhqLiveUpdateLock .bhq-update-panel{width:min(440px,100%);padding:26px 22px;border:1px solid #50eaff;border-radius:16px;background:linear-gradient(145deg,#0a2029,#071018);box-shadow:0 0 35px #1ceaff35,inset 0 0 25px #1ceaff0c;text-align:center}
-#bhqLiveUpdateLock .bhq-update-icon{font-size:34px;color:#65efff;margin-bottom:12px}
-#bhqLiveUpdateLock .bhq-update-kicker{font:800 10px/1.4 monospace;letter-spacing:2px;color:#65efff}
-#bhqLiveUpdateLock h2{margin:12px 0;font-size:23px;line-height:1.15;color:#fff}
-#bhqLiveUpdateLock p{font-size:14px;line-height:1.55;color:#c4d8df;margin:10px 0}
-#bhqLiveUpdateLock .bhq-update-safe{font-size:12px;color:#86f5b6}
-#bhqLiveUpdateLock button{width:100%;margin-top:16px;padding:14px 12px;border:1px solid #b7f8ff;border-radius:9px;background:linear-gradient(100deg,#21b9d4,#167b9b);color:#fff;font-size:14px;font-weight:900;letter-spacing:1px}
-</style>
-<div id="bhqLiveUpdateLock" role="dialog" aria-modal="true" aria-labelledby="bhqLiveUpdateTitle">
- <div class="bhq-update-panel">
-  <div class="bhq-update-icon">↻</div><div class="bhq-update-kicker">BACKDOOR HQ // UPDATE REQUIRED</div>
-  <h2 id="bhqLiveUpdateTitle">A NEW UPDATE IS AVAILABLE</h2>
-  <p>A new version of the game has just been released. Please refresh the game and log in again to continue playing.</p>
-  <p>Sorry for the inconvenience. We need you to reload so you are using the latest version and all game features work correctly.</p>
-  <p class="bhq-update-safe">Your account and saved game progress are safe.</p>
-  <button type="button" id="bhqLiveUpdateRefresh">REFRESH GAME &amp; LOG IN AGAIN</button>
- </div>
-</div>
-<script id="bhq-live-update-lock-script">
-(function(){
- var checking=false,blocked=false,lastCheck=0,overlay,refreshBtn;
- function currentVersion(){return String(window.BHQ_UPDATE_VERSION||'')}
- function showLock(){
-  if(blocked)return;blocked=true;
-  overlay=document.getElementById('bhqLiveUpdateLock');
-  if(overlay)overlay.classList.add('is-visible');
-  document.documentElement.style.overflow='hidden';
- }
- function stopEvent(e){
-  if(!blocked)return;
-  if(e.target&&overlay&&overlay.contains(e.target))return;
-  e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();
- }
- function newer(a,b){
-  var aa=String(a).split('.').map(Number),bb=String(b).split('.').map(Number);
-  for(var i=0;i<Math.max(aa.length,bb.length);i++){var x=aa[i]||0,y=bb[i]||0;if(x!==y)return x>y}
-  return false;
- }
- async function checkBuild(){
-  if(checking||Date.now()-lastCheck<4000)return;checking=true;lastCheck=Date.now();
-  try{
-   var url=new URL(window.location.href);url.searchParams.set('bhq_build_check',String(Date.now()));
-   var response=await fetch(url.toString(),{cache:'no-store',credentials:'same-origin'});
-   if(!response.ok)throw new Error('Build check unavailable');
-   var html=await response.text(),matches=[...html.matchAll(/BHQ_UPDATE_VERSION\s*=\s*['"]([^'"]+)['"]/g)];
-   if(!matches.length)return;
-   // The HTML contains historical version declarations as well as the final active override.
-   // Compare against the highest declared build, never the last text match, to avoid false refresh prompts.
-   var latest=matches.map(function(m){return m[1]}).sort(function(a,b){return newer(a,b)?1:newer(b,a)?-1:0}).pop();
-   var local=currentVersion();
-   if(local&&latest&&newer(latest,local))showLock();
-  }catch(e){/* Stay playable when the network cannot verify a newer build. */}
-  finally{checking=false}
- }
- function onFirstInteraction(e){
-  if(!window.BHQ_GAME_ACTIVE)return;
-  if(blocked){stopEvent(e);return}
-  checkBuild().then(function(){if(blocked&&e.cancelable)stopEvent(e)});
- }
- document.addEventListener('pointerdown',onFirstInteraction,true);
- document.addEventListener('click',stopEvent,true);
- document.addEventListener('keydown',stopEvent,true);
- document.addEventListener('touchstart',onFirstInteraction,{capture:true,passive:false});
- document.addEventListener('DOMContentLoaded',function(){
-  refreshBtn=document.getElementById('bhqLiveUpdateRefresh');
-  if(refreshBtn)refreshBtn.addEventListener('click',function(){refreshBtn.disabled=true;refreshBtn.textContent='RELOADING GAME...';window.location.reload()});
- });
-})();
-</script>
+<style id="bhq-live-update-lock-style">#bhqLiveUpdateLock{display:none!important}</style>
+<!-- Automatic refresh lock removed: updates are announced in-game without forcing a reload. -->
+
 <style id="bhq-v1069-hq-data-timers-crew">
 #t-hq #testHqStatusGrid{bottom:65px!important;height:32px!important;min-height:32px!important;max-height:32px!important}
 #t-hq .test-hq-status-card.upgrades{height:32px!important;min-height:32px!important;max-height:32px!important;padding:2px 4px!important;gap:0!important}
@@ -6937,8 +6869,9 @@ document.addEventListener('DOMContentLoaded',function(){
     if(/(?:\bfunction\s*\(|\bvar\s+[A-Za-z_$]|\bconst\s+[A-Za-z_$]|=>|<\/?script|document\.|window\.|\.innerHTML|addEventListener|querySelector|localStorage|BHQ_UPDATE_RELEASES|(?:^|[;{}])\s*(?:if|for|return)\s*\()/i.test(text))return '';
     return text;
   }
-  window.BHQ_UPDATE_VERSION='1.0.80';
-  BHQ_UPDATE_VERSION='1.0.80';
+  window.BHQ_UPDATE_VERSION='1.0.81';
+  BHQ_UPDATE_VERSION='1.0.81';
+  if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.81',date:'19 NOV 2026',title:'IN-GAME UPDATE BRIEFING // NO FORCED REFRESH',tag:'SEAMLESS DEPLOYMENT · PLAYER COMPENSATION',items:['Completely removed the forced refresh/re-login panel and its live build interaction lock. Players can continue using the game without an update-triggered reload.','Replaced the login update pop-up with a post-entry in-game briefing that asks players to visit More → Recent Updates for the full release notes.','Added a small compensation delivery flow from the briefing. A compensation package is prepared after acknowledging the notice and appears in-game when ready.','Preserved account progress, existing compensation scaling and the full Update Log.']});
   if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.80',date:'19 NOV 2026',title:'FUTURISTIC LOGIN // NETWORK INTERFACE OVERHAUL',tag:'ANIMATED SECURE ACCESS',items:['Added an animated cyber-network backdrop with rotating orbital rings, scanning effects, glowing nodes and a moving grid.','Redesigned the login panel with a futuristic glass interface, illuminated details and responsive mobile layout.','Login, account creation and test-mode controls remain unchanged.']});
   if(Array.isArray(BHQ_UPDATE_RELEASES)){
     BHQ_UPDATE_RELEASES=BHQ_UPDATE_RELEASES.map(function(r){
