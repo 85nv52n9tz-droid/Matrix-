@@ -4472,7 +4472,7 @@ set:function(a){var s=a.set,h='<div class="aln-card"><div class="aln-ct">RECRUIT
 log:function(a){var h='';if(!a.log.length)h+='<div class="aln-hint">No activity yet.</div>';a.log.forEach(function(q){h+='<div class="aln-row lg"><span>'+alnEsc(q.m)+'</span><em>'+alnT(Date.now()-q.t)+' ago</em></div>'});return h}};
 var ALNTABS=[['ov','OVERVIEW'],['ros','ROSTER'],['app','APPLY'],['chat','CHAT'],['help','HELP'],['gift','GIFTS'],['q','TASKS'],['war','WARS'],['ev','EVENTS'],['mis','MISSIONS'],['tech','RESEARCH'],['bank','BANK'],['shop','SHOP'],['rank','RANKS'],['bld','BUILDINGS'],['set','SETTINGS'],['log','LOG']];
 function alnRender(){var M=$('alnModal');if(!M||M.hidden)return;var a=alnS(),old=$('alnBody'),st=old?old.scrollTop:0,ts=$('alnTabs'),ls=ts?ts.scrollLeft:0,stg=Math.min(5,Math.floor((a.hq-1)/5)),f=ALNTAB[alnTab]||ALNTAB.ov;
- M.innerHTML='<div class="aln-pop" style="--ac:'+ARH[stg]+'"><div class="aln-ph"><div><div class="aln-kick">ALLIANCE // HEADQUARTERS \u00b7 STAGE '+(stg+1)+'/6</div><b class="aln-pt">['+alnEsc(a.tag)+'] '+alnEsc(a.name)+'</b></div><button class="aln-x" aria-label="Close">\u00d7</button></div><div class="aln-tabs" id="alnTabs">'+ALNTABS.map(function(t){return '<button class="aln-tb'+(alnTab===t[0]?' on':'')+'" data-a="tab:'+t[0]+'">'+t[1]+(t[0]==='app'&&a.apps.length?' ('+a.apps.length+')':'')+'</button>'}).join('')+'</div><div class="aln-body" id="alnBody">'+f(a)+'</div></div>';
+ M.innerHTML='<div class="aln-pop" style="--ac:'+ARH[stg]+'"><div class="aln-ph"><div><div class="aln-kick">ALLIANCE // HEADQUARTERS \u00b7 STAGE '+(stg+1)+'/6</div><b class="aln-pt">['+alnEsc(a.tag)+'] '+alnEsc(a.name)+'</b></div><button class="aln-x" aria-label="Close">\u00d7</button></div><div class="aln-body" id="alnBody">'+f(a)+'</div><div class="aln-tabs" id="alnTabs">'+ALNTABS.map(function(t){return '<button class="aln-tb'+(alnTab===t[0]?' on':'')+'" data-a="tab:'+t[0]+'">'+t[1]+(t[0]==='app'&&a.apps.length?' ('+a.apps.length+')':'')+'</button>'}).join('')+'</div></div>';
  var nb=$('alnBody'),nt=$('alnTabs');if(nb)nb.scrollTop=st;if(nt)nt.scrollLeft=ls}
 function alnOpen(tab){var M=$('alnModal');if(!M)return;alnTab=tab;alnSel=-1;alnInfo=-1;M.hidden=false;alnRender()}
 function alnOpenTab(id){var m={war:'bld',shield:'bld',depot:'bld',spire:'bld',tech:'tech',vault:'gift',arena:'war',hub:'help'},a=alnS();return a.lv[id]?m[id]:'bld'}
@@ -5251,6 +5251,11 @@ if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.
  'Buildings opens the existing Alliance territory and facility upgrade system; Research opens the existing Alliance technology trees; Roster opens the member power ranking. Existing Alliance data, member actions, applications, event logic and progression are preserved.',
  'The dock scrolls horizontally on smaller screens so every Alliance HQ section remains reachable without covering the page. The top notification system and NPC mission badge placement remain active, and the main Network Alliance shortcut has no event badge.'
 ]});
+if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.59',date:'19 NOV 2026',title:'DARK SYNDICATE // ALLIANCE HQ BOTTOM NAVIGATION',tag:'DEDICATED FIXED DOCK · 17 HQ SECTIONS',items:[
+ 'Updated the Dark Syndicate [DSY] Alliance HQ itself. Its Overview, Roster, Apply, Chat, Help, Gifts, Tasks, Wars, Events, Missions, Research, Bank, Shop, Ranks, Buildings, Settings and Log tabs now sit in a dedicated bottom navigation dock.',
+ 'The Alliance name and HQ heading stay at the top, the selected section fills the central scrollable content area, and the bottom dock can be swiped horizontally to reach every section on mobile.',
+ 'The active tab is highlighted in the red Alliance theme. Existing tab actions, Alliance members, applications, buildings, research, resources and progression remain connected to their existing game systems.'
+]});
 show('hq');checkUpdateNotice();checkSystemGiftDelivery();setInterval(tick,1000);
 
 }
@@ -5797,11 +5802,11 @@ show('hq');checkUpdateNotice();checkSystemGiftDelivery();setInterval(tick,1000);
 .aln-pt{display:block;font-size:14px;letter-spacing:1px;color:#fff;margin-top:2px}
 .aln-kick{font-size:8px;letter-spacing:1.6px;color:#ff8a96}
 .aln-pop .aln-x{position:static;width:28px;height:28px;border:1px solid #5a1520;border-radius:6px;background:#10030788;color:#ff8a96;font-size:18px;line-height:1;cursor:pointer}
-.aln-tabs{display:flex;gap:4px;padding:0 8px 6px;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid #5a1520}
+.aln-tabs{flex:0 0 auto;display:flex;align-items:stretch;gap:5px;padding:8px 9px calc(8px + env(safe-area-inset-bottom,0px));overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:none;border-top:1px solid #7b2632;border-bottom:0;background:linear-gradient(180deg,#21070dF2,#090204F8);box-shadow:0 -8px 22px #0009;scroll-snap-type:x proximity}
 .aln-tabs::-webkit-scrollbar{display:none}
-.aln-tb{flex:0 0 auto;padding:6px 9px;border:1px solid #5a1520;border-radius:6px;background:#10030788;color:#ff8a96;font:900 8px/1 ui-monospace,Menlo,monospace;letter-spacing:1px;cursor:pointer}
-.aln-tb.on{background:linear-gradient(180deg,#ff3b4e,#a3121f);color:#fff;border-color:#ff6a78;box-shadow:0 0 10px #ff3b4e66}
-.aln-body{flex:1;overflow-y:auto;padding:8px;display:flex;flex-direction:column;gap:6px;overscroll-behavior:contain}
+.aln-tb{flex:0 0 70px;min-width:70px;min-height:47px;padding:6px 4px;display:flex;align-items:center;justify-content:center;text-align:center;white-space:normal;line-height:1.2;border:1px solid #5a1520;border-radius:8px;background:linear-gradient(145deg,#16050a,#090204);color:#ff8a96;font:900 8px/1.2 ui-monospace,Menlo,monospace;letter-spacing:.6px;cursor:pointer;scroll-snap-align:start}
+.aln-tb.on{background:linear-gradient(180deg,#ff3b4e,#a3121f);color:#fff;border-color:#ff6a78;box-shadow:0 0 12px #ff3b4e88,inset 0 0 10px #fff2}
+.aln-body{flex:1;min-height:0;overflow-y:auto;padding:8px;display:flex;flex-direction:column;gap:6px;overscroll-behavior:contain}
 .aln-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
 .aln-stat{padding:7px 8px;border:1px solid #5a1520;border-radius:7px;background:#10030788}
 .aln-stat small{display:block;font-size:7px;letter-spacing:1.2px;color:#ff8a96}
