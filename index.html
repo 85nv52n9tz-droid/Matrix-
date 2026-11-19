@@ -2539,6 +2539,43 @@ body:has(#t-bot:not([hidden])){height:100dvh!important;overflow:hidden!important
 @media(prefers-reduced-motion:reduce){.npc-campaign-track i,#npcMissionPanel .card .prog i{transition:none}}
 </style>
 
+<style id="environment-refinement-v1106">
+/* v1.1.06 — mission completion and reward-history presentation */
+#npcMissionPanel .npc-reward-history{margin-top:12px;border-color:rgba(91,211,143,.34);box-shadow:0 8px 22px rgba(0,0,0,.16),inset 0 1px rgba(170,255,205,.035)}
+#npcMissionPanel .npc-reward-history-head{background:linear-gradient(100deg,rgba(22,91,55,.38),rgba(7,18,22,.72));}
+#npcMissionPanel .npc-reward-history-head b{font-size:9px;letter-spacing:1px}
+#npcMissionPanel .npc-reward-history-head span{padding:4px 7px;border:1px solid rgba(91,211,143,.2);border-radius:20px;background:rgba(38,133,81,.12);white-space:nowrap}
+#npcMissionPanel .npc-reward-history-entry{position:relative;padding:12px 13px 11px 16px;background:linear-gradient(100deg,rgba(24,91,55,.09),transparent 68%);transition:background .18s ease}
+#npcMissionPanel .npc-reward-history-entry:before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:2px;border-radius:2px;background:linear-gradient(#65f3a1,#238c59)}
+#npcMissionPanel .npc-reward-history-entry>div{align-items:flex-start;flex-wrap:wrap}
+#npcMissionPanel .npc-reward-history-entry b{font-size:10px;letter-spacing:.25px}
+#npcMissionPanel .npc-reward-history-entry small{font-size:8px;color:#9bb8a6;text-align:right;line-height:1.45}
+#npcMissionPanel .npc-reward-history-entry p{margin:8px 0 5px;color:#d3e9dc;font-size:9px;line-height:1.65;overflow-wrap:anywhere}
+#npcMissionPanel .npc-reward-history-entry>span{display:inline-flex;align-items:center;gap:5px;margin-top:3px;padding:4px 7px;border:1px solid rgba(105,230,157,.2);border-radius:5px;background:rgba(38,133,81,.12);font-size:7px;letter-spacing:.65px}
+#npcMissionPanel .npc-reward-history-entry:hover{background:linear-gradient(100deg,rgba(35,126,74,.16),rgba(8,22,20,.12))}
+#npcMissionPanel .npc-reward-preview{box-shadow:inset 0 1px rgba(170,255,205,.025)}
+#map8 .npc-map-node[data-state="claim"] .npc-map-tag{fill:#4b3516;stroke:#ffc46b}
+#map8 .npc-map-node[data-state="claim"] .npc-map-tagtext{fill:#ffe0a1;font-weight:900}
+#map8 .npc-map-node[data-state="cleared"] .npc-map-tag{fill:#15251d;stroke:#6c9b7d}
+#map8 .npc-map-node[data-state="cleared"] .npc-map-tagtext{fill:#b1c8ba}
+.npc-war-entry{position:relative;overflow:hidden;padding:11px 12px;border-color:rgba(75,220,137,.27);background:linear-gradient(115deg,rgba(20,77,48,.16),rgba(3,12,14,.38));box-shadow:inset 0 1px rgba(160,255,198,.025)}
+.npc-war-entry+.npc-war-entry{margin-top:8px}
+.npc-war-entry-top{align-items:center;padding-bottom:7px;border-bottom:1px solid rgba(93,184,126,.13)}
+.npc-war-entry-top b{font-size:12px;letter-spacing:.25px}
+.npc-war-entry-top time{max-width:52%;font-size:8px;line-height:1.45}
+.npc-war-rewards{gap:6px;margin-top:9px}
+.npc-war-rewards span{padding:5px 7px;border:1px solid rgba(106,166,129,.13);border-radius:5px;background:rgba(6,20,14,.45);font-size:9px;overflow-wrap:anywhere}
+.npc-war-rewards .npc-war-free{border-color:rgba(255,215,106,.2);background:rgba(99,73,15,.12)}
+@media(max-width:420px){
+ #npcMissionPanel .npc-reward-history-entry>div{display:block}
+ #npcMissionPanel .npc-reward-history-entry small{display:block;margin-top:4px;text-align:left}
+ .npc-war-entry-top{display:block}
+ .npc-war-entry-top time{display:block;max-width:none;margin-top:4px;text-align:left}
+}
+@media(prefers-reduced-motion:reduce){
+ #npcMissionPanel .npc-reward-history-entry{transition:none}
+}
+</style>
 </head>
 <body>
 <div id="authGate">
@@ -6579,7 +6616,7 @@ BHQ_UPDATE_VERSION='1.1.03';
 if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.1.04',date:'19 NOV 2026',title:'OPERATIONS NETWORK // SECURE CONNECTION SEQUENCE',tag:'SOLO OPERATIONS · DATA NET · MOBILE TRANSITIONS',items:['Solo Operations and Data Net now have distinct connection-screen treatments, with green secure-link visuals for solo deployments and blue encrypted-handshake visuals for PvP.','The two-second transition now uses layered tactical grid movement, a scanning sweep and expanding signal rings to make each environment handoff feel deliberate.','Connection screens announce their status accessibly to assistive technology, while reduced-motion settings disable the decorative movement.','The transition timing, navigation destinations, mission state, Data Net targets and all gameplay calculations remain unchanged. HQ and Alliance building designs are untouched.']});
 BHQ_UPDATE_VERSION='1.1.04';
 if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.1.05',date:'19 NOV 2026',title:'SOLO OPERATIONS // CAMPAIGN MAP & PROGRESSION',tag:'MISSION SIGNALS · CAMPAIGN STATUS · ACCESSIBILITY',items:['The campaign map now makes each mission signal easier to identify, focus and select, with keyboard support for Enter and Space as well as touch.','Mission signals expose their sequence, base duration and live state to assistive technology, and their map styling distinguishes active deployments, claimable rewards, cleared operations and temporary standby.','Campaign progress now shows the cleared percentage, an accessible progress indicator and a contextual next-step message based on current mission activity.','The mission briefing progress bar and status panel have clearer visual feedback on mobile.','No new mission locks or requirements have been introduced. Existing operation availability, crew selection, timers, reward rolls, completion records and saved campaign progress are preserved. HQ and Alliance buildings remain untouched.']});
-BHQ_UPDATE_VERSION='1.1.05';
+if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.1.06',date:'19 NOV 2026',title:'SOLO OPERATIONS // COMPLETION & REWARD HISTORY',tag:'MISSION RESULTS · REWARD FEEDBACK · WAR LOG',items:['Recent mission rewards now have a clearer, more readable result panel, with stronger visual separation between mission names, timestamps, reward details and alliance contribution.','The NPC mission reward history and the full Wartime reward log now use a more consistent completed-operation presentation, with improved spacing and wrapping on narrow mobile screens.','Claim-ready and cleared campaign signals have clearer label contrast so mission outcomes are easier to recognise at a glance.','This is a presentation-only refinement: automatic mission completion, reward rolls, resource grants, alliance contribution, mission timers and saved reward history are unchanged. HQ and Alliance building designs remain untouched.']});\nBHQ_UPDATE_VERSION='1.1.06';
 
 
 
