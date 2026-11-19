@@ -4858,7 +4858,7 @@ function renderMissionAutopilot(){
  if(!active)html+='</div>';
  if(!active)html+='<div class="mission-auto-note" style="font-size:9px;line-height:1.25;margin-top:4px">Add up to three heroes, then tap a different mission for each hero. Each mission repeats with its assigned hero, collecting rewards automatically. Stops after '+autoMissionOfflineHours()+' offline hours. '+(S.autoMissionTier>=1?'VIP 3-hour extension active.':'VIP Core extends offline operation to 3 hours.')+'</div>';
  if(active)html+='<button type="button" class="buy wide" id="missionAutoStop" style="margin-top:5px;border-color:#ff6262;color:#ff8a8a">STOP ALL AUTOPILOT MISSIONS</button>';
- host.innerHTML=html;
+ if(host.innerHTML!==html)host.innerHTML=html;
  host.querySelectorAll('[data-auto-crew]').forEach(function(b){b.onclick=function(){var i=+b.getAttribute('data-auto-crew'),a=(S.autoMissionCrew||[]).slice(),at=a.indexOf(i);if(at>=0){if(autoMissionTaskForHero(i)){toast(CM[i]+' is assigned to a repeating mission. Stop Autopilot before removing this hero.');return;}a.splice(at,1)}else if(a.length<3&&a.length<owned&&recruited(i)&&hasMissionSpeed(i)&&!autoMissionTaskForHero(i)){a.push(i)}S.autoMissionCrew=a;save();renderMissionAutopilot()}});
  var stop=$('missionAutoStop');if(stop)stop.onclick=stopMissionAutopilot;
 }
@@ -4870,10 +4870,10 @@ function renderMis(){
   if($('missionSlots'))$('missionSlots').textContent=running()+'/'+S.sl;
   M.forEach(function(o){
     var e=E[o.id],st=S.mis[o.id],rw=[];for(var k in o.rew)rw.push('<span style="color:'+CL[k]+'">'+fmt(o.rew[k]*rm)+' '+NM[k]+'</span>');
-    e.m.innerHTML='<b>REWARD PACKAGE</b> '+rw.join(', ');e.m.style.color='';e.e.textContent='\u23f1 '+fmtT(o.time*timeM());e.c.classList.toggle('run',!!st&&st.end>n);e.c.classList.toggle('rdy',!!st&&st.end<=n);
+    var rewardHTML='<b>REWARD PACKAGE</b> '+rw.join(', ');if(e.m.innerHTML!==rewardHTML)e.m.innerHTML=rewardHTML;e.m.style.color='';e.e.textContent='\u23f1 '+fmtT(o.time*timeM());e.c.classList.toggle('run',!!st&&st.end>n);e.c.classList.toggle('rdy',!!st&&st.end<=n);
     var difficulty=o.u>=8?'CRITICAL':o.u>=5?'HIGH RISK':o.u>=3?'GUARDED':'LOW RISK',costBits=[],taskForMission=autoMissionTaskForTarget(o.id);for(var ck in o.cost)costBits.push(fmt(o.cost[ck])+' '+NM[ck]);
     var stateLabel=st?(st.end<=n?'READY TO CLAIM':'DEPLOYED'):'STANDBY';var supportLabel=taskForMission?'AUTOPILOT · '+(CM[taskForMission.crew]||'OPERATIVE'):'PASSIVE CREW SUPPORT';
-    e.meta.innerHTML='<span class="mission-difficulty '+(o.u>=8?'critical':o.u>=5?'high':o.u>=3?'guarded':'low')+'">'+difficulty+'</span><span>HQ '+o.u+' REQUIRED</span><span>'+fmtT(o.time*timeM())+' EST.</span><span class="mission-cost">'+(costBits.length?'COST · '+costBits.join(' + '):'NO UPFRONT COST')+'</span><span class="mission-support">'+supportLabel+'</span>';
+    var metaHTML='<span class="mission-difficulty '+(o.u>=8?'critical':o.u>=5?'high':o.u>=3?'guarded':'low')+'">'+difficulty+'</span><span>HQ '+o.u+' REQUIRED</span><span>'+fmtT(o.time*timeM())+' EST.</span><span class="mission-cost">'+(costBits.length?'COST · '+costBits.join(' + '):'NO UPFRONT COST')+'</span><span class="mission-support">'+supportLabel+'</span>';if(e.meta.innerHTML!==metaHTML)e.meta.innerHTML=metaHTML;
     e.tag.textContent=stateLabel;e.tag.classList.toggle('active',!!st&&st.end>n);e.tag.classList.toggle('ready',!!st&&st.end<=n);
     e.p.hidden=!st;
     e.c.hidden=!shown(o.u)||freeGone(o);e.c.style.opacity=S.hq<o.u?0.55:1;e.b.classList.toggle('free',!st&&S.hq>=o.u&&isFreeM(o));
@@ -6553,6 +6553,30 @@ if(!releases.some(function(r){return r&&String(r.version)==='1.0.73'}))releases.
 if(typeof renderUpdateLog==='function')renderUpdateLog();
 window.BHQ_SHOW_LOGIN_UPDATE_NOTICE=function(){var current=String(window.BHQ_UPDATE_VERSION||version),seen='';try{seen=String((typeof S!=='undefined'&&S.updateLogSeenVersion)||'')}catch(e){}var unread=seen!==current,tab=document.getElementById('updateLogTab');if(tab){tab.classList.toggle('update-unread',unread);tab.setAttribute('aria-label',unread?'Update Log — new update available':'Update Log')}var n=document.getElementById('updateNotice');if(!n||!unread)return;var v=document.getElementById('updateNoticeVersion');if(v)v.textContent='VERSION '+current;n.hidden=false;};
 })();</script>
+
+<style id="bhq-mission-roster-stability-v1085">
+/* Keep mission content mounted between timer ticks; constrain crew dossier to the visible phone viewport. */
+#t-crew #cp2{padding:calc(8px + env(safe-area-inset-top)) 8px calc(8px + env(safe-area-inset-bottom))!important;overflow-x:hidden!important;overflow-y:auto!important;align-items:center!important;justify-content:center!important;}
+#t-crew #cp2 .crew-detail-modal-card{box-sizing:border-box!important;width:min(560px,calc(100vw - 16px))!important;max-width:100%!important;height:auto!important;max-height:calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 16px)!important;min-height:0!important;overflow-x:hidden!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch!important;margin:auto!important;}
+#t-crew #cp2 .crew-profile-stage{max-width:100%!important;min-width:0!important;overflow:hidden!important;}
+#t-crew #cp2 .crew-profile-stage .crew-animated-figure{max-width:100%!important;}
+#t-crew #cp2 .crew-profile-head{min-width:0!important;gap:6px!important;flex-wrap:wrap!important;}
+#t-crew #cp2 .crew-detail-section-head{min-width:0!important;flex-wrap:wrap!important;}
+@media(max-width:520px){#t-crew #cp2{align-items:center!important;padding:calc(6px + env(safe-area-inset-top)) 6px calc(6px + env(safe-area-inset-bottom))!important}#t-crew #cp2 .crew-detail-modal-card{width:calc(100vw - 12px)!important;max-height:calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 12px)!important;padding:8px!important}#t-crew #cp2 .crew-profile-stage{min-height:0!important}}
+</style>
+<script id="bhq-mission-roster-stability-v1085">
+(function(){
+var version='1.0.85';window.BHQ_UPDATE_VERSION=version;if(typeof BHQ_UPDATE_VERSION!=='undefined')BHQ_UPDATE_VERSION=version;
+var releases=window.BHQ_UPDATE_RELEASES||[];
+if(Array.isArray(releases)&&!releases.some(function(r){return r&&String(r.version)==='1.0.85'})){
+releases.unshift({version:'1.0.85',date:'19 NOV 2026',title:'MISSION DISPLAY STABILITY // CREW DOSSIER FIT',tag:'NO REPEATED MISSION REBUILD · RESPONSIVE CREW PROFILE',items:['Stopped mission reward and detail sections from being rebuilt on every timer tick, preventing mission cards from repeatedly animating or dropping back onto the screen.','Kept mission content mounted when collecting rewards; only changed mission status, progress and buttons are updated.','Resized the Crew dossier window to stay within the visible phone screen, with a contained scroll area for longer profiles.','Preserved mission rewards, timers, crew equipment, account progress and saved data.']});
+window.BHQ_UPDATE_RELEASES=releases;
+}
+if(typeof renderUpdateLog==='function')renderUpdateLog();
+if(typeof checkUpdateNotice==='function')checkUpdateNotice();
+})();
+</script>
+
 </body>
 </html>
 
