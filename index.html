@@ -7013,7 +7013,9 @@ if(Array.isArray(BHQ_UPDATE_RELEASES)){
 
 <script id="bhq-player-controlled-update-check-v1092">
 (function(){
-  var version='1.0.94',checking=false,prompted=false,lastCheck=0;
+  var BHQ_UPDATE_VERSION='1.0.95';window.BHQ_UPDATE_VERSION=BHQ_UPDATE_VERSION;
+  var version=BHQ_UPDATE_VERSION,checking=false,prompted=false,lastCheck=0;
+  if(Array.isArray(window.BHQ_UPDATE_RELEASES))window.BHQ_UPDATE_RELEASES.unshift({version:'1.0.95',date:'19 NOV 2026',title:'DEPLOYMENT SIGNATURE // VERSION DETECTION CORRECTION',tag:'INSTALLER VERSION MATCH · UPDATE DISCOVERY RESTORED',items:['Corrected the published build signature so the update checker and installer both recognise version 1.0.95.','Restored reliable detection of the latest deployed build and the automatic update availability prompt.','Retained the session-preservation check and automatic More → Updates release archive handoff from the previous patch.']});
   try{window.BHQ_UPDATE_VERSION=version;}catch(e){}
   if(Array.isArray(window.BHQ_UPDATE_RELEASES))window.BHQ_UPDATE_RELEASES.unshift({version:'1.0.94',date:'19 NOV 2026',title:'UPDATE HANDOFF // SESSION & RELEASE ARCHIVE REPAIR',tag:'SESSION REFRESH · AUTOMATIC UPDATE LOG',items:['The installer now refreshes and verifies the active commander authentication session before restarting, reducing unexpected sign-outs during deployment.','After restart, Backdoor HQ reliably waits for the game interface to become ready, then opens More → Updates directly on the Update Log and renders the latest patch notes.','The update-log handoff marker is retained until the archive is successfully opened, so a delayed login restoration does not lose the destination.']});
   function newer(a,b){var x=String(a||'').split('.').map(Number),y=String(b||'').split('.').map(Number);for(var i=0;i<Math.max(x.length,y.length);i++){var d=(x[i]||0)-(y[i]||0);if(d)return d>0;}return false;}
