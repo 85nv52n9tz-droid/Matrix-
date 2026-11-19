@@ -2393,6 +2393,28 @@ body:has(#t-bot:not([hidden])){height:100dvh!important;overflow:hidden!important
 .visual-ops-banner .visual-banner-caption b{color:#77f6d1}
 @media(max-width:600px){.visual-banner-art{min-height:115px;object-fit:cover}.visual-banner-caption{align-items:flex-start;flex-direction:column;gap:4px;padding:8px 10px}.visual-banner-caption span{text-align:left;font-size:8px}}
 </style>
+
+<style id="environment-refinement-v1102">
+/* Environment refinement batch: scoped to Solo Operations, Data Net and NEXUS panels. */
+#t-map .visual-ops-banner{border:1px solid #267b91;border-radius:10px;overflow:hidden;box-shadow:0 0 22px #14b8d433,inset 0 0 22px #14b8d414;position:relative}
+#t-map .visual-ops-banner:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 0 38%,#62efff0b 50%,transparent 62%),linear-gradient(0deg,#03101888,transparent 45%)}
+#t-map .visual-banner-caption{position:relative;z-index:1;text-shadow:0 2px 8px #000}
+#t-map #solo,#t-map #dnet{position:relative;border:1px solid #174b3b;border-radius:10px;background:radial-gradient(ellipse at 50% 0%,#0c2b20 0%,#06120d 52%,#030906 100%);box-shadow:inset 0 0 28px #20ff8710,0 8px 22px #0005;padding:8px;overflow:hidden}
+#t-map #solo:before,#t-map #dnet:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.22;background-image:linear-gradient(#38ff8a12 1px,transparent 1px),linear-gradient(90deg,#38ff8a12 1px,transparent 1px);background-size:22px 22px;mask-image:linear-gradient(to bottom,#000,transparent 88%)}
+#t-map #solo>* ,#t-map #dnet>*{position:relative}
+#t-map svg[id^="map"]{border-color:#286a50;box-shadow:inset 0 0 24px #28ff891c,0 0 16px #18d77a12;background:radial-gradient(ellipse at center,#0a2418,#020805 78%);border-radius:9px}
+#t-map svg[id^="map"] circle.n{transition:filter .2s,stroke-width .2s,opacity .2s;filter:drop-shadow(0 0 2px #42ff9a66)}
+#t-map svg[id^="map"] circle.n:hover{filter:drop-shadow(0 0 7px #75ffb5);stroke-width:2.5}
+#t-map .npc-map-instruction{border:1px solid #286e50;border-radius:8px;background:linear-gradient(110deg,#0b2a1b,#07140d);box-shadow:inset 0 0 18px #39ff8810}
+#t-map .npc-map-legend{border:1px solid #1b5038;border-radius:7px;background:#041009;padding:8px}
+#t-map .cyber-ops-shell,#t-map .cyber-defence-shell{border-color:#276b4b;box-shadow:inset 0 0 30px #39ff880d,0 8px 24px #0005}
+#nxPaneOps .nx-challenge{position:relative;overflow:hidden;box-shadow:inset 0 0 22px #39ff8812,0 5px 18px #0005}
+#nxPaneOps .nx-challenge:after{content:"";position:absolute;top:0;bottom:0;left:0;width:3px;background:linear-gradient(#6dffac,#1c9d5a);box-shadow:0 0 12px #39ff88}
+#nxPaneOps .nx-challenge h3{letter-spacing:.5px}
+#nxPaneOps .nx-challenge-actions{position:relative;z-index:1}
+@media(prefers-reduced-motion:no-preference){#t-map svg[id^="map"] circle.n{animation:mapNodeBreathe 3.8s ease-in-out infinite alternate}#t-map svg[id^="map"] circle.n:nth-of-type(3n){animation-delay:-1.4s}}
+@keyframes mapNodeBreathe{from{filter:drop-shadow(0 0 2px #42ff9a55)}to{filter:drop-shadow(0 0 6px #42ff9a99)}}
+</style>
 </head>
 <body>
 <div id="authGate">
@@ -6426,7 +6448,8 @@ if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.
 if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.99',date:'19 NOV 2026',title:'SOLO OPERATIONS // MISSION REWARD INTEL',tag:'GUARANTEED CACHE · BONUS DROP CHANCES · ALLIANCE REWARDS',items:['The Solo Operations mission panel now includes a reward briefing showing the guaranteed HQ-scaled resource cache and the actual bonus-drop probabilities used by mission completion.','Possible bonuses are shown separately: extra resource cache 48%, nanobots 38%, Kill Tokens 35%, free crew upgrade 30% and VIP Points 25%. When you belong to an Alliance, the Alliance bank bonus (55%) and Alliance research points (42%) are also shown.','These are the existing independent reward rolls, not new rewards or increased drop rates. Actual results are still generated only when the mission completes.','The briefing is informational and limited to Solo Operations. The protected HQ and Alliance building designs remain unchanged.']});
 if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.1.00',date:'19 NOV 2026',title:'SOLO OPERATIONS // LIVE NODE PROGRESS',tag:'ACTIVE MISSION PERCENTAGE · EXPANDED SIGNAL TAGS · LIVE MAP STATUS',items:['Active Solo Operations nodes now display their current completion percentage directly on the network map, rather than only showing ACTIVE.','The signal tag has been widened slightly so the percentage remains legible, while the active node keeps its distinct blue status treatment.','Progress is calculated from the existing mission start and end timestamps and does not change mission duration, crew speed bonuses or reward timing.','Only the Solo Operations map status labels are changed. HQ and Alliance building designs remain untouched.']});
 if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.1.01',date:'19 NOV 2026',title:'DATA NET // TACTICAL NETWORK VISUALS',tag:'NETWORK GRID · TARGET GLOW · SELECTED NODE · PACKET STREAMS',items:['The Data Net map now has a deeper tactical-network backdrop with a subtle grid, layered green illumination and clearer node contrast.','Available hostile targets receive a restrained pulse, the selected target gets a stronger focus glow, and the network packet streams move gently through the map.','Target positions, target selection, Alliance protection, attack states and all map interactions are unchanged. This is a scoped visual refresh of the Data Net map only.','The player HQ campus and all protected Alliance buildings remain untouched.']});
-BHQ_UPDATE_VERSION='1.1.01';
+if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.1.02',date:'19 NOV 2026',title:'SOLO OPS & DATA NET // ENVIRONMENT REFINEMENT',tag:'TACTICAL DEPTH · MAP CONTRAST · MISSION FOCUS',items:['Solo Operations and Data Net now use a more layered tactical environment with restrained grid texture, deeper panels and clearer map framing.','The live operation maps have improved node contrast and subtle focus lighting to make selectable network targets easier to read.','NPC operation guidance, map legends, cyber operations and cyber defence panels receive a consistent visual treatment.','NEXUS Special Operations challenge cards now have stronger mission hierarchy and clearer action focus.','This is a presentation-only update: mission rules, target positions, rewards, timers, saved progress and player data are unchanged.','Player HQ, its four surrounding buildings, Alliance HQ and every Alliance building are deliberately untouched.']});
+BHQ_UPDATE_VERSION='1.1.02';
 if(typeof checkUpdateNotice==='function')checkUpdateNotice();
 </body>
 </html>
