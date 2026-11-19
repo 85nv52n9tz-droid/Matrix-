@@ -2269,7 +2269,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   <div id="ppage" hidden><button id="pback" class="back"></button><div id="phead"></div><div id="pup"></div><div class="sub">Module sockets (modules come from the Shop)</div><div id="psock"></div><div id="pmods"></div><div id="presw" hidden><div class="sub">Research (costs Quantum)</div><div id="pres" class="bgrid"></div></div></div>
 </div>
 <section id="t-ally" hidden><div id="acreate"><input id="aname" maxlength="20" placeholder="Alliance name" autocomplete="off"><button id="acbtn">Create alliance</button></div><div id="amain" hidden><div id="allyCampus" class="ally-campus"><div class="ally-campus-head"><div class="sub">ALLIANCE NETWORK // HOME BASE</div><b id="allyCampusName">ALLIANCE HQ</b><small>Eight specialist facilities orbit the central command core. Follow the live data links and select a building to upgrade it.</small></div><div id="allyCampusWorld" class="ally-campus-world"></div></div><div id="allyInterior" hidden><div class="ally-board" id="ally-board"><div class="ally-board-top"><div><div class="sub">ALLIANCE COMMAND // BOARD</div><div class="ally-title" id="an"></div><div class="ally-sub" id="ad"></div></div><div class="ally-emblem" aria-label="Alliance emblem"><svg viewBox="0 0 64 64"><path d="M32 4 55 16v25L32 60 9 41V16z"/><path d="M32 15 45 22v15L32 48 19 37V22z"/><path d="M24 32h16M32 24v16"/></svg><small>ALLIANCE</small></div></div><div class="ally-leadership"><div class="ally-role leader"><small>ALLIANCE LEADER</small><b id="allyLeaderName">You</b><span>Full command</span></div><div class="ally-support" id="allySupportSlots"></div></div></div><div id="allyTown" class="ally-panel"><div class="ally-town-grid"><div id="allyMemberCol"><div class="sub" id="amemh"></div><div id="amem"></div></div><div id="allyAppCol"><div class="sub" id="aapph"></div><div id="aapp"></div></div></div></div><div id="allyOther" class="ally-panel" hidden><div id="allyTerritoryIntro"><div class="sub">ALLIANCE TERRITORY // CONTROL NETWORK</div><div class="ally-info-grid"><div class="ally-info-card"><b>Alliance territories</b><span>Manage your alliance outposts, strongholds and citadels from the three regional maps below.</span></div><div class="ally-info-card"><b>Expand your influence</b><span>Select a location on a map to inspect it and spend Alliance Credits, Data Cores, Crypto Shards, War Intel and Dark Matter on upgrades.</span></div></div></div><div id="allyTerritoryMaps"><div id="asubs2"></div><div id="ap1" hidden><svg id="map4" viewBox="0 0 200 100"></svg><div id="nd4"></div></div><div id="ap2" hidden><svg id="map5" viewBox="0 0 200 100"></svg><div id="nd5"></div></div><div id="ap3" hidden><svg id="map6" viewBox="0 0 200 100"></svg><div id="nd6"></div></div></div></div><div id="ap4" hidden></div><div class="ally-tabs ally-tabs-bottom" id="allyTabs" aria-label="Alliance navigation"></div></div></div></section>
-<section id="t-hq" hidden><div class="test-shell"><div class="test-hq-status-grid" id="testHqStatusGrid"><section class="test-hq-status-card upgrades"><div class="test-hq-status-kicker">HQ &amp; BUILDING TIMERS</div><div id="testHqUpgradeStatus" class="test-hq-status-content">No active buildings</div></section></div><div class="test-viewport" id="testViewport"><div class="test-world" id="testWorld"><div class="test-building-layer" id="testBuildingLayer"></div></div></div><section class="test-hq-status-card buffs" id="testHqCrewCard"><div class="test-hq-status-kicker">ACTIVE CREW BONUSES</div><div id="testHqCrewBuffs" class="test-hq-status-content">No active crew buffs</div></section><button class="test-attack" id="testAttack" title="Incoming attack — open Nano Defence" aria-label="Incoming attack — open Nano Defence" hidden>☠<small>INCOMING</small></button><div class="test-chat" id="testChat" aria-label="Global and alliance communications">
+<section id="t-hq" hidden><div class="test-shell"><div class="test-hq-status-grid" id="testHqStatusGrid"><section class="test-hq-status-card upgrades"><div class="test-hq-status-kicker">HQ &amp; BUILDING TIMERS</div><div id="testHqUpgradeStatus" class="test-hq-status-content">No active buildings</div></section></div><div class="test-viewport" id="testViewport"><div class="test-world" id="testWorld"><div class="test-building-layer" id="testBuildingLayer"></div></div></div><section class="test-hq-status-card buffs" id="testHqCrewCard"><div class="test-hq-status-kicker">ACTIVE CREW BONUSES</div><div id="testHqCrewBuffs" class="test-hq-status-content">No active crew buffs</div></section><button class="test-attack" id="testAttack" title="Incoming attack — open Nano Defence" aria-label="Incoming attack — open Nano Defence" hidden>☠<small>INCOMING</small></button><div class="test-chat" id="testChat" aria-label="Global and alliance communications" hidden>
   <div class="test-chat-bar">
     <div class="chat-avatar">💬</div>
     <div class="test-chat-copy"><b id="testChatName">[ARB] Vee</b><span id="testChatText">Anyone online for a quick run?</span></div>
@@ -4282,10 +4282,17 @@ function testBulkUpgrade(list){
   save();render();return true;
 }
 function renderTestHqStatus(){
-  var list=S.pr>0?PB:B,upHost=$('testHqUpgradeStatus'),buffHost=$('testHqCrewBuffs'),active=[];
-  if(S.up&&S.up.hq)active.push({id:'hq',name:S.pr?'Prestige HQ':'Headquarters',level:S.hq+S.pr+1});
-  list.forEach(function(o){if(S.up&&S.up[o.id])active.push({id:o.id,name:o.name,level:lvl(o)+1})});
-  if(upHost){var timerScroll=upHost.scrollTop;upHost.innerHTML=active.length?active.map(function(o){var u=S.up[o.id],remaining=Math.max(0,(u.end-Date.now())/1000),fc=finCost(o.id,o.level,remaining),can=S.r.in>=fc;return '<button type="button" class="test-hq-status-line timer-finish '+(can?'ready':'')+'" data-finish-upgrade="'+o.id+'" '+(can?'':'disabled')+' title="'+(can?'Tap to finish immediately using Influence':'Need '+fmt(fc)+' Influence to finish')+'"><b>'+o.name+'</b><span>LV '+o.level+' · '+fmtT(remaining)+' · '+fmt(fc)+' I</span></button>'}).join(''):'<div class="test-hq-status-empty">No active HQ or building timers</div>';upHost.querySelectorAll('[data-finish-upgrade]').forEach(function(b){b.onclick=function(){finish(b.getAttribute('data-finish-upgrade'))}})}
+  var list=S.pr>0?PB:B,upHost=$('testHqUpgradeStatus'),buffHost=$('testHqCrewBuffs'),slots=[];
+  slots.push({id:'hq',name:'HQ',level:S.hq+S.pr+1,up:S.up&&S.up.hq});
+  B.forEach(function(o){slots.push({id:o.id,name:o.name,level:lvl(o)+1,up:S.up&&S.up[o.id]})});
+  if(upHost){
+    upHost.innerHTML=slots.map(function(o){
+      if(!o.up)return '<div class="test-hq-timer-slot idle"><b>'+o.name+'</b><span>—</span></div>';
+      var remaining=Math.max(0,(o.up.end-Date.now())/1000),fc=finCost(o.id,o.level,remaining),can=S.r.in>=fc;
+      return '<button type="button" class="test-hq-timer-slot active" data-finish-upgrade="'+o.id+'" '+(can?'':'disabled')+' title="'+(can?'Tap to finish using Influence':'Upgrade timer running')+'"><b>'+o.name+'</b><span>'+fmtT(remaining)+'</span></button>';
+    }).join('');
+    upHost.querySelectorAll('[data-finish-upgrade]').forEach(function(b){b.onclick=function(){finish(b.getAttribute('data-finish-upgrade'))}});
+  }
   if(buffHost){var buffs=[];list.forEach(function(o){var assigned=crewFor(o.id)||[],bonus=buildingCrewBonus(o);if(assigned.length&&bonus>0)buffs.push({name:o.name,bonus:bonus,count:assigned.length})});buffHost.innerHTML=buffs.length?buffs.slice(0,4).map(function(x){return '<div class="test-hq-status-line"><b>'+x.name+'</b><span>+'+(x.bonus*100).toFixed(1).replace(/\.0$/,'')+'% · '+x.count+' crew</span></div>'}).join(''):'<div class="test-hq-status-empty">No active crew buffs</div>'}
 }
 
@@ -4396,7 +4403,7 @@ function alnTl(id){return alnS().tech[id]||0}
 function alnCap2(a){return 8+a.hq*2+(a.lv.spire||0)+Math.floor((a.tech.tcn||0)/2)}
 function alnCap(){return alnCap2(alnS())}
 function alnLog(t){alnLg(alnS(),t)}
-function alnBankCap(){var a=alnS();return Math.floor((5000+5000*(a.lv.depot||0))*(1+.1*(a.tech.tbk||0)))}
+function alnBankCap(){var a=alnS();return Math.min(1000000,Math.floor((10000+20000*(a.lv.depot||0))*(1+.1*(a.tech.tbk||0))))}
 function alnWar(){var a=alnS();return 1+.04*(a.lv.war||0)+.03*(a.tech.trw||0)}
 function alnDef(){var a=alnS();return a.hq*20+(a.lv.shield||0)*50}
 function alnSpd(){var a=alnS();return Math.max(.4,1-.03*(a.lv.shield||0)-.02*(a.tech.tmr||0))}
@@ -4409,7 +4416,7 @@ function alnCost(id){var a=alnS(),g,c={},base,k;if(id==='hq'){g=a.hq-1;c={cr:Mat
 function alnTCost(t){var a=alnS(),c={},k,g=Math.pow(1.35,a.tech[t.id]||0);for(k in t.b)c[k]=Math.ceil(t.b[k]*g);return c}
 function alnBAff(c){var a=alnS(),k;for(k in c)if((a.bank[k]||0)<c[k])return false;return true}
 function alnBPay(c){var a=alnS(),k;for(k in c)a.bank[k]-=c[k]}
-function alnEff(id,l){return id==='war'?'+'+(l*4)+'% mission, event & war rewards':id==='shield'?'Defence +'+(l*50)+' \u00b7 missions '+(l*3)+'% faster':id==='depot'?'Bank capacity '+fmt(5000+5000*l)+' each':id==='spire'?'+'+l+' member slots':id==='tech'?'Research level cap '+l:id==='vault'?'Gift chest cap '+(3+l)+' \u00b7 +'+(l*10)+'% chest rewards':id==='arena'?'War power +'+(l*3)+'%':id==='hub'?'Help requests '+(l?3+Math.ceil(l/2):0)+' \u00b7 '+(1+Math.floor(l/3))+' coins per help':''}
+function alnEff(id,l){return id==='war'?'+'+(l*4)+'% mission, event & war rewards':id==='shield'?'Defence +'+(l*50)+' \u00b7 missions '+(l*3)+'% faster':id==='depot'?'Bank capacity '+fmt(Math.min(1000000,10000+20000*l))+' each':id==='spire'?'+'+l+' member slots':id==='tech'?'Research level cap '+l:id==='vault'?'Gift chest cap '+(3+l)+' \u00b7 +'+(l*10)+'% chest rewards':id==='arena'?'War power +'+(l*3)+'%':id==='hub'?'Help requests '+(l?3+Math.ceil(l/2):0)+' \u00b7 '+(1+Math.floor(l/3))+' coins per help':''}
 function alnAdd(k,v){var a=alnS();a.bank[k]=Math.min(alnBankCap(),(a.bank[k]||0)+Math.floor(v))}
 function alnUp(id){var a=alnS(),cur=id==='hq'?a.hq:(a.lv[id]||0),c;if(cur>=30)return;if(id!=='hq'&&cur>=a.hq){toast('Upgrade the Alliance HQ first.');return}c=alnCost(id);if(!afford(c)){toast('Not enough resources.');return}pay(c);if(id==='hq')a.hq=cur+1;else a.lv[id]=cur+1;alnQp('upgrade');alnLog((id==='hq'?'Alliance HQ':ALNB.filter(function(q){return q.id===id})[0].name)+' upgraded to level '+(cur+1)+'.');alnDone()}
 function alnDone(){save();try{render()}catch(e){}renderAln();alnRender()}
@@ -4453,10 +4460,9 @@ war:function(a){if(!a.lv.arena)return alnLock('arena','War Academy');var w=a.war
  return h},
 ev:function(a){var h='<div class="aln-hint">Alliance events: contribute 10 times to finish one and claim its reward for the bank.</div>';
  ALNE.forEach(function(o){var c=a.ev[o.id]||0,dn=c>=10;h+='<div class="aln-card"><div class="aln-row"><b>'+o.name+'</b><span>'+c+' / 10</span></div><div class="aln-row"><span>'+o.desc+'</span></div><div class="aln-bar"><i style="width:'+Math.min(100,c*10)+'%"></i></div><div class="aln-row"><span>Reward</span><span>'+csh(o.rw)+'</span></div><div class="aln-acts">'+(dn?alnB('ecl:'+o.id,'CLAIM REWARD'):alnB('ec:'+o.id,'CONTRIBUTE '+fmt(o.unit)+' '+NM[o.res],'',(S.r[o.res]||0)<o.unit))+'</div></div>'});return h},
-mis:function(a){var n=Date.now(),h='<div class="aln-hint">Missions run on their own. Rewards go into the alliance bank (+'+Math.round((alnWar()-1)*100)+'% bonus). Shield Grid and research make them faster.</div>';
- ALNM.forEach(function(o){var m=a.mis[o.id],ok=a.members.length>=o.need,dn=m&&n>=m.end,btn=m?(dn?alnB('mc:'+o.id,'CLAIM'):'<span class="aln-tm">'+alnT(m.end-n)+'</span>'):alnB('ms:'+o.id,'START','',!ok);
-  h+='<div class="aln-card"><div class="aln-row"><b>'+o.name+'</b>'+btn+'</div><div class="aln-row"><span>Needs '+o.need+' members'+(ok?'':' (you have '+a.members.length+')')+' \u00b7 '+Math.max(.5,o.mins*alnSpd()).toFixed(1)+' min</span></div><div class="aln-row"><span>Reward</span><span>'+csh(o.rw)+' \u00b7 +'+o.xp+' XP</span></div></div>'});return h},
-tech:function(a){if(!a.lv.tech)return alnLock('tech','Research Lab');var h='<div class="aln-hint">Research is paid from the alliance bank. Each tech can go up to the Research Lab level ('+a.lv.tech+').</div>';
+mis:function(a){var n=Date.now(),mult=alnWar(),h='<div class="aln-hint">Missions run on their own. Rewards below include your War Room and Data Mining bonuses and are paid into the alliance bank.</div>';
+ ALNM.forEach(function(o){var m=a.mis[o.id],ok=a.members.length>=o.need,dn=m&&n>=m.end,btn=m?(dn?alnB('mc:'+o.id,'CLAIM'):'<span class="aln-tm">'+alnT(m.end-n)+'</span>'):alnB('ms:'+o.id,'START','',!ok),reward={};Object.keys(o.rw).forEach(function(k){reward[k]=Math.floor(o.rw[k]*mult)});
+  h+='<div class="aln-card"><div class="aln-row"><b>'+o.name+'</b>'+btn+'</div><div class="aln-row"><span>Needs '+o.need+' members'+(ok?'':' (you have '+a.members.length+')')+' · '+Math.max(.5,o.mins*alnSpd()).toFixed(1)+' min</span></div><div class="aln-row"><span>Reward incl. bonuses</span><b>'+csh(reward)+' · +'+o.xp+' XP</b></div></div>'});return h},tech:function(a){if(!a.lv.tech)return alnLock('tech','Research Lab');var h='<div class="aln-hint">Research is paid from the alliance bank. Each tech can go up to the Research Lab level ('+a.lv.tech+').</div>';
  ALNT.forEach(function(t){var l=a.tech[t.id]||0,c=alnTCost(t),mx=Math.min(30,a.lv.tech),dn=l>=mx;h+='<div class="aln-card"><div class="aln-row"><b>'+t.name+'</b><span>LV '+l+' / '+mx+'</span></div><div class="aln-row"><span>'+t.d+'</span></div>'+(dn?'':'<div class="aln-row"><span>Cost (bank)</span><span>'+csh(c)+'</span></div>')+'<div class="aln-acts">'+alnB('tup:'+t.id,dn?'AT CAP':'RESEARCH','',dn||!alnBAff(c))+'</div></div>'});return h},
 bank:function(a){var h='<div class="aln-hint">Capacity '+fmt(alnBankCap())+' per resource. Raise it with the Supply Depot and Cold Storage research.</div>';
  ALNK.forEach(function(k){h+='<div class="aln-card"><div class="aln-row"><b style="color:'+CL[k]+'">'+NM[k]+'</b><span>Bank '+fmt(a.bank[k]||0)+' / '+fmt(alnBankCap())+'</span></div><div class="aln-row"><span>You hold '+fmt(Math.floor(S.r[k]||0))+'</span></div><div class="aln-acts">'+alnB('dep:'+k+':25','DEP 25%')+alnB('dep:'+k+':100','DEP ALL')+alnB('wd:'+k+':25','TAKE 25%','alt')+alnB('wd:'+k+':100','TAKE ALL','alt')+'</div></div>'});return h},
@@ -4470,13 +4476,13 @@ bld:function(a){var hc=alnCost('hq'),hd=a.hq>=30,h='<div class="aln-card"><div c
 set:function(a){var s=a.set,h='<div class="aln-card"><div class="aln-ct">RECRUITMENT</div><div class="aln-acts">'+['open','invite','closed'].map(function(m){return alnB('set:mode:'+m,m.toUpperCase(),s.mode===m?'':'alt')}).join('')+'</div><div class="aln-row"><span>Minimum applicant HQ level</span><span>'+alnB('set:minhq:-1','\u2212','alt')+' <b>'+(s.minhq||1)+'</b> '+alnB('set:minhq:1','+','alt')+'</span></div><div class="aln-row"><span>Auto-accept applicants</span>'+alnB('set:auto:1',s.auto?'ON':'OFF',s.auto?'':'alt')+'</div></div>';
  h+='<div class="aln-card"><div class="aln-ct">IDENTITY</div><div class="aln-row"><span>Name</span><input id="alnInName" class="aln-in" maxlength="20" value="'+alnEsc(a.name)+'"></div><div class="aln-row"><span>Tag</span><input id="alnInTag" class="aln-in" maxlength="4" value="'+alnEsc(a.tag)+'"></div><div class="aln-row"><span>Message of the day</span></div><input id="alnInMotd" class="aln-in" maxlength="90" value="'+alnEsc(s.motd)+'"><div class="aln-acts">'+alnB('set:save:1','SAVE CHANGES')+'</div></div>';return h},
 log:function(a){var h='';if(!a.log.length)h+='<div class="aln-hint">No activity yet.</div>';a.log.forEach(function(q){h+='<div class="aln-row lg"><span>'+alnEsc(q.m)+'</span><em>'+alnT(Date.now()-q.t)+' ago</em></div>'});return h}};
-var ALNTABS=[['ov','OVERVIEW'],['ros','MEMBERS'],['app','APPLICATIONS'],['chat','CHAT'],['help','HELP'],['gift','GIFTS'],['q','TASKS'],['war','WARS'],['ev','EVENTS'],['mis','MISSIONS'],['tech','RESEARCH'],['bank','BANK'],['shop','SHOP'],['rank','RANKS'],['bld','BUILDINGS'],['set','SETTINGS'],['log','LOG']];
+var ALNTABS=[['ov','OVERVIEW'],['ros','MEMBERS'],['app','APPLICATIONS'],['chat','CHAT'],['help','HELP'],['gift','GIFTS'],['q','TASKS'],['war','WARS'],['ev','EVENTS'],['mis','MISSIONS'],['tech','RESEARCH'],['bank','BANK'],['shop','SHOP'],['rank','RANKS'],['bld','BUILDINGS'],['set','SETTINGS']];
 var ALNGROUPS=[
  {id:'ov',label:'OVERVIEW',icon:'⌂',tabs:[]},
- {id:'roster',label:'ROSTER',icon:'♟',tabs:['ros','app','rank']},
- {id:'activity',label:'ACTIVITY',icon:'◈',tabs:['chat','help','gift','q','log']},
+ {id:'roster',label:'ROSTER',icon:'♟',tabs:['ros','app','rank','set']},
+ {id:'activity',label:'ACTIVITY',icon:'◈',tabs:['chat','help','gift','q']},
  {id:'ops',label:'OPERATIONS',icon:'⚔',tabs:['war','ev','mis']},
- {id:'dev',label:'DEVELOPMENT',icon:'⌘',tabs:['tech','bank','shop','bld','set']}
+ {id:'dev',label:'DEVELOPMENT',icon:'⌘',tabs:['tech','bank','shop','bld']}
 ];
 function alnGroupForTab(id){for(var i=0;i<ALNGROUPS.length;i++)if(ALNGROUPS[i].tabs.indexOf(id)>=0)return ALNGROUPS[i].id;return 'ov'}
 function alnGroupFirst(id){var g=ALNGROUPS.filter(function(x){return x.id===id})[0];return g&&g.tabs.length?g.tabs[0]:'ov'}
@@ -6422,3 +6428,41 @@ html body .hdr{margin-bottom:0!important}
 </style>
 </body>
 </html>
+
+<style id="bhq-alliance-hq-layout-v1063">
+#alnSubTabs{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:7px!important;justify-content:stretch!important}
+#alnSubTabs .aln-subtb{min-width:0!important;padding-left:3px!important;padding-right:3px!important}
+#t-hq #testHqStatusGrid{display:block!important;left:7px!important;right:7px!important;top:5px!important;pointer-events:none!important}
+#t-hq .test-hq-status-card.upgrades{width:100%!important;height:auto!important;min-height:0!important;max-height:none!important;padding:4px 5px!important;pointer-events:none!important}
+#t-hq .test-hq-status-card.upgrades .test-hq-status-kicker{font-size:7px!important;line-height:9px!important;margin:0 0 3px!important}
+#t-hq #testHqUpgradeStatus{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:4px!important;overflow:visible!important;max-height:none!important}
+#t-hq .test-hq-timer-slot{min-width:0!important;height:34px!important;padding:3px 2px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:2px!important;border:1px solid #ffffff24!important;border-radius:5px!important;background:#17201e!important;color:#82908a!important;font:800 7px/1.1 ui-monospace,monospace!important;text-align:center!important;overflow:hidden!important;pointer-events:auto!important}
+#t-hq .test-hq-timer-slot b{display:block!important;width:100%!important;font-size:6px!important;line-height:8px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;color:inherit!important}
+#t-hq .test-hq-timer-slot span{display:block!important;font-size:8px!important;line-height:10px!important;white-space:nowrap!important;color:inherit!important}
+#t-hq .test-hq-timer-slot.idle{opacity:.48!important;filter:grayscale(1)!important}
+#t-hq .test-hq-timer-slot.active{border-color:#f4fbff!important;background:linear-gradient(145deg,#26333a,#111d25)!important;color:#fff!important;animation:hqTimerWhitePulse 1.25s ease-in-out infinite!important;box-shadow:0 0 7px #fff6,inset 0 0 8px #fff2!important}
+#t-hq .test-hq-timer-slot.active:disabled{opacity:1!important;cursor:default!important}
+@keyframes hqTimerWhitePulse{0%,100%{border-color:#8da1ae;box-shadow:0 0 3px #fff4,inset 0 0 3px #fff1}50%{border-color:#fff;box-shadow:0 0 12px #fff9,inset 0 0 9px #fff4}}
+#t-hq .test-hq-status-card.buffs{min-height:0!important;max-height:none!important;padding:3px 5px!important}
+#t-hq .test-hq-status-card.buffs .test-hq-status-kicker{font-size:7px!important;line-height:9px!important;margin-bottom:2px!important}
+#t-hq #testHqCrewBuffs{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:3px!important;overflow:hidden!important;max-height:none!important}
+#t-hq #testHqCrewBuffs .test-hq-status-line{min-width:0!important;min-height:25px!important;display:flex!important;flex-direction:column!important;justify-content:center!important;gap:1px!important;padding:2px 3px!important;border-radius:4px!important;overflow:hidden!important}
+#t-hq #testHqCrewBuffs .test-hq-status-line b{font-size:7px!important;line-height:8px!important}
+#t-hq #testHqCrewBuffs .test-hq-status-line span{font-size:7px!important;line-height:8px!important}
+#t-hq .test-viewport{top:93px!important}
+#t-hq .test-world{margin-left:calc((100% - 1010px)/2)!important}
+#t-hq #testChat{display:none!important}
+@media(max-width:520px){
+ #t-hq #testHqStatusGrid{left:5px!important;right:5px!important;top:4px!important}
+ #t-hq .test-hq-status-card.upgrades{padding:3px!important}
+ #t-hq #testHqUpgradeStatus{gap:3px!important}
+ #t-hq .test-hq-timer-slot{height:31px!important}
+ #t-hq .test-hq-timer-slot b{font-size:5.5px!important}
+ #t-hq .test-hq-timer-slot span{font-size:7px!important}
+ #t-hq .test-hq-status-card.buffs{padding:3px!important}
+ #t-hq #testHqCrewBuffs .test-hq-status-line{min-height:23px!important;padding:2px!important}
+ #t-hq #testHqCrewBuffs .test-hq-status-line b{font-size:6px!important}
+ #t-hq #testHqCrewBuffs .test-hq-status-line span{font-size:6px!important}
+ #t-hq .test-viewport{top:84px!important}
+}
+</style>
