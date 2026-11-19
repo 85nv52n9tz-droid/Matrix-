@@ -5230,7 +5230,7 @@ enforceUniqueCrewAssignments();
 refreshCompPointValues();
 
 /* BACKDOOR HQ 1.0.53 — NEON COMMAND CAMPUS VISUAL REDESIGN */
-var BHQ_UPDATE_VERSION='1.0.61';
+var BHQ_UPDATE_VERSION='1.0.62';
 if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.53',date:'18 NOV 2026',title:'NEON COMMAND CAMPUS // HQ ARCHITECTURE REDESIGN',tag:'30 HQ LEVEL DESIGNS · FOUR BUILDING EVOLUTIONS · CYBER-GRID ENVIRONMENT',items:[
  'Redesigned the standard HQ area as a central futuristic command campus, with the main HQ centred and the four standard resource buildings arranged around it. Prestige buildings retain their existing visuals.',
  'Added 30 level-specific HQ architecture variants: the command tower grows in height and width, subtly shifts its energy colour and crown geometry at every level, and gains additional decks, antenna structures and energy rings as HQ levels increase.',
@@ -5262,6 +5262,7 @@ if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.
  'Buildings opens the existing Alliance territory and facility upgrade system; Research opens the existing Alliance technology trees; Roster opens the member power ranking. Existing Alliance data, member actions, applications, event logic and progression are preserved.',
  'The dock scrolls horizontally on smaller screens so every Alliance HQ section remains reachable without covering the page. The top notification system and NPC mission badge placement remain active, and the main Network Alliance shortcut has no event badge.'
 ]});
+if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.62',date:'19 NOV 2026',title:'HQ COMMAND STRIP // TIMERS & CREW AT A GLANCE',tag:'NO-SCROLL HQ STATUS · FORCED UPDATE RE-LOGIN',items:['Removed the RESOURCES heading and divider from the HQ resource strip while retaining all six balances and production rates.','Placed HQ and building upgrade timers directly above the crew assignment windows. Both panels are designed to fit without scrolling.','Resized the four crew assignment windows and increased text size for easier reading.','Added a version confirmation gate. When a new build is loaded, returning players must log in again on that device. Saved game progress remains tied to the player account.']});
 if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.61',date:'19 NOV 2026',title:'HQ RESOURCE STRIP // CREW BONUSES BELOW BUILDINGS',tag:'TOP RESOURCE BAR · REMOVED TOTAL INCOME · BOTTOM CREW PANEL',items:[
  'Moved the six-resource panel from the right side of the HQ scene into a compact horizontal strip above the central HQ building area. Individual resource balances and their per-resource production rates remain visible.',
  'Removed the separate combined Total Income figure from the resource panel to make the strip cleaner and easier to read.',
@@ -5325,6 +5326,7 @@ show('hq');checkUpdateNotice();checkSystemGiftDelivery();setInterval(tick,1000);
   function setBusy(v){submit.disabled=v;toggle.disabled=v;submit.style.opacity=v?'.55':''}
   function usernameEmail(name){return name.toLowerCase()+'@players.backdoorhq.invalid'}
   function showGame(user, testMode){
+    try{localStorage.setItem('bhq-confirmed-build-version',String(window.BHQ_UPDATE_VERSION||''));}catch(e){}
     const name=(user.user_metadata&&user.user_metadata.username)||user.email.split('@')[0];
     window.BHQ_USERNAME=name;
     // Each authenticated Supabase user gets a separate browser save slot.
@@ -5393,7 +5395,7 @@ show('hq');checkUpdateNotice();checkSystemGiftDelivery();setInterval(tick,1000);
     if(!window.supabase||!window.supabase.createClient){say('Could not load the Supabase library. Check your internet connection and refresh.');return}
     if(SUPABASE_URL.indexOf('PASTE_')===0||SUPABASE_ANON_KEY.indexOf('PASTE_')===0){say('Add your Supabase project URL and publishable/anon key in the script at the bottom of this file.');return}
     client=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
-    client.auth.getSession().then(function(res){if(res.data&&res.data.session)showGame(res.data.session.user)}).catch(function(e){say(e.message||'Could not restore your login.')});
+    client.auth.getSession().then(async function(res){const session=res.data&&res.data.session,liveVersion=String(window.BHQ_UPDATE_VERSION||'');let confirmed='';try{confirmed=localStorage.getItem('bhq-confirmed-build-version')||''}catch(e){}if(session&&confirmed!==liveVersion){await client.auth.signOut({scope:'local'});say('GAME UPDATE '+liveVersion+' READY. Please log in again to confirm the update. Your saved game progress is safe.');return;}if(session)showGame(session.user);}).catch(function(e){say(e.message||'Could not restore your login.')});
     client.auth.onAuthStateChange(function(event,session){
       if(event==='SIGNED_OUT'){gate.hidden=false;shell.hidden=true}
       else if(session&&!started)showGame(session.user);
@@ -6398,6 +6400,25 @@ html body .hdr{margin-bottom:0!important}
  #t-hq .test-hq-status-card.buffs .test-hq-status-content{height:33px!important;min-height:33px!important;max-height:33px!important;gap:3px!important}
  #t-hq .test-hq-status-card.buffs .test-hq-status-line{flex-basis:calc((100% - 6px)/3)!important;width:calc((100% - 6px)/3)!important;min-width:calc((100% - 6px)/3)!important}
 }
+</style>
+<style id="hq-compact-timer-crew-v2">
+#t-hq #resPanel .rp-h{display:none!important;border:0!important;padding:0!important;margin:0!important;height:0!important;min-height:0!important}
+#t-hq #resPanel{padding:5px 6px!important}
+#t-hq .test-shell .test-hq-status-grid,#t-hq .test-shell:not(.hq-status-open) .test-hq-status-grid,#t-hq .test-shell.hq-status-open .test-hq-status-grid{position:absolute!important;z-index:43!important;left:8px!important;right:8px!important;top:auto!important;bottom:126px!important;display:block!important;max-height:none!important;height:76px!important;opacity:1!important;visibility:visible!important;overflow:hidden!important;pointer-events:auto!important}
+#t-hq .test-hq-status-grid .test-hq-status-card.upgrades{box-sizing:border-box!important;display:flex!important;flex-direction:column!important;width:100%!important;height:76px!important;min-height:76px!important;max-height:76px!important;padding:5px 7px!important;overflow:hidden!important}
+#t-hq .test-hq-status-card.upgrades .test-hq-status-content{display:flex!important;flex-flow:row wrap!important;align-content:flex-start!important;gap:3px 5px!important;width:100%!important;height:52px!important;min-height:52px!important;max-height:52px!important;overflow:hidden!important}
+#t-hq .test-hq-status-card.upgrades .test-hq-status-line{box-sizing:border-box!important;display:flex!important;flex:0 0 calc(50% - 3px)!important;width:calc(50% - 3px)!important;min-width:0!important;min-height:21px!important;height:21px!important;flex-direction:row!important;justify-content:space-between!important;align-items:center!important;gap:4px!important;padding:2px 5px!important;border:1px solid #b18b4266!important;border-radius:5px!important;background:#211b0c!important}
+#t-hq .test-hq-status-card.upgrades .test-hq-status-line b{font-size:9px!important;line-height:11px!important;white-space:nowrap!important}
+#t-hq .test-hq-status-card.upgrades .test-hq-status-line span{font-size:8px!important;line-height:10px!important;white-space:nowrap!important}
+#t-hq .test-hq-status-card.buffs{position:absolute!important;z-index:44!important;left:8px!important;right:8px!important;bottom:54px!important;box-sizing:border-box!important;width:auto!important;height:66px!important;min-height:66px!important;max-height:66px!important;display:flex!important;flex-direction:column!important;gap:3px!important;padding:4px 6px!important;overflow:hidden!important}
+#t-hq .test-hq-status-card.buffs .test-hq-status-kicker{font-size:8px!important;line-height:10px!important;margin:0!important}
+#t-hq .test-hq-status-card.buffs .test-hq-status-content{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;grid-auto-flow:row!important;gap:4px!important;width:100%!important;height:43px!important;min-height:43px!important;max-height:43px!important;overflow:hidden!important}
+#t-hq .test-hq-status-card.buffs .test-hq-status-line{box-sizing:border-box!important;display:flex!important;flex-direction:column!important;justify-content:center!important;align-items:flex-start!important;gap:2px!important;width:auto!important;min-width:0!important;height:43px!important;min-height:43px!important;max-height:43px!important;padding:3px 5px!important;border:1px solid #28e6ff35!important;border-radius:5px!important;overflow:hidden!important}
+#t-hq .test-hq-status-card.buffs .test-hq-status-line b{display:block!important;width:100%!important;font-size:9px!important;line-height:11px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+#t-hq .test-hq-status-card.buffs .test-hq-status-line span{display:block!important;width:100%!important;font-size:8px!important;line-height:10px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+#t-hq .test-shell .test-viewport,#t-hq .test-shell.hq-status-open .test-viewport{top:72px!important;bottom:198px!important}
+#t-hq .hq-upcoming-toggle{display:none!important}
+@media(max-width:520px){#t-hq #resPanel{top:26px!important;left:6px!important;right:6px!important;padding:4px!important}#t-hq .test-hq-status-grid,#t-hq .test-shell:not(.hq-status-open) .test-hq-status-grid,#t-hq .test-shell.hq-status-open .test-hq-status-grid{left:6px!important;right:6px!important;bottom:124px!important;height:76px!important}#t-hq .test-hq-status-card.buffs{left:6px!important;right:6px!important;bottom:52px!important;height:66px!important;min-height:66px!important;max-height:66px!important;padding:4px!important}#t-hq .test-hq-status-card.buffs .test-hq-status-content{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:3px!important}#t-hq .test-hq-status-card.buffs .test-hq-status-line{padding:3px!important}#t-hq .test-hq-status-card.buffs .test-hq-status-line b{font-size:8px!important;line-height:10px!important}#t-hq .test-hq-status-card.buffs .test-hq-status-line span{font-size:7px!important;line-height:9px!important}#t-hq .test-shell .test-viewport,#t-hq .test-shell.hq-status-open .test-viewport{top:69px!important;bottom:194px!important}}
 </style>
 </body>
 </html>
