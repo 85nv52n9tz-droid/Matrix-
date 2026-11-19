@@ -3123,9 +3123,9 @@ function claimNpcMission(id){
   if(Math.random()<0.25){var vp=1+Math.floor(Math.random()*3);S.vipPoints=(S.vipPoints||0)+vp;rewards.push('+'+vp+' VIP Points');}
   if(Math.random()<0.38){var botTier=Math.floor(Math.random()*Math.max(1,tierMax())),botCount=1+Math.floor(Math.random()*4),room=Math.max(0,Math.floor((capN()-used())/(botTier+1)));botCount=Math.min(botCount,room);if(botCount>0){S.nb[botTier]=(S.nb[botTier]||0)+botCount;rewards.push('+'+botCount+' '+TR[botTier].name+' nanobots');}}
   if(Math.random()<0.30){var crewPool=CM.map(function(_,i){return i}).filter(function(i){return i<15&&recruited(i)&&CREW_PATHS[i]});if(crewPool.length){var who=crewPool[Math.floor(Math.random()*crewPool.length)],paths=[CREW_PATHS[who].a,CREW_PATHS[who].b],slot=paths[Math.floor(Math.random()*paths.length)],key=who+'_'+slot;S.freeUpgrades=S.freeUpgrades||{};S.freeUpgrades[key]=(S.freeUpgrades[key]||0)+1;rewards.push('FREE CREW UPGRADE · '+CM[who]+' · '+GS[slot].n);}}
-  if(S.al&&S.al.n&&Math.random()<0.55){ensureAllianceBank();var ar={ac:1200+Math.floor(Math.random()*3801),dc:60+Math.floor(Math.random()*191),cs:5+Math.floor(Math.random()*16),wi:Math.random()<0.65?1+Math.floor(Math.random()*2):0,dm:Math.random()<0.30?1:0};Object.keys(ar).forEach(function(k){S.al.res[k]=(S.al.res[k]||0)+ar[k]});rewards.push('ALLIANCE BANK BONUS · '+giftResourceText(ar,ANM));}
-  if(S.al&&S.al.n&&Math.random()<0.42){ensureAllianceBank();var points=2+Math.floor(Math.random()*3);S.al.techPts=(S.al.techPts||0)+points;rewards.push('FREE ALLIANCE TECH · +'+points+' Research Points');}
-  var npcContributionPoints=awardAllianceContribution('MPC / NPC mission '+cfg.name,1,5,'mission',rewards.join(' · ')||'No additional rewards');S.npcRewardLog=S.npcRewardLog||[];S.npcRewardLog.unshift({time:Date.now(),mission:cfg.name,rewards:rewards,contributionPoints:npcContributionPoints});if(S.npcRewardLog.length>60)S.npcRewardLog.length=60;
+  
+  
+  S.npcRewardLog=S.npcRewardLog||[];S.npcRewardLog.unshift({time:Date.now(),mission:cfg.name,rewards:rewards});if(S.npcRewardLog.length>60)S.npcRewardLog.length=60;
   log('NPC mission completed: '+cfg.name+'. '+rewards.join(' · '));chatPost('GC','mission','MPC MISSION COMPLETE',cfg.name+' — MISSION COMPLETED SUCCESSFULLY.');save();
   render(); // Personal mission collection is silent; rewards and War Log entries are still recorded.
 }
@@ -6103,6 +6103,100 @@ if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.push({version:'1.0.65'
 })();
 if(typeof BHQ_UPDATE_VERSION!=='undefined')BHQ_UPDATE_VERSION='1.0.67';
 if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.67',date:'19 NOV 2026',title:'ALLIANCE HQ // REBUILT FROM SCRATCH',tag:'NEW CAMPUS · NEW COMMAND INTERIOR · SHARED RESOURCE BANK',items:['Replaced the old Alliance tab layout with a new Alliance campus and a redesigned HQ interior.','Made the central Alliance HQ a permanent command hub; the surrounding specialist facilities are the upgradeable buildings.','Added a shared Alliance Resource Bank display, bank ledger and Alliance Exchange that spends and deposits shared resources only.','Moved Alliance operations, roster, research, events, communications, academy, archives and member support into the new HQ interior.','Preserved existing Alliance bank balances, member data, applications, building levels, research and activity records.']});
+})();
+
+
+/* ALLIANCE SYSTEM REMOVAL // preserve independent gameplay and use the normal HQ as the red-tab layout. */
+(function(){
+  try{
+    if(typeof S==='object'&&S){
+      S.al={n:'',mem:[],app:[],cd:{},nx:0};
+    }
+    /* No activity may write to an Alliance bank, wall, roster or contribution ledger. */
+    if(typeof awardAllianceContribution==='function')awardAllianceContribution=function(){return 0};
+    if(typeof allianceContributionRate==='function')allianceContributionRate=function(){return 0};
+    if(typeof allianceBuildingBonus==='function')allianceBuildingBonus=function(){return 0};
+    if(typeof techCount==='function')techCount=function(){return 0};
+    if(typeof allianceRates==='function')allianceRates=function(){return {ac:0,dc:0,cs:0,wi:0,dm:0}};
+    if(typeof allianceAfford==='function')allianceAfford=function(){return false};
+    if(typeof alliancePay==='function')alliancePay=function(){return false};
+    if(typeof allianceBuy==='function')allianceBuy=function(){return false};
+    if(typeof bankAdd==='function')bankAdd=function(){return 0};
+    if(typeof bankPay==='function')bankPay=function(){return false};
+    if(typeof allyStep==='function')allyStep=function(){};
+    if(typeof isAlly==='function')isAlly=function(){return false};
+    if(typeof evHit==='function')evHit=function(){};
+    if(typeof evAddReward==='function')evAddReward=function(){return ''};
+    if(typeof renderEvent==='function')renderEvent=function(){var p=$('ap4');if(p)p.innerHTML=''};
+    if(typeof allianceCompClaim==='function')allianceCompClaim=function(){};
+    if(typeof renderAllianceCompetition==='function')renderAllianceCompetition=function(){var h=$('competitionContent');if(h)h.innerHTML='<div class="desc">This Alliance feature has been removed.</div>'};
+    if(typeof buyAllianceGift==='function')buyAllianceGift=function(){};
+    if(typeof renderAllianceGifts==='function')renderAllianceGifts=function(){};
+    if(typeof renderAllianceTech==='function')renderAllianceTech=function(){};
+    if(typeof allyOpsRender==='function')allyOpsRender=function(){};
+    if(typeof allyCommsRender==='function')allyCommsRender=function(){};
+    if(typeof allyAcademyRender==='function')allyAcademyRender=function(){};
+    if(typeof allyArchivesRender==='function')allyArchivesRender=function(){};
+    if(typeof renderAllyHelp==='function')renderAllyHelp=function(){};
+    if(typeof aAccept==='function')aAccept=function(){};
+    if(typeof aKick==='function')aKick=function(){};
+    if(typeof aDeny==='function')aDeny=function(){};
+    if(typeof openAllianceTerritoryBuilding==='function')openAllianceTerritoryBuilding=function(){};
+    if(typeof renderAllianceTerritory==='function')renderAllianceTerritory=function(){};
+    if(typeof renderAllianceCampus==='function')renderAllianceCampus=function(){};
+    if(typeof renderNewInterior==='function')renderNewInterior=function(){};
+    if(typeof compClaimFinal==='function'){
+      compClaimFinal=function(period,index){
+        var c=compEnsure(),list=period==='weekly'?c.weeklyArchive:c.monthlyArchive,entry=list[index];
+        if(!entry||entry.claimed)return;
+        compGrant(entry.reward,period);entry.claimed=true;save();renderCompetition(period);
+        toast((period==='weekly'?'Weekly':'Monthly')+' placement reward claimed.');
+      };
+    }
+    if(typeof claimSystemGifts==='function'){
+      claimSystemGifts=function(){
+        if(!systemGiftPending()){toast('No compensation package is currently available.');return;}
+        var pack=systemGiftPackage();
+        Object.keys(pack.personal||{}).forEach(function(k){S.r[k]=(Number(S.r[k])||0)+pack.personal[k]});
+        S.vipPoints=(Number(S.vipPoints)||0)+pack.vip;S.killTokens=(Number(S.killTokens)||0)+pack.kills;
+        S.freeGhostProtocol=(Number(S.freeGhostProtocol)||0)+pack.ghost;
+        S.systemUpdateGiftClaimed=true;S.systemGiftDeliveryClaimed=true;S.systemGiftLastClaimAt=Date.now();
+        S.systemGiftLastClaimVersion=String(S.systemGiftPendingVersion||BHQ_UPDATE_VERSION);
+        S.systemGiftPendingVersion='';S.systemUpdateGiftReadyAt=0;
+        log('Accepted HQ '+pack.hq+' / Prestige '+pack.prestige+' compensation: personal resources, '+pack.vip+' VIP Points, '+pack.kills+' Kill Tokens and '+pack.ghost+' free Ghost Protocol activations.');
+        save();renderSystemGiftBadge();$('systemGiftModal').hidden=true;
+        toast('System compensation accepted. Check the Shop for your '+pack.ghost+' free Ghost Protocol uses.');render();
+      };
+    }
+    if(typeof openSystemGifts==='function'){
+      openSystemGifts=function(){
+        var host=$('systemGiftContents'),claimed=!!S.systemGiftDeliveryClaimed;if(!host)return;
+        if(!claimed&&!systemGiftPending()){var readyAt=Number(S.systemUpdateGiftReadyAt||0);toast(readyAt?'Your compensation is being prepared. It will arrive in '+Math.max(1,Math.ceil((readyAt-Date.now())/1000))+' seconds.':'Read the Update Log and close it first. Your compensation will arrive 30 seconds afterwards.');return;}
+        var pack=systemGiftPackage(),names={cr:'Credits',da:'Data',cy:'Crypto',ex:'Exploits',in:'Intel',qt:'Influence'};
+        var rows=[['PERSONAL RESOURCE BUNDLE · HQ '+pack.hq+' · PRESTIGE '+pack.prestige,systemGiftResourceText(pack.personal,names)],['VIP & COMBAT REWARDS',pack.vip+' VIP Points · '+pack.kills+' Kill Tokens'],['GHOST PROTOCOL',pack.ghost+' free activations · 15-minute boost · 60-minute cooldown']];
+        host.innerHTML=rows.map(function(x){return '<div class="system-gift-line"><b>'+x[0]+'</b><small>'+x[1]+'</small></div>'}).join('');
+        $('systemGiftClaim').disabled=claimed;$('systemGiftClaim').textContent=claimed?'COMPENSATION ACCEPTED':'ACCEPT COMPENSATION';
+        $('systemGiftFoot').textContent=claimed?'THIS ACCOUNT HAS ALREADY CLAIMED THIS PACKAGE':'ONE-TIME PLAYER COMPENSATION PACKAGE · SCALED TO YOUR HQ / PRESTIGE';
+        $('systemGiftModal').hidden=false;
+      };
+    }
+    /* The red Alliance tab is now a clean copy of the normal HQ, using the same four buildings and upgrade state. */
+    renderAllyTab=function(){
+      var create=$('acreate'),main=$('amain'),campus=$('allyCampus'),interior=$('allyInterior');
+      if(create)create.hidden=true;if(main)main.hidden=true;if(campus)campus.hidden=true;if(interior)interior.hidden=true;
+      var status=$('allyHqUpgradeStatus'),buffs=$('allyHqCrewBuffs');
+      if(typeof renderTestHqStatusForAlliance==='function')renderTestHqStatusForAlliance();
+      if(typeof renderTestArea==='function')renderTestArea('allyBuildingLayer');
+      var attack=$('allyTestAttack');if(attack)attack.hidden=!S.inc;
+      var tabs=$('allyTabs');if(tabs){tabs.innerHTML='';tabs.hidden=true}
+      var other=$('allyOther');if(other){other.innerHTML='';other.hidden=true}
+      var town=$('allyTown');if(town){town.innerHTML='';town.hidden=true}
+      var bank=$('allyNewBank');if(bank)bank.innerHTML='';
+      var chatAC=$('testChatAC');if(chatAC){chatAC.hidden=true;chatAC.disabled=true}
+    };
+    /* The old Alliance membership marker on the right-hand target list is removed. */
+    if(typeof isAlly==='function')isAlly=function(){return false};
+  }catch(e){try{console.error('Alliance cleanup guard:',e)}catch(_){}}
 })();
 
 </script>
