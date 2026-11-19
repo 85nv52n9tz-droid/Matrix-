@@ -3950,7 +3950,7 @@ function renderSettings(){
  });
 }
 function renderChiefProfile(){var h=$('chiefHqLevel'),sh=$('chiefStatHq'),pw=$('chiefStatPower'),ki=$('chiefStatKills'),cr=$('chiefStatCrew');if(h)h.textContent=S.hq;if(sh)sh.textContent=S.hq;if(pw)pw.textContent=fmt(power());if(ki)ki.textContent=fmt(S.kills||0);if(cr)cr.textContent=crewAvailableCount()+' / 7';var nm=$('chiefPlayerName');if(nm)nm.textContent=(window.backdoorPlayerName||'YOUR CHIEF').toString().slice(0,24);var pa=$('openProgressionArchive');if(pa)pa.onclick=function(){show('progression')};document.querySelectorAll('[data-chief-slot]').forEach(function(b){b.onclick=function(){document.querySelectorAll('[data-chief-slot]').forEach(function(x){x.classList.remove('active')});b.classList.add('active');var labels={helmet:'Neural Visor · head protection and signal focus.',chest:'Core Armour · personal defensive plating.',gloves:'Pulse Gloves · precision control and combat handling.',boots:'Vector Boots · mobility and movement systems.',weapon:'Data Blade · personal chief weapon slot.',accessory:'Signal Core · auxiliary chief enhancement module.'};$('chiefSlotInfo').textContent=labels[b.getAttribute('data-chief-slot')]+' Equipment upgrades can be connected here in a later pass.'}});document.querySelectorAll('[data-chief-go]').forEach(function(b){b.onclick=function(){show(b.getAttribute('data-chief-go'))}})}
-var BHQ_UPDATE_VERSION='1.0.54';
+var BHQ_UPDATE_VERSION='1.0.55';
 var BHQ_UPDATE_RELEASES=[
  {version:'1.0.54',date:'18 NOV 2026',title:'HQ STATUS DRAWER // RETRACTABLE UPCOMING STRIP',tag:'COMPACT COLLAPSIBLE TIMER & CREW PANELS',items:['Added a slim UPCOMING handle with a small arrow at the top of the HQ scene. The timer and active crew panels now retract by default and slide down when tapped, then close again when tapped a second time.','The HQ buildings move up into the reclaimed space while the drawer is closed; opening it shifts the HQ scene down to reveal the existing timer and crew panels without changing their horizontal three-card scrolling behaviour.']},
  {version:'1.0.53',date:'18 NOV 2026',title:'HQ COMMAND STRIP // COMPACT HORIZONTAL STATUS CARDS',tag:'THREE BUILDINGS VISIBLE · SWIPEABLE TIMERS & CREW',items:['Reduced the HQ & Building Timers and Active Crew Members panels and arranged them as compact full-width strips above the HQ scene. Each strip shows three building cards at a time and scrolls horizontally to reveal the remaining cards.','Timer cards now show only the building name, remaining countdown and exact Influence finish cost. Tapping an eligible timer still uses the existing instant-finish action. Crew cards retain each building’s active crew count and production bonus.','Moved the HQ scene upward to reclaim screen space while preserving the existing building positions, upgrade-ready flashes, HQ Upgrade All control, account saves and game progression.']},
@@ -5222,12 +5222,18 @@ enforceUniqueCrewAssignments();
 refreshCompPointValues();
 
 /* BACKDOOR HQ 1.0.53 — NEON COMMAND CAMPUS VISUAL REDESIGN */
-var BHQ_UPDATE_VERSION='1.0.53';
+var BHQ_UPDATE_VERSION='1.0.55';
 if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.53',date:'18 NOV 2026',title:'NEON COMMAND CAMPUS // HQ ARCHITECTURE REDESIGN',tag:'30 HQ LEVEL DESIGNS · FOUR BUILDING EVOLUTIONS · CYBER-GRID ENVIRONMENT',items:[
  'Redesigned the standard HQ area as a central futuristic command campus, with the main HQ centred and the four standard resource buildings arranged around it. Prestige buildings retain their existing visuals.',
  'Added 30 level-specific HQ architecture variants: the command tower grows in height and width, subtly shifts its energy colour and crown geometry at every level, and gains additional decks, antenna structures and energy rings as HQ levels increase.',
  'Added seven visual milestones for each of the four standard buildings at levels 1, 5, 10, 15, 20, 25 and 30, with distinct silhouettes and evolving futuristic components.',
  'Introduced a dark cyber-grid ground platform, illuminated energy routes, holographic-style lighting and subtle animated energy effects. Existing upgrade-ready flashing, completed-building states, building interactions, timers and HQ Upgrade All controls remain connected to the live game state.'
+]});
+if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.55',date:'19 NOV 2026',title:'ALLIANCE COMMAND // BOTTOM NAVIGATION REDESIGN',tag:'CLEANER ALLIANCE SECTIONS · BUILDINGS & SHOP SHORTCUTS',items:[
+ 'Moved the Alliance section navigation from the top of the screen to a dedicated bottom navigation dock, styled to match the main game navigation and optimised for phone screens.',
+ 'Renamed Territory to Buildings and made the Alliance building network, Alliance HQ and shared bank production easier to reach from the Buildings tab.',
+ 'Reworked the Shop tab into a clean Alliance Services screen with direct shortcuts to Alliance Bank, Mission Records, Member Gifts and Alliance Research.',
+ 'Added the new Alliance redesign to the Update Log. The version has been advanced so returning players who have not read this release receive the update notification automatically at login.'
 ]});
 
 show('hq');checkUpdateNotice();checkSystemGiftDelivery();setInterval(tick,1000);
