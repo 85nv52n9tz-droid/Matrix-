@@ -2926,7 +2926,7 @@ body:has(#t-bot:not([hidden])){height:100dvh!important;overflow:hidden!important
 </div>
 
 <script>
-function startBackdoorGame(){
+window.startBackdoorGame = function startBackdoorGame(){
 
 var RS=[['cr','Credits','#e8ff5a'],['da','Data','#3ff2d0'],['cy','Crypto','#5bff7a'],['ex','Exploits','#ff6b5a'],['in','Influence','#b3ffd9'],['qt','Quantum','#ff4fd8']];
 var NM={},CL={};RS.forEach(function(r){NM[r[0]]=r[1].charAt(0).toUpperCase();CL[r[0]]=r[2]});
@@ -5752,7 +5752,7 @@ show('hq');checkUpdateNotice();checkSystemGiftDelivery();setInterval(tick,1000);
     window.BHQ_USER_ID=testMode?'test':(user.id||user.email||name);
     gate.hidden=true;shell.hidden=false;
     if(!started){
-      try{startBackdoorGame();started=true;}
+      try{if(typeof window.startBackdoorGame!=='function')throw new Error('Game engine failed to initialise');window.startBackdoorGame();started=true;}
       catch(e){
         shell.hidden=true;gate.hidden=false;
         say('Game startup error: '+(e&&e.message?e.message:String(e)));
