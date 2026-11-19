@@ -3945,7 +3945,7 @@ function renderSettings(){
  });
 }
 function renderChiefProfile(){var h=$('chiefHqLevel'),sh=$('chiefStatHq'),pw=$('chiefStatPower'),ki=$('chiefStatKills'),cr=$('chiefStatCrew');if(h)h.textContent=S.hq;if(sh)sh.textContent=S.hq;if(pw)pw.textContent=fmt(power());if(ki)ki.textContent=fmt(S.kills||0);if(cr)cr.textContent=crewAvailableCount()+' / 7';var nm=$('chiefPlayerName');if(nm)nm.textContent=(window.backdoorPlayerName||'YOUR CHIEF').toString().slice(0,24);var pa=$('openProgressionArchive');if(pa)pa.onclick=function(){show('progression')};document.querySelectorAll('[data-chief-slot]').forEach(function(b){b.onclick=function(){document.querySelectorAll('[data-chief-slot]').forEach(function(x){x.classList.remove('active')});b.classList.add('active');var labels={helmet:'Neural Visor · head protection and signal focus.',chest:'Core Armour · personal defensive plating.',gloves:'Pulse Gloves · precision control and combat handling.',boots:'Vector Boots · mobility and movement systems.',weapon:'Data Blade · personal chief weapon slot.',accessory:'Signal Core · auxiliary chief enhancement module.'};$('chiefSlotInfo').textContent=labels[b.getAttribute('data-chief-slot')]+' Equipment upgrades can be connected here in a later pass.'}});document.querySelectorAll('[data-chief-go]').forEach(function(b){b.onclick=function(){show(b.getAttribute('data-chief-go'))}})}
-var BHQ_UPDATE_VERSION='1.0.59';
+var BHQ_UPDATE_VERSION='1.0.60';
 var BHQ_UPDATE_RELEASES=[
  {version:'1.0.54',date:'18 NOV 2026',title:'HQ STATUS DRAWER // RETRACTABLE UPCOMING STRIP',tag:'COMPACT COLLAPSIBLE TIMER & CREW PANELS',items:['Added a slim UPCOMING handle with a small arrow at the top of the HQ scene. The timer and active crew panels now retract by default and slide down when tapped, then close again when tapped a second time.','The HQ buildings move up into the reclaimed space while the drawer is closed; opening it shifts the HQ scene down to reveal the existing timer and crew panels without changing their horizontal three-card scrolling behaviour.']},
  {version:'1.0.53',date:'18 NOV 2026',title:'HQ COMMAND STRIP // COMPACT HORIZONTAL STATUS CARDS',tag:'THREE BUILDINGS VISIBLE · SWIPEABLE TIMERS & CREW',items:['Reduced the HQ & Building Timers and Active Crew Members panels and arranged them as compact full-width strips above the HQ scene. Each strip shows three building cards at a time and scrolls horizontally to reveal the remaining cards.','Timer cards now show only the building name, remaining countdown and exact Influence finish cost. Tapping an eligible timer still uses the existing instant-finish action. Crew cards retain each building’s active crew count and production bonus.','Moved the HQ scene upward to reclaim screen space while preserving the existing building positions, upgrade-ready flashes, HQ Upgrade All control, account saves and game progression.']},
@@ -4470,14 +4470,25 @@ bld:function(a){var hc=alnCost('hq'),hd=a.hq>=30,h='<div class="aln-card"><div c
 set:function(a){var s=a.set,h='<div class="aln-card"><div class="aln-ct">RECRUITMENT</div><div class="aln-acts">'+['open','invite','closed'].map(function(m){return alnB('set:mode:'+m,m.toUpperCase(),s.mode===m?'':'alt')}).join('')+'</div><div class="aln-row"><span>Minimum applicant HQ level</span><span>'+alnB('set:minhq:-1','\u2212','alt')+' <b>'+(s.minhq||1)+'</b> '+alnB('set:minhq:1','+','alt')+'</span></div><div class="aln-row"><span>Auto-accept applicants</span>'+alnB('set:auto:1',s.auto?'ON':'OFF',s.auto?'':'alt')+'</div></div>';
  h+='<div class="aln-card"><div class="aln-ct">IDENTITY</div><div class="aln-row"><span>Name</span><input id="alnInName" class="aln-in" maxlength="20" value="'+alnEsc(a.name)+'"></div><div class="aln-row"><span>Tag</span><input id="alnInTag" class="aln-in" maxlength="4" value="'+alnEsc(a.tag)+'"></div><div class="aln-row"><span>Message of the day</span></div><input id="alnInMotd" class="aln-in" maxlength="90" value="'+alnEsc(s.motd)+'"><div class="aln-acts">'+alnB('set:save:1','SAVE CHANGES')+'</div></div>';return h},
 log:function(a){var h='';if(!a.log.length)h+='<div class="aln-hint">No activity yet.</div>';a.log.forEach(function(q){h+='<div class="aln-row lg"><span>'+alnEsc(q.m)+'</span><em>'+alnT(Date.now()-q.t)+' ago</em></div>'});return h}};
-var ALNTABS=[['ov','OVERVIEW'],['ros','ROSTER'],['app','APPLY'],['chat','CHAT'],['help','HELP'],['gift','GIFTS'],['q','TASKS'],['war','WARS'],['ev','EVENTS'],['mis','MISSIONS'],['tech','RESEARCH'],['bank','BANK'],['shop','SHOP'],['rank','RANKS'],['bld','BUILDINGS'],['set','SETTINGS'],['log','LOG']];
-function alnRender(){var M=$('alnModal');if(!M||M.hidden)return;var a=alnS(),old=$('alnBody'),st=old?old.scrollTop:0,ts=$('alnTabs'),ls=ts?ts.scrollLeft:0,stg=Math.min(5,Math.floor((a.hq-1)/5)),f=ALNTAB[alnTab]||ALNTAB.ov;
- M.innerHTML='<div class="aln-pop" style="--ac:'+ARH[stg]+'"><div class="aln-ph"><div><div class="aln-kick">ALLIANCE // HEADQUARTERS \u00b7 STAGE '+(stg+1)+'/6</div><b class="aln-pt">['+alnEsc(a.tag)+'] '+alnEsc(a.name)+'</b></div><button class="aln-x" aria-label="Close">\u00d7</button></div><div class="aln-body" id="alnBody">'+f(a)+'</div><div class="aln-tabs" id="alnTabs">'+ALNTABS.map(function(t){return '<button class="aln-tb'+(alnTab===t[0]?' on':'')+'" data-a="tab:'+t[0]+'">'+t[1]+(t[0]==='app'&&a.apps.length?' ('+a.apps.length+')':'')+'</button>'}).join('')+'</div></div>';
- var nb=$('alnBody'),nt=$('alnTabs');if(nb)nb.scrollTop=st;if(nt)nt.scrollLeft=ls}
+var ALNTABS=[['ov','OVERVIEW'],['ros','MEMBERS'],['app','APPLICATIONS'],['chat','CHAT'],['help','HELP'],['gift','GIFTS'],['q','TASKS'],['war','WARS'],['ev','EVENTS'],['mis','MISSIONS'],['tech','RESEARCH'],['bank','BANK'],['shop','SHOP'],['rank','RANKS'],['bld','BUILDINGS'],['set','SETTINGS'],['log','LOG']];
+var ALNGROUPS=[
+ {id:'ov',label:'OVERVIEW',icon:'⌂',tabs:[]},
+ {id:'roster',label:'ROSTER',icon:'♟',tabs:['ros','app','rank']},
+ {id:'activity',label:'ACTIVITY',icon:'◈',tabs:['chat','help','gift','q','log']},
+ {id:'ops',label:'OPERATIONS',icon:'⚔',tabs:['war','ev','mis']},
+ {id:'dev',label:'DEVELOPMENT',icon:'⌘',tabs:['tech','bank','shop','bld','set']}
+];
+function alnGroupForTab(id){for(var i=0;i<ALNGROUPS.length;i++)if(ALNGROUPS[i].tabs.indexOf(id)>=0)return ALNGROUPS[i].id;return 'ov'}
+function alnGroupFirst(id){var g=ALNGROUPS.filter(function(x){return x.id===id})[0];return g&&g.tabs.length?g.tabs[0]:'ov'}
+function alnRender(){var M=$('alnModal');if(!M||M.hidden)return;var a=alnS(),old=$('alnBody'),st=old?old.scrollTop:0,stg=Math.min(5,Math.floor((a.hq-1)/5)),grp=alnGroupForTab(alnTab),g=ALNGROUPS.filter(function(x){return x.id===grp})[0]||ALNGROUPS[0],f=ALNTAB[alnTab]||ALNTAB.ov;
+ var sub=g.tabs.length?'<div class="aln-subtabs" id="alnSubTabs">'+g.tabs.map(function(id){var t=ALNTABS.filter(function(x){return x[0]===id})[0];return '<button class="aln-subtb'+(alnTab===id?' on':'')+'" data-a="tab:'+id+'">'+(t?t[1]:id)+(id==='app'&&a.apps.length?' ('+a.apps.length+')':'')+'</button>'}).join('')+'</div>':'';
+ M.innerHTML='<div class="aln-pop" style="--ac:'+ARH[stg]+'"><div class="aln-ph"><div><div class="aln-kick">ALLIANCE // HEADQUARTERS \u00b7 STAGE '+(stg+1)+'/6</div><b class="aln-pt">['+alnEsc(a.tag)+'] '+alnEsc(a.name)+'</b></div><button class="aln-x" aria-label="Close">\u00d7</button></div>'+sub+'<div class="aln-body" id="alnBody">'+f(a)+'</div><div class="aln-tabs" id="alnTabs">'+ALNGROUPS.map(function(x){return '<button class="aln-tb'+(grp===x.id?' on':'')+'" data-a="group:'+x.id+'"><span class="aln-nav-icon">'+x.icon+'</span><span>'+x.label+'</span></button>'}).join('')+'</div></div>';
+ var nb=$('alnBody');if(nb)nb.scrollTop=st}
 function alnOpen(tab){var M=$('alnModal');if(!M)return;alnTab=tab;alnSel=-1;alnInfo=-1;M.hidden=false;alnRender()}
 function alnOpenTab(id){var m={war:'bld',shield:'bld',depot:'bld',spire:'bld',tech:'tech',vault:'gift',arena:'war',hub:'help'},a=alnS();return a.lv[id]?m[id]:'bld'}
 function alnAct(p){var a=alnS(),i=+p[1],m,k,o,c,amt,n=Date.now(),mult,t,r,w;
  switch(p[0]){
+ case 'group':alnTab=alnGroupFirst(p[1]);alnSel=-1;alnInfo=-1;break;
  case 'tab':alnTab=p[1];alnSel=-1;alnInfo=-1;break;
  case 'sel':alnSel=alnSel===i?-1:i;break;
  case 'prom':m=a.members[i];if(!m||m.r>=3)break;if(m.r===2&&a.members.filter(function(x){return x.r===3}).length>=2){toast('Max 2 co-leaders.');break}if(m.r===1&&a.members.filter(function(x){return x.r===2}).length>=5){toast('Max 5 officers.');break}m.r++;alnLog(m.n+' promoted to '+ALNRK[m.r]+'.');alnDone();return;
@@ -5219,7 +5230,7 @@ enforceUniqueCrewAssignments();
 refreshCompPointValues();
 
 /* BACKDOOR HQ 1.0.53 — NEON COMMAND CAMPUS VISUAL REDESIGN */
-var BHQ_UPDATE_VERSION='1.0.59';
+var BHQ_UPDATE_VERSION='1.0.60';
 if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.53',date:'18 NOV 2026',title:'NEON COMMAND CAMPUS // HQ ARCHITECTURE REDESIGN',tag:'30 HQ LEVEL DESIGNS · FOUR BUILDING EVOLUTIONS · CYBER-GRID ENVIRONMENT',items:[
  'Redesigned the standard HQ area as a central futuristic command campus, with the main HQ centred and the four standard resource buildings arranged around it. Prestige buildings retain their existing visuals.',
  'Added 30 level-specific HQ architecture variants: the command tower grows in height and width, subtly shifts its energy colour and crown geometry at every level, and gains additional decks, antenna structures and energy rings as HQ levels increase.',
@@ -5250,6 +5261,11 @@ if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.
  'Separated Members and Applications into their own tabs instead of keeping both lists mixed into the Overview. Overview still shows the Alliance summary and both member and application panels.',
  'Buildings opens the existing Alliance territory and facility upgrade system; Research opens the existing Alliance technology trees; Roster opens the member power ranking. Existing Alliance data, member actions, applications, event logic and progression are preserved.',
  'The dock scrolls horizontally on smaller screens so every Alliance HQ section remains reachable without covering the page. The top notification system and NPC mission badge placement remain active, and the main Network Alliance shortcut has no event badge.'
+]});
+if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.60',date:'19 NOV 2026',title:'DARK SYNDICATE // FIVE-GROUP ALLIANCE NAVIGATION',tag:'FIVE FIXED TABS · CONTEXTUAL SUB-NAVIGATION · ALL 17 SECTIONS',items:[
+ 'Reorganised only the Dark Syndicate Alliance HQ navigation into five permanent dock tabs: Overview, Roster, Activity, Operations and Development. The main game navigation and every other screen are unchanged.',
+ 'Overview opens directly. Roster contains Members, Applications and Ranks; Activity contains Chat, Help, Gifts, Tasks and Log; Operations contains Wars, Events and Missions; Development contains Research, Bank, Shop, Buildings and Settings.',
+ 'Selecting a group reveals its own compact secondary navigation above the Alliance content. All 17 existing Alliance sections remain available through the new grouped navigation, with their original content and actions preserved.'
 ]});
 if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.59',date:'19 NOV 2026',title:'DARK SYNDICATE // ALLIANCE HQ BOTTOM NAVIGATION',tag:'DEDICATED FIXED DOCK · 17 HQ SECTIONS',items:[
  'Updated the Dark Syndicate [DSY] Alliance HQ itself. Its Overview, Roster, Apply, Chat, Help, Gifts, Tasks, Wars, Events, Missions, Research, Bank, Shop, Ranks, Buildings, Settings and Log tabs now sit in a dedicated bottom navigation dock.',
@@ -5802,10 +5818,15 @@ show('hq');checkUpdateNotice();checkSystemGiftDelivery();setInterval(tick,1000);
 .aln-pt{display:block;font-size:14px;letter-spacing:1px;color:#fff;margin-top:2px}
 .aln-kick{font-size:8px;letter-spacing:1.6px;color:#ff8a96}
 .aln-pop .aln-x{position:static;width:28px;height:28px;border:1px solid #5a1520;border-radius:6px;background:#10030788;color:#ff8a96;font-size:18px;line-height:1;cursor:pointer}
-.aln-tabs{flex:0 0 auto;display:flex;align-items:stretch;gap:5px;padding:8px 9px calc(8px + env(safe-area-inset-bottom,0px));overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:none;border-top:1px solid #7b2632;border-bottom:0;background:linear-gradient(180deg,#21070dF2,#090204F8);box-shadow:0 -8px 22px #0009;scroll-snap-type:x proximity}
+.aln-tabs{flex:0 0 auto;display:flex;align-items:stretch;gap:4px;padding:7px 6px calc(7px + env(safe-area-inset-bottom,0px));overflow:hidden;border-top:1px solid #7b2632;border-bottom:0;background:linear-gradient(180deg,#21070dF2,#090204F8);box-shadow:0 -8px 22px #0009}
 .aln-tabs::-webkit-scrollbar{display:none}
-.aln-tb{flex:0 0 70px;min-width:70px;min-height:47px;padding:6px 4px;display:flex;align-items:center;justify-content:center;text-align:center;white-space:normal;line-height:1.2;border:1px solid #5a1520;border-radius:8px;background:linear-gradient(145deg,#16050a,#090204);color:#ff8a96;font:900 8px/1.2 ui-monospace,Menlo,monospace;letter-spacing:.6px;cursor:pointer;scroll-snap-align:start}
+.aln-subtabs{flex:0 0 auto;display:flex;align-items:center;gap:6px;padding:7px 9px;border-top:1px solid #4b111b;border-bottom:1px solid #7b2632;background:linear-gradient(90deg,#160409,#260811);overflow-x:auto;overflow-y:hidden;scrollbar-width:none}
+.aln-subtabs::-webkit-scrollbar{display:none}
+.aln-subtb{flex:1 0 auto;min-width:76px;min-height:34px;padding:6px 10px;border:1px solid #64202b;border-radius:7px;background:#100307;color:#ff9aa4;font:900 8px/1.2 ui-monospace,Menlo,monospace;letter-spacing:.6px;white-space:nowrap;cursor:pointer}
+.aln-subtb.on{background:linear-gradient(180deg,#7d1725,#3b0b13);border-color:#ff5364;color:#fff;box-shadow:0 0 9px #ff3b4e55}
+.aln-tb{flex:1 1 0;min-width:0;min-height:49px;padding:5px 2px;display:flex;flex-direction:column;gap:3px;align-items:center;justify-content:center;text-align:center;white-space:normal;line-height:1.1;border:1px solid #5a1520;border-radius:8px;background:linear-gradient(145deg,#16050a,#090204);color:#ff8a96;font:900 7px/1.15 ui-monospace,Menlo,monospace;letter-spacing:.25px;cursor:pointer}
 .aln-tb.on{background:linear-gradient(180deg,#ff3b4e,#a3121f);color:#fff;border-color:#ff6a78;box-shadow:0 0 12px #ff3b4e88,inset 0 0 10px #fff2}
+.aln-nav-icon{font-size:14px;line-height:1}
 .aln-body{flex:1;min-height:0;overflow-y:auto;padding:8px;display:flex;flex-direction:column;gap:6px;overscroll-behavior:contain}
 .aln-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
 .aln-stat{padding:7px 8px;border:1px solid #5a1520;border-radius:7px;background:#10030788}
@@ -5841,7 +5862,7 @@ show('hq');checkUpdateNotice();checkSystemGiftDelivery();setInterval(tick,1000);
 .aln-chat{display:flex;flex-direction:column;gap:5px}
 .aln-msg{padding:6px 8px;border:1px solid #3a0e15;border-radius:8px;background:#10030766}
 .aln-msg b{color:#ff8a96}.aln-msg em{font-style:normal;font-size:8px;color:#9a6a70}.aln-msg.me{border-color:var(--ac,#ff3b4e);background:#2a0a1088}.aln-msg.me b{color:#ffd23f}
-.aln-tabs{scroll-snap-type:x proximity}
+
 </style>
 <style id="bhq-alliance-centre">.aln-b.aln-hq{transform:translate(-50%,calc(-50% + 10px))}</style>
 
