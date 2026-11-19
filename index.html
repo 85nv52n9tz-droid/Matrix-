@@ -6288,7 +6288,7 @@ if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.
  add('cyberOps','hack-hero','OPERATION BLACKGLASS // INTRUSION LAB','LIVE HACKING','Work through the campaign, solve each breach and build your Hacker rank and equipment.','hack');
 })();
 </script>
-
+<script>
 if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.77',date:'19 NOV 2026',title:'OPERATIONS THEATRES // VISUAL ENVIRONMENT SUITE',tag:'SOLO OPERATIONS · DATA NET · CYBER DEFENCE · LIVE HACK',items:[
  'The non-HQ operations areas now have their own illustrated command headers. Solo Operations uses a field-deployment map, Data Net uses a connected intelligence network, Cyber Defence uses a layered security shield, and Live Hacking uses an intrusion terminal visual.',
  'Each environment header explains the purpose of that area before you use its existing controls, making the four operation types easier to recognise as you move between them.',
@@ -6298,6 +6298,7 @@ if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.
 BHQ_UPDATE_VERSION='1.0.77';
 if(typeof checkUpdateNotice==='function')checkUpdateNotice();
 
+</script>
 <style id="bhq-equipment-resource-visuals-1078">
 /* 1.0.78 — equipment and module artwork; scoped away from protected HQ and Alliance scenes. */
 #t-map .gear-art-icon{width:54px;height:54px;flex:0 0 54px;display:grid;place-items:center;border:1px solid rgba(117,199,232,.32);border-radius:13px;background:radial-gradient(circle at 50% 30%,rgba(92,190,235,.2),rgba(4,17,29,.92));box-shadow:inset 0 0 16px rgba(77,180,255,.1),0 5px 14px #0005}
@@ -6330,7 +6331,7 @@ if(typeof checkUpdateNotice==='function')checkUpdateNotice();
  if(typeof oldDef==='function')window.renderCyberDefence=function(){oldDef.apply(this,arguments);var host=document.getElementById('defenceUpgradeCards');if(!host)return;['firewall','ids','encryption'].forEach(function(key,i){var card=host.children[i];if(card&&!card.querySelector('.gear-art-icon'))card.insertBefore(icon(key),card.firstChild)})};
 })();
 </script>
-
+<script>
 if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.78',date:'19 NOV 2026',title:'EQUIPMENT BAY // ILLUSTRATED CYBER SYSTEMS',tag:'PASSWORD CRACKER · TRACE BUFFER · DEFENCE MODULES',items:[
  'The Password Cracker and Trace Buffer now have distinct equipment illustrations in the Live Hacking equipment bay, making the two tools and their different roles easier to recognise.',
  'Adaptive Firewall, Intrusion Detection and Quantum Encryption now each have their own visual module emblem in Cyber Defence. Their descriptions, upgrade levels, costs and effects remain visible alongside the artwork.',
@@ -6340,6 +6341,7 @@ if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.
 BHQ_UPDATE_VERSION='1.0.78';
 if(typeof checkUpdateNotice==='function')checkUpdateNotice();
 
+</script>
 <style id="bhq-resource-ledger-1079">
 /* 1.0.79 — resource ledger clarity, limited to the shared resource strip. */
 .chips{gap:5px}
