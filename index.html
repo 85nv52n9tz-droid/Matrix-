@@ -6996,7 +6996,7 @@ if(Array.isArray(BHQ_UPDATE_RELEASES)){
   var version='1.0.92',checking=false,prompted=false,lastCheck=0;
   function newer(a,b){var x=String(a||'').split('.').map(Number),y=String(b||'').split('.').map(Number);for(var i=0;i<Math.max(x.length,y.length);i++){var d=(x[i]||0)-(y[i]||0);if(d)return d>0;}return false;}
   function wait(ms){return new Promise(function(resolve){setTimeout(resolve,ms);});}
-  function buildNumber(html){var m=html.match(/(?:window\\.)?BHQ_UPDATE_VERSION\\s*=\\s*['"]([0-9]+(?:\\.[0-9]+)+)['"]/);return m?m[1]:'';}
+  function buildNumber(html){var m=html.match(/(?:window\.)?BHQ_UPDATE_VERSION\s*=\s*['"]([0-9]+(?:\.[0-9]+)+)['"]/);return m?m[1]:'';}
   function panel(remote){
     if(document.getElementById('bhqUpdateAvailable'))return;
     var shade=document.createElement('div');shade.id='bhqUpdateAvailable';shade.setAttribute('role','dialog');shade.setAttribute('aria-modal','true');
