@@ -6063,5 +6063,28 @@ if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.
 ]});
 BHQ_UPDATE_VERSION='1.0.78';
 if(typeof checkUpdateNotice==='function')checkUpdateNotice();
+
+<style id="bhq-resource-ledger-1079">
+/* 1.0.79 — resource ledger clarity, limited to the shared resource strip. */
+.chips{gap:5px}
+.chip{position:relative;overflow:hidden;border-radius:8px;padding:5px 5px 4px;background:linear-gradient(155deg,rgba(17,34,42,.98),rgba(5,14,21,.98));border-color:color-mix(in srgb,currentColor 24%,var(--line));box-shadow:inset 0 1px rgba(255,255,255,.045),0 3px 8px #0004}
+.chip:before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:currentColor;opacity:.7}
+.chip .cl{min-height:17px;gap:5px}
+.chip .cl svg{width:15px;height:15px;filter:drop-shadow(0 0 4px currentColor)}
+.chip b{font-size:12px;letter-spacing:.1px}
+.chip small{font-size:9px;margin-top:2px;opacity:.86}
+.chip.ally-chip{background:linear-gradient(155deg,rgba(28,24,43,.98),rgba(10,10,20,.98))}
+@media(max-width:390px){.chips{gap:3px}.chip{padding:4px 3px}.chip .cl{gap:3px}.chip .cl svg{width:13px;height:13px}.chip b{font-size:11px}.chip small{font-size:8px}}
+@media(prefers-reduced-motion:no-preference){.chip{transition:border-color .18s ease,box-shadow .18s ease}.chip:active{box-shadow:inset 0 0 12px color-mix(in srgb,currentColor 14%,transparent)}}
+</style>
+
+if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.79',date:'19 NOV 2026',title:'RESOURCE LEDGER // COMMAND STRIP REFINEMENT',tag:'RESOURCE READABILITY · DISTINCT RESOURCE IDENTITIES · MOBILE FIT',items:[
+ 'The resource strip has been refined with clearer icon medallions, subtle resource-colour edge markers and improved spacing. Credits, Data, Crypto, Exploits, Influence and Quantum are easier to distinguish at a glance.',
+ 'Alliance resources use a separate darker treatment so the shared player resource ledger and Alliance bank feel like distinct systems when switching between them.',
+ 'The layout tightens on smaller iPhone screens to preserve readable balances and production rates without changing resource values, production, storage, costs or account progression.',
+ 'This is a presentation-only update. The HQ campus and all protected Alliance buildings remain unchanged.'
+]});
+BHQ_UPDATE_VERSION='1.0.79';
+if(typeof checkUpdateNotice==='function')checkUpdateNotice();
 </body>
 </html>
