@@ -5509,6 +5509,13 @@ show('hq');checkUpdateNotice();checkSystemGiftDelivery();setInterval(tick,1000);
     if(!window.supabase||!window.supabase.createClient){say('Could not load the Supabase library. Check your internet connection and refresh.');return}
     if(SUPABASE_URL.indexOf('PASTE_')===0||SUPABASE_ANON_KEY.indexOf('PASTE_')===0){say('Add your Supabase project URL and publishable/anon key in the script at the bottom of this file.');return}
     client=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+    // A deployment-triggered refresh must sign out first so the player sees the login gate.
+    window.BHQ_FORCE_SIGNOUT_AND_REFRESH=async function(){
+      try{if(window.BHQ_SAVE)window.BHQ_SAVE();}catch(e){}
+      try{if(client){var result=await client.auth.signOut();if(result&&result.error)throw result.error;}}catch(e){console.warn('Sign-out before update refresh failed',e);return false;}
+      var u=new URL(location.href);u.searchParams.set('bhqBuildRefresh',String(Date.now()));u.hash='';
+      location.replace(u.toString());return true;
+    };
     client.auth.getSession().then(function(res){const session=res.data&&res.data.session;if(session)showGame(session.user);}).catch(function(e){say(e.message||'Could not restore your login.')});
     client.auth.onAuthStateChange(function(event,session){
       if(event==='SIGNED_OUT'){window.BHQ_GAME_ACTIVE=false;gate.hidden=false;shell.hidden=true}
@@ -6566,14 +6573,54 @@ window.BHQ_SHOW_LOGIN_UPDATE_NOTICE=function(){var current=String(window.BHQ_UPD
 </style>
 <script id="bhq-mission-roster-stability-v1085">
 (function(){
-var version='1.0.85';window.BHQ_UPDATE_VERSION=version;if(typeof BHQ_UPDATE_VERSION!=='undefined')BHQ_UPDATE_VERSION=version;
+var version='1.0.86';window.BHQ_UPDATE_VERSION=version;if(typeof BHQ_UPDATE_VERSION!=='undefined')BHQ_UPDATE_VERSION=version;
 var releases=window.BHQ_UPDATE_RELEASES||[];
+if(Array.isArray(releases)&&!releases.some(function(r){return r&&String(r.version)==='1.0.86'})){
+releases.unshift({version:'1.0.86',date:'19 NOV 2026',title:'FORCED UPDATE DEPLOYMENT // LOGIN REFRESH',tag:'NEW BUILD DETECTED · SAVE · SIGN OUT · RELOAD · LOGIN',items:['The game now checks the published build while you are playing, including when the Home Screen app returns to the foreground.','When a newer build is available, the game saves your progress, signs you out, and performs a cache-busted reload so the new version can load.','You return to the login screen; after logging in, the normal update notification and release notes appear before you continue.','If GitHub Pages or the network has not received the new build yet, the game retries the check rather than forcing a stale refresh.']});
 if(Array.isArray(releases)&&!releases.some(function(r){return r&&String(r.version)==='1.0.85'})){
 releases.unshift({version:'1.0.85',date:'19 NOV 2026',title:'MISSION DISPLAY STABILITY // CREW DOSSIER FIT',tag:'NO REPEATED MISSION REBUILD · RESPONSIVE CREW PROFILE',items:['Stopped mission reward and detail sections from being rebuilt on every timer tick, preventing mission cards from repeatedly animating or dropping back onto the screen.','Kept mission content mounted when collecting rewards; only changed mission status, progress and buttons are updated.','Resized the Crew dossier window to stay within the visible phone screen, with a contained scroll area for longer profiles.','Preserved mission rewards, timers, crew equipment, account progress and saved data.']});
 window.BHQ_UPDATE_RELEASES=releases;
 }
 if(typeof renderUpdateLog==='function')renderUpdateLog();
 if(typeof checkUpdateNotice==='function')checkUpdateNotice();
+
+})();
+</script>
+<script id="bhq-force-update-refresh-v1086">
+(function(){
+  var checking=false,triggered=false,lastCheck=0;
+  function versionFrom(html){
+    var matches=[...html.matchAll(/(?:var\\s+version|version)\\s*=\\s*['"]([0-9]+(?:\\.[0-9]+)+)['"]/g)];
+    if(!matches.length)return '';
+    return matches[matches.length-1][1];
+  }
+  function newer(a,b){
+    var x=String(a||'').split('.').map(Number),y=String(b||'').split('.').map(Number);
+    for(var i=0;i<Math.max(x.length,y.length);i++){var d=(x[i]||0)-(y[i]||0);if(d)return d>0;}
+    return false;
+  }
+  async function check(){
+    if(checking||triggered||!window.BHQ_GAME_ACTIVE)return;
+    var now=Date.now();if(now-lastCheck<25000)return;lastCheck=now;checking=true;
+    try{
+      var u=new URL('index.html',location.href);u.searchParams.set('_bhq_check',String(now));
+      var response=await fetch(u.toString(),{cache:'no-store',credentials:'same-origin'});
+      if(!response.ok)throw new Error('Update check unavailable');
+      var remote=versionFrom(await response.text()),current=String(window.BHQ_UPDATE_VERSION||'');
+      if(remote&&current&&newer(remote,current)){
+        triggered=true;
+        try{if(window.BHQ_SAVE)window.BHQ_SAVE();}catch(e){}
+        if(window.BHQ_FORCE_SIGNOUT_AND_REFRESH){
+          var ok=await window.BHQ_FORCE_SIGNOUT_AND_REFRESH();
+          if(!ok){triggered=false;return;}
+        }else{triggered=false;return;}
+      }
+    }catch(e){/* Network/CDN propagation delays are retried on the next check. */}
+    finally{checking=false;}
+  }
+  setInterval(check,30000);
+  document.addEventListener('visibilitychange',function(){if(!document.hidden)check()});
+  window.addEventListener('focus',check);
 })();
 </script>
 
