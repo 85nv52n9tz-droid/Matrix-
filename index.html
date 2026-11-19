@@ -5944,11 +5944,11 @@ if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.push({version:'1.0.65'
  function renderNewCampus(){
   ensureAllianceBank();var host=$('allyCampusWorld');if(!host)return;var buildings=allianceTerritoryBuildings();buildings.forEach(function(o){o.u=1});
   var html='<div class="ally-new-building" style="grid-column:1;grid-row:1" data-ally-facility="ao1"><span class="glyph">⌁</span><b>RELAY NETWORK</b><small>LV '+lvl(buildings[0])+'</small><button type="button">INSPECT</button></div>';
-  var slots=[['ao2',1,1],['ao3',3,1],['ao4',1,3],['as1',3,3],['as2',1,4],['as3',3,4],['as4',2,4]];
+  var slots=[['ao2',2,1],['ao3',3,1],['ao4',1,2],['as1',3,2],['as2',1,3],['as3',2,3],['as4',3,3]];
   html='<div class="ally-new-building" style="grid-column:1;grid-row:1" data-ally-facility="ao1"><span class="glyph">⌁</span><b>RELAY NETWORK</b><small>LV '+lvl(buildings.filter(function(x){return x.id==='ao1'})[0])+'</small><button type="button">INSPECT</button></div>';
   slots.forEach(function(v){var o=buildings.filter(function(x){return x.id===v[0]})[0];if(!o)return;html+='<div class="ally-new-building" style="grid-column:'+v[1]+';grid-row:'+v[2]+'" data-ally-facility="'+o.id+'"><span class="glyph">'+(facilityGlyph[o.id]||'⌂')+'</span><b>'+o.name.toUpperCase()+'</b><small>LEVEL '+lvl(o)+' / '+cap(o)+'</small><button type="button">INSPECT</button></div>'});
   html+='<div class="ally-new-core" style="grid-column:2;grid-row:2"><b>⌘</b><strong>ALLIANCE HQ</strong><span>PERMANENT COMMAND CORE · NOT UPGRADABLE</span><span id="allyNewMemberCount"></span></div>';
-  host.innerHTML=html;var first=host.querySelector('[data-ally-facility="ao1"]');if(first){var o=buildings.filter(function(x){return x.id==='ao1'})[0];first.querySelector('small').textContent='LEVEL '+lvl(o)+' / '+cap(o)}
+  host.innerHTML=html;var core=host.querySelector('.ally-new-core');if(core)core.onclick=function(){allyInteriorOpen=true;atab=0;render()};var first=host.querySelector('[data-ally-facility="ao1"]');if(first){var o=buildings.filter(function(x){return x.id==='ao1'})[0];first.querySelector('small').textContent='LEVEL '+lvl(o)+' / '+cap(o)}
   host.querySelectorAll('[data-ally-facility]').forEach(function(el){el.onclick=function(){openNewFacility(el.dataset.allyFacility)}});var count=$('allyNewMemberCount');if(count)count.textContent=(S.al.mem.length+1)+' OPERATIVES';
  }
  function openNewFacility(id){
@@ -5970,6 +5970,17 @@ if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.push({version:'1.0.65'
   apps.forEach(function(x){var r=S.rv[x.i];if(!r)return;html+='<div class="ally-new-row"><div><b>'+allyShopSafe(r.n)+'</b><small>HQ '+r.hq+' · Power '+fmt(rvPow(r))+'</small></div><span><button type="button" data-ally-accept="'+x.i+'">ACCEPT</button> <button type="button" data-ally-deny="'+x.i+'">DENY</button></span></div>'});
   html+='</div>';host.innerHTML=html;host.querySelectorAll('[data-ally-accept]').forEach(function(b){b.onclick=function(){aAccept(Number(b.dataset.allyAccept));render()}});host.querySelectorAll('[data-ally-deny]').forEach(function(b){b.onclick=function(){aDeny(Number(b.dataset.allyDeny));render()}});host.querySelectorAll('[data-ally-kick]').forEach(function(b){b.onclick=function(){aKick(Number(b.dataset.allyKick));render()}})
  }
+ function renderNewExchange(){
+  ensureAllianceBank();var host=$('allyOther'),items=[
+   {id:'data',name:'DATA CORE RESERVE',desc:'Convert shared Alliance Credits into Data Cores.',cost:{ac:1200},gain:{dc:100},icon:'▤'},
+   {id:'crypto',name:'CRYPTO SHARD CACHE',desc:'A secured cache of specialist Crypto Shards.',cost:{ac:2500},gain:{cs:25},icon:'◇'},
+   {id:'intel',name:'WAR INTELLIGENCE FILE',desc:'Purchase verified intelligence for alliance operations.',cost:{ac:4200},gain:{wi:5},icon:'⌁'},
+   {id:'matter',name:'DARK MATTER CONTAINER',desc:'A rare alliance-grade material shipment.',cost:{ac:9000},gain:{dm:2},icon:'⬡'},
+   {id:'supply',name:'ALLIANCE SUPPLY CRATE',desc:'A balanced shared resource delivery for the whole network.',cost:{ac:6500},gain:{dc:180,cs:15,wi:2},icon:'▣'}
+  ];
+  host.innerHTML='<div class="ally-new-section"><h3>ALLIANCE EXCHANGE</h3><p>Every purchase uses the shared Alliance Resource Bank. Rewards are deposited back into that same bank — nothing is sent to personal resources.</p>'+items.map(function(x){var ok=allianceAfford(x.cost);return '<div class="ally-new-row"><div><b>'+x.icon+' '+x.name+'</b><small>'+x.desc+'</small><small>COST: '+Object.keys(x.cost).map(function(k){return fmt(x.cost[k])+' '+ANM[k]}).join(' · ')+' → RECEIVE: '+Object.keys(x.gain).map(function(k){return '+'+fmt(x.gain[k])+' '+ANM[k]}).join(' · ')+'</small></div><button type="button" data-exchange="'+x.id+'" '+(ok?'':'disabled')+'>EXCHANGE</button></div>'}).join('')+'</div>';
+  host.querySelectorAll('[data-exchange]').forEach(function(b){b.onclick=function(){var x=items.filter(function(y){return y.id===b.dataset.exchange})[0];if(!x||!bankPay(x.cost,'Alliance Exchange · '+x.name))return;Object.keys(x.gain).forEach(function(k){bankAdd(k,x.gain[k],'Alliance Exchange · '+x.name)});save();renderNewInterior();toast('Exchange complete. Alliance Bank updated.')}});
+ }
  function renderNewBankLog(){
   var rows=S.al.bankLog||[];$('allyOther').innerHTML='<div class="ally-new-section"><h3>ALLIANCE RESOURCE BANK LEDGER</h3><p class="ally-new-muted">All shared-resource deposits and purchases are recorded here.</p>'+(rows.length?rows.slice(0,60).map(function(x){var amount=x.amount?((x.amount>0?'+':'')+fmt(x.amount)+' '+(ANM[x.key]||x.key)):Object.keys(x.cost||{}).map(function(k){return '-'+fmt(x.cost[k])+' '+(ANM[k]||k)}).join(' · ');return '<div class="ally-new-row"><div><b>'+allyShopSafe(x.source||'Alliance transaction')+'</b><small>'+new Date(x.time||Date.now()).toLocaleString()+'</small></div><small>'+amount+'</small></div>'}).join(''):'<p class="ally-new-muted">No transactions yet.</p>')+'</div>'
  }
@@ -5984,7 +5995,7 @@ if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.push({version:'1.0.65'
   else if(atab===1)renderNewRoster();
   else if(atab===2)allyOpsRender();
   else if(atab===3)renderAllianceTech();
-  else if(atab===4)renderAllyShop();
+  else if(atab===4)renderNewExchange();
   else if(atab===5){renderEvent();$('allyOther').innerHTML='<div class="ally-new-section"><h3>ALLIANCE EVENTS</h3><p class="ally-new-muted">Successful event rewards are paid directly into the shared bank.</p>'+($('ap4').innerHTML||'<p>No event data available.</p>')+'</div>'}
   else if(atab===6)allyCommsRender();
   else if(atab===7)allyAcademyRender();
