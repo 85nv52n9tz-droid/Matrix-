@@ -2199,6 +2199,24 @@ function init(){Object.keys(T).forEach(function(k){var el=document.getElementByI
 function tick(){var t=new Date().toTimeString().slice(0,8);clocks.forEach(function(c){c.textContent=t})}tick();setInterval(tick,1000)}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();})();
 </script>
+<style id="alliance-bottom-navigation-v1">
+/* Alliance command navigation: bottom dock, matching the game's primary navigation language. */
+#t-ally .ally-tabs-bottom{position:sticky;bottom:0;top:auto;z-index:110;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:14px -2px 0;padding:10px 7px max(10px,env(safe-area-inset-bottom));border:1px solid #2676a0;border-bottom:0;border-radius:13px 13px 0 0;background:linear-gradient(180deg,rgba(7,24,39,.97),rgba(3,11,21,.99));box-shadow:0 -7px 22px #0009,inset 0 1px #67d9ff20;backdrop-filter:blur(12px)}
+#t-ally .ally-tabs-bottom button{min-width:0;min-height:43px;padding:6px 3px;border:1px solid #28506a;border-radius:8px;background:linear-gradient(145deg,#10283a,#081522);color:#b9d9e8;font-size:10px;font-weight:800;letter-spacing:.025em;line-height:1.15}
+#t-ally .ally-tabs-bottom button.on{color:#baffd5;border-color:#39ff9a;background:linear-gradient(145deg,#123b31,#0a201f);box-shadow:0 0 12px #39ff8830,inset 0 0 12px #39ff8812}
+#t-ally .ally-shop-intro{display:flex;flex-direction:column;gap:5px;margin:8px 0 12px;padding:12px;border:1px solid #287a9b;border-radius:10px;background:linear-gradient(120deg,#0d2638,#091722)}
+#t-ally .ally-shop-intro b{font-size:12px;color:#d8f4ff;letter-spacing:.08em}
+#t-ally .ally-shop-intro span{font-size:10px;color:#9db9c9;line-height:1.5}
+#t-ally .ally-shop-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+#t-ally .ally-shop-card{display:grid;grid-template-columns:36px minmax(0,1fr) 12px;align-items:center;gap:8px;min-width:0;min-height:84px;padding:10px;text-align:left;border:1px solid #285b70;border-radius:10px;background:linear-gradient(145deg,#102638,#08141f);color:#d9f4ff}
+#t-ally .ally-shop-card:active{transform:scale(.98)}
+#t-ally .ally-shop-icon{display:grid;place-items:center;width:34px;height:34px;border:1px solid #3aa5c8;border-radius:9px;background:#0c3040;color:#8deaff;font-size:20px}
+#t-ally .ally-shop-copy{display:flex;flex-direction:column;gap:4px;min-width:0}
+#t-ally .ally-shop-copy b{font-size:10px;line-height:1.2}
+#t-ally .ally-shop-copy small{font-size:8px;line-height:1.35;color:#9ab6c5}
+#t-ally .ally-shop-arrow{font-size:20px;color:#70d7ff}
+@media(max-width:390px){#t-ally .ally-tabs-bottom{gap:4px;padding-left:4px;padding-right:4px}#t-ally .ally-tabs-bottom button{font-size:9px;min-height:40px}#t-ally .ally-shop-grid{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
 <div id="authGate">
@@ -2244,7 +2262,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   <div id="bpage" hidden><button id="bback" class="back"></button><div id="bhead"></div><div id="bgrids"></div></div>
   <div id="ppage" hidden><button id="pback" class="back"></button><div id="phead"></div><div id="pup"></div><div class="sub">Module sockets (modules come from the Shop)</div><div id="psock"></div><div id="pmods"></div><div id="presw" hidden><div class="sub">Research (costs Quantum)</div><div id="pres" class="bgrid"></div></div></div>
 </div>
-<section id="t-ally" hidden><div id="acreate"><input id="aname" maxlength="20" placeholder="Alliance name" autocomplete="off"><button id="acbtn">Create alliance</button></div><div id="amain" hidden><div id="allyCampus" class="ally-campus"><div class="ally-campus-head"><div class="sub">ALLIANCE NETWORK // HOME BASE</div><b id="allyCampusName">ALLIANCE HQ</b><small>Eight specialist facilities orbit the central command core. Follow the live data links and select a building to upgrade it.</small></div><div id="allyCampusWorld" class="ally-campus-world"></div></div><div id="allyInterior" hidden><div class="ally-board" id="ally-board"><div class="ally-board-top"><div><div class="sub">ALLIANCE COMMAND // BOARD</div><div class="ally-title" id="an"></div><div class="ally-sub" id="ad"></div></div><div class="ally-emblem" aria-label="Alliance emblem"><svg viewBox="0 0 64 64"><path d="M32 4 55 16v25L32 60 9 41V16z"/><path d="M32 15 45 22v15L32 48 19 37V22z"/><path d="M24 32h16M32 24v16"/></svg><small>ALLIANCE</small></div></div><div class="ally-leadership"><div class="ally-role leader"><small>ALLIANCE LEADER</small><b id="allyLeaderName">You</b><span>Full command</span></div><div class="ally-support" id="allySupportSlots"></div></div></div><div class="ally-tabs" id="allyTabs"></div><div id="allyTown" class="ally-panel"><div class="ally-town-grid"><div id="allyMemberCol"><div class="sub" id="amemh"></div><div id="amem"></div></div><div id="allyAppCol"><div class="sub" id="aapph"></div><div id="aapp"></div></div></div></div><div id="allyOther" class="ally-panel" hidden><div id="allyTerritoryIntro"><div class="sub">ALLIANCE TERRITORY // CONTROL NETWORK</div><div class="ally-info-grid"><div class="ally-info-card"><b>Alliance territories</b><span>Manage your alliance outposts, strongholds and citadels from the three regional maps below.</span></div><div class="ally-info-card"><b>Expand your influence</b><span>Select a location on a map to inspect it and spend Alliance Credits, Data Cores, Crypto Shards, War Intel and Dark Matter on upgrades.</span></div></div></div><div id="allyTerritoryMaps"><div id="asubs2"></div><div id="ap1" hidden><svg id="map4" viewBox="0 0 200 100"></svg><div id="nd4"></div></div><div id="ap2" hidden><svg id="map5" viewBox="0 0 200 100"></svg><div id="nd5"></div></div><div id="ap3" hidden><svg id="map6" viewBox="0 0 200 100"></svg><div id="nd6"></div></div></div></div><div id="ap4" hidden></div></div></div></section>
+<section id="t-ally" hidden><div id="acreate"><input id="aname" maxlength="20" placeholder="Alliance name" autocomplete="off"><button id="acbtn">Create alliance</button></div><div id="amain" hidden><div id="allyCampus" class="ally-campus"><div class="ally-campus-head"><div class="sub">ALLIANCE NETWORK // HOME BASE</div><b id="allyCampusName">ALLIANCE HQ</b><small>Eight specialist facilities orbit the central command core. Follow the live data links and select a building to upgrade it.</small></div><div id="allyCampusWorld" class="ally-campus-world"></div></div><div id="allyInterior" hidden><div class="ally-board" id="ally-board"><div class="ally-board-top"><div><div class="sub">ALLIANCE COMMAND // BOARD</div><div class="ally-title" id="an"></div><div class="ally-sub" id="ad"></div></div><div class="ally-emblem" aria-label="Alliance emblem"><svg viewBox="0 0 64 64"><path d="M32 4 55 16v25L32 60 9 41V16z"/><path d="M32 15 45 22v15L32 48 19 37V22z"/><path d="M24 32h16M32 24v16"/></svg><small>ALLIANCE</small></div></div><div class="ally-leadership"><div class="ally-role leader"><small>ALLIANCE LEADER</small><b id="allyLeaderName">You</b><span>Full command</span></div><div class="ally-support" id="allySupportSlots"></div></div></div><div id="allyTown" class="ally-panel"><div class="ally-town-grid"><div id="allyMemberCol"><div class="sub" id="amemh"></div><div id="amem"></div></div><div id="allyAppCol"><div class="sub" id="aapph"></div><div id="aapp"></div></div></div></div><div id="allyOther" class="ally-panel" hidden><div id="allyTerritoryIntro"><div class="sub">ALLIANCE TERRITORY // CONTROL NETWORK</div><div class="ally-info-grid"><div class="ally-info-card"><b>Alliance territories</b><span>Manage your alliance outposts, strongholds and citadels from the three regional maps below.</span></div><div class="ally-info-card"><b>Expand your influence</b><span>Select a location on a map to inspect it and spend Alliance Credits, Data Cores, Crypto Shards, War Intel and Dark Matter on upgrades.</span></div></div></div><div id="allyTerritoryMaps"><div id="asubs2"></div><div id="ap1" hidden><svg id="map4" viewBox="0 0 200 100"></svg><div id="nd4"></div></div><div id="ap2" hidden><svg id="map5" viewBox="0 0 200 100"></svg><div id="nd5"></div></div><div id="ap3" hidden><svg id="map6" viewBox="0 0 200 100"></svg><div id="nd6"></div></div></div></div><div id="ap4" hidden></div><div class="ally-tabs ally-tabs-bottom" id="allyTabs" aria-label="Alliance navigation"></div></div></div></section>
 <section id="t-hq" hidden><div class="test-shell"><div class="test-hq-status-grid" id="testHqStatusGrid"><section class="test-hq-status-card upgrades"><div class="test-hq-status-kicker">HQ &amp; BUILDING TIMERS</div><div id="testHqUpgradeStatus" class="test-hq-status-content">No active buildings</div></section><section class="test-hq-status-card buffs"><div class="test-hq-status-kicker">ACTIVE CREW MEMBERS</div><div id="testHqCrewBuffs" class="test-hq-status-content">No active crew buffs</div></section></div><div class="test-viewport" id="testViewport"><div class="test-world" id="testWorld"><div class="test-building-layer" id="testBuildingLayer"></div></div></div><button class="test-attack" id="testAttack" title="Incoming attack — open Nano Defence" aria-label="Incoming attack — open Nano Defence" hidden>☠<small>INCOMING</small></button><div class="test-chat" id="testChat" aria-label="Global and alliance communications">
   <div class="test-chat-bar">
     <div class="chat-avatar">💬</div>
@@ -3030,7 +3048,7 @@ $('progressionReportClose').onclick=function(){$('progressionReportModal').hidde
   E.pf=card($('rprof'),'hq','crew');E.pf.t.textContent=window.BHQ_USERNAME||'You';E.pf.b.parentNode.hidden=true;
   ['Regions','Towns','Cities','NPC Missions'].forEach(function(t,i){var b=document.createElement('button');b.textContent=t;b.onclick=function(){msub=i;render()};$('msub').appendChild(b);mb.push(b)});
   ['Solo','Data net'].forEach(function(t,i){var b=document.createElement('button');b.type='button';b.className='map-mode-btn mode-'+(i===0?0:2);b.textContent=t;b.setAttribute('aria-pressed','false');b.onclick=function(){mtop=i===0?0:2;render()};$('mtop').appendChild(b);mt.push(b)});
-  ['War Logs','Territory','Shop','Leaderboard','Gifts','Help','Tech','Events'].forEach(function(t,i){if(t==='Territory')return;var b=document.createElement('button');b.type='button';b.dataset.atab=String(i+1);b.textContent=t;b.onclick=function(){atab=i+1;if(atab===7)techTab=0;if(atab===8&&S.al)S.al.eventSeenHour=evWin().hr;render()};$('allyTabs').appendChild(b);ab2.push(b)});
+  ['War Logs','Buildings','Shop','Leaderboard','Gifts','Help','Tech','Events'].forEach(function(t,i){var b=document.createElement('button');b.type='button';b.dataset.atab=String(i+1);b.textContent=t;b.onclick=function(){atab=i+1;if(atab===7)techTab=0;if(atab===8&&S.al)S.al.eventSeenHour=evWin().hr;render()};$('allyTabs').appendChild(b);ab2.push(b)});
   // Legacy Outposts / Strongholds / Citadels navigation removed; territory is now one HQ-centred environment.
   AL.forEach(function(l,k){var e=E['nd'+(4+k)]=card($('nd'+(4+k)),'','rank');e.b.onclick=function(){if(S.al.n)allianceBuy(l.filter(function(n){return n.id===asel[k]})[0])}});
   $('acbtn').onclick=function(){var v=$('aname').value.replace(/[<>&"']/g,'').trim().slice(0,20);if(!v)return;S.al={n:v,mem:[],app:[],cd:{},nx:Date.now()+8000,res:{ac:50000,dc:3000,cs:250,wi:50,dm:10},tech:{},techPts:0,techLevelClaimed:1};log('Alliance '+v+' founded. Applications will start arriving soon.');save();render()};
@@ -3630,8 +3648,19 @@ function renderAllianceCampus(){
  var title=$('allyCampusName');if(title)title.textContent=(S.al&&S.al.n?S.al.n:'ALLIANCE')+' // HQ';
  renderAllianceTerritory('allyCampusWorld');
 }
+function renderAllianceShopOverview(){
+ var host=$('allyOther');if(!host)return;
+ var cards=[
+  {id:'bank',icon:'▤',name:'Alliance Bank',desc:'View shared resources, passive production and building upgrades.',tab:2},
+  {id:'missions',icon:'⌖',name:'Mission Records',desc:'Review completed mission outcomes and alliance contributions.',tab:1},
+  {id:'gifts',icon:'✧',name:'Member Gifts',desc:'Send supplies and build alliance contribution.',tab:5},
+  {id:'research',icon:'⬡',name:'Alliance Research',desc:'Invest shared resources into permanent alliance bonuses.',tab:7}
+ ];
+ host.innerHTML='<div class="sub">ALLIANCE NETWORK // OPERATIONS &amp; SERVICES</div><div class="ally-shop-intro"><b>ALLIANCE SERVICES</b><span>Select a service below to open its dedicated section.</span></div><div class="ally-shop-grid">'+cards.map(function(c){return '<button type="button" class="ally-shop-card" data-ally-shop="'+c.id+'"><span class="ally-shop-icon">'+c.icon+'</span><span class="ally-shop-copy"><b>'+c.name+'</b><small>'+c.desc+'</small></span><span class="ally-shop-arrow">›</span></button>'}).join('')+'</div>';
+ host.querySelectorAll('[data-ally-shop]').forEach(function(button){button.onclick=function(){var card=cards.filter(function(c){return c.id===button.getAttribute('data-ally-shop')})[0];if(card){atab=card.tab;render()}}});
+}
 function renderAllyTab(){
-  techSyncPoints();var A=S.al;if(atab===2)atab=0;ab2.forEach(function(b){b.className=Number(b.dataset.atab)===atab?'on':''});
+  techSyncPoints();var A=S.al;ab2.forEach(function(b){b.className=Number(b.dataset.atab)===atab?'on':''});
   $('acreate').hidden=!!A.n;$('amain').hidden=!A.n;if(!A.n)return;
   $('allyCampus').hidden=!!allyInteriorOpen;$('allyInterior').hidden=!allyInteriorOpen;if(!allyInteriorOpen){renderAllianceCampus();return;}
   if(!A.roles)A.roles={};
@@ -3675,9 +3704,9 @@ function renderAllyTab(){
     }
   }
   if(atab===1){renderWartimeRewards();renderAllianceContributionLog()}
-  else if(atab===2){
-    renderAllianceTerritory();
-  }else if(atab===5){renderAllianceGifts()}
+  else if(atab===2){renderAllianceTerritory()}
+  else if(atab===3){renderAllianceShopOverview()}
+  else if(atab===5){renderAllianceGifts()}
   else if(atab===7){renderAllianceTech()}
   else if(atab===8){renderEvent();$('allyOther').hidden=true;$('ap4').hidden=false;return}
   else if(!home&&!leaderboard){
