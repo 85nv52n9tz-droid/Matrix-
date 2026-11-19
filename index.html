@@ -3946,8 +3946,8 @@ function renderSettings(){
  });
 }
 function renderChiefProfile(){var h=$('chiefHqLevel'),sh=$('chiefStatHq'),pw=$('chiefStatPower'),ki=$('chiefStatKills'),cr=$('chiefStatCrew');if(h)h.textContent=S.hq;if(sh)sh.textContent=S.hq;if(pw)pw.textContent=fmt(power());if(ki)ki.textContent=fmt(S.kills||0);if(cr)cr.textContent=crewAvailableCount()+' / 7';var nm=$('chiefPlayerName');if(nm)nm.textContent=(window.backdoorPlayerName||'YOUR CHIEF').toString().slice(0,24);var pa=$('openProgressionArchive');if(pa)pa.onclick=function(){show('progression')};document.querySelectorAll('[data-chief-slot]').forEach(function(b){b.onclick=function(){document.querySelectorAll('[data-chief-slot]').forEach(function(x){x.classList.remove('active')});b.classList.add('active');var labels={helmet:'Neural Visor · head protection and signal focus.',chest:'Core Armour · personal defensive plating.',gloves:'Pulse Gloves · precision control and combat handling.',boots:'Vector Boots · mobility and movement systems.',weapon:'Data Blade · personal chief weapon slot.',accessory:'Signal Core · auxiliary chief enhancement module.'};$('chiefSlotInfo').textContent=labels[b.getAttribute('data-chief-slot')]+' Equipment upgrades can be connected here in a later pass.'}});document.querySelectorAll('[data-chief-go]').forEach(function(b){b.onclick=function(){show(b.getAttribute('data-chief-go'))}})}
-var BHQ_UPDATE_VERSION='1.0.71';
-var BHQ_UPDATE_RELEASES=[
+var BHQ_UPDATE_VERSION='1.0.72';
+var BHQ_UPDATE_RELEASES=[\n  {version:'1.0.72',date:'19 NOV 2026',title:'COMPACT FACILITIES // FIXED HEADQUARTERS',tag:'CLEANER BUILDING INTERIORS · THREE-COLUMN UPGRADES · BATCH READY INDICATOR',items:['Simplified all facility interiors with compact side-by-side Crew Bonus and Output Bonus panels, smaller crew selectors and a clean three-column upgrade grid.','Reduced close controls and aligned facility and Headquarters titles with their close buttons.','Replaced the Headquarters building requirement list with a compact four-point readiness indicator and removed interior scrolling.','Renamed the HQ timer tile to HEADQUARTERS and highlighted BATCH AVAILABLE in green when all four core facilities can be batch-upgraded.']},
   {version:'1.0.71',date:'19 NOV 2026',title:'TRON HQ // FACILITY INTERIORS & COMMAND REDESIGN',tag:'ANIMATED DIGITAL CITY · COMPACT BUILDING INTERIORS · HQ RESOURCE CHECK',items:['Added a continuously animated, elevated Tron-network cityscape behind the main HQ area only.','Building taps now enter the facility interior directly, with a compact futuristic interface for production, crew, upgrade costs and construction actions.','Redesigned the Headquarters interior to focus on the four facility requirements, resource availability and HQ upgrade or instant-build actions.','Kept the existing Alliance HQ artwork, layout, functionality and animations unchanged.','Stopped unchanged HQ scene markup from being rebuilt on every render, preventing the main HQ building animation from repeatedly restarting.']},
   {version:'1.0.69',date:'19 NOV 2026',title:'HQ DATA LINKS · BUILDING TIMERS · CREW ACCESS',tag:'PRESTIGE-LOCKED QUANTUM · WAVY DATA CABLES · QUICK CREW ASSIGNMENT',items:['Locked the purple Quantum resource planner row until Prestige P1, regardless of stale resource-chip visibility.','Moved the HQ campus and four core buildings lower and replaced straight connectors with animated flowing data cables.','Reworked the five HQ timer tiles: active countdowns, grey inactive tiles, flashing upgrade-ready tiles, and Influence finish-cost hints when a timer is running.','Made each of the four crew bonus tiles directly open its crew assignment picker.','Reduced the timer frame height to create a clear gap above the crew panel.']},
   {version:'1.0.68',date:'19 NOV 2026',title:'HQ CREW & RESOURCE VISIBILITY // NPC MISSION ALERT ROUTING',tag:'ALL FOUR CORE CREW BONUSES · PRESTIGE-LOCKED QUANTUM · THREE NPC ALERT LOCATIONS',items:['Corrected the active HQ crew renderer so all four standard core facilities always appear, including Crypto Miner and Exploit Lab when no crew is assigned.','Reduced the HQ timer outer frame and increased the clear separation between the timer panel and crew panel so the two boxes have distinct borders without overlap.','Removed Quantum from the HQ resource planner until Prestige. The resource planner now lays out five resources before Prestige and six after Prestige. Increased the displayed resource balances for easier reading.','NPC mission completion alerts now appear on the left Missions / Ops shortcut, on the Missions Map shortcut, and on the NPC Missions sub-tab, all using the same unread count.']},
@@ -6732,4 +6732,136 @@ function renderTestHqModal(){
  builder.textContent='INFILTRATE HQ';
 }
 document.addEventListener('DOMContentLoaded',function(){var b=$('testHqBuilder');if(b)b.onclick=function(){closeTestHq();openTestInside('hq')};});
+</script>
+
+<style id="bhq-compact-interiors-1072">
+/* 1.0.72 — compact facility and fixed HQ interiors */
+#testInsideModal .test-inside-dialog,#testHqModal .test-hq-dialog{position:relative!important;padding:48px 12px 10px!important;width:min(440px,calc(100vw - 18px))!important;height:min(84dvh,680px)!important;max-height:84dvh!important;overflow:hidden!important}
+#testInsideModal .test-hq-close,#testHqModal .test-hq-close{top:9px!important;right:10px!important;width:27px!important;height:27px!important;min-width:27px!important;border:1px solid #75cfa2!important;border-radius:7px!important;background:#0b2118!important;color:#caffdf!important;font-size:19px!important;line-height:1!important;box-shadow:0 0 8px #38e98a35!important}
+#testInsideBody{overflow-y:auto!important;overflow-x:hidden!important;padding:0 1px 5px!important;touch-action:pan-y!important}
+#testInsideBody .ti-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 3px}
+#testInsideBody .ti-head h2{margin:0!important;font-size:15px!important;line-height:1.1!important;letter-spacing:.8px!important;color:#d9ffea!important}
+#testInsideBody .ti-kicker{display:none!important}
+#testInsideBody .test-hq-rank{margin:3px 0 8px!important;font-size:9px!important}
+#testInsideBody .ti-nav{display:flex!important;align-items:center;justify-content:flex-end;gap:5px!important;padding:0 0 5px!important;background:transparent!important}
+#testInsideBody .ti-nav .test-bnav-btn{width:23px!important;height:22px!important;min-width:23px!important;font-size:10px!important;padding:0!important}
+#testInsideBody .ti-nav .test-bnav-pos{font-size:8px!important;min-width:28px;text-align:center}
+#testInsideBody .ti-bonus-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin:6px 0 8px}
+#testInsideBody .ti-bonus{min-width:0;padding:6px 8px;border:1px solid #245d46;border-radius:7px;background:linear-gradient(140deg,#10291e,#07150f);display:flex;align-items:center;justify-content:space-between;gap:5px}
+#testInsideBody .ti-bonus span{font-size:8px;letter-spacing:.45px;color:#8fc6a5}
+#testInsideBody .ti-bonus b{font-size:12px;color:#baffd0;white-space:nowrap}
+#testInsideBody .ti-crew-wrap{margin:5px 0 8px;padding:7px;border:1px solid #1e4937;border-radius:8px;background:#081810}
+#testInsideBody .ti-crew-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;color:#9dcdb0;font-size:8px;letter-spacing:.7px}
+#testInsideBody .ti-crew-slots{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px!important}
+#testInsideBody .ti-slot{min-width:0!important;min-height:27px!important;padding:5px!important;border-radius:5px!important;font-size:9px!important;line-height:1.15!important;text-align:center!important}
+#testInsideBody .ti-crew-wrap .buy{width:100%;min-height:26px!important;margin-top:5px!important;padding:4px 7px!important;font-size:9px!important}
+#testInsideBody .ti-sec{margin:7px 0 5px!important;font-size:9px!important;letter-spacing:.65px!important}
+#testInsideBody .ti-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:5px!important}
+#testInsideBody .ti-up{min-width:0!important;padding:6px 5px!important;border-radius:7px!important;display:flex!important;flex-direction:column!important;gap:3px!important;overflow:hidden}
+#testInsideBody .ti-up-h{display:block!important;min-width:0}
+#testInsideBody .ti-up-h b{display:block!important;font-size:8px!important;line-height:1.2!important;white-space:normal!important;overflow-wrap:anywhere}
+#testInsideBody .ti-up-h em{display:block!important;margin-top:2px;font-size:7px!important}
+#testInsideBody .ti-up-m{font-size:8px!important;line-height:1.1!important}
+#testInsideBody .ti-up-d{display:none!important}
+#testInsideBody .ti-up .buy{width:100%!important;min-height:25px!important;margin-top:auto!important;padding:4px 2px!important;font-size:7px!important;line-height:1.15!important;white-space:normal!important;overflow-wrap:anywhere}
+#testInsideBody .ti-back{width:100%;margin-top:8px!important;padding:6px!important;font-size:9px!important}
+#testInsideBody .ti-mod{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}
+#testInsideBody .ti-mod .pk{min-width:0;padding:6px!important;font-size:8px!important;overflow-wrap:anywhere}
+#testHqModal .test-modal-scroll{display:flex!important;flex-direction:column!important;gap:7px!important;flex:1 1 auto!important;min-height:0!important;overflow:hidden!important;padding:0 1px!important}
+#testHqModal #testHqTitle{position:absolute!important;top:13px!important;left:13px!important;right:48px!important;margin:0!important;font-size:15px!important;line-height:1.2!important}
+#testHqModal .test-hq-kicker{display:none!important}
+#testHqModal #testHqRank{margin:0!important;font-size:9px!important}
+#testHqModal #testHqRequirements{flex:0 0 auto!important;min-height:0!important;max-height:none!important;overflow:hidden!important;padding:8px!important;border:1px solid #214b38!important;border-radius:8px!important;background:#081810!important}
+#testHqModal #testHqRequirements> b{display:none!important}
+#testHqModal .hq-ready-indicator{display:flex;align-items:center;justify-content:center;gap:9px;padding:8px 4px}
+#testHqModal .hq-ready-dot{width:13px;height:13px;border-radius:50%;border:1px solid #7b927f;background:#28372d;box-shadow:inset 0 0 5px #000}
+#testHqModal .hq-ready-dot.on{border-color:#69ff9c;background:#2df477;box-shadow:0 0 9px #35ff83}
+#testHqModal .hq-ready-caption{text-align:center;color:#a9d9b8;font-size:9px;letter-spacing:.65px;margin-top:4px}
+#testHqModal .hq-ready-caption.ready{color:#7dffab}
+#testHqModal #testHqCost{flex:1 1 auto!important;min-height:0!important;max-height:none!important;overflow:hidden!important;padding:7px!important;border:1px solid #214b38!important;border-radius:8px!important;background:#081810!important;font-size:9px!important}
+#testHqModal #testHqCost>b{display:block;margin-bottom:5px;font-size:9px!important}
+#testHqModal #testHqProgress{margin:0!important;padding:6px!important;font-size:9px!important}
+#testHqModal .test-hq-actions{display:grid!important;grid-template-columns:1fr 1fr!important;gap:6px!important;margin-top:auto!important}
+#testHqModal .test-hq-actions button{min-height:31px!important;padding:6px!important;font-size:9px!important}
+#testHqModal #testHqBuilder{grid-column:1/-1!important}
+#testHqModal .test-hq-foot{display:none!important}
+.test-hq-timer-slot.batch-ready{border-color:#48f58a!important;background:linear-gradient(135deg,#123d25,#092014)!important;color:#aaffc5!important;box-shadow:0 0 12px #35ff8138,inset 0 0 10px #35ff8118!important}
+.test-hq-timer-slot.batch-ready span{color:#7dff9f!important}
+@media(max-width:390px){
+ #testInsideModal .test-inside-dialog,#testHqModal .test-hq-dialog{width:calc(100vw - 14px)!important;padding-left:9px!important;padding-right:9px!important}
+ #testInsideBody .ti-grid{gap:4px!important}
+ #testInsideBody .ti-up{padding:5px 4px!important}
+ #testInsideBody .ti-up-h b{font-size:7px!important}
+ #testInsideBody .ti-up .buy{font-size:6.5px!important}
+}
+</style>
+<script id="bhq-compact-interiors-1072">
+(function(){
+function pct(v){return (v*100).toFixed(1).replace(/\.0$/,'')+'%'}
+window.renderTestInside=function(){
+ var o=testBuildingById(testInsideId);if(!o)return;
+ var isP=!!PBI[o.id],l=lvl(o),mx=cap(o),cb=buildingCrewBonus(o),crew=crewFor(o.id)||[],list=S.pr>0?PB:B,pos=0,j,h='';
+ list.forEach(function(x,k){if(x.id===o.id)pos=k+1});
+ h+='<div class="ti-head"><h2>'+o.name.toUpperCase()+'</h2></div>';
+ h+='<div class="ti-nav"><button type="button" class="test-bnav-btn" data-ti="prev" aria-label="Previous building">◀</button><span class="test-bnav-pos">'+pos+' / '+list.length+'</span><button type="button" class="test-bnav-btn" data-ti="next" aria-label="Next building">▶</button></div>';
+ h+='<div class="test-hq-rank">'+(isP?'PRESTIGE FACILITY':'FACILITY')+' · LEVEL '+l+' / '+mx+'</div>';
+ h+='<div class="ti-bonus-row"><div class="ti-bonus"><span>CREW BONUS</span><b>+'+pct(cb)+'</b></div><div class="ti-bonus"><span>OUTPUT BONUS</span><b>+'+pct(isP?modB(o):upBonus(o))+'</b></div></div>';
+ h+='<div class="ti-crew-wrap"><div class="ti-crew-title"><span>ASSIGNED CREW</span><span>'+crew.length+' / 2</span></div><div class="ti-crew-slots">';
+ for(j=0;j<2;j++)h+=crew[j]!==undefined?'<div class="ti-slot on">'+CM[crew[j]]+'</div>':'<div class="ti-slot">EMPTY SLOT</div>';
+ h+='</div><button type="button" class="buy" data-ti="crew">SELECT CREW</button></div>';
+ if(!isP){
+  var n=0;for(j=0;j<10;j++)if(S.ub[o.id+j])n++;
+  h+='<div class="ti-sec">FACILITY UPGRADES · '+n+'/10</div><div class="ti-grid">';
+  for(j=0;j<10;j++){
+   if(UU[j]>S.hq+1)continue;
+   var done=!!S.ub[o.id+j],lock=S.hq<UU[j],c=ubC(o,j);
+   h+='<div class="ti-up'+(done?' installed':lock?' locked':'')+'"><div class="ti-up-h"><b>'+UN[o.id][j]+'</b><em>HQ '+UU[j]+'</em></div><div class="ti-up-m">+'+Math.round(ubE(j)*100)+'% OUTPUT</div><button type="button" class="buy" data-ti="up" data-j="'+j+'"'+(done||lock||!afford(c)?' disabled':'')+'>'+(done?'INSTALLED':lock?'LOCKED':csh(c))+'</button></div>';
+  }
+  h+='</div>';
+ }else{
+  var a=S.ps[o.id]||['',''];
+  h+='<div class="ti-sec">MODULE SOCKETS</div><div class="ti-mod">';
+  [0,1].forEach(function(k){h+='<button class="pk'+(a[k]?' on':'')+'" data-ti="unsock" data-k="'+k+'">SOCKET '+(k+1)+': '+(a[k]?IM[a[k]].n+' · REMOVE':'EMPTY')+'</button>'});
+  IT.forEach(function(it){if(!it.m)return;var own=S.inv[it.id]||0,free=own-worn(it.id);if(own<1)return;h+='<button class="pk" data-ti="sock" data-id="'+it.id+'"'+(free<1||(a[0]&&a[1])?' disabled':'')+'>INSTALL '+it.n+' · '+free+' FREE</button>'});
+  h+='</div>';
+ }
+ h+='<button type="button" class="buy ti-back" data-ti="back">← EXIT FACILITY</button>';
+ if(h===testInsideLast)return;testInsideLast=h;$('testInsideBody').innerHTML=h;
+};
+window.renderTestHqModal=function(){
+ var modal=$('testHqModal');if(!modal)return;
+ var ph=S.pr>0,need=ph?preqs():reqs(),done=ph&&S.pr>=5,up=S.up.hq,ready=need.every(function(x){return x.ok});
+ $('testHqTitle').textContent=ph?'PRESTIGE HEADQUARTERS':'HEADQUARTERS';
+ $('testHqRank').textContent=(ph?'PRESTIGE P'+S.pr+' / 5':'HQ LEVEL '+S.hq+' / '+MAXHQ)+' · '+(done?'MAXIMUM':'NEXT '+(ph?'P'+(S.pr+1):'LEVEL '+(S.hq+1)));
+ var dots='<div class="hq-ready-indicator">'+need.map(function(x){return '<i class="hq-ready-dot '+(x.ok?'on':'')+'" aria-label="'+(x.ok?'Requirement met':'Requirement pending')+'"></i>'}).join('')+'</div><div class="hq-ready-caption '+(ready?'ready':'')+'">'+(ready?'ALL FACILITIES READY':'FACILITY REQUIREMENTS')+'</div>';
+ $('testHqRequirements').innerHTML=dots;
+ var c=ph?pHqCost():hqCost();
+ $('testHqCost').innerHTML='<b>'+(ph?'PRESTIGE UPGRADE COST':'HEADQUARTERS UPGRADE COST')+'</b>'+upgradeResourcePanel(c);
+ var upgrade=$('testHqUpgrade'),finish=$('testHqFinish'),progress=$('testHqProgress');
+ if(done){upgrade.textContent='PRESTIGE HQ MAXIMUM';upgrade.disabled=true;finish.hidden=true;progress.hidden=true}
+ else if(up){var rem=Math.max(0,(up.end-Date.now())/1000),fc=finCost('hq',S.hq+S.pr+1,rem),canFinish=S.r.in>=fc;upgrade.textContent=canFinish?'INSTANT BUILD':'UPGRADING';upgrade.disabled=true;finish.hidden=false;finish.textContent='INSTANT BUILD · '+fmt(fc)+' INFLUENCE';finish.disabled=!canFinish;progress.hidden=false;progress.textContent=canFinish?'INSTANT BUILD AVAILABLE':'CONSTRUCTION · '+fmtT(rem)}
+ else{upgrade.textContent='UPGRADE HEADQUARTERS';upgrade.disabled=!ready||!afford(c);finish.hidden=true;progress.hidden=true}
+ $('testHqBuilder').textContent='EXIT';
+};
+window.renderTestHqStatus=function(){
+ var upHost=$('testHqUpgradeStatus'),buffHost=$('testHqCrewBuffs'),slots=[];
+ var batch=testBulkUpgradeState(B).ready;
+ slots.push({id:'hq',name:'HEADQUARTERS',level:S.hq+S.pr+1,up:S.up&&S.up.hq});
+ B.forEach(function(o){slots.push({id:o.id,name:o.name,level:lvl(o)+1,up:S.up&&S.up[o.id]})});
+ if(upHost){
+  upHost.innerHTML=slots.map(function(o){
+   var isHq=o.id==='hq',cls='test-hq-timer-slot '+(o.up?'active':'idle')+(isHq&&batch?' batch-ready':'');
+   if(!o.up)return '<div class="'+cls+'"><b>'+o.name+'</b><span>'+(isHq&&batch?'BATCH AVAILABLE':'—')+'</span></div>';
+   var remaining=Math.max(0,(o.up.end-Date.now())/1000),fc=finCost(o.id,o.level,remaining),can=S.r.in>=fc;
+   return '<button type="button" class="'+cls+'" data-finish-upgrade="'+o.id+'" '+(can?'':'disabled')+' title="'+(can?'Tap to finish using Influence':'Upgrade timer running')+'"><b>'+o.name+'</b><span>'+(can?'INSTANT BUILD':fmtT(remaining))+'</span></button>';
+  }).join('');
+  upHost.querySelectorAll('[data-finish-upgrade]').forEach(function(b){b.onclick=function(){finish(b.getAttribute('data-finish-upgrade'))}});
+ }
+ if(buffHost){var buffs=[];B.slice(0,4).forEach(function(o){var assigned=crewFor(o.id)||[],bonus=buildingCrewBonus(o);buffs.push({name:o.name,bonus:bonus,count:assigned.length})});buffHost.innerHTML=buffs.map(function(x){return '<div class="test-hq-status-line"><b>'+x.name+'</b><span>+'+pct(x.bonus)+' · '+x.count+' crew</span></div>'}).join('')}
+};
+document.addEventListener('DOMContentLoaded',function(){
+ var close=$('testInsideClose');if(close)close.style.cssText+='width:27px;height:27px;min-width:27px;font-size:19px';
+ var hclose=$('testHqClose');if(hclose)hclose.style.cssText+='width:27px;height:27px;min-width:27px;font-size:19px';
+});
+})();
 </script>
