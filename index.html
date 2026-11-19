@@ -6021,5 +6021,47 @@ if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.
 ]});
 BHQ_UPDATE_VERSION='1.0.77';
 if(typeof checkUpdateNotice==='function')checkUpdateNotice();
+
+<style id="bhq-equipment-resource-visuals-1078">
+/* 1.0.78 — equipment and module artwork; scoped away from protected HQ and Alliance scenes. */
+#t-map .gear-art-icon{width:54px;height:54px;flex:0 0 54px;display:grid;place-items:center;border:1px solid rgba(117,199,232,.32);border-radius:13px;background:radial-gradient(circle at 50% 30%,rgba(92,190,235,.2),rgba(4,17,29,.92));box-shadow:inset 0 0 16px rgba(77,180,255,.1),0 5px 14px #0005}
+#t-map .gear-art-icon svg{width:39px;height:39px;overflow:visible;filter:drop-shadow(0 0 5px currentColor)}
+#t-map .hack-equipment-card{display:flex;align-items:center;gap:12px}
+#t-map .hack-equipment-card>div:not(.gear-art-icon){flex:1;min-width:0}
+#t-map .defence-upgrade-card{position:relative;padding-top:76px}
+#t-map .defence-upgrade-card .gear-art-icon{position:absolute;top:12px;left:14px}
+#t-map .defence-upgrade-card small{display:block}
+#t-map .gear-art-icon.cracker{color:#bd9aff;border-color:#9e75dc55;background:radial-gradient(circle,#49316a55,#100c1d)}
+#t-map .gear-art-icon.buffer{color:#66e9d2;border-color:#56d9c255;background:radial-gradient(circle,#164e5055,#071b20)}
+#t-map .gear-art-icon.firewall{color:#76e9ad;border-color:#76e9ad55;background:radial-gradient(circle,#1b624455,#071d1a)}
+#t-map .gear-art-icon.ids{color:#6ddaff;border-color:#6ddaff55;background:radial-gradient(circle,#18516a55,#071923)}
+#t-map .gear-art-icon.encryption{color:#d2a4ff;border-color:#d2a4ff55;background:radial-gradient(circle,#57377a55,#170d24)}
+@media(max-width:520px){#t-map .gear-art-icon{width:45px;height:45px;flex-basis:45px;border-radius:11px}#t-map .gear-art-icon svg{width:33px;height:33px}#t-map .hack-equipment-card{gap:8px}}
+</style>
+<script id="bhq-equipment-resource-visuals-1078-script">
+(function(){
+ var icons={
+ cracker:'<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M24 4L39 10V23Q37 36 24 43Q11 36 9 23V10Z"/><path d="M17 23V18a7 7 0 0114 0v5"/><rect x="15" y="23" width="18" height="12" rx="3"/><circle cx="24" cy="29" r="2"/></svg>',
+ buffer:'<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13H40V35H8Z"/><path d="M14 19H34M14 25H28M14 31H23"/><path d="M35 7V13M29 7V13M23 7V13"/></svg>',
+ firewall:'<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M7 12H41V37H7Z"/><path d="M7 20H41M7 29H41M18 12V20M31 12V20M13 20V29M26 20V29M36 29V37"/><path d="M24 5L29 9 24 13 19 9Z"/></svg>',
+ ids:'<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="21" cy="21" r="12"/><path d="M30 30L41 41M21 14V22L27 25"/><path d="M8 7L5 4M34 8L38 4"/></svg>',
+ encryption:'<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M24 4L40 13V31L24 40 8 31V13Z"/><path d="M24 13L33 18V28L24 33 15 28V18Z"/><circle cx="24" cy="23" r="3"/><path d="M24 26V30"/></svg>'
+ };
+ function icon(key){var d=document.createElement('div');d.className='gear-art-icon '+key;d.innerHTML=icons[key];return d}
+ var oldHack=window.renderCyberOps;
+ if(typeof oldHack==='function')window.renderCyberOps=function(){oldHack.apply(this,arguments);var host=document.getElementById('hackEquipment');if(!host)return;var cards=host.querySelectorAll('.hack-equipment-card');if(cards[0]&&!cards[0].querySelector('.gear-art-icon'))cards[0].insertBefore(icon('cracker'),cards[0].firstChild);if(cards[1]&&!cards[1].querySelector('.gear-art-icon'))cards[1].insertBefore(icon('buffer'),cards[1].firstChild)};
+ var oldDef=window.renderCyberDefence;
+ if(typeof oldDef==='function')window.renderCyberDefence=function(){oldDef.apply(this,arguments);var host=document.getElementById('defenceUpgradeCards');if(!host)return;['firewall','ids','encryption'].forEach(function(key,i){var card=host.children[i];if(card&&!card.querySelector('.gear-art-icon'))card.insertBefore(icon(key),card.firstChild)})};
+})();
+</script>
+
+if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.78',date:'19 NOV 2026',title:'EQUIPMENT BAY // ILLUSTRATED CYBER SYSTEMS',tag:'PASSWORD CRACKER · TRACE BUFFER · DEFENCE MODULES',items:[
+ 'The Password Cracker and Trace Buffer now have distinct equipment illustrations in the Live Hacking equipment bay, making the two tools and their different roles easier to recognise.',
+ 'Adaptive Firewall, Intrusion Detection and Quantum Encryption now each have their own visual module emblem in Cyber Defence. Their descriptions, upgrade levels, costs and effects remain visible alongside the artwork.',
+ 'The new icons are lightweight vector graphics sized for mobile screens. They are presentation-only and do not change equipment statistics, upgrade prices, defensive calculations or saved account data.',
+ 'All artwork is confined to the operations interface. The protected main HQ campus and every Alliance building remain unchanged.'
+]});
+BHQ_UPDATE_VERSION='1.0.78';
+if(typeof checkUpdateNotice==='function')checkUpdateNotice();
 </body>
 </html>
