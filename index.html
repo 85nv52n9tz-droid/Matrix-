@@ -6867,14 +6867,14 @@ document.addEventListener('DOMContentLoaded',function(){
 });
 })();
 
-<script id="bhq-update-log-cleanup-v174">
+
 (function(){
   var previousRenderUpdateLog=window.renderUpdateLog||renderUpdateLog;
   function readableReleaseText(value,max){
     if(typeof value!=='string')return '';
-    var text=value.replace(/\\s+/g,' ').trim();
+    var text=value.replace(/\s+/g,' ').trim();
     if(!text||text.length>max)return '';
-    if(/(?:\\bfunction\\s*\\(|\\bvar\\s+[A-Za-z_$]|\\bconst\\s+[A-Za-z_$]|=>|<\\/?script|document\\.|window\\.|\\.innerHTML|addEventListener|querySelector|localStorage|BHQ_UPDATE_RELEASES|(?:^|[;{}])\\s*(?:if|for|return)\\s*\\()/i.test(text))return '';
+    if(/(?:\bfunction\s*\(|\bvar\s+[A-Za-z_$]|\bconst\s+[A-Za-z_$]|=>|<\/?script|document\.|window\.|\.innerHTML|addEventListener|querySelector|localStorage|BHQ_UPDATE_RELEASES|(?:^|[;{}])\s*(?:if|for|return)\s*\()/i.test(text))return '';
     return text;
   }
   window.BHQ_UPDATE_VERSION='1.0.74';
@@ -6896,4 +6896,4 @@ document.addEventListener('DOMContentLoaded',function(){
   renderUpdateLog=window.renderUpdateLog;
   if(typeof checkUpdateNotice==='function')checkUpdateNotice();
 })();
-</script></script>
+</script>
