@@ -6841,7 +6841,7 @@ window.renderTestHqModal=function(){
  if(done){upgrade.textContent='PRESTIGE HQ MAXIMUM';upgrade.disabled=true;finish.hidden=true;progress.hidden=true}
  else if(up){var rem=Math.max(0,(up.end-Date.now())/1000),fc=finCost('hq',S.hq+S.pr+1,rem),canFinish=S.r.in>=fc;upgrade.textContent=canFinish?'INSTANT BUILD':'UPGRADING';upgrade.disabled=true;finish.hidden=false;finish.textContent='INSTANT BUILD · '+fmt(fc)+' INFLUENCE';finish.disabled=!canFinish;progress.hidden=false;progress.textContent=canFinish?'INSTANT BUILD AVAILABLE':'CONSTRUCTION · '+fmtT(rem)}
  else{upgrade.textContent='UPGRADE HEADQUARTERS';upgrade.disabled=!ready||!afford(c);finish.hidden=true;progress.hidden=true}
- $('testHqBuilder').textContent='EXIT';
+ $('testHqBuilder').textContent='ENTER HQ';
 };
 window.renderTestHqStatus=function(){
  var upHost=$('testHqUpgradeStatus'),buffHost=$('testHqCrewBuffs'),slots=[];
