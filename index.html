@@ -2256,6 +2256,36 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 @media(max-width:480px){.bhq-login-core{top:38%;width:75vw}.bhq-login-orbit{top:38%;width:100vw}.bhq-login-orbit.orbit-b{width:125vw}.bhq-login-node{font-size:7px;padding:6px 7px}.node-a{top:16%;left:5%}.node-b{top:25%;right:4%}.node-c{bottom:15%;left:5%}.bhq-login-footer{font-size:6px;gap:9px;letter-spacing:.7px}.corner-a,.corner-b{top:10px;font-size:7px}}
 @media(prefers-reduced-motion:reduce){.bhq-login-grid,.bhq-login-scan,.bhq-login-core,.bhq-login-core:before,.bhq-login-core:after,.bhq-login-orbit,.bhq-login-node,#authGate .authbox,#authGate .authaction{animation:none!important;transition:none!important}}
 </style>
+<style id="bhq-loading-data-overhaul-v1082">
+#bhqLoading{isolation:isolate;overflow:hidden;background:radial-gradient(ellipse at 50% 48%,#082a21 0%,#03110e 43%,#010403 100%)}
+#bhqLoading:before,#bhqLoading:after{content:"";position:absolute;inset:-20%;pointer-events:none;z-index:0}
+#bhqLoading:before{background:repeating-linear-gradient(0deg,transparent 0 27px,rgba(61,255,202,.12) 28px,transparent 29px);animation:bhqLoadLines 5s linear infinite;mask-image:linear-gradient(transparent,#000 18%,#000 82%,transparent)}
+#bhqLoading:after{background:linear-gradient(90deg,transparent 0%,rgba(40,255,190,.09) 49%,transparent 51%);background-size:180px 100%;animation:bhqLoadSweep 3.5s linear infinite}
+.bhq-load-grid{opacity:.85;background-size:27px 27px!important;mask-image:radial-gradient(ellipse at center,#000 8%,rgba(0,0,0,.8) 52%,transparent 88%)!important;animation:bhqLoadGrid 18s linear infinite}
+.bhq-load-data-field{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden;color:#7bffe0;font:9px/1.7 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:1px}
+.bhq-load-data-rail{position:absolute;height:1px;left:-20%;width:140%;background:linear-gradient(90deg,transparent,rgba(69,255,210,.1),rgba(80,255,218,.95),rgba(80,255,218,.12),transparent);box-shadow:0 0 12px rgba(55,255,204,.6);animation:bhqRailTravel 4s linear infinite}
+.rail-one{top:18%;animation-delay:-1s}.rail-two{top:76%;animation-delay:-2.4s}.rail-three{top:43%;animation-delay:-3.2s;opacity:.55}
+.bhq-load-holo{position:absolute;min-width:150px;padding:10px 12px;border:1px solid rgba(89,255,218,.38);background:linear-gradient(135deg,rgba(2,32,28,.78),rgba(3,13,20,.42));box-shadow:0 0 22px rgba(0,255,190,.12),inset 0 0 18px rgba(0,255,190,.06);backdrop-filter:blur(5px);text-shadow:0 0 8px rgba(70,255,218,.5);animation:bhqHoloFloat 5s ease-in-out infinite}
+.bhq-load-holo b{display:block;color:#d0fff4;font-size:9px;letter-spacing:1.8px;margin-bottom:5px}.bhq-load-holo span{display:block;color:rgba(123,255,224,.78);white-space:nowrap}.bhq-load-holo em{color:#7dff9e;font-style:normal}
+.bhq-load-holo i{display:block;height:3px;margin-top:6px;background:linear-gradient(90deg,#20a985,#8dffe2,transparent);box-shadow:0 0 8px #38ffd0;animation:bhqHoloBar 2.2s ease-in-out infinite alternate}
+.holo-left{left:5%;top:30%;transform:perspective(500px) rotateY(12deg);animation-delay:-1.3s}.holo-right{right:5%;top:31%;transform:perspective(500px) rotateY(-12deg);animation-delay:-2.7s}.holo-bottom{left:50%;bottom:8%;transform:translateX(-50%);animation-delay:-.8s}
+.bhq-load-binary{position:absolute;color:rgba(76,255,206,.36);font-size:11px;line-height:1.9;letter-spacing:4px;writing-mode:vertical-rl;text-shadow:0 0 10px rgba(49,255,206,.5);animation:bhqBinaryDrift 7s linear infinite}
+.binary-a{left:3%;top:8%}.binary-b{right:3%;bottom:15%;animation-delay:-3.5s}
+.bhq-load-sweep{position:absolute;left:0;right:0;height:20%;top:-25%;background:linear-gradient(180deg,transparent,rgba(58,255,214,.1),transparent);animation:bhqLoadScan 4.8s linear infinite}
+.bhq-load-frame{z-index:2;background:linear-gradient(145deg,rgba(1,17,15,.96),rgba(2,8,13,.93))!important;box-shadow:0 0 70px rgba(0,255,190,.2),0 0 0 1px rgba(97,255,218,.12),inset 0 0 35px rgba(0,255,190,.08)!important;backdrop-filter:blur(9px)}
+.bhq-load-core{width:100px;height:100px;box-shadow:0 0 35px rgba(38,255,195,.2),inset 0 0 25px rgba(38,255,195,.1)!important}
+.bhq-load-track{height:9px!important;border-color:rgba(88,255,214,.55)!important;box-shadow:0 0 13px rgba(48,255,204,.12)}
+.bhq-load-fill{box-shadow:0 0 18px #39ffce!important}
+@keyframes bhqLoadLines{to{transform:translateY(29px)}}@keyframes bhqLoadSweep{to{background-position:180px 0}}@keyframes bhqLoadGrid{to{background-position:54px 54px}}
+@keyframes bhqRailTravel{0%{transform:translateX(-35%);opacity:0}20%,80%{opacity:1}100%{transform:translateX(35%);opacity:0}}
+@keyframes bhqHoloFloat{0%,100%{margin-top:0;filter:brightness(.8)}50%{margin-top:-13px;filter:brightness(1.35)}}
+@keyframes bhqHoloBar{to{width:35%;opacity:.45}}
+@keyframes bhqBinaryDrift{to{translate:0 35px;opacity:.12}}
+@keyframes bhqLoadScan{to{top:120%}}
+@media(max-width:600px){.bhq-load-holo{min-width:116px;padding:7px 8px;font-size:7px;letter-spacing:.3px}.bhq-load-holo b{font-size:7px;letter-spacing:1px}.holo-left{left:2%;top:18%}.holo-right{right:2%;top:18%}.holo-bottom{bottom:4%}.bhq-load-binary{font-size:8px;letter-spacing:2px}.bhq-load-frame{width:min(88vw,520px);padding:20px 18px}.bhq-load-core{width:78px;height:78px;margin:17px auto}}
+@media(max-width:390px){.bhq-load-holo{min-width:104px;padding:5px 6px}.bhq-load-holo span{font-size:6px}.holo-left{top:13%}.holo-right{top:13%}.holo-bottom{bottom:2%}}
+@media(prefers-reduced-motion:reduce){#bhqLoading:before,#bhqLoading:after,.bhq-load-grid,.bhq-load-data-rail,.bhq-load-holo,.bhq-load-binary,.bhq-load-sweep{animation:none!important}}
+</style>
 </head>
 <body>
 <div id="authGate">
@@ -2288,6 +2318,15 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 </div>
 <div id="bhqLoading" hidden aria-live="polite" aria-label="Backdoor HQ system loading">
   <div class="bhq-load-grid"></div>
+  <div class="bhq-load-data-field" aria-hidden="true">
+    <div class="bhq-load-data-rail rail-one"></div><div class="bhq-load-data-rail rail-two"></div><div class="bhq-load-data-rail rail-three"></div>
+    <div class="bhq-load-holo holo-left"><b>DATA PACKET // 07</b><span>01001101 10100110</span><span>TRACE ROUTE: MASKED</span><i></i></div>
+    <div class="bhq-load-holo holo-right"><b>NETWORK MAP</b><span>NODE_04 <em>ONLINE</em></span><span>ENCRYPTION: AES-256</span><i></i></div>
+    <div class="bhq-load-holo holo-bottom"><b>LIVE SYSTEM FEED</b><span>SYNC 98.7% // SECURE</span><span>PACKETS RECEIVED: 4096</span></div>
+    <div class="bhq-load-binary binary-a">01010110<br>11001010<br>00110101<br>10110010</div>
+    <div class="bhq-load-binary binary-b">10100101<br>01101001<br>11010010<br>00101101</div>
+    <div class="bhq-load-sweep"></div>
+  </div>
   <div class="bhq-load-frame" id="bhqLoadFrame">
     <div class="bhq-load-kicker">SECURE NETWORK // ENCRYPTED ACCESS</div>
     <div class="bhq-load-brand">THE DARK HQ<span class="cur">_</span></div>
@@ -2413,8 +2452,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
       <div class="update-live"><i></i> LIVE FEED</div>
     </div>
     <div class="update-current-strip"><span class="update-current-icon">✦</span><div><small>CURRENT BUILD</small><b id="updateCurrentVersion">VERSION 1.0.0</b></div><span class="update-current-status">DEPLOYED</span></div>
-    <div class="update-section-label"><span>{version:'1.0.70',date:'19 NOV 2026',title:'HQ BATCH AVAILABILITY · INSTANT BUILD · QUANTUM VISIBILITY',tag:'BATCH AVAILABLE ON HQ · INSTANT BUILD WHEN INFLUENCE COVERS THE COST',items:['The central HQ tile now displays BATCH AVAILABLE when all four core buildings can be upgraded together, and tapping it starts the existing batch upgrade.','Removed the purple Quantum balance and income from the new HQ resource banner until Prestige P1, including the underlying resource chip.','HQ building timer tiles now replace the countdown with INSTANT BUILD whenever the player has enough Influence to finish immediately.','The HQ and individual building upgrade windows also identify when an active construction can be finished instantly.']},
- {version:'1.0.69',date:'19 NOV 2026',title:'HQ DATA LINKS · BUILDING TIMERS · CREW ACCESS',tag:'PRESTIGE-LOCKED QUANTUM · WAVY DATA CABLES · QUICK CREW ASSIGNMENT',items:['Locked the purple Quantum resource planner row until Prestige P1, regardless of stale resource-chip visibility.','Moved the HQ campus and four core buildings lower and replaced straight connectors with animated flowing data cables.','Reworked the five HQ timer tiles: active countdowns, grey inactive tiles, flashing upgrade-ready tiles, and Influence finish-cost hints when a timer is running.','Made each of the four crew bonus tiles directly open its crew assignment picker.','Reduced the timer frame height to create a clear gap above the crew panel.']}, TRANSMISSIONS</span><i></i><small>NEWEST FIRST</small></div>
+    <div class="update-section-label"><span>SECURE TRANSMISSIONS // RELEASE ARCHIVE</span><i></i><small>NEWEST FIRST</small></div>
     <div id="updateLogEntries" class="update-log-entries"></div>
     <div class="update-archive-foot"><span>▰ SECURE ARCHIVE</span><span>END OF TRANSMISSION</span></div>
   </div>
@@ -6866,11 +6904,14 @@ document.addEventListener('DOMContentLoaded',function(){
     if(typeof value!=='string')return '';
     var text=value.replace(/\s+/g,' ').trim();
     if(!text||text.length>max)return '';
-    if(/(?:\bfunction\s*\(|\bvar\s+[A-Za-z_$]|\bconst\s+[A-Za-z_$]|=>|<\/?script|document\.|window\.|\.innerHTML|addEventListener|querySelector|localStorage|BHQ_UPDATE_RELEASES|(?:^|[;{}])\s*(?:if|for|return)\s*\()/i.test(text))return '';
+    if(/(?:\bfunction\s*\(|\bvar\s+[A-Za-z_$]|\bconst\s+[A-Za-z_$]|=>|<\/?script|document\.|window\.|\.innerHTML|addEventListener|querySelector|localStorage|BHQ_UPDATE_RELEASES|(?:^|[;{}])\s*(?:if|for|return)\s*\(|\{\s*version\s*:|\b(?:date|title|tag|items)\s*:\s*['"\[])/i.test(text))return '';
     return text;
   }
-  window.BHQ_UPDATE_VERSION='1.0.81';
-  BHQ_UPDATE_VERSION='1.0.81';
+  window.BHQ_UPDATE_VERSION='1.0.82';
+  BHQ_UPDATE_VERSION='1.0.82';
+  if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.82',date:'19 NOV 2026',title:'HOLOGRAPHIC LOADING // DATA STREAM OVERHAUL',tag:'LIVE DATA RAILS · FLOATING SYSTEM PANELS · CYBER SCAN FIELD',items:['Rebuilt the loading backdrop with brighter animated data lines, moving scan fields and a more visible digital grid.','Added floating holographic network panels, live system readouts and vertical streams of binary data around the central loading interface.','Enhanced the central loading frame, connection core and progress bar while preserving the existing five-second loading sequence and login flow.','Removed accidentally exposed release-object text from the Update Log heading and restored a clean transmission archive label.','Added a release-note filter to reject code-shaped text before it can appear in the Update Log.']});
+  if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.70',date:'19 NOV 2026',title:'HQ BATCH AVAILABILITY // INSTANT BUILD',tag:'BATCH READY · QUANTUM VISIBILITY · INFLUENCE FINISH',items:['The central HQ tile displays BATCH AVAILABLE when all four core buildings can be upgraded together.','The new HQ resource banner hides the purple Quantum balance and income until Prestige P1.','HQ building timer tiles display INSTANT BUILD when available Influence covers the finish cost.','HQ and individual building upgrade windows identify when construction can be finished instantly.']});
+  if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.69',date:'19 NOV 2026',title:'HQ DATA LINKS // BUILDING TIMERS & CREW ACCESS',tag:'PRESTIGE-LOCKED QUANTUM · FLOWING DATA CABLES',items:['Locked the purple Quantum resource planner row until Prestige P1.','Moved the HQ campus and four core buildings lower and replaced straight connectors with animated flowing data cables.','Reworked HQ timer tiles with active countdowns, inactive states, upgrade-ready indicators and Influence finish-cost hints.','Made each core crew bonus tile open its crew assignment picker directly.','Reduced the timer frame height to create a clear gap above the crew panel.']});
   if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.81',date:'19 NOV 2026',title:'IN-GAME UPDATE BRIEFING // NO FORCED REFRESH',tag:'SEAMLESS DEPLOYMENT · PLAYER COMPENSATION',items:['Completely removed the forced refresh/re-login panel and its live build interaction lock. Players can continue using the game without an update-triggered reload.','Replaced the login update pop-up with a post-entry in-game briefing that asks players to visit More → Recent Updates for the full release notes.','Added a small compensation delivery flow from the briefing. A compensation package is prepared after acknowledging the notice and appears in-game when ready.','Preserved account progress, existing compensation scaling and the full Update Log.']});
   if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.80',date:'19 NOV 2026',title:'FUTURISTIC LOGIN // NETWORK INTERFACE OVERHAUL',tag:'ANIMATED SECURE ACCESS',items:['Added an animated cyber-network backdrop with rotating orbital rings, scanning effects, glowing nodes and a moving grid.','Redesigned the login panel with a futuristic glass interface, illuminated details and responsive mobile layout.','Login, account creation and test-mode controls remain unchanged.']});
   if(Array.isArray(BHQ_UPDATE_RELEASES)){
