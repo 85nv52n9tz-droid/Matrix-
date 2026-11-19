@@ -6697,5 +6697,25 @@ BHQ_UPDATE_VERSION='1.1.13';
 
 
 if(typeof checkUpdateNotice==='function')checkUpdateNotice();
+
+<style id="cyber-ops-terminal-refinement-v1114">
+/* 1.1.14 — Cyber Ops challenge workspace clarity; presentation only. */
+.hack-workspace{background:radial-gradient(ellipse at 50% 0%,rgba(31,105,69,.12),transparent 65%),#030a08;border-color:#286b4c;box-shadow:inset 0 0 24px rgba(30,190,105,.045)}
+.hack-challenge h3{color:#d8ffe5;letter-spacing:.02em}
+.hack-challenge p{max-width:72ch;line-height:1.6}
+.hack-challenge .hack-terminal-line{color:#9af5bb;line-height:1.55;overflow-wrap:anywhere;word-break:normal}
+.hack-challenge .hack-node-row button{overflow-wrap:anywhere;min-height:46px}
+.hack-challenge .hack-password-row input{border-color:#397b58;outline-offset:2px}
+.hack-challenge .hack-password-row input:focus-visible{border-color:#8effb2;box-shadow:0 0 0 2px rgba(126,255,173,.14)}
+.hack-challenge button:active{transform:translateY(1px);filter:brightness(1.12)}
+.hack-challenge button:disabled{cursor:not-allowed;filter:saturate(.55);opacity:.55}
+@media(max-width:480px){.hack-workspace{padding:10px}.hack-challenge .hack-terminal-line{font-size:10px;line-height:1.6}.hack-challenge .hack-node-row button{min-height:48px}}
+@media(prefers-reduced-motion:reduce){.hack-challenge button{transition:none!important;transform:none!important}}
+</style>
+<script id="cyber-ops-terminal-release-v1114">
+if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.1.14',date:'19 NOV 2026',title:'CYBER OPS // CHALLENGE TERMINAL REFINEMENT',tag:'TERMINAL READABILITY · MOBILE FEEDBACK · INPUT CLARITY',items:['The live hacking workspace now has clearer terminal contrast and a more focused command-console treatment.','Challenge instructions and terminal output have improved line spacing and wrapping so longer clues remain readable on narrow screens.','Password entry focus, disabled controls and touch feedback are easier to distinguish during active challenges.','The update is presentation-only: puzzle answers, sequence rules, validation, Trace Buffer use, failure handling, rewards and saved breach progress are unchanged.','Player HQ, its four surrounding buildings, Alliance HQ and all Alliance buildings remain untouched.']});
+BHQ_UPDATE_VERSION='1.1.14';
+</script>
+
 </body>
 </html>
