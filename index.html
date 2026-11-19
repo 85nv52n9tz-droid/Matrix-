@@ -6899,5 +6899,40 @@ if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.1.
 BHQ_UPDATE_VERSION='1.1.19';
 </script>
 
+<style id="player-performance-intelligence-v1120">
+#playerPerformanceIntel{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:9px 0 11px;padding:10px;border:1px solid #315d48;border-radius:11px;background:radial-gradient(ellipse at 50% 0%,#1c493344,transparent 70%),linear-gradient(145deg,#0d1d14,#071018 82%);box-shadow:inset 0 1px #ffffff0c,0 7px 18px #0006}
+#playerPerformanceIntel .ppi-head{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:0 1px 6px;border-bottom:1px solid #315d483d;color:#91d9ae;font:800 9px monospace;letter-spacing:1.3px}
+#playerPerformanceIntel .ppi-head span{color:#638b74;font-size:8px;letter-spacing:.7px}
+#playerPerformanceIntel .ppi-stat{min-width:0;padding:8px 7px;border:1px solid #254634;border-radius:8px;background:linear-gradient(145deg,#10251a,#08120d)}
+#playerPerformanceIntel .ppi-stat small{display:block;color:#77a98a;font:8px monospace;letter-spacing:.8px;white-space:nowrap}
+#playerPerformanceIntel .ppi-stat b{display:block;margin-top:5px;color:#d9ffe5;font:800 14px/1.1 ui-monospace,monospace;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+#playerPerformanceIntel .ppi-stat em{display:block;margin-top:4px;color:#6d9c7e;font:8px monospace;font-style:normal}
+#playerPerformanceIntel .ppi-stat.power b{color:#9bffc0;text-shadow:0 0 10px #39ff8830}
+@media(max-width:520px){#playerPerformanceIntel{gap:5px;padding:8px}#playerPerformanceIntel .ppi-stat{padding:7px 5px}#playerPerformanceIntel .ppi-stat b{font-size:12px}#playerPerformanceIntel .ppi-stat small{font-size:7px}}
+</style>
+<script id="player-performance-intelligence-v1120">
+/* PLAYER PERFORMANCE INTELLIGENCE v1.1.20 — read-only summary; all values reuse existing game calculations. */
+(function(){
+ var originalRenderRank=window.renderRank;
+ function updatePlayerPerformanceIntel(){
+  var host=document.getElementById('rprof');if(!host)return;
+  var panel=document.getElementById('playerPerformanceIntel');
+  if(!panel){panel=document.createElement('section');panel.id='playerPerformanceIntel';panel.setAttribute('aria-label','Player performance summary');var podium=document.getElementById('rpodium');if(podium&&podium.parentNode)podium.parentNode.insertBefore(panel,podium);else host.appendChild(panel);}
+  var st=S.st||{},att=(Number(st.aw)||0)+(Number(st.al)||0),df=(Number(st.dw)||0)+(Number(st.dl)||0),total=att+df,wins=(Number(st.aw)||0)+(Number(st.dw)||0),rate=total?Math.round(wins/total*100):0,bots=(S.nb||[]).reduce(function(a,v){return a+(Number(v)||0)},0);
+  function tile(label,value,note,extra){return '<div class="ppi-stat'+(extra?' '+extra:'')+'"><small>'+label+'</small><b>'+value+'</b><em>'+note+'</em></div>'}
+  panel.innerHTML='<div class="ppi-head">PLAYER PERFORMANCE <span>LIVE ACCOUNT SNAPSHOT</span></div>'+
+   tile('HEADQUARTERS','HQ '+fmt(S.hq),'Current command level')+
+   tile('ATTACK POWER',fmt(atkP()),'Current offensive rating','power')+
+   tile('DEFENCE POWER',fmt(defP()),'Current defensive rating','power')+
+   tile('NANOBOT FORCE',fmt(bots),'Bots currently owned')+
+   tile('TOTAL KILLS',fmt(S.kills||0),'Lifetime account total')+
+   tile('BATTLE WIN RATE',rate+'%',wins+' wins · '+(total-wins)+' losses');
+ }
+ window.renderRank=function(){if(typeof originalRenderRank==='function')originalRenderRank.apply(this,arguments);if(typeof S!=='undefined')updatePlayerPerformanceIntel()};
+})();
+if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.1.20',date:'19 NOV 2026',title:'PLAYER PROFILE & PERFORMANCE INTELLIGENCE',tag:'LIVE COMBAT RATINGS · ACCOUNT SNAPSHOT · CLEARER STATISTICS',items:['Added a compact player performance panel to the personal Global Ranking view, showing current HQ level, attack power, defence power, nanobot count, lifetime kills and overall battle win rate.','The panel refreshes with the existing ranking render and reuses current game values; it does not add new progression or alter combat calculations.','Alliance rankings, HQ and Alliance buildings, existing records and saved game data are unchanged.']});
+BHQ_UPDATE_VERSION='1.1.20';
+if(typeof checkUpdateNotice==='function')checkUpdateNotice();
+</script>
 </body>
 </html>
