@@ -4148,16 +4148,16 @@ function renderUpdateLog(){
 function setUpdateUnread(on){var b=$('updateLogTab');if(b){b.classList.toggle('update-unread',!!on);b.setAttribute('aria-label',on?'Update Log — new update available':'Update Log')}}
 function markUpdateLogRead(){S.updateLogSeenVersion=BHQ_UPDATE_VERSION;save();setUpdateUnread(false);var n=$('updateNotice');if(n)n.hidden=true;}
 function checkUpdateNotice(){
- var seen=String(S.updateLogSeenVersion||'');var unread=seen!==BHQ_UPDATE_VERSION;
+ var seen=String(S.updateLogSeenVersion||''),unread=seen!==String(BHQ_UPDATE_VERSION||'');
  setUpdateUnread(unread);renderUpdateLog();
- var n=$('updateNotice');if(n)n.hidden=true;
+ var n=$('updateNotice');if(n&&!unread)n.hidden=true;
  var v=$('updateNoticeVersion');if(v)v.textContent='VERSION '+BHQ_UPDATE_VERSION;
 }
 window.BHQ_SHOW_LOGIN_UPDATE_NOTICE=function(){
- var seen=String(S.updateLogSeenVersion||''),unread=seen!==String(BHQ_UPDATE_VERSION||'');
- if(!unread)return;
- var n=$('updateNotice');if(!n)return;
- var v=$('updateNoticeVersion');if(v)v.textContent='VERSION '+BHQ_UPDATE_VERSION;
+ var seen=String(S.updateLogSeenVersion||''),version=String(BHQ_UPDATE_VERSION||''),unread=!!version&&seen!==version;
+ setUpdateUnread(unread);renderUpdateLog();
+ var n=$('updateNotice');if(!n||!unread)return;
+ var v=$('updateNoticeVersion');if(v)v.textContent='VERSION '+version;
  n.hidden=false;
 };
 // Decorative HQ dartboard and calendar shortcuts removed; roadmap content remains preserved.
@@ -4716,7 +4716,7 @@ function renderTestHqModal(){
   var reqTitle=ph?'PRESTIGE BUILDINGS REQUIRED':'HQ BUILDINGS REQUIRED',reqHtml='<b>'+reqTitle+'</b>';
   need.forEach(function(x){reqHtml+='<div class="test-hq-req"><span>'+x.name+'</span><strong class="'+(x.ok?'ready':'missing')+'">LV '+x.l+' / '+(ph?10*S.pr:S.hq)+' '+(x.ok?'✓':'✕')+'</strong></div>'});
   reqHtml+='<div style="margin-top:7px;color:'+(need.every(function(x){return x.ok})?'#8effb1':'#ffd08b')+'">'+need.filter(function(x){return x.ok}).length+' of '+need.length+' buildings at the required level</div>';$('testHqRequirements').innerHTML=reqHtml;
-  var c=ph?pHqCost():hqCost(),hqBenefit=ph?'<div class="upgrade-benefit"><b>WHAT PRESTIGE HEADQUARTERS PROVIDES</b><p>Prestige HQ advances your permanent command tier and unlocks higher levels for all six prestige facilities. Your existing legacy income and account progression are retained.</p><div class="upgrade-benefit-stats"><span>CURRENT PRESTIGE<strong>P'+S.pr+' / 5</strong></span><span>AFTER UPGRADE<strong>P'+(S.pr+1)+' / 5</strong></span></div><p>HQ construction remains the longest and most resource-intensive personal building upgrade.</p></div>':'<div class="upgrade-benefit"><b>WHAT HEADQUARTERS PROVIDES</b><p>Central command controls your entire network. Each standard HQ level increases production from all resources by 15%, raises the level ceiling for your four core facilities and unlocks further progression.</p><div class="upgrade-benefit-stats"><span>CURRENT GLOBAL INCOME<strong>×'+mult().toFixed(2)+'</strong></span><span>AFTER NEXT HQ LEVEL<strong>×'+(mult()+0.15).toFixed(2)+'</strong></span></div><p>HQ construction is the longest and most resource-intensive personal building upgrade.</p></div>';$('testHqRequirements').innerHTML=reqHtml+hqBenefit;$('testHqCost').innerHTML='<b>'+(ph?'PRESTIGE UPGRADE COST':'NEXT HQ UPGRADE COST')+'</b>'+upgradeResourcePanel(c);
+  var c=ph?pHqCost():hqCost(),hqBenefit=ph?'<div class="upgrade-benefit"><b>WHAT PRESTIGE HEADQUARTERS PROVIDES</b><p>Prestige HQ advances your permanent command tier and unlocks higher levels for all six prestige facilities. Your existing legacy income and account progression are retained.</p><div class="upgrade-benefit-stats"><span>CURRENT PRESTIGE<strong>P'+S.pr+' / 5</strong></span><span>AFTER UPGRADE<strong>P'+(S.pr+1)+' / 5</strong></span></div><p>HQ construction remains the longest and most resource-intensive personal building upgrade.</p></div>':'<div class="upgrade-benefit"><b>WHAT HEADQUARTERS PROVIDES</b><p>Central command controls your entire network. Each standard HQ level increases production from all resources by 15%, raises the level ceiling for your four core facilities and unlocks further progression.</p><div class="upgrade-benefit-stats"><span>CURRENT GLOBAL INCOME<strong>×'+mult().toFixed(2)+'</strong></span><span>AFTER NEXT HQ LEVEL<strong>×'+(mult()+0.15).toFixed(2)+'</strong></span></div><p>HQ construction is the longest and most resource-intensive personal building upgrade.</p></div>';$('testHqRequirements').innerHTML=reqHtml+'<div class="hq-build-resource-panel"><b>RESOURCES REQUIRED TO BUILD</b>'+upgradeResourcePanel(c)+'</div>';$('testHqCost').innerHTML='';$('testHqCost').hidden=true;
   var upgrade=$('testHqUpgrade'),finish=$('testHqFinish'),progress=$('testHqProgress');
   if(done){upgrade.textContent='PRESTIGE HQ MAXIMUM';upgrade.disabled=true;finish.hidden=true;progress.hidden=true}
   else if(up){var rem=Math.max(0,(up.end-Date.now())/1000),fc=finCost('hq',S.hq+S.pr+1,rem),canFinish=S.r.in>=fc;upgrade.textContent=canFinish?'INSTANT BUILD':'UPGRADING · '+fmtT(rem);upgrade.disabled=true;finish.hidden=false;finish.textContent='INSTANT BUILD · '+fmt(fc)+' INFLUENCE';finish.disabled=!canFinish;progress.hidden=false;progress.textContent=canFinish?'INSTANT BUILD AVAILABLE':'Construction in progress · '+fmtT(rem)+' remaining'}
@@ -6541,6 +6541,18 @@ html body .hdr{margin-bottom:0!important}
 #testInsideModal #testInsideBody .ti-back{display:none!important}
 </style>
 
+<style id="hq-resource-requirements-final">#testHqModal .hq-build-resource-panel{margin-top:12px;padding-top:10px;border-top:1px solid #ffffff22}#testHqModal .hq-build-resource-panel>b{display:block;color:#ffe29a;font-size:10px;letter-spacing:.8px;margin-bottom:8px}#testHqModal #testHqCost{display:none!important}</style>
+<script id="bhq-update-log-login-repair">(function(){
+var version='1.0.84';window.BHQ_UPDATE_VERSION=version;if(typeof BHQ_UPDATE_VERSION!=='undefined')BHQ_UPDATE_VERSION=version;
+var releases=typeof BHQ_UPDATE_RELEASES!=='undefined'?BHQ_UPDATE_RELEASES:[];window.BHQ_UPDATE_RELEASES=releases;
+if(Array.isArray(releases)){
+if(!releases.some(function(r){return r&&String(r.version)==='1.0.84'}))releases.unshift({version:'1.0.84',date:'19 NOV 2026',title:'UPDATE DELIVERY REPAIR // HQ BUILD COSTS',tag:'RELIABLE LOGIN BRIEFING · COMPLETE RELEASE ARCHIVE · HQ RESOURCE COSTS',items:['Repaired the post-login update briefing so an unread published version reliably opens its notification after the login sequence.','Restored reliable Update Log rendering and ensured the latest release notes are included in the Updates archive.','Replaced the Headquarters Provides panel with the exact resources required for the next HQ or Prestige HQ build, including available and missing amounts.']});
+if(!releases.some(function(r){return r&&String(r.version)==='1.0.83'}))releases.unshift({version:'1.0.83',date:'19 NOV 2026',title:'HQ TIMER CONTROLS // CLEAN UPDATE LOG',tag:'DIRECT BUILDING UPGRADES · READABLE RELEASE NOTES',items:['HQ timer controls start the selected building upgrade directly using the existing upgrade system.','The HQ timer button starts HQ upgrades while core facility timer buttons start their own upgrades.','Improved release-note filtering to prevent code fragments from appearing in the Update Log.']});
+if(!releases.some(function(r){return r&&String(r.version)==='1.0.73'}))releases.unshift({version:'1.0.73',date:'19 NOV 2026',title:'DIRECT INFILTRATION // BUILDING NAV FIX',tag:'BUILDING PAGE REMOVED · ARROWS ALIGNED BESIDE EXIT',items:['Removed the separate building upgrade page. Tapping a facility on the HQ map opens its Infiltration interior directly.','Removed the Back to Building action from the Infiltration screen.','Aligned previous and next building navigation immediately to the left of the exit button.']});
+}
+if(typeof renderUpdateLog==='function')renderUpdateLog();
+window.BHQ_SHOW_LOGIN_UPDATE_NOTICE=function(){var current=String(window.BHQ_UPDATE_VERSION||version),seen='';try{seen=String((typeof S!=='undefined'&&S.updateLogSeenVersion)||'')}catch(e){}var unread=seen!==current,tab=document.getElementById('updateLogTab');if(tab){tab.classList.toggle('update-unread',unread);tab.setAttribute('aria-label',unread?'Update Log — new update available':'Update Log')}var n=document.getElementById('updateNotice');if(!n||!unread)return;var v=document.getElementById('updateNoticeVersion');if(v)v.textContent='VERSION '+current;n.hidden=false;};
+})();</script>
 </body>
 </html>
 
@@ -6756,8 +6768,8 @@ function renderTestHqModal(){
  var html='<b>FACILITY READINESS</b>';
  need.forEach(function(x){html+='<div class="test-hq-req"><span>'+x.name+'</span><strong class="'+(x.ok?'ready':'missing')+'">'+(x.ok?'READY':'LV '+x.l+' / '+(ph?10*S.pr:S.hq))+'</strong></div>'});
  html+='<div style="margin-top:6px;color:#77c9df">'+need.filter(function(x){return x.ok}).length+' / '+need.length+' FACILITIES ONLINE</div>';
- $('testHqRequirements').innerHTML=html;
- $('testHqCost').innerHTML='<b>RESOURCE REQUIREMENTS</b>'+Object.keys(costNow||{}).filter(function(k){return NM[k]}).map(function(k){var have=Number(S.r[k]||0),req=Number(costNow[k]||0);return '<div class="test-hq-req"><span>'+NM[k]+'</span><strong class="'+(have>=req?'ready':'missing')+'">'+fmt(have)+' / '+fmt(req)+'</strong></div>'}).join('');
+ $('testHqRequirements').innerHTML=html+'<div class="hq-build-resource-panel"><b>RESOURCES REQUIRED TO BUILD</b>'+upgradeResourcePanel(costNow)+'</div>';
+ $('testHqCost').innerHTML='';$('testHqCost').hidden=true;
  var upgrade=$('testHqUpgrade'),finishBtn=$('testHqFinish'),progress=$('testHqProgress'),builder=$('testHqBuilder');
  if(done){upgrade.textContent='PRESTIGE MAXIMUM';upgrade.disabled=true;finishBtn.hidden=true;progress.hidden=true}
  else if(up){var rem=Math.max(0,(up.end-Date.now())/1000),fc=finCost('hq',S.hq+S.pr+1,rem),can=S.r.in>=fc;upgrade.textContent=can?'INSTANT BUILD':'UPGRADING · '+fmtT(rem);upgrade.disabled=true;finishBtn.hidden=false;finishBtn.textContent='INSTANT BUILD · '+fmt(fc)+' INFLUENCE';finishBtn.disabled=!can;progress.hidden=false;progress.textContent=can?'INSTANT BUILD AVAILABLE':'CONSTRUCTION · '+fmtT(rem)}
