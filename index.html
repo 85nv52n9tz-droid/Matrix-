@@ -6949,8 +6949,9 @@ document.addEventListener('DOMContentLoaded',function(){
     if(/(?:\bfunction\s*\(|\b(?:var|let|const)\s+[A-Za-z_$]|=>|<\/?script|\b(?:document|window|console)\.|\.innerHTML|\.textContent|addEventListener|querySelector|localStorage|BHQ_[A-Z_]+|\b(?:if|for|while|switch)\s*\(|\breturn\s+|\b(?:setTimeout|setInterval|clearTimeout|clearInterval)\s*\(|\bJSON\.(?:parse|stringify)|\{\s*(?:version|date|title|tag|items)\s*:|(?:^|[;{}])\s*(?:if|for|return)\s*\()/i.test(text))return '';
     return text;
   }
-  window.BHQ_UPDATE_VERSION='1.0.91';
-  BHQ_UPDATE_VERSION='1.0.91';
+  window.BHQ_UPDATE_VERSION='1.0.92';
+  BHQ_UPDATE_VERSION='1.0.92';
+  if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.92',date:'19 NOV 2026',title:'NEXUS SYSTEM UPGRADE // FULL-SCREEN UPDATE SEQUENCE',tag:'IMMERSIVE UPDATE · SESSION-PRESERVING INSTALLATION',items:['Rebuilt the update experience as a full-screen Backdoor HQ system takeover, hiding all gameplay and navigation while the update is running.','UPDATE now starts a four-second animated 0–100% deployment sequence before revealing INSTALL.','INSTALL saves commander data, verifies the published build and performs one controlled refresh without signing out or clearing account data.','Added safeguards against repeated installation prompts and automatic navigation to More → Updates after the new build loads.','Added animated scan fields, digital code streams, system diagnostics and a final upgrade-complete sequence.']});
   if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.90',date:'19 NOV 2026',title:'SEAMLESS UPDATE // SESSION-PRESERVING REFRESH',tag:'UPDATE NOW · STAY SIGNED IN · OPEN THE LATEST UPDATE LOG',items:['UPDATE NOW saves the current game and refreshes the latest published build without signing the player out or returning to the login screen.','After refresh, the authenticated session is restored automatically and the game opens directly to the latest Update Log.','The update prompt appears only when the published version is newer than the installed version. Choosing LATER dismisses that specific version until a newer release is published.','The Updates entry remains available from the bottom navigation More tray. Existing player saves, account progress and Supabase login data are preserved.']});
   if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.89',date:'19 NOV 2026',title:'STARTUP REPAIR // RELEASE ARCHIVE SYNTAX',tag:'LOGIN RESTORED · RELEASE HISTORY PARSING FIXED',items:['Fixed a missing comma between archived release entries that prevented the main game script from parsing.','Restored the startBackdoorGame function so login can launch the game again.','Preserved existing player saves and game systems.']});
   if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.88',date:'19 NOV 2026',title:'NANO ALERTS // LEFT-ALIGNED NOTIFICATION SYSTEM',tag:'VISIBLE TAB BADGES · SCOUT REPORTS · INCOMING ATTACK STATUS',items:['Moved navigation notification badges to the left side of their related tabs and labels so they no longer float above or obscure the tab text.','Moved the NPC Missions badge onto the left side of the NPC Missions tab itself, keeping the count beside the correct destination.','Added a Nano Bots navigation badge for unread completed scout reports, unread attack reports and active incoming attacks.','Nano scout and incoming-attack status badges remain visible even when Turn off ALL notifications is enabled; pop-up notifications remain disabled as requested.','Corrected the active game version and release-log version override so the Recent Updates screen reflects the actual published build.']});
@@ -6990,47 +6991,88 @@ if(Array.isArray(BHQ_UPDATE_RELEASES)){
 </script>
 
 
-<script id="bhq-player-controlled-update-check-v1091">
+<script id="bhq-player-controlled-update-check-v1092">
 (function(){
-  var version='1.0.91',checking=false,prompted=false,lastCheck=0;
+  var version='1.0.92',checking=false,prompted=false,lastCheck=0;
   function newer(a,b){var x=String(a||'').split('.').map(Number),y=String(b||'').split('.').map(Number);for(var i=0;i<Math.max(x.length,y.length);i++){var d=(x[i]||0)-(y[i]||0);if(d)return d>0;}return false;}
+  function wait(ms){return new Promise(function(resolve){setTimeout(resolve,ms);});}
+  function buildNumber(html){var m=html.match(/(?:window\\.)?BHQ_UPDATE_VERSION\\s*=\\s*['"]([0-9]+(?:\\.[0-9]+)+)['"]/);return m?m[1]:'';}
   function panel(remote){
     if(document.getElementById('bhqUpdateAvailable'))return;
     var shade=document.createElement('div');shade.id='bhqUpdateAvailable';shade.setAttribute('role','dialog');shade.setAttribute('aria-modal','true');
-    shade.style.cssText='position:fixed;inset:0;z-index:100001;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(1,5,8,.94);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#d9fff0;font:12px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace';
-    var card=document.createElement('section');card.style.cssText='position:relative;width:min(100%,470px);overflow:hidden;padding:22px 18px 18px;border:1px solid #39ff9a;border-radius:15px;background:linear-gradient(145deg,#0a261d 0%,#061510 48%,#030b0b 100%);box-shadow:0 0 0 1px #39ff9a22,0 0 34px #00ff9940,inset 0 0 35px #00ff9910';
-    card.innerHTML='<div style="position:absolute;inset:0;pointer-events:none;opacity:.13;background:repeating-linear-gradient(0deg,transparent 0 3px,#42ffae 4px);"></div><div style="position:relative"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span style="font-size:9px;letter-spacing:2.2px;color:#6dffbd">BACKDOOR HQ // SYSTEM CORE</span><span style="font-size:9px;letter-spacing:1px;color:#b8ffd9;border:1px solid #2e9868;padding:4px 7px;border-radius:4px">MANDATORY</span></div><div style="height:1px;margin:14px 0;background:linear-gradient(90deg,transparent,#39ff9a,transparent)"></div><div style="font-size:22px;font-weight:900;letter-spacing:1.5px;text-shadow:0 0 16px #39ff9a66">SYSTEM UPDATE</div><div style="margin-top:5px;color:#8dbba7;font-size:10px;letter-spacing:1.4px">NEW DEPLOYMENT DETECTED // BUILD '+remote+'</div><p id="bhqUpdateMessage" style="margin:15px 0 17px;color:#b7d9ca;font-size:11px">Your game needs to install the latest deployment before you continue. Your account and saved progress will be preserved.</p><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span id="bhqUpdateStage" style="font-size:9px;letter-spacing:1.3px;color:#7fffc0">AWAITING INSTALLATION</span><b id="bhqUpdatePercent" style="font-size:21px;color:#8affc1">0%</b></div><div style="height:11px;padding:2px;border:1px solid #287d59;border-radius:20px;background:#020b08;box-shadow:inset 0 0 8px #000"><div id="bhqUpdateFill" style="width:0%;height:100%;border-radius:20px;background:linear-gradient(90deg,#00a85c,#54ffc0);box-shadow:0 0 13px #39ff9a;transition:width .28s ease"></div></div><div style="display:flex;justify-content:space-between;margin-top:7px;color:#628d79;font-size:8px;letter-spacing:1px"><span>SECURE DEPLOYMENT CHANNEL</span><span>BUILD '+remote+'</span></div><div id="bhqUpdateSteps" style="display:grid;gap:7px;margin-top:17px;padding-top:13px;border-top:1px solid #174a36;color:#789b88;font-size:9px;letter-spacing:.6px"><div data-step="save">○ &nbsp; SAVE COMMANDER DATA</div><div data-step="download">○ &nbsp; DOWNLOAD NEW BUILD</div><div data-step="verify">○ &nbsp; VERIFY DEPLOYMENT</div><div data-step="restart">○ &nbsp; RESTART INTO UPDATE LOG</div></div><div style="margin-top:15px;text-align:center;color:#527b67;font-size:8px;letter-spacing:1.2px">DO NOT CLOSE THE GAME DURING INSTALLATION</div></div>';
+    shade.style.cssText='position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:clamp(14px,4vw,28px);box-sizing:border-box;background:#010806;color:#d9fff0;font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;isolation:isolate';
+    var style=document.createElement('style');style.textContent=`
+      #bhqUpdateAvailable *{box-sizing:border-box}
+      #bhqUpdateAvailable .bhq-grid{position:absolute;inset:-50%;opacity:.22;background-image:linear-gradient(#19ff9a20 1px,transparent 1px),linear-gradient(90deg,#19ff9a20 1px,transparent 1px);background-size:38px 38px;transform:perspective(450px) rotateX(58deg) scale(1.7);animation:bhqGrid 13s linear infinite;pointer-events:none}
+      #bhqUpdateAvailable .bhq-scan{position:absolute;inset:0;pointer-events:none;background:linear-gradient(transparent 49%,#49ffb018 50%,transparent 51%);background-size:100% 7px;opacity:.22;animation:bhqScan 7s linear infinite}
+      #bhqUpdateAvailable .bhq-orbit{position:relative;width:min(43vw,190px);height:min(43vw,190px);min-width:132px;min-height:132px;margin:18px auto 16px;border:1px solid #2dff9b66;border-radius:50%;display:grid;place-items:center;box-shadow:0 0 28px #00ff8a20,inset 0 0 28px #00ff8a12}
+      #bhqUpdateAvailable .bhq-orbit:before,#bhqUpdateAvailable .bhq-orbit:after{content:"";position:absolute;inset:10px;border:1px dashed #51ffc077;border-radius:50%;animation:bhqSpin 12s linear infinite}
+      #bhqUpdateAvailable .bhq-orbit:after{inset:23px;border-style:solid;border-color:#36b9ff88;animation-direction:reverse;animation-duration:8s}
+      #bhqUpdateAvailable .bhq-core{width:48%;height:48%;border-radius:50%;display:grid;place-items:center;border:1px solid #70ffc7;background:radial-gradient(circle,#1bff9a40,#041a11 68%);box-shadow:0 0 30px #24ff9a55,inset 0 0 20px #23ff9a28;font-size:clamp(25px,8vw,40px);color:#a6ffd6;text-shadow:0 0 18px #39ff9a;animation:bhqPulse 2s ease-in-out infinite}
+      #bhqUpdateAvailable .bhq-card{position:relative;width:min(100%,560px);max-height:calc(100dvh - 28px);overflow:auto;padding:clamp(17px,4vw,27px);border:1px solid #39ff9a88;border-radius:15px;background:linear-gradient(150deg,#09251bF5,#04120eF7 60%,#020908F8);box-shadow:0 0 0 1px #39ff9a18,0 0 48px #00ff9930,inset 0 0 45px #00ff9910;text-align:center}
+      #bhqUpdateAvailable .bhq-kicker{font-size:9px;letter-spacing:2.5px;color:#75ffc2}
+      #bhqUpdateAvailable .bhq-title{margin:12px 0 4px;font-size:clamp(23px,6vw,34px);font-weight:950;letter-spacing:1.5px;color:#e4fff2;text-shadow:0 0 20px #39ff9a66}
+      #bhqUpdateAvailable .bhq-sub{color:#8dbba7;font-size:10px;letter-spacing:1.5px}
+      #bhqUpdateAvailable .bhq-copy{max-width:410px;margin:12px auto 16px;color:#b7d9ca;font-size:11px}
+      #bhqUpdateAvailable .bhq-meter-head{display:flex;justify-content:space-between;align-items:center;margin:0 0 7px;color:#85ffc4;font-size:9px;letter-spacing:1.3px}
+      #bhqUpdateAvailable .bhq-percent{font-size:25px;font-weight:900;color:#baffd9;text-shadow:0 0 13px #39ff9a88}
+      #bhqUpdateAvailable .bhq-track{height:12px;padding:2px;border:1px solid #287d59;border-radius:20px;background:#020b08;box-shadow:inset 0 0 8px #000}
+      #bhqUpdateAvailable .bhq-fill{width:0;height:100%;border-radius:20px;background:linear-gradient(90deg,#00a85c,#54ffc0,#a7ffe0);box-shadow:0 0 14px #39ff9a;transition:width .12s linear}
+      #bhqUpdateAvailable .bhq-status{min-height:18px;margin:10px 0 4px;color:#8dbba7;font-size:9px;letter-spacing:1.2px}
+      #bhqUpdateAvailable .bhq-steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-top:17px;text-align:left}
+      #bhqUpdateAvailable .bhq-step{padding:8px 9px;border:1px solid #1c523b;border-radius:6px;background:#06150f;color:#6e9a83;font-size:8px;letter-spacing:.6px}
+      #bhqUpdateAvailable .bhq-step.active{border-color:#48ffad;color:#baffd9;box-shadow:0 0 13px #39ff9a20}
+      #bhqUpdateAvailable .bhq-step.done{color:#52e6a0}
+      #bhqUpdateAvailable .bhq-action{width:100%;min-height:48px;margin-top:18px;padding:12px;border:1px solid #7affc1;border-radius:7px;background:linear-gradient(90deg,#087447,#0c3a2b);color:#eafff4;font:900 11px ui-monospace,monospace;letter-spacing:2px;box-shadow:0 0 22px #39ff9a40;cursor:pointer;animation:bhqButton 2s ease-in-out infinite}
+      #bhqUpdateAvailable .bhq-action:disabled{opacity:.55;cursor:wait;animation:none}
+      #bhqUpdateAvailable .bhq-foot{margin-top:13px;color:#527b67;font-size:8px;letter-spacing:1.1px}
+      #bhqUpdateAvailable .bhq-data{position:absolute;top:0;bottom:0;width:1px;background:linear-gradient(transparent,#39ff9a88,transparent);opacity:.6;animation:bhqData 3s ease-in-out infinite;pointer-events:none}
+      @keyframes bhqSpin{to{transform:rotate(360deg)}}@keyframes bhqPulse{50%{transform:scale(1.06);filter:brightness(1.4)}}@keyframes bhqGrid{to{background-position:0 38px,38px 0}}@keyframes bhqScan{to{background-position:0 100px}}@keyframes bhqButton{50%{box-shadow:0 0 32px #39ff9a77}}@keyframes bhqData{0%,100%{transform:translateY(-30%);opacity:.1}50%{transform:translateY(30%);opacity:.8}}
+      @media(max-height:650px){#bhqUpdateAvailable .bhq-orbit{width:112px;height:112px;min-width:112px;min-height:112px;margin:9px auto}#bhqUpdateAvailable .bhq-card{padding:14px}#bhqUpdateAvailable .bhq-copy{margin:7px auto}#bhqUpdateAvailable .bhq-steps{margin-top:9px}}
+      @media(prefers-reduced-motion:reduce){#bhqUpdateAvailable *{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+    `;
+    shade.appendChild(style);
+    var card=document.createElement('section');card.className='bhq-card';
+    card.innerHTML='<div class="bhq-grid"></div><div class="bhq-scan"></div><i class="bhq-data" style="left:8%"></i><i class="bhq-data" style="left:92%;animation-delay:-1.4s"></i><div class="bhq-kicker">BACKDOOR HQ // NEXUS SYSTEM CORE</div><div class="bhq-title" id="bhqUpdateTitle">SYSTEM UPDATE</div><div class="bhq-sub">NEW DEPLOYMENT DETECTED // BUILD '+remote+'</div><div class="bhq-orbit"><div class="bhq-core" id="bhqUpdateCore">⌘</div></div><p class="bhq-copy" id="bhqUpdateMessage">A new secure deployment is ready. Initiate the system upgrade to continue your operation. Commander data and account access will be preserved.</p><div class="bhq-meter-head"><span id="bhqUpdateStage">AWAITING COMMAND</span><b class="bhq-percent" id="bhqUpdatePercent">0%</b></div><div class="bhq-track"><div class="bhq-fill" id="bhqUpdateFill"></div></div><div class="bhq-status" id="bhqUpdateStatus">NEXUS CORE STANDBY</div><div class="bhq-steps"><div class="bhq-step" data-step="save">01 // SAVE COMMANDER DATA</div><div class="bhq-step" data-step="download">02 // DOWNLOAD BUILD</div><div class="bhq-step" data-step="verify">03 // VERIFY INTEGRITY</div><div class="bhq-step" data-step="restart">04 // REBOOT TO UPDATE LOG</div></div><button type="button" class="bhq-action" id="bhqUpdateStart">UPDATE SYSTEM</button><div class="bhq-foot">SECURE DEPLOYMENT CHANNEL · DO NOT CLOSE DURING INSTALLATION</div>';
     shade.appendChild(card);document.body.appendChild(shade);
-    var pct=card.querySelector('#bhqUpdatePercent'),fill=card.querySelector('#bhqUpdateFill'),stage=card.querySelector('#bhqUpdateStage'),message=card.querySelector('#bhqUpdateMessage'),steps=card.querySelectorAll('[data-step]');
-    function mark(name){var order=['save','download','verify','restart'];steps.forEach(function(el){var k=el.getAttribute('data-step'),done=order.indexOf(k)<order.indexOf(name),active=k===name;el.style.color=active?'#8affc1':done?'#42d99a':'#789b88';el.innerHTML=(done?'✓':active?'◉':'○')+' &nbsp; '+el.textContent.replace(/^[○◉✓]\s+/, '');});}
+    var pct=card.querySelector('#bhqUpdatePercent'),fill=card.querySelector('#bhqUpdateFill'),stage=card.querySelector('#bhqUpdateStage'),status=card.querySelector('#bhqUpdateStatus'),message=card.querySelector('#bhqUpdateMessage'),core=card.querySelector('#bhqUpdateCore'),title=card.querySelector('#bhqUpdateTitle'),button=card.querySelector('#bhqUpdateStart');
+    var busy=false;
     function progress(n,label){pct.textContent=n+'%';fill.style.width=n+'%';stage.textContent=label;}
+    function mark(name){var order=['save','download','verify','restart'];card.querySelectorAll('[data-step]').forEach(function(el){var k=el.getAttribute('data-step'),done=order.indexOf(k)<order.indexOf(name),active=k===name;el.classList.toggle('done',done);el.classList.toggle('active',active);});}
+    function setButton(label,fn){button.textContent=label;button.disabled=false;button.onclick=fn;button.hidden=false;}
+    async function startDownload(){
+      if(busy)return;busy=true;button.disabled=true;button.hidden=true;title.textContent='DEPLOYMENT IN PROGRESS';message.textContent='Establishing an encrypted route to the NEXUS deployment servers. No gameplay is active during this sequence.';core.textContent='◎';
+      mark('download');status.textContent='SCANNING DEPLOYMENT CHANNEL';
+      var began=Date.now(),duration=4200;
+      await new Promise(function(resolve){var timer=setInterval(function(){var p=Math.min(100,Math.floor((Date.now()-began)/duration*100));progress(p,p<35?'LOCATING UPDATE PACKETS':p<72?'DOWNLOADING SYSTEM MODULES':p<94?'SYNCHRONISING DATA':'DOWNLOAD COMPLETE');if(p>=100){clearInterval(timer);resolve();}},40);});
+      status.textContent='PACKAGE READY // AWAITING INSTALL COMMAND';message.textContent='Deployment package received. The build is ready for integrity verification and installation.';core.textContent='✓';mark('verify');busy=false;setButton('INSTALL UPDATE',install);
+    }
     async function install(){
-      var b=card.querySelector('#bhqUpdateInstall');if(b)b.remove();
+      if(busy)return;busy=true;button.disabled=true;button.hidden=true;
       try{
-        progress(8,'SAVING COMMANDER DATA');mark('save');
-        if(window.BHQ_SAVE)window.BHQ_SAVE();
-        progress(18,'OPENING SECURE CHANNEL');mark('download');
+        title.textContent='INSTALLING SYSTEM';message.textContent='Saving commander data, verifying the new deployment and preparing a single controlled restart.';core.textContent='⚙';mark('save');progress(4,'SAVING COMMANDER DATA');status.textContent='WRITING SECURE SAVE CHECKPOINT';
+        if(typeof window.BHQ_SAVE==='function')window.BHQ_SAVE();
+        await wait(350);
+        mark('download');progress(28,'FETCHING PUBLISHED BUILD');status.textContent='CONNECTING TO LIVE DEPLOYMENT';
         var u=new URL('index.html',location.href);u.searchParams.set('_bhq_install',String(Date.now()));
         var response=await fetch(u.toString(),{cache:'no-store',credentials:'same-origin'});
-        if(!response.ok)throw new Error('The deployment server returned '+response.status+'.');
-        var html=await response.text();
-        progress(82,'DOWNLOAD COMPLETE // CHECKING BUILD');
-        var found=[...html.matchAll(/(?:var\s+version|version)\s*=\s*['"]([0-9]+(?:\.[0-9]+)+)['"]/g)];
-        var downloaded=found.length?found[found.length-1][1]:'';
-        if(!downloaded||newer(remote,downloaded))throw new Error('The new build is still reaching the deployment server. Please retry in a moment.');
-        mark('verify');progress(94,'DEPLOYMENT VERIFIED');
-        message.textContent='Update verified. Restarting Backdoor HQ and restoring your commander session…';
-        try{sessionStorage.setItem('bhq_open_update_log_after_refresh','1');}catch(e){}
-        try{localStorage.removeItem('bhq_update_dismissed_version');}catch(e){}
-        mark('restart');progress(100,'INSTALLATION COMPLETE');
-        setTimeout(function(){var next=new URL(location.href);next.searchParams.set('bhqBuildRefresh',String(Date.now()));location.replace(next.toString());},650);
+        if(!response.ok)throw new Error('Deployment server returned '+response.status+'.');
+        var html=await response.text();progress(72,'VERIFYING PACKAGE');status.textContent='CHECKING BUILD SIGNATURE';
+        var downloaded=buildNumber(html);
+        if(!downloaded||newer(remote,downloaded)||newer(version,downloaded))throw new Error('The published build has not fully reached the deployment server yet. Please retry shortly.');
+        mark('verify');progress(88,'BUILD INTEGRITY CONFIRMED');status.textContent='DEPLOYMENT '+downloaded+' VERIFIED';
+        try{sessionStorage.setItem('bhq_open_update_log_after_refresh','1');sessionStorage.setItem('bhq_update_pending_version',downloaded);sessionStorage.setItem('bhq_update_refresh_started','1');}catch(e){}
+        try{localStorage.setItem('bhq-confirmed-build-version',downloaded);}catch(e){}
+        mark('restart');progress(96,'PREPARING CONTROLLED RESTART');status.textContent='PRESERVING AUTHENTICATED COMMANDER SESSION';
+        await wait(650);progress(100,'SYSTEM UPGRADE COMPLETE');title.textContent='SYSTEM UPGRADED';message.textContent='NEXUS core is ready. Reconnecting your commander session and opening the latest deployment notes…';core.textContent='✦';status.textContent='REBOOTING BACKDOOR HQ';
+        await wait(650);
+        var next=new URL(location.href);next.searchParams.delete('bhqBuildRefresh');next.searchParams.delete('_bhq_install');next.searchParams.delete('_bhq_check');next.searchParams.set('bhqBuildRefresh',downloaded);
+        location.replace(next.toString());
       }catch(e){
-        stage.textContent='INSTALLATION INTERRUPTED';message.textContent=(e&&e.message?e.message:'Update could not be installed.')+' Your game data remains saved. Tap RETRY INSTALLATION to try again.';
-        progress(0,'RETRY REQUIRED');
-        var retry=document.createElement('button');retry.id='bhqUpdateInstall';retry.type='button';retry.textContent='RETRY INSTALLATION';retry.style.cssText='width:100%;min-height:43px;margin-top:15px;border:1px solid #64ffb4;border-radius:7px;background:linear-gradient(90deg,#075c3b,#0c3a2b);color:#dffff0;font:900 10px ui-monospace,monospace;letter-spacing:1.4px;box-shadow:0 0 18px #39ff9a30';retry.onclick=install;card.querySelector('div[style*="position:relative"]').appendChild(retry);
+        busy=false;title.textContent='INSTALLATION PAUSED';message.textContent=(e&&e.message?e.message:'The update could not be installed.')+' Your existing game data has not been cleared. Retry when the deployment is ready.';core.textContent='!';status.textContent='SECURE RETRY AVAILABLE';progress(0,'RETRY REQUIRED');setButton('RETRY INSTALLATION',install);
       }
     }
-    var installButton=document.createElement('button');installButton.id='bhqUpdateInstall';installButton.type='button';installButton.textContent='INSTALL UPDATE';installButton.style.cssText='width:100%;min-height:43px;margin-top:16px;border:1px solid #64ffb4;border-radius:7px;background:linear-gradient(90deg,#075c3b,#0c3a2b);color:#dffff0;font:900 10px ui-monospace,monospace;letter-spacing:1.4px;box-shadow:0 0 18px #39ff9a30';installButton.onclick=install;card.querySelector('div[style*="position:relative"]').appendChild(installButton);
+    setButton('UPDATE SYSTEM',startDownload);
   }
   async function check(){
     if(checking||prompted||!window.BHQ_GAME_ACTIVE)return;
@@ -7038,10 +7080,13 @@ if(Array.isArray(BHQ_UPDATE_RELEASES)){
     try{
       var u=new URL('index.html',location.href);u.searchParams.set('_bhq_check',String(now));
       var response=await fetch(u.toString(),{cache:'no-store',credentials:'same-origin'});if(!response.ok)return;
-      var source=await response.text(),matches=[...source.matchAll(/(?:var\s+version|version)\s*=\s*['"]([0-9]+(?:\.[0-9]+)+)['"]/g)];
-      var remote=matches.length?matches[matches.length-1][1]:'',current=String(window.BHQ_UPDATE_VERSION||version);
-      if(remote&&newer(remote,current)){prompted=true;try{if(window.BHQ_SAVE)window.BHQ_SAVE()}catch(e){}panel(remote);}
-    }catch(e){/* Retry after a transient network or deployment propagation delay. */}
+      var source=await response.text(),remote=buildNumber(source),current=String(window.BHQ_UPDATE_VERSION||version);
+      if(remote&&newer(remote,current)){
+        var dismissed='';try{dismissed=localStorage.getItem('bhq_update_dismissed_version')||'';}catch(e){}
+        if(dismissed===remote)return;
+        prompted=true;try{if(window.BHQ_SAVE)window.BHQ_SAVE();}catch(e){}panel(remote);
+      }
+    }catch(e){/* A transient network error is retried by the next scheduled check. */}
     finally{checking=false;}
   }
   setTimeout(check,8000);setInterval(check,30000);
