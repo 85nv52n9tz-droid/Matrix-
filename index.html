@@ -5236,8 +5236,8 @@ enforceUniqueCrewAssignments();
 refreshCompPointValues();
 
 /* BACKDOOR HQ 1.0.53 — NEON COMMAND CAMPUS VISUAL REDESIGN */
-var BHQ_UPDATE_VERSION='1.0.63';
-if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.63',date:'19 NOV 2026',title:'ALLIANCE REFINEMENT // HQ COMMAND STRIP',tag:'CLEANER ALLIANCE NAVIGATION · BONUS-AWARE MISSIONS · 1M BANK CAPACITY',items:['Removed the Alliance Activity Log tab, spread the remaining Activity destinations across the row, and moved Alliance Settings to the end of Roster.','Mission rewards now display the actual resource amounts after applying the Alliance War Room and Data Mining bonuses, matching the amounts deposited when claimed.','Expanded Alliance Bank capacity scaling through Supply Depot upgrades and Cold Storage research, with a hard maximum of 1,000,000 per resource.','Rebuilt the HQ timer strip as five compact slots for HQ and the four core buildings. Idle slots are dimmed; active timers show their remaining time and pulse white.','Reduced the active crew bonus panels, recentered the HQ building field, and removed the HQ chat panel.']});if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.53',date:'18 NOV 2026',title:'NEON COMMAND CAMPUS // HQ ARCHITECTURE REDESIGN',tag:'30 HQ LEVEL DESIGNS · FOUR BUILDING EVOLUTIONS · CYBER-GRID ENVIRONMENT',items:[
+var BHQ_UPDATE_VERSION='1.0.64';window.BHQ_UPDATE_VERSION=BHQ_UPDATE_VERSION;
+if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.64',date:'19 NOV 2026',title:'LIVE UPDATE LOCKOUT // REFRESH & RE-LOGIN',tag:'AUTOMATIC VERSION CHECK · REFRESH REQUIRED · ACCOUNT RE-AUTHENTICATION',items:['Added a live version check on player interaction. If GitHub Pages has a newer build, the game blocks interaction and displays a full-screen update notice asking the player to refresh and log in again.','The notice explains the inconvenience and confirms that saved progress remains linked to the player account. Refreshing loads the new build; the existing authentication version check signs out the old local session so the player must log in again.']});if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.63',date:'19 NOV 2026',title:'ALLIANCE REFINEMENT // HQ COMMAND STRIP',tag:'CLEANER ALLIANCE NAVIGATION · BONUS-AWARE MISSIONS · 1M BANK CAPACITY',items:['Removed the Alliance Activity Log tab, spread the remaining Activity destinations across the row, and moved Alliance Settings to the end of Roster.','Mission rewards now display the actual resource amounts after applying the Alliance War Room and Data Mining bonuses, matching the amounts deposited when claimed.','Expanded Alliance Bank capacity scaling through Supply Depot upgrades and Cold Storage research, with a hard maximum of 1,000,000 per resource.','Rebuilt the HQ timer strip as five compact slots for HQ and the four core buildings. Idle slots are dimmed; active timers show their remaining time and pulse white.','Reduced the active crew bonus panels, recentered the HQ building field, and removed the HQ chat panel.']});if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.53',date:'18 NOV 2026',title:'NEON COMMAND CAMPUS // HQ ARCHITECTURE REDESIGN',tag:'30 HQ LEVEL DESIGNS · FOUR BUILDING EVOLUTIONS · CYBER-GRID ENVIRONMENT',items:[
  'Redesigned the standard HQ area as a central futuristic command campus, with the main HQ centred and the four standard resource buildings arranged around it. Prestige buildings retain their existing visuals.',
  'Added 30 level-specific HQ architecture variants: the command tower grows in height and width, subtly shifts its energy colour and crown geometry at every level, and gains additional decks, antenna structures and energy rings as HQ levels increase.',
  'Added seven visual milestones for each of the four standard buildings at levels 1, 5, 10, 15, 20, 25 and 30, with distinct silhouettes and evolving futuristic components.',
@@ -6426,6 +6426,75 @@ html body .hdr{margin-bottom:0!important}
 #t-hq .hq-upcoming-toggle{display:none!important}
 @media(max-width:520px){#t-hq #resPanel{top:26px!important;left:6px!important;right:6px!important;padding:4px!important}#t-hq .test-hq-status-grid,#t-hq .test-shell:not(.hq-status-open) .test-hq-status-grid,#t-hq .test-shell.hq-status-open .test-hq-status-grid{left:6px!important;right:6px!important;bottom:124px!important;height:76px!important}#t-hq .test-hq-status-card.buffs{left:6px!important;right:6px!important;bottom:52px!important;height:66px!important;min-height:66px!important;max-height:66px!important;padding:4px!important}#t-hq .test-hq-status-card.buffs .test-hq-status-content{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:3px!important}#t-hq .test-hq-status-card.buffs .test-hq-status-line{padding:3px!important}#t-hq .test-hq-status-card.buffs .test-hq-status-line b{font-size:8px!important;line-height:10px!important}#t-hq .test-hq-status-card.buffs .test-hq-status-line span{font-size:7px!important;line-height:9px!important}#t-hq .test-shell .test-viewport,#t-hq .test-shell.hq-status-open .test-viewport{top:69px!important;bottom:194px!important}}
 </style>
+
+<style id="bhq-live-update-lock-style">
+#bhqLiveUpdateLock{position:fixed;inset:0;z-index:2147483000;display:none;align-items:center;justify-content:center;padding:20px;background:radial-gradient(ellipse at 50% 20%,rgba(24,66,73,.98),rgba(2,7,13,.99) 70%);color:#eaffff;font-family:Arial,sans-serif}
+#bhqLiveUpdateLock.is-visible{display:flex}
+#bhqLiveUpdateLock .bhq-update-panel{width:min(440px,100%);padding:26px 22px;border:1px solid #50eaff;border-radius:16px;background:linear-gradient(145deg,#0a2029,#071018);box-shadow:0 0 35px #1ceaff35,inset 0 0 25px #1ceaff0c;text-align:center}
+#bhqLiveUpdateLock .bhq-update-icon{font-size:34px;color:#65efff;margin-bottom:12px}
+#bhqLiveUpdateLock .bhq-update-kicker{font:800 10px/1.4 monospace;letter-spacing:2px;color:#65efff}
+#bhqLiveUpdateLock h2{margin:12px 0;font-size:23px;line-height:1.15;color:#fff}
+#bhqLiveUpdateLock p{font-size:14px;line-height:1.55;color:#c4d8df;margin:10px 0}
+#bhqLiveUpdateLock .bhq-update-safe{font-size:12px;color:#86f5b6}
+#bhqLiveUpdateLock button{width:100%;margin-top:16px;padding:14px 12px;border:1px solid #b7f8ff;border-radius:9px;background:linear-gradient(100deg,#21b9d4,#167b9b);color:#fff;font-size:14px;font-weight:900;letter-spacing:1px}
+</style>
+<div id="bhqLiveUpdateLock" role="dialog" aria-modal="true" aria-labelledby="bhqLiveUpdateTitle">
+ <div class="bhq-update-panel">
+  <div class="bhq-update-icon">↻</div><div class="bhq-update-kicker">BACKDOOR HQ // UPDATE REQUIRED</div>
+  <h2 id="bhqLiveUpdateTitle">A NEW UPDATE IS AVAILABLE</h2>
+  <p>A new version of the game has just been released. Please refresh the game and log in again to continue playing.</p>
+  <p>Sorry for the inconvenience. We need you to reload so you are using the latest version and all game features work correctly.</p>
+  <p class="bhq-update-safe">Your account and saved game progress are safe.</p>
+  <button type="button" id="bhqLiveUpdateRefresh">REFRESH GAME &amp; LOG IN AGAIN</button>
+ </div>
+</div>
+<script id="bhq-live-update-lock-script">
+(function(){
+ var checking=false,blocked=false,lastCheck=0,overlay,refreshBtn;
+ function currentVersion(){return String(window.BHQ_UPDATE_VERSION||'')}
+ function showLock(){
+  if(blocked)return;blocked=true;
+  overlay=document.getElementById('bhqLiveUpdateLock');
+  if(overlay)overlay.classList.add('is-visible');
+  document.documentElement.style.overflow='hidden';
+ }
+ function stopEvent(e){
+  if(!blocked)return;
+  if(e.target&&overlay&&overlay.contains(e.target))return;
+  e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();
+ }
+ function newer(a,b){
+  var aa=String(a).split('.').map(Number),bb=String(b).split('.').map(Number);
+  for(var i=0;i<Math.max(aa.length,bb.length);i++){var x=aa[i]||0,y=bb[i]||0;if(x!==y)return x>y}
+  return false;
+ }
+ async function checkBuild(){
+  if(checking||Date.now()-lastCheck<4000)return;checking=true;lastCheck=Date.now();
+  try{
+   var url=new URL(window.location.href);url.searchParams.set('bhq_build_check',String(Date.now()));
+   var response=await fetch(url.toString(),{cache:'no-store',credentials:'same-origin'});
+   if(!response.ok)throw new Error('Build check unavailable');
+   var html=await response.text(),matches=[...html.matchAll(/BHQ_UPDATE_VERSION\s*=\s*['"]([^'"]+)['"]/g)];
+   if(!matches.length)return;
+   var latest=matches[matches.length-1][1],local=currentVersion();
+   if(local&&latest&&newer(latest,local))showLock();
+  }catch(e){/* Stay playable when the network cannot verify a newer build. */}
+  finally{checking=false}
+ }
+ function onFirstInteraction(e){
+  if(blocked){stopEvent(e);return}
+  checkBuild().then(function(){if(blocked&&e.cancelable)stopEvent(e)});
+ }
+ document.addEventListener('pointerdown',onFirstInteraction,true);
+ document.addEventListener('click',stopEvent,true);
+ document.addEventListener('keydown',stopEvent,true);
+ document.addEventListener('touchstart',onFirstInteraction,{capture:true,passive:false});
+ document.addEventListener('DOMContentLoaded',function(){
+  refreshBtn=document.getElementById('bhqLiveUpdateRefresh');
+  if(refreshBtn)refreshBtn.addEventListener('click',function(){refreshBtn.disabled=true;refreshBtn.textContent='RELOADING GAME...';window.location.reload()});
+ });
+})();
+</script>
 </body>
 </html>
 
