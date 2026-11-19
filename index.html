@@ -2415,6 +2415,78 @@ body:has(#t-bot:not([hidden])){height:100dvh!important;overflow:hidden!important
 @media(prefers-reduced-motion:no-preference){#t-map svg[id^="map"] circle.n{animation:mapNodeBreathe 3.8s ease-in-out infinite alternate}#t-map svg[id^="map"] circle.n:nth-of-type(3n){animation-delay:-1.4s}}
 @keyframes mapNodeBreathe{from{filter:drop-shadow(0 0 2px #42ff9a55)}to{filter:drop-shadow(0 0 6px #42ff9a99)}}
 </style>
+
+<style id="environment-refinement-v1103">
+/* Solo Operations: clearer campaign selection and briefing hierarchy */
+#npcCampaignSummary{margin:9px 0 11px;padding:10px 12px;border:1px solid rgba(75,205,139,.25);border-radius:10px;background:linear-gradient(105deg,rgba(9,38,25,.92),rgba(7,17,27,.96));box-shadow:inset 0 0 18px rgba(46,220,129,.055)}
+#npcCampaignSummary:empty{display:none}
+#npcMissionPanel{display:grid;gap:10px;margin-top:10px}
+#npcMissionPanel .card{position:relative}
+#npcMissionPanel .card .bd{background:linear-gradient(135deg,rgba(10,29,22,.35),rgba(4,13,20,.3))}
+#npcMissionPanel .card .desc:first-of-type{font-size:11px;color:#b8d9c4}
+#npcMissionPanel .card .desc:nth-of-type(2){padding:8px 9px;border-left:2px solid #42c987;border-radius:0 6px 6px 0;background:rgba(35,117,75,.1);font-size:9px}
+#npcMissionPanel .npc-reward-preview,#npcMissionPanel .npc-reward-history{border:1px solid rgba(72,160,116,.25);border-radius:11px;background:linear-gradient(145deg,#091b14,#07111b);overflow:hidden}
+#npcMissionPanel .npc-reward-preview-head,#npcMissionPanel .npc-reward-history-head{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid rgba(89,180,127,.16);color:#b8f4ce;font-size:9px;letter-spacing:.8px}
+#npcMissionPanel .npc-reward-preview-head span,#npcMissionPanel .npc-reward-history-head span{color:#78b894;font-size:8px}
+#npcMissionPanel .npc-reward-guaranteed{display:flex;justify-content:space-between;gap:10px;padding:10px 12px;background:rgba(49,173,104,.08);font-size:9px}
+#npcMissionPanel .npc-reward-guaranteed b{color:#9affbd;white-space:nowrap}
+#npcMissionPanel .npc-reward-guaranteed span{color:#c4daca;text-align:right}
+#npcMissionPanel .npc-reward-chances{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;padding:9px 12px}
+#npcMissionPanel .npc-reward-chances span{padding:7px;border:1px solid rgba(85,150,111,.18);border-radius:6px;background:rgba(4,14,10,.55);color:#9bbda7;font-size:8px}
+#npcMissionPanel .npc-reward-chances b{color:#9bffc0;margin-right:4px}
+#npcMissionPanel .npc-reward-preview>small{display:block;padding:0 12px 11px;color:#789987;font-size:8px;line-height:1.45}
+#npcMissionPanel .npc-reward-history-entry{padding:10px 12px;border-bottom:1px solid rgba(89,180,127,.12)}
+#npcMissionPanel .npc-reward-history-entry:last-child{border-bottom:0}
+#npcMissionPanel .npc-reward-history-entry>div{display:flex;justify-content:space-between;gap:8px;align-items:center}
+#npcMissionPanel .npc-reward-history-entry b{color:#c8f4d7;font-size:9px}
+#npcMissionPanel .npc-reward-history-entry small,#npcMissionPanel .npc-reward-history-entry p{color:#8eaa98;font-size:8px}
+#npcMissionPanel .npc-reward-history-entry p{margin:6px 0;line-height:1.5}
+#npcMissionPanel .npc-reward-history-entry>span{color:#78e7a4;font-size:8px;font-weight:800;letter-spacing:.5px}
+/* Data Net: make the existing live intelligence dossier easier to scan */
+#dnet #dnd{display:grid;gap:10px}
+#dnet .dn-target-dossier{position:relative;overflow:hidden;border:1px solid rgba(255,113,91,.28);border-radius:12px;background:radial-gradient(ellipse at 92% 0%,rgba(183,61,54,.16),transparent 48%),linear-gradient(145deg,#11191d,#080d12 75%);box-shadow:inset 0 0 20px rgba(255,90,75,.035),0 8px 24px rgba(0,0,0,.18)}
+#dnet .dn-dossier-head{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid rgba(255,115,95,.17);background:linear-gradient(100deg,rgba(70,29,29,.45),rgba(10,19,25,.8));font-size:8px;letter-spacing:.9px;color:#ffb2a4}
+#dnet .dn-dossier-head b{padding:4px 7px;border:1px solid rgba(255,145,124,.3);border-radius:5px;color:#ffd0c7;font-size:7px}
+#dnet .dn-dossier-status{margin:10px 12px 8px;padding:7px 9px;border:1px solid rgba(255,112,91,.2);border-radius:6px;background:rgba(110,38,32,.13);font-size:9px;font-weight:900;letter-spacing:.8px;color:#ff9e8e}
+#dnet .dn-dossier-status.favourable{border-color:rgba(72,222,147,.28);background:rgba(29,115,72,.12);color:#8bffc0}
+#dnet .dn-dossier-status.ally{border-color:rgba(85,178,255,.28);background:rgba(37,105,160,.12);color:#9bd5ff}
+#dnet .dn-dossier-status.cooldown{border-color:rgba(160,177,185,.2);background:rgba(80,93,102,.12);color:#aebfc6}
+#dnet .dn-intel-freshness,#dnet .dn-intel-expired{margin:8px 12px;padding:8px 9px;border:1px solid rgba(83,190,131,.18);border-radius:7px;background:rgba(23,93,55,.1)}
+#dnet .dn-intel-freshness>div{display:flex;justify-content:space-between;gap:8px;color:#8ebda0;font-size:8px}
+#dnet .dn-intel-freshness b{color:#a7ffc4}
+#dnet .dn-intel-freshness>i,#dnet .dn-dossier-meter>i{display:block;height:6px;margin-top:7px;border-radius:8px;background:#14251d;overflow:hidden}
+#dnet .dn-intel-freshness em{display:block;height:100%;border-radius:8px;background:linear-gradient(90deg,#20a95c,#9affbd)}
+#dnet .dn-intel-expired{color:#a9a18a;font-size:8px;letter-spacing:.5px}
+#dnet .dn-dossier-meter{margin:10px 12px}
+#dnet .dn-dossier-meter>div{display:flex;justify-content:space-between;gap:8px;color:#a8bac0;font-size:8px;letter-spacing:.45px}
+#dnet .dn-dossier-meter strong{font-size:13px;color:#8fffb8;font-variant-numeric:tabular-nums}
+#dnet .dn-dossier-meter.steal strong{color:#85d9ff}
+#dnet .dn-dossier-meter>i b{display:block;height:100%;border-radius:8px;background:linear-gradient(90deg,#c94c43,#ffad75);box-shadow:0 0 8px rgba(255,112,83,.18)}
+#dnet .dn-dossier-meter.steal>i b{background:linear-gradient(90deg,#237bb6,#71d5ff)}
+#dnet .dn-dossier-foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;padding:9px 12px;border-top:1px solid rgba(140,164,172,.12);color:#82979d;font-size:7px;letter-spacing:.45px}
+#dnet .dn-resource-intel{border:1px solid rgba(76,168,133,.22);border-radius:11px;background:linear-gradient(145deg,#091a17,#08111a);overflow:hidden}
+#dnet .dn-resource-intel-head{display:flex;justify-content:space-between;gap:8px;padding:10px 12px;border-bottom:1px solid rgba(76,168,133,.15);color:#b4f2d2;font-size:8px;letter-spacing:.65px}
+#dnet .dn-resource-intel-head span{color:#78b99b;font-size:7px}
+#dnet .dn-resource-intel-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;padding:10px}
+#dnet .dn-resource-intel-grid>div{padding:8px;border:1px solid rgba(92,143,129,.14);border-radius:7px;background:rgba(2,12,12,.5)}
+#dnet .dn-resource-intel-grid span{display:block;color:#86a99b;font-size:7px;letter-spacing:.7px}
+#dnet .dn-resource-intel-grid b{display:block;margin:4px 0;color:#d2f8e1;font-size:12px;font-variant-numeric:tabular-nums}
+#dnet .dn-resource-intel-grid i{display:block;height:4px;border-radius:5px;background:#172b28;overflow:hidden}
+#dnet .dn-resource-intel-grid em{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,#278c69,#7dffc0)}
+#dnet .dn-resource-intel>small{display:block;padding:0 11px 10px;color:#78968b;font-size:7px;line-height:1.45}
+#dnet .dn-action-readiness{border:1px solid rgba(69,148,113,.2);border-radius:10px;background:linear-gradient(145deg,#0b1b17,#09111a);overflow:hidden}
+#dnet .dn-readiness-title{display:flex;justify-content:space-between;gap:8px;padding:9px 11px;border-bottom:1px solid rgba(69,148,113,.14);color:#b8e9ca;font-size:8px}
+#dnet .dn-readiness-title span{color:#7fa995;font-size:7px;text-align:right}
+#dnet .dn-readiness-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:8px}
+#dnet .dn-readiness-item{min-width:0;padding:8px 6px;border:1px solid rgba(139,159,155,.13);border-radius:7px;background:rgba(4,12,14,.55)}
+#dnet .dn-readiness-item>span,#dnet .dn-readiness-item>small{display:block;color:#8ca49b;font-size:7px;line-height:1.4}
+#dnet .dn-readiness-item>b{display:block;margin:4px 0;color:#ff9b8c;font-size:9px;letter-spacing:.5px}
+#dnet .dn-readiness-item.ready>b{color:#8dffb8}
+#dnet .dn-readiness-item small{margin-top:3px}
+@media(max-width:520px){#npcMissionPanel .npc-reward-chances{grid-template-columns:1fr 1fr}#dnet .dn-readiness-grid{grid-template-columns:1fr}#dnet .dn-readiness-item{display:grid;grid-template-columns:1fr auto;gap:3px 8px;align-items:center}#dnet .dn-readiness-item>small{grid-column:1/-1}#dnet .dn-dossier-foot{font-size:7px}}
+@media(prefers-reduced-motion:reduce){#npcMissionPanel *,#dnet .dn-target-dossier *{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+</style>
+
 </head>
 <body>
 <div id="authGate">
@@ -6450,6 +6522,9 @@ if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.1.
 if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.1.01',date:'19 NOV 2026',title:'DATA NET // TACTICAL NETWORK VISUALS',tag:'NETWORK GRID · TARGET GLOW · SELECTED NODE · PACKET STREAMS',items:['The Data Net map now has a deeper tactical-network backdrop with a subtle grid, layered green illumination and clearer node contrast.','Available hostile targets receive a restrained pulse, the selected target gets a stronger focus glow, and the network packet streams move gently through the map.','Target positions, target selection, Alliance protection, attack states and all map interactions are unchanged. This is a scoped visual refresh of the Data Net map only.','The player HQ campus and all protected Alliance buildings remain untouched.']});
 if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.1.02',date:'19 NOV 2026',title:'SOLO OPS & DATA NET // ENVIRONMENT REFINEMENT',tag:'TACTICAL DEPTH · MAP CONTRAST · MISSION FOCUS',items:['Solo Operations and Data Net now use a more layered tactical environment with restrained grid texture, deeper panels and clearer map framing.','The live operation maps have improved node contrast and subtle focus lighting to make selectable network targets easier to read.','NPC operation guidance, map legends, cyber operations and cyber defence panels receive a consistent visual treatment.','NEXUS Special Operations challenge cards now have stronger mission hierarchy and clearer action focus.','This is a presentation-only update: mission rules, target positions, rewards, timers, saved progress and player data are unchanged.','Player HQ, its four surrounding buildings, Alliance HQ and every Alliance building are deliberately untouched.']});
 BHQ_UPDATE_VERSION='1.1.02';
+if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.1.03',date:'19 NOV 2026',title:'SOLO OPS & DATA NET // FIELD INTELLIGENCE',tag:'MISSION BRIEFINGS · REWARD INTEL · TARGET READINESS',items:['Solo Operations mission briefings now have clearer visual hierarchy, separating the selected operation, team and timing details from the reward preview.','Mission reward intelligence and recent reward history are presented as distinct field-report panels so guaranteed rewards, bonus chances and completed outcomes are easier to compare.','The Data Net target dossier now has a stronger threat-status header, clearer attack and steal probability meters, a visible reconnaissance freshness window and a more readable resource intelligence breakdown.','Operation readiness indicators are easier to scan on mobile, showing whether attack, scan and Nano Strike actions are ready or blocked and why.','All mission timings, reward chances, reconnaissance bonuses, target data, attack calculations, saved progress and player resources remain unchanged. Player HQ and all protected Alliance buildings remain untouched.']});
+BHQ_UPDATE_VERSION='1.1.03';
+
 if(typeof checkUpdateNotice==='function')checkUpdateNotice();
 </body>
 </html>
