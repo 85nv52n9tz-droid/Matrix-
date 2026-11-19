@@ -3270,6 +3270,9 @@ $('progressionReportClose').onclick=function(){$('progressionReportModal').hidde
   // Legacy Outposts / Strongholds / Citadels navigation removed; territory is now one HQ-centred environment.
   // Legacy Alliance territory cards were removed with the old Alliance tab. The rebuilt HQ uses its own campus and research renderers, so do not create cards inside the deleted nd4+ mounts.
   var allianceCreateBtn=$('acbtn'),allianceNameInput=$('aname');if(allianceCreateBtn&&allianceNameInput){allianceCreateBtn.onclick=function(){var v=allianceNameInput.value.replace(/[<>&"']/g,'').trim().slice(0,20);if(!v)return;S.al={n:v,mem:[],app:[],cd:{},nx:Date.now()+8000,res:{ac:50000,dc:3000,cs:250,wi:50,dm:10},tech:{},techPts:0,techLevelClaimed:1};log('Alliance '+v+' founded. Applications will start arriving soon.');save();render()};}
+  // Legacy Alliance roster mounts are intentionally absent from the rebuilt HQ-only Alliance screen.
+  // Only initialise the old roster widgets if both legacy containers exist.
+  if($('aapp')&&$('amem')){
   S.rv.forEach(function(r,j){[['aapp',aa,true],['amem',am,false]].forEach(function(z){
     var c=document.createElement('div');c.className='rk';
     c.innerHTML='<div class="rb"><b></b><small></small></div><div class="ra"><div class="rbt"><button class="ab">Info</button>'+(z[2]?'<button class="ab">Accept</button><button class="ab">Deny</button>':'<button class="ab atk">Kick</button>')+'</div></div><div class="rx" hidden></div>';
@@ -3279,6 +3282,7 @@ $('progressionReportClose').onclick=function(){$('progressionReportModal').hidde
     c.hidden=true;$(z[0]).appendChild(c);z[1][j]=o})});
   var yr=document.createElement('div');yr.className='rk me';yr.innerHTML='<div class="rb"><b>'+(window.BHQ_USERNAME||'You')+' (leader)</b><small></small></div>';$('amem').insertBefore(yr,$('amem').firstChild);aYou=yr;
   for(var q2=0;q2<ALCAP-1;q2++){var er=document.createElement('div');er.className='rk';er.style.opacity=0.5;er.innerHTML='<div class="rb"><b>Open slot</b><small>Waiting for a player to join</small></div>';er.hidden=true;$('amem').appendChild(er);aEmp.push(er)}
+  }
   E.bh=card($('bhead'),'hq','node');E.bh.b.parentNode.hidden=true;$('bback').textContent='\u2190 Back to HQ';$('bback').onclick=closeB;
   B.forEach(function(o){var g=document.createElement('div');g.className='bgrid';g.id='bg-'+o.id;g.hidden=true;$('bgrids').appendChild(g);for(var j=0;j<10;j++)(function(j){var e=E['u'+o.id+j]=card(g,'',o.id);e.t.textContent=UN[o.id][j];e.m.style.color='var(--pi)';e.b.onclick=function(){ubBuy(o,j)}})(j)});
   ['Training','Roster','Nightfall'].forEach(function(t,i){var b=document.createElement('button');b.onclick=function(){if(i===1&&S.tr<1)return;csub=i;cview=null;render()};b.textContent=t;$('csub').appendChild(b);csb.push(b)});
