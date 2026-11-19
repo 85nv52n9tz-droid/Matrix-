@@ -6989,15 +6989,17 @@ if(typeof checkUpdateNotice==='function')checkUpdateNotice();
 /* 1.1.22 — final cascade pass: every primary environment and NEXUS pane remains reachable on mobile. */
 html,body{min-height:100%!important;height:auto!important}
 body{overflow-x:hidden!important;overflow-y:auto!important;overscroll-behavior-y:auto!important;-webkit-overflow-scrolling:touch!important}
-#t-hq:not([hidden]),#t-ally:not([hidden]),#t-user:not([hidden]),#t-progression:not([hidden]),#t-settings:not([hidden]),#t-activity:not([hidden]),#t-mis:not([hidden]),#t-map:not([hidden]),#t-bot:not([hidden]),#t-rank:not([hidden]),#t-crew:not([hidden]),#t-vip:not([hidden]),#t-shop:not([hidden]),#t-competitions:not([hidden]),#t-updates:not([hidden]),#nxPaneChat:not([hidden]),#nxPaneNetwork:not([hidden]),#nxPaneOps:not([hidden]),#nxPaneGuide:not([hidden]),#nxPaneSettings:not([hidden]),#bpage:not([hidden]),#ppage:not([hidden]){
+#t-hq:not([hidden]),#t-ally:not([hidden]),#t-user:not([hidden]),#t-progression:not([hidden]),#t-settings:not([hidden]),#t-activity:not([hidden]),#t-mis:not([hidden]),#t-map:not([hidden]),#t-bot:not([hidden]),#t-rank:not([hidden]),#t-crew:not([hidden]),#t-vip:not([hidden]),#t-shop:not([hidden]),#t-competitions:not([hidden]),#t-updates:not([hidden]),#bpage:not([hidden]),#ppage:not([hidden]){
  height:auto!important;max-height:none!important;min-height:calc(100dvh - var(--top-spacer-height,150px) - 18px)!important;
  overflow-x:hidden!important;overflow-y:auto!important;overscroll-behavior-y:contain!important;
  -webkit-overflow-scrolling:touch!important;touch-action:pan-y!important;scrollbar-gutter:stable;
 }
 #solo,#dnet,#cyberDefence,#cyberOps{height:auto!important;max-height:none!important;min-height:0!important;overflow-x:hidden!important;overflow-y:visible!important;overscroll-behavior:auto!important;touch-action:pan-y!important}
+#nexusTerminal .nx-body{flex:1 1 auto!important;min-height:0!important;max-height:70dvh!important;overflow-x:hidden!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch!important;overscroll-behavior:contain!important;touch-action:pan-y!important}
+#nexusTerminal .nx-pane{min-width:0!important;max-height:none!important;overflow:visible!important}
 #nxPaneChat,#nxPaneNetwork,#nxPaneOps,#nxPaneGuide,#nxPaneSettings{min-width:0!important}
 @media(max-width:600px){
- #t-hq:not([hidden]),#t-ally:not([hidden]),#t-user:not([hidden]),#t-progression:not([hidden]),#t-settings:not([hidden]),#t-activity:not([hidden]),#t-mis:not([hidden]),#t-map:not([hidden]),#t-bot:not([hidden]),#t-rank:not([hidden]),#t-crew:not([hidden]),#t-vip:not([hidden]),#t-shop:not([hidden]),#t-competitions:not([hidden]),#t-updates:not([hidden]),#nxPaneChat:not([hidden]),#nxPaneNetwork:not([hidden]),#nxPaneOps:not([hidden]),#nxPaneGuide:not([hidden]),#nxPaneSettings:not([hidden]),#bpage:not([hidden]),#ppage:not([hidden]){padding-bottom:max(18px,env(safe-area-inset-bottom))!important}
+ #t-hq:not([hidden]),#t-ally:not([hidden]),#t-user:not([hidden]),#t-progression:not([hidden]),#t-settings:not([hidden]),#t-activity:not([hidden]),#t-mis:not([hidden]),#t-map:not([hidden]),#t-bot:not([hidden]),#t-rank:not([hidden]),#t-crew:not([hidden]),#t-vip:not([hidden]),#t-shop:not([hidden]),#t-competitions:not([hidden]),#t-updates:not([hidden]),#bpage:not([hidden]),#ppage:not([hidden]){padding-bottom:max(18px,env(safe-area-inset-bottom))!important}
 }
 </style>
 <script id="universal-screen-scroll-release-v1122">
