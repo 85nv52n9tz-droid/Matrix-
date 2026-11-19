@@ -2198,8 +2198,8 @@ html body .nano-tier-box,html body .nano-report-box{border:1px solid rgb(var(--r
 </style>
 <script id="fx-theme-js">
 (function(){var T={hq:['⌂','HQ // COMMAND CORE'],mis:['✦','MISSIONS // OPS BOARD'],map:['⌖','MISSION MAP // SECTOR GRID'],bot:['⬡','NANO // BOT LAB'],crew:['♟','CREW // OPERATIVE ROSTER'],rank:['▤','RANKS // GLOBAL LEADERBOARD'],activity:['▦','ACTIVITY // DATA BOARD'],competitions:['◉','COMPETITIONS // ARENA'],updates:['⟳','UPDATES // DEV LOG'],vip:['♛','VIP // ELITE LOUNGE'],shop:['▣','SHOP // SUPPLY DEPOT'],settings:['⚙','SETTINGS // SYSTEM CONTROL'],user:['◍','CHIEF // OPERATIVE PROFILE'],progression:['△','PROGRESSION // ARCHIVE'],ally:['⚑','ALLIANCE // COMMAND BOARD']},clocks=[];
-function init(){Object.keys(T).forEach(function(k){var el=document.getElementById('t-'+k);if(!el||el.querySelector(':scope>.fx-top'))return;el.classList.add('fx');var d=document.createElement('div');d.className='fx-top';d.innerHTML='<i>'+T[k][0]+'</i><b>'+T[k][1]+'</b><em></em><small class="fx-build-version"></small><u></u>';el.insertBefore(d,el.firstChild);clocks.push(d.querySelector('em'));var v=d.querySelector('.fx-build-version');if(v&&k==='hq')v.textContent='V '+(window.BHQ_UPDATE_VERSION||'');});
-function tick(){var t=new Date().toTimeString().slice(0,8);clocks.forEach(function(c){c.textContent=t});var v=document.querySelector('#t-hq>.fx-top .fx-build-version');if(v)v.textContent='V '+(window.BHQ_UPDATE_VERSION||'—')}tick();setInterval(tick,1000)}
+function init(){Object.keys(T).forEach(function(k){var el=document.getElementById('t-'+k);if(!el||el.querySelector(':scope>.fx-top'))return;el.classList.add('fx');var d=document.createElement('div');d.className='fx-top';d.innerHTML='<i>'+T[k][0]+'</i><b>'+T[k][1]+'</b><em></em><small class="fx-build-version"></small><u></u>';el.insertBefore(d,el.firstChild);clocks.push(d.querySelector('em'));var v=d.querySelector('.fx-build-version');if(v&&k==='hq')v.textContent='V 1.0.99';});
+function tick(){var t=new Date().toTimeString().slice(0,8);clocks.forEach(function(c){c.textContent=t});var v=document.querySelector('#t-hq>.fx-top .fx-build-version');if(v)v.textContent='V 1.0.99'}tick();setInterval(tick,1000)}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();})();
 </script>
 
@@ -5536,7 +5536,22 @@ show('hq');checkUpdateNotice();checkSystemGiftDelivery();setInterval(tick,1000);
   function init(){
     if(!window.supabase||!window.supabase.createClient){say('Could not load the Supabase library. Check your internet connection and refresh.');return}
     if(SUPABASE_URL.indexOf('PASTE_')===0||SUPABASE_ANON_KEY.indexOf('PASTE_')===0){say('Add your Supabase project URL and publishable/anon key in the script at the bottom of this file.');return}
-    client=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+    var bhqAuthStorage={
+      getItem:async function(key){
+        try{var v=localStorage.getItem(key);if(v)return v;}catch(e){}
+        try{var backup=sessionStorage.getItem(key);if(backup){try{localStorage.setItem(key,backup)}catch(e){}return backup;}}catch(e){}
+        return null;
+      },
+      setItem:async function(key,value){
+        try{localStorage.setItem(key,value)}catch(e){}
+        try{sessionStorage.setItem(key,value)}catch(e){}
+      },
+      removeItem:async function(key){
+        try{localStorage.removeItem(key)}catch(e){}
+        try{sessionStorage.removeItem(key)}catch(e){}
+      }
+    };
+    client=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,storage:bhqAuthStorage}});
     // Refresh the active authentication token before a deployment reload so the same commander remains signed in.
     window.BHQ_PREPARE_UPDATE_SESSION=async function(){
       if(window.BHQ_TEST_MODE)return true;
@@ -5546,7 +5561,10 @@ show('hq');checkUpdateNotice();checkSystemGiftDelivery();setInterval(tick,1000);
       var current=await client.auth.getSession();
       if(current.error)throw current.error;
       if(!current.data||!current.data.session)throw new Error('Your commander session is not available. Please log in before installing.');
-      try{localStorage.setItem('bhq-session-preserve-before-update','1');}catch(e){}
+      var sessionKey='sb-animqcglwkntqeamaphx-auth-token';
+      var serialized=JSON.stringify(current.data.session);
+      try{localStorage.setItem(sessionKey,serialized)}catch(e){}
+      try{sessionStorage.setItem(sessionKey,serialized);sessionStorage.setItem('bhq-session-preserve-before-update','1')}catch(e){}
       return true;
     };
     // Save and refresh the deployed build without signing out or clearing the authenticated session.
@@ -7048,7 +7066,8 @@ if(Array.isArray(BHQ_UPDATE_RELEASES)){
 
 <script id="bhq-player-controlled-update-check-v1092">
 (function(){
-  var BHQ_UPDATE_VERSION='1.0.98';window.BHQ_UPDATE_VERSION=BHQ_UPDATE_VERSION;
+  if(Array.isArray(window.BHQ_UPDATE_RELEASES))window.BHQ_UPDATE_RELEASES.unshift({version:'1.0.99',date:'19 NOV 2026',title:'SESSION RESTORE & UPDATE ARCHIVE // REPAIR',tag:'HOME SCREEN SESSION BACKUP · DIRECT RELEASE LOG',items:['Added a secondary session-storage backup for the authenticated Supabase session, with automatic restoration into persistent browser storage after a Home Screen app reload.','The installer now checkpoints the active commander session before refreshing, rather than relying on localStorage alone.','Pinned the HQ Command Core build indicator to the deployed build number so it cannot display an older archived version.','Added this release directly to the in-game Update Log release archive.']});
+  var BHQ_UPDATE_VERSION='1.0.99';window.BHQ_UPDATE_VERSION=BHQ_UPDATE_VERSION;
   var version=BHQ_UPDATE_VERSION,checking=false,prompted=false,lastCheck=0;
   if(Array.isArray(window.BHQ_UPDATE_RELEASES))window.BHQ_UPDATE_RELEASES.unshift({version:'1.0.98',date:'19 NOV 2026',title:'HQ COMMAND CORE // LIVE BUILD INDICATOR',tag:'FORCED UPDATE · VERSION BESIDE CLOCK',items:['Added the live installed build number beside the clock in the HQ Command Core header.','Published a fresh build so the in-game updater can force the new HQ version indicator onto the Home Screen app.','Retained existing game systems, account data and the update installation flow.']});
   if(Array.isArray(window.BHQ_UPDATE_RELEASES))window.BHQ_UPDATE_RELEASES.unshift({version:'1.0.97',date:'19 NOV 2026',title:'LIVE ACCOUNT UPDATE // CONTROLLED REDEPLOYMENT',tag:'SIGNED-IN INSTALLATION TEST',items:['Reissued the current deployment as a fresh update so the installation flow can be tested while signed in with a normal commander account rather than the test area.','This deployment is a controlled update-cycle test; it does not claim the underlying iPhone Home Screen session-restoration issue is fixed.','Existing commander account data and game save data are retained.']});
