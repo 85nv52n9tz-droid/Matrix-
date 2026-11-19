@@ -4023,7 +4023,7 @@ function renderSettings(){
  });
 }
 function renderChiefProfile(){var h=$('chiefHqLevel'),sh=$('chiefStatHq'),pw=$('chiefStatPower'),ki=$('chiefStatKills'),cr=$('chiefStatCrew');if(h)h.textContent=S.hq;if(sh)sh.textContent=S.hq;if(pw)pw.textContent=fmt(power());if(ki)ki.textContent=fmt(S.kills||0);if(cr)cr.textContent=crewAvailableCount()+' / 7';var nm=$('chiefPlayerName');if(nm)nm.textContent=(window.backdoorPlayerName||'YOUR CHIEF').toString().slice(0,24);var pa=$('openProgressionArchive');if(pa)pa.onclick=function(){show('progression')};document.querySelectorAll('[data-chief-slot]').forEach(function(b){b.onclick=function(){document.querySelectorAll('[data-chief-slot]').forEach(function(x){x.classList.remove('active')});b.classList.add('active');var labels={helmet:'Neural Visor · head protection and signal focus.',chest:'Core Armour · personal defensive plating.',gloves:'Pulse Gloves · precision control and combat handling.',boots:'Vector Boots · mobility and movement systems.',weapon:'Data Blade · personal chief weapon slot.',accessory:'Signal Core · auxiliary chief enhancement module.'};$('chiefSlotInfo').textContent=labels[b.getAttribute('data-chief-slot')]+' Equipment upgrades can be connected here in a later pass.'}});document.querySelectorAll('[data-chief-go]').forEach(function(b){b.onclick=function(){show(b.getAttribute('data-chief-go'))}})}
-var BHQ_UPDATE_VERSION='1.0.73';
+var BHQ_UPDATE_VERSION='1.0.87';
 var BHQ_UPDATE_RELEASES=[
   {version:'1.0.73',date:'19 NOV 2026',title:'DIRECT INFILTRATION // BUILDING NAV FIX',tag:'BUILDING PAGE REMOVED · ARROWS ALIGNED BESIDE EXIT',items:['Removed the separate building upgrade page. Tapping a facility on the HQ map now opens its Infiltration interior directly; the dedicated HQ timer controls remain the place to start upgrades.','Removed the Back to Building action from the Infiltration screen.','Repositioned the previous and next building arrows and position counter together immediately to the left of the Infiltration window exit button.']},
   {version:'1.0.72',date:'19 NOV 2026',title:'COMPACT FACILITIES // FIXED HEADQUARTERS',tag:'CLEANER BUILDING INTERIORS · THREE-COLUMN UPGRADES · BATCH READY INDICATOR',items:['Simplified all facility interiors with compact side-by-side Crew Bonus and Output Bonus panels, smaller crew selectors and a clean three-column upgrade grid.','Reduced close controls and aligned facility and Headquarters titles with their close buttons.','Replaced the Headquarters building requirement list with a compact four-point readiness indicator and removed interior scrolling.','Renamed the HQ timer tile to HEADQUARTERS and highlighted BATCH AVAILABLE in green when all four core facilities can be batch-upgraded.']},
@@ -4095,7 +4095,14 @@ var BHQ_UPDATE_RELEASES=[
   'Improved Mission Autopilot so assigned heroes can repeat their own missions independently, with clearer active and stopped states.',
   'Applied interface and layout fixes to keep Nano styling contained and prevent code or visual elements leaking into other screens.'
  ]}
+
+  {version:'1.0.87',date:'19 NOV 2026',title:'MISSION OPERATIONS STABILITY // UPDATE DELIVERY REPAIR',tag:'STABLE MISSION DISPLAY · ACCURATE ALERTS · PLAYER-CONTROLLED UPDATES',items:['Stopped mission cards from being unnecessarily moved and reinserted during refreshes, so the Operations list stays visually settled when opened and when rewards are collected.','Corrected the Missions / Ops alert count so it only counts visible, claimable missions; opening Operations acknowledges NPC mission alerts and clears the stale badge.','Removed automatic sign-out and timed game reloads. A newly published build is now offered through an in-game update prompt, and only the UPDATE NOW button returns you to login and reloads the latest build.','Reconnected the active game version, login update briefing and More → Recent Updates archive so this release and the recent missing releases appear together.']},
+  {version:'1.0.86',date:'19 NOV 2026',title:'UPDATE DELIVERY CONTROL // PLAYER-APPROVED REFRESH',tag:'PUBLISHED BUILD CHECK · NO REPEATED AUTOMATIC RELOAD',items:['The published build checker now offers an update prompt instead of repeatedly signing the player out and refreshing the game automatically.','Choose UPDATE NOW to save, return to login and load the newly published build; choose LATER to continue playing the current session.']},
+  {version:'1.0.85',date:'19 NOV 2026',title:'MISSION DISPLAY STABILITY // CREW DOSSIER FIT',tag:'NO REPEATED MISSION REBUILD · RESPONSIVE CREW PROFILE',items:['Stopped mission reward and detail sections from being rebuilt on every timer tick, preventing mission cards from repeatedly animating or dropping back onto the screen.','Kept mission content mounted when collecting rewards; only changed mission status, progress and buttons are updated.','Resized the Crew dossier window to stay within the visible phone screen, with a contained scroll area for longer profiles.','Preserved mission rewards, timers, crew equipment, account progress and saved data.']},
+  {version:'1.0.84',date:'19 NOV 2026',title:'UPDATE DELIVERY REPAIR // HQ BUILD COSTS',tag:'RELIABLE LOGIN BRIEFING · COMPLETE RELEASE ARCHIVE · HQ RESOURCE COSTS',items:['Repaired the post-login update briefing so an unread published version reliably opens its notification after the login sequence.','Restored reliable Update Log rendering and ensured the latest release notes are included in the Updates archive.','Replaced the Headquarters Provides panel with the exact resources required for the next HQ or Prestige HQ build, including available and missing amounts.']},
+  {version:'1.0.83',date:'19 NOV 2026',title:'HQ TIMER CONTROLS // CLEAN UPDATE LOG',tag:'DIRECT BUILDING UPGRADES · READABLE RELEASE NOTES',items:['HQ timer controls start the selected building upgrade directly using the existing upgrade system.','The HQ timer button starts HQ upgrades while core facility timer buttons start their own upgrades.','Improved release-note filtering to prevent code fragments from appearing in the Update Log.']},
 ];
+window.BHQ_UPDATE_VERSION=BHQ_UPDATE_VERSION;window.BHQ_UPDATE_RELEASES=BHQ_UPDATE_RELEASES;
 var SYSTEM_GIFT_PERSONAL_BASE={cr:25000,da:5000,cy:2500,ex:500,in:100,qt:25};var SYSTEM_GIFT_ALLIANCE_BASE={ac:10000,dc:1000,cs:250,wi:100,dm:25};
 function systemGiftPackage(){
  var hq=Math.max(1,Math.min(30,Number(S.hq)||1)),prestige=Math.max(0,Math.min(5,Number(S.pr)||0));
@@ -4209,7 +4216,7 @@ function renderCompetition(which){which=which||activeCompetitionPeriod||'daily';
  host.querySelectorAll('[data-comp-period]').forEach(function(b){b.onclick=function(){renderCompetition(b.getAttribute('data-comp-period'))}});host.querySelectorAll('[data-comp-daily-tier]').forEach(function(b){b.onclick=function(){compClaimDailyTier(Number(b.getAttribute('data-comp-daily-tier')))}});host.querySelectorAll('[data-comp-tier]').forEach(function(b){b.onclick=function(){compClaimTier(Number(b.getAttribute('data-comp-tier')))}});host.querySelectorAll('[data-comp-final]').forEach(function(b){b.onclick=function(){compClaimFinal(b.getAttribute('data-comp-final'),Number(b.getAttribute('data-comp-index')))}});
  var tabButtons=host.querySelectorAll('[data-comp-tab]');tabButtons.forEach(function(b){b.onclick=function(){tabButtons.forEach(function(x){x.classList.toggle('active',x===b)});var panel=$('compMonthlyPanel');if(!panel)return;if(b.getAttribute('data-comp-tab')==='individual'){panel.innerHTML='<div class="comp-section-title">INDIVIDUAL CHAMPIONSHIP</div><div class="comp-table">'+compRenderRows(rivals,score,'monthly',progress)+'</div>'}else{var has=!!(S.al&&S.al.n),alScore=c.monthly.allianceScore,ar=COMP_ALLIANCE_RIVALS;panel.innerHTML='<div class="comp-section-title">ALLIANCE CHAMPIONSHIP</div><p class="comp-muted">'+(has?'Your alliance: '+S.al.n+'. Eligible monthly activities contribute to this shared score.':'Create or join an alliance to enter the shared championship.')+'</p><div class="comp-table">'+compRenderRows(ar,alScore,'alliance',progress)+'</div><div class="comp-panel"><b>ALLIANCE STATISTICS</b><p class="comp-muted">Shared score earned only from monthly-eligible activity types. Alliance placement rewards are deposited into the Alliance Bank at season end.</p></div>'}}})}
 function compRenderRankCount(score,period,progress){var scale=period==='daily'?.17:period==='monthly'?4.8:1,seasonFactor=.22+.78*(Number(progress)||1);return COMP_RIVALS.filter(function(r){return Math.round(r[1]*scale*seasonFactor)>score}).length}
-function show(t){if(t==='ally')t='aln';var leavingUpdateLog=tab==='updates'&&t!=='updates';if(leavingUpdateLog&&String(S.updateLogSeenVersion||'')===BHQ_UPDATE_VERSION)startSystemGiftDeliveryTimer();var previousTab=tab;tab=t;if(t==='updates'){markUpdateLogRead();renderUpdateLog()}if(t==='ally'){atab=0;allyInteriorOpen=false;}if(t==='aln')renderAln();if(t==='settings')renderSettings();if(t==='user')renderChiefProfile();if(t==='progression')renderProgressionArchive();['hq','ally','aln','activity','updates','user','progression','settings','mis','map','bot','rank','crew','vip','shop','competitions','net'].forEach(function(k){var el=$('t-'+k);if(el)el.hidden=(k!==t)&&!(crewProfileShopOpen&&k==='crew');if(tb[k])tb[k].classList.toggle('on',k===t);});document.querySelectorAll('[data-test-go]').forEach(function(x){x.classList.toggle('current',x.getAttribute('data-test-go')===t)});document.querySelectorAll('[data-rail-go]').forEach(function(x){x.classList.toggle('current',x.getAttribute('data-rail-go')===t)});if(previousTab!==t){var resetSection=function(){var pane=$('t-'+t);try{window.scrollTo(0,0)}catch(e){}if(document.scrollingElement)document.scrollingElement.scrollTop=0;document.documentElement.scrollTop=0;document.body.scrollTop=0;if(pane){pane.scrollTop=0;pane.querySelectorAll('*').forEach(function(node){if(node.closest('#nexusTerminal'))return;var cs;try{cs=getComputedStyle(node)}catch(e){}if(cs&&(cs.overflowY==='auto'||cs.overflowY==='scroll'))node.scrollTop=0})}};resetSection();requestAnimationFrame(resetSection)}render()}
+function show(t){if(t==='ally')t='aln';if(t==='mis'&&Number(S.npcMissionUnread)>0){S.npcMissionUnread=0;save()}var leavingUpdateLog=tab==='updates'&&t!=='updates';if(leavingUpdateLog&&String(S.updateLogSeenVersion||'')===BHQ_UPDATE_VERSION)startSystemGiftDeliveryTimer();var previousTab=tab;tab=t;if(t==='updates'){markUpdateLogRead();renderUpdateLog()}if(t==='ally'){atab=0;allyInteriorOpen=false;}if(t==='aln')renderAln();if(t==='settings')renderSettings();if(t==='user')renderChiefProfile();if(t==='progression')renderProgressionArchive();['hq','ally','aln','activity','updates','user','progression','settings','mis','map','bot','rank','crew','vip','shop','competitions','net'].forEach(function(k){var el=$('t-'+k);if(el)el.hidden=(k!==t)&&!(crewProfileShopOpen&&k==='crew');if(tb[k])tb[k].classList.toggle('on',k===t);});document.querySelectorAll('[data-test-go]').forEach(function(x){x.classList.toggle('current',x.getAttribute('data-test-go')===t)});document.querySelectorAll('[data-rail-go]').forEach(function(x){x.classList.toggle('current',x.getAttribute('data-rail-go')===t)});if(previousTab!==t){var resetSection=function(){var pane=$('t-'+t);try{window.scrollTo(0,0)}catch(e){}if(document.scrollingElement)document.scrollingElement.scrollTop=0;document.documentElement.scrollTop=0;document.body.scrollTop=0;if(pane){pane.scrollTop=0;pane.querySelectorAll('*').forEach(function(node){if(node.closest('#nexusTerminal'))return;var cs;try{cs=getComputedStyle(node)}catch(e){}if(cs&&(cs.overflowY==='auto'||cs.overflowY==='scroll'))node.scrollTop=0})}};resetSection();requestAnimationFrame(resetSection)}render()}
 function buy(o){
   if(S.hq<o.u||lvl(o)>=cap(o)||S.up[o.id])return;var c=cost(o);if(!afford(c))return;
   pay(c);
@@ -4789,7 +4796,7 @@ function renderActivity(){
  var wcb=$('activityWeekly').querySelector('.activity-claim');if(wcb){wcb.textContent=a.weeklyClaimed?'WEEKLY CLAIMED':'CLAIM WEEKLY REWARDS';wcb.disabled=a.weeklyClaimed||wDone<weeklyList.length}
 }
 function syncCommandNotifications(){
-  var now=Date.now(),ready=0;M.forEach(function(o){var st=S.mis&&S.mis[o.id];if(st&&st.end<=now)ready++});
+  var now=Date.now(),ready=0;M.forEach(function(o){var st=S.mis&&S.mis[o.id];if(st&&st.end<=now&&shown(o.u)&&!freeGone(o))ready++});
   var npcUnread=Math.max(0,Number(S.npcMissionUnread)||0),totalReady=ready+npcUnread,mb=$('missionNavBadge'),missionBtn=document.querySelector('.test-shortcut-missions'),mapBadge=$('npcMapNavBadge'),mapBtn=document.querySelector('.test-shortcut-map');if(mb){mb.textContent=totalReady>99?'99+':String(totalReady);mb.hidden=totalReady===0}if(missionBtn)missionBtn.setAttribute('aria-label',totalReady?'Open Missions / Ops · '+totalReady+' mission alerts':'Open Missions / Ops');if(mapBadge){mapBadge.textContent=npcUnread>99?'99+':String(npcUnread);mapBadge.hidden=npcUnread===0}if(mapBtn)mapBtn.setAttribute('aria-label',npcUnread?'Open Missions Map · '+npcUnread+' NPC mission alerts':'Open Missions Map');
   var allianceBtn=document.querySelector('.test-shortcut-aln');if(allianceBtn)allianceBtn.setAttribute('aria-label','Open Alliance');
   var count=0;try{var c=compEnsure(),dt=compDailyTiers();dt.forEach(function(t,i){if(c.daily.score>=t.at&&c.daily.claimedTiers.indexOf(i)<0)count++});var wt=[1400,3200,5600,9000,14000].map(function(v){return Math.ceil(v*compTierScale())});wt.forEach(function(t,i){if(c.weekly.score>=t&&c.weekly.claimedTiers.indexOf(i)<0)count++});(c.weeklyArchive||[]).forEach(function(x){if(!x.claimed)count++});(c.monthlyArchive||[]).forEach(function(x){if(!x.claimed)count++});if(S.al&&S.al.n){var ac=allianceCompEnsure(),at=allianceCompTiers();at.forEach(function(t,i){if(ac.score>=t.at&&ac.claimedTiers.indexOf(i)<0)count++})}}catch(e){}
@@ -4883,7 +4890,7 @@ function renderMis(){
     else{var mc=scale(o.cost,mf());e.b.innerHTML='Start \u00b7 '+csh(mc);e.b.disabled=running()>=S.sl||!afford(mc)}
   });
   var act=M.filter(function(o){return S.mis[o.id]}).sort(function(a,b){return S.mis[a.id].end-S.mis[b.id].end}),ord=act.concat(M.filter(function(o){return !S.mis[o.id]&&S.hq>=o.u&&isFreeM(o)&&S.hq<10}),M.filter(function(o){return !S.mis[o.id]&&S.hq>=o.u&&!isFreeM(o)}),M.filter(function(o){return !S.mis[o.id]&&S.hq<o.u&&!freeGone(o)}).sort(function(a,b){return a.u-b.u})),os=ord.map(function(o){return o.id}).join(',');
-  if(os!==lastMOrd){lastMOrd=os;ord.forEach(function(o){$('mlist').appendChild(E[o.id].c)})}
+  if(os!==lastMOrd){lastMOrd=os;var list=$('mlist');ord.forEach(function(o,i){var node=E[o.id].c,at=list.children[i];if(at!==node)list.insertBefore(node,at||null)})}
 }
 var lastMOrd='';
 function isFreeM(o){return Object.keys(o.cost).every(function(k){return !o.cost[k]})}
@@ -6549,17 +6556,7 @@ html body .hdr{margin-bottom:0!important}
 </style>
 
 <style id="hq-resource-requirements-final">#testHqModal .hq-build-resource-panel{margin-top:12px;padding-top:10px;border-top:1px solid #ffffff22}#testHqModal .hq-build-resource-panel>b{display:block;color:#ffe29a;font-size:10px;letter-spacing:.8px;margin-bottom:8px}#testHqModal #testHqCost{display:none!important}</style>
-<script id="bhq-update-log-login-repair">(function(){
-var version='1.0.84';window.BHQ_UPDATE_VERSION=version;if(typeof BHQ_UPDATE_VERSION!=='undefined')BHQ_UPDATE_VERSION=version;
-var releases=typeof BHQ_UPDATE_RELEASES!=='undefined'?BHQ_UPDATE_RELEASES:[];window.BHQ_UPDATE_RELEASES=releases;
-if(Array.isArray(releases)){
-if(!releases.some(function(r){return r&&String(r.version)==='1.0.84'}))releases.unshift({version:'1.0.84',date:'19 NOV 2026',title:'UPDATE DELIVERY REPAIR // HQ BUILD COSTS',tag:'RELIABLE LOGIN BRIEFING · COMPLETE RELEASE ARCHIVE · HQ RESOURCE COSTS',items:['Repaired the post-login update briefing so an unread published version reliably opens its notification after the login sequence.','Restored reliable Update Log rendering and ensured the latest release notes are included in the Updates archive.','Replaced the Headquarters Provides panel with the exact resources required for the next HQ or Prestige HQ build, including available and missing amounts.']});
-if(!releases.some(function(r){return r&&String(r.version)==='1.0.83'}))releases.unshift({version:'1.0.83',date:'19 NOV 2026',title:'HQ TIMER CONTROLS // CLEAN UPDATE LOG',tag:'DIRECT BUILDING UPGRADES · READABLE RELEASE NOTES',items:['HQ timer controls start the selected building upgrade directly using the existing upgrade system.','The HQ timer button starts HQ upgrades while core facility timer buttons start their own upgrades.','Improved release-note filtering to prevent code fragments from appearing in the Update Log.']});
-if(!releases.some(function(r){return r&&String(r.version)==='1.0.73'}))releases.unshift({version:'1.0.73',date:'19 NOV 2026',title:'DIRECT INFILTRATION // BUILDING NAV FIX',tag:'BUILDING PAGE REMOVED · ARROWS ALIGNED BESIDE EXIT',items:['Removed the separate building upgrade page. Tapping a facility on the HQ map opens its Infiltration interior directly.','Removed the Back to Building action from the Infiltration screen.','Aligned previous and next building navigation immediately to the left of the exit button.']});
-}
-if(typeof renderUpdateLog==='function')renderUpdateLog();
-window.BHQ_SHOW_LOGIN_UPDATE_NOTICE=function(){var current=String(window.BHQ_UPDATE_VERSION||version),seen='';try{seen=String((typeof S!=='undefined'&&S.updateLogSeenVersion)||'')}catch(e){}var unread=seen!==current,tab=document.getElementById('updateLogTab');if(tab){tab.classList.toggle('update-unread',unread);tab.setAttribute('aria-label',unread?'Update Log — new update available':'Update Log')}var n=document.getElementById('updateNotice');if(!n||!unread)return;var v=document.getElementById('updateNoticeVersion');if(v)v.textContent='VERSION '+current;n.hidden=false;};
-})();</script>
+
 
 <style id="bhq-mission-roster-stability-v1085">
 /* Keep mission content mounted between timer ticks; constrain crew dossier to the visible phone viewport. */
@@ -6571,59 +6568,8 @@ window.BHQ_SHOW_LOGIN_UPDATE_NOTICE=function(){var current=String(window.BHQ_UPD
 #t-crew #cp2 .crew-detail-section-head{min-width:0!important;flex-wrap:wrap!important;}
 @media(max-width:520px){#t-crew #cp2{align-items:center!important;padding:calc(6px + env(safe-area-inset-top)) 6px calc(6px + env(safe-area-inset-bottom))!important}#t-crew #cp2 .crew-detail-modal-card{width:calc(100vw - 12px)!important;max-height:calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 12px)!important;padding:8px!important}#t-crew #cp2 .crew-profile-stage{min-height:0!important}}
 </style>
-<script id="bhq-mission-roster-stability-v1085">
-(function(){
-var version='1.0.86';window.BHQ_UPDATE_VERSION=version;if(typeof BHQ_UPDATE_VERSION!=='undefined')BHQ_UPDATE_VERSION=version;
-var releases=window.BHQ_UPDATE_RELEASES||[];
-if(Array.isArray(releases)&&!releases.some(function(r){return r&&String(r.version)==='1.0.86'})){
-releases.unshift({version:'1.0.86',date:'19 NOV 2026',title:'FORCED UPDATE DEPLOYMENT // LOGIN REFRESH',tag:'NEW BUILD DETECTED · SAVE · SIGN OUT · RELOAD · LOGIN',items:['The game now checks the published build while you are playing, including when the Home Screen app returns to the foreground.','When a newer build is available, the game saves your progress, signs you out, and performs a cache-busted reload so the new version can load.','You return to the login screen; after logging in, the normal update notification and release notes appear before you continue.','If GitHub Pages or the network has not received the new build yet, the game retries the check rather than forcing a stale refresh.']});
-if(Array.isArray(releases)&&!releases.some(function(r){return r&&String(r.version)==='1.0.85'})){
-releases.unshift({version:'1.0.85',date:'19 NOV 2026',title:'MISSION DISPLAY STABILITY // CREW DOSSIER FIT',tag:'NO REPEATED MISSION REBUILD · RESPONSIVE CREW PROFILE',items:['Stopped mission reward and detail sections from being rebuilt on every timer tick, preventing mission cards from repeatedly animating or dropping back onto the screen.','Kept mission content mounted when collecting rewards; only changed mission status, progress and buttons are updated.','Resized the Crew dossier window to stay within the visible phone screen, with a contained scroll area for longer profiles.','Preserved mission rewards, timers, crew equipment, account progress and saved data.']});
-}
-window.BHQ_UPDATE_RELEASES=releases;
-}
-if(typeof renderUpdateLog==='function')renderUpdateLog();
-if(typeof checkUpdateNotice==='function')checkUpdateNotice();
 
-})();
-</script>
-<script id="bhq-force-update-refresh-v1086">
-(function(){
-  var checking=false,triggered=false,lastCheck=0;
-  function versionFrom(html){
-    var matches=[...html.matchAll(/(?:var\s+version|version)\s*=\s*['"]([0-9]+(?:\.[0-9]+)+)['"]/g)];
-    if(!matches.length)return '';
-    return matches[matches.length-1][1];
-  }
-  function newer(a,b){
-    var x=String(a||'').split('.').map(Number),y=String(b||'').split('.').map(Number);
-    for(var i=0;i<Math.max(x.length,y.length);i++){var d=(x[i]||0)-(y[i]||0);if(d)return d>0;}
-    return false;
-  }
-  async function check(){
-    if(checking||triggered||!window.BHQ_GAME_ACTIVE)return;
-    var now=Date.now();if(now-lastCheck<25000)return;lastCheck=now;checking=true;
-    try{
-      var u=new URL('index.html',location.href);u.searchParams.set('_bhq_check',String(now));
-      var response=await fetch(u.toString(),{cache:'no-store',credentials:'same-origin'});
-      if(!response.ok)throw new Error('Update check unavailable');
-      var remote=versionFrom(await response.text()),current=String(window.BHQ_UPDATE_VERSION||'');
-      if(remote&&current&&newer(remote,current)){
-        triggered=true;
-        try{if(window.BHQ_SAVE)window.BHQ_SAVE();}catch(e){}
-        if(window.BHQ_FORCE_SIGNOUT_AND_REFRESH){
-          var ok=await window.BHQ_FORCE_SIGNOUT_AND_REFRESH();
-          if(!ok){triggered=false;return;}
-        }else{triggered=false;return;}
-      }
-    }catch(e){/* Network/CDN propagation delays are retried on the next check. */}
-    finally{checking=false;}
-  }
-  setInterval(check,30000);
-  document.addEventListener('visibilitychange',function(){if(!document.hidden)check()});
-  window.addEventListener('focus',check);
-})();
-</script>
+
 
 </body>
 </html>
