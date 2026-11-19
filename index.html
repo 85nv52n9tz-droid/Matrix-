@@ -4023,8 +4023,10 @@ function renderSettings(){
  });
 }
 function renderChiefProfile(){var h=$('chiefHqLevel'),sh=$('chiefStatHq'),pw=$('chiefStatPower'),ki=$('chiefStatKills'),cr=$('chiefStatCrew');if(h)h.textContent=S.hq;if(sh)sh.textContent=S.hq;if(pw)pw.textContent=fmt(power());if(ki)ki.textContent=fmt(S.kills||0);if(cr)cr.textContent=crewAvailableCount()+' / 7';var nm=$('chiefPlayerName');if(nm)nm.textContent=(window.backdoorPlayerName||'YOUR CHIEF').toString().slice(0,24);var pa=$('openProgressionArchive');if(pa)pa.onclick=function(){show('progression')};document.querySelectorAll('[data-chief-slot]').forEach(function(b){b.onclick=function(){document.querySelectorAll('[data-chief-slot]').forEach(function(x){x.classList.remove('active')});b.classList.add('active');var labels={helmet:'Neural Visor · head protection and signal focus.',chest:'Core Armour · personal defensive plating.',gloves:'Pulse Gloves · precision control and combat handling.',boots:'Vector Boots · mobility and movement systems.',weapon:'Data Blade · personal chief weapon slot.',accessory:'Signal Core · auxiliary chief enhancement module.'};$('chiefSlotInfo').textContent=labels[b.getAttribute('data-chief-slot')]+' Equipment upgrades can be connected here in a later pass.'}});document.querySelectorAll('[data-chief-go]').forEach(function(b){b.onclick=function(){show(b.getAttribute('data-chief-go'))}})}
-var BHQ_UPDATE_VERSION='1.0.90';
+var BHQ_UPDATE_VERSION='1.0.91';
 var BHQ_UPDATE_RELEASES=[
+  {version:'1.0.91',date:'19 NOV 2026',title:'MANDATORY SYSTEM DEPLOYMENT // FUTURE UPDATE INTERFACE',tag:'FORCED UPDATE · LIVE INSTALL PROGRESS · SESSION PRESERVATION',items:['Replaced the dismissible update prompt with a mandatory in-game installation window.','Added a futuristic Backdoor HQ deployment interface with staged progress and installation status.','The latest game build is fetched and verified before the final refresh; after installation, the game opens More → Updates automatically.','Saved game progress and the existing authenticated session are preserved during the update.']},
+
   {version:'1.0.73',date:'19 NOV 2026',title:'DIRECT INFILTRATION // BUILDING NAV FIX',tag:'BUILDING PAGE REMOVED · ARROWS ALIGNED BESIDE EXIT',items:['Removed the separate building upgrade page. Tapping a facility on the HQ map now opens its Infiltration interior directly; the dedicated HQ timer controls remain the place to start upgrades.','Removed the Back to Building action from the Infiltration screen.','Repositioned the previous and next building arrows and position counter together immediately to the left of the Infiltration window exit button.']},
   {version:'1.0.72',date:'19 NOV 2026',title:'COMPACT FACILITIES // FIXED HEADQUARTERS',tag:'CLEANER BUILDING INTERIORS · THREE-COLUMN UPGRADES · BATCH READY INDICATOR',items:['Simplified all facility interiors with compact side-by-side Crew Bonus and Output Bonus panels, smaller crew selectors and a clean three-column upgrade grid.','Reduced close controls and aligned facility and Headquarters titles with their close buttons.','Replaced the Headquarters building requirement list with a compact four-point readiness indicator and removed interior scrolling.','Renamed the HQ timer tile to HEADQUARTERS and highlighted BATCH AVAILABLE in green when all four core facilities can be batch-upgraded.']},
   {version:'1.0.71',date:'19 NOV 2026',title:'TRON HQ // FACILITY INTERIORS & COMMAND REDESIGN',tag:'ANIMATED DIGITAL CITY · COMPACT BUILDING INTERIORS · HQ RESOURCE CHECK',items:['Added a continuously animated, elevated Tron-network cityscape behind the main HQ area only.','Building taps now enter the facility interior directly, with a compact futuristic interface for production, crew, upgrade costs and construction actions.','Redesigned the Headquarters interior to focus on the four facility requirements, resource availability and HQ upgrade or instant-build actions.','Kept the existing Alliance HQ artwork, layout, functionality and animations unchanged.','Stopped unchanged HQ scene markup from being rebuilt on every render, preventing the main HQ building animation from repeatedly restarting.']},
@@ -6977,18 +6979,47 @@ document.addEventListener('DOMContentLoaded',function(){
 </script>
 
 
-<script id="bhq-player-controlled-update-check-v1090">
+<script id="bhq-player-controlled-update-check-v1091">
 (function(){
-  var version='1.0.90',checking=false,prompted=false,lastCheck=0;
+  var version='1.0.91',checking=false,prompted=false,lastCheck=0;
   function newer(a,b){var x=String(a||'').split('.').map(Number),y=String(b||'').split('.').map(Number);for(var i=0;i<Math.max(x.length,y.length);i++){var d=(x[i]||0)-(y[i]||0);if(d)return d>0;}return false;}
   function panel(remote){
     if(document.getElementById('bhqUpdateAvailable'))return;
-    var shade=document.createElement('div');shade.id='bhqUpdateAvailable';shade.setAttribute('role','dialog');shade.setAttribute('aria-modal','false');
-    shade.style.cssText='position:fixed;z-index:100001;left:10px;right:10px;bottom:calc(12px + env(safe-area-inset-bottom,0px));max-width:540px;margin:0 auto;padding:14px;border:1px solid #55d99a;border-radius:12px;background:linear-gradient(145deg,#0c291a,#041009);box-shadow:0 12px 38px #000d,0 0 22px #35ff8433;color:#dffff0;font:12px/1.4 ui-monospace,monospace';
-    shade.innerHTML='<div style="font-size:9px;letter-spacing:1.5px;color:#8cffb7">BACKDOOR HQ // DEPLOYMENT DETECTED</div><b style="display:block;margin:5px 0 3px;font-size:14px">A NEW GAME UPDATE IS READY</b><div style="color:#a9d8ba;font-size:10px">Version '+remote+' is published. Save and refresh now to install it without signing out. Your latest update log will open automatically.</div><div style="display:flex;gap:7px;margin-top:11px"><button type="button" id="bhqUpdateNow" style="flex:1;min-height:36px;border:1px solid #65f5a2;border-radius:7px;background:#123c25;color:#caffdc;font:900 10px ui-monospace,monospace">UPDATE NOW</button><button type="button" id="bhqUpdateLater" style="min-width:78px;min-height:36px;border:1px solid #456c55;border-radius:7px;background:#0a1a10;color:#b7d9c2;font:800 10px ui-monospace,monospace">LATER</button></div>';
-    document.body.appendChild(shade);
-    document.getElementById('bhqUpdateLater').onclick=function(){try{localStorage.setItem('bhq_update_dismissed_version',remote);}catch(e){}shade.remove();};
-    document.getElementById('bhqUpdateNow').onclick=function(){var b=this;b.disabled=true;b.textContent='SAVING & REFRESHING…';try{if(window.BHQ_SAVE)window.BHQ_SAVE();try{sessionStorage.setItem('bhq_open_update_log_after_refresh','1');}catch(e){}var u=new URL(location.href);u.searchParams.set('bhqBuildRefresh',String(Date.now()));location.replace(u.toString());}catch(e){b.disabled=false;b.textContent='RETRY UPDATE';var note=shade.querySelector('div:nth-of-type(2)');if(note)note.textContent=e.message||'Update could not start. Please try again.';}};
+    var shade=document.createElement('div');shade.id='bhqUpdateAvailable';shade.setAttribute('role','dialog');shade.setAttribute('aria-modal','true');
+    shade.style.cssText='position:fixed;inset:0;z-index:100001;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(1,5,8,.94);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#d9fff0;font:12px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace';
+    var card=document.createElement('section');card.style.cssText='position:relative;width:min(100%,470px);overflow:hidden;padding:22px 18px 18px;border:1px solid #39ff9a;border-radius:15px;background:linear-gradient(145deg,#0a261d 0%,#061510 48%,#030b0b 100%);box-shadow:0 0 0 1px #39ff9a22,0 0 34px #00ff9940,inset 0 0 35px #00ff9910';
+    card.innerHTML='<div style="position:absolute;inset:0;pointer-events:none;opacity:.13;background:repeating-linear-gradient(0deg,transparent 0 3px,#42ffae 4px);"></div><div style="position:relative"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span style="font-size:9px;letter-spacing:2.2px;color:#6dffbd">BACKDOOR HQ // SYSTEM CORE</span><span style="font-size:9px;letter-spacing:1px;color:#b8ffd9;border:1px solid #2e9868;padding:4px 7px;border-radius:4px">MANDATORY</span></div><div style="height:1px;margin:14px 0;background:linear-gradient(90deg,transparent,#39ff9a,transparent)"></div><div style="font-size:22px;font-weight:900;letter-spacing:1.5px;text-shadow:0 0 16px #39ff9a66">SYSTEM UPDATE</div><div style="margin-top:5px;color:#8dbba7;font-size:10px;letter-spacing:1.4px">NEW DEPLOYMENT DETECTED // BUILD '+remote+'</div><p id="bhqUpdateMessage" style="margin:15px 0 17px;color:#b7d9ca;font-size:11px">Your game needs to install the latest deployment before you continue. Your account and saved progress will be preserved.</p><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span id="bhqUpdateStage" style="font-size:9px;letter-spacing:1.3px;color:#7fffc0">AWAITING INSTALLATION</span><b id="bhqUpdatePercent" style="font-size:21px;color:#8affc1">0%</b></div><div style="height:11px;padding:2px;border:1px solid #287d59;border-radius:20px;background:#020b08;box-shadow:inset 0 0 8px #000"><div id="bhqUpdateFill" style="width:0%;height:100%;border-radius:20px;background:linear-gradient(90deg,#00a85c,#54ffc0);box-shadow:0 0 13px #39ff9a;transition:width .28s ease"></div></div><div style="display:flex;justify-content:space-between;margin-top:7px;color:#628d79;font-size:8px;letter-spacing:1px"><span>SECURE DEPLOYMENT CHANNEL</span><span>BUILD '+remote+'</span></div><div id="bhqUpdateSteps" style="display:grid;gap:7px;margin-top:17px;padding-top:13px;border-top:1px solid #174a36;color:#789b88;font-size:9px;letter-spacing:.6px"><div data-step="save">○ &nbsp; SAVE COMMANDER DATA</div><div data-step="download">○ &nbsp; DOWNLOAD NEW BUILD</div><div data-step="verify">○ &nbsp; VERIFY DEPLOYMENT</div><div data-step="restart">○ &nbsp; RESTART INTO UPDATE LOG</div></div><div style="margin-top:15px;text-align:center;color:#527b67;font-size:8px;letter-spacing:1.2px">DO NOT CLOSE THE GAME DURING INSTALLATION</div></div>';
+    shade.appendChild(card);document.body.appendChild(shade);
+    var pct=card.querySelector('#bhqUpdatePercent'),fill=card.querySelector('#bhqUpdateFill'),stage=card.querySelector('#bhqUpdateStage'),message=card.querySelector('#bhqUpdateMessage'),steps=card.querySelectorAll('[data-step]');
+    function mark(name){var order=['save','download','verify','restart'];steps.forEach(function(el){var k=el.getAttribute('data-step'),done=order.indexOf(k)<order.indexOf(name),active=k===name;el.style.color=active?'#8affc1':done?'#42d99a':'#789b88';el.innerHTML=(done?'✓':active?'◉':'○')+' &nbsp; '+el.textContent.replace(/^[○◉✓]\s+/, '');});}
+    function progress(n,label){pct.textContent=n+'%';fill.style.width=n+'%';stage.textContent=label;}
+    async function install(){
+      var b=card.querySelector('#bhqUpdateInstall');if(b)b.remove();
+      try{
+        progress(8,'SAVING COMMANDER DATA');mark('save');
+        if(window.BHQ_SAVE)window.BHQ_SAVE();
+        progress(18,'OPENING SECURE CHANNEL');mark('download');
+        var u=new URL('index.html',location.href);u.searchParams.set('_bhq_install',String(Date.now()));
+        var response=await fetch(u.toString(),{cache:'no-store',credentials:'same-origin'});
+        if(!response.ok)throw new Error('The deployment server returned '+response.status+'.');
+        var html=await response.text();
+        progress(82,'DOWNLOAD COMPLETE // CHECKING BUILD');
+        var found=[...html.matchAll(/(?:var\s+version|version)\s*=\s*['"]([0-9]+(?:\.[0-9]+)+)['"]/g)];
+        var downloaded=found.length?found[found.length-1][1]:'';
+        if(!downloaded||newer(remote,downloaded))throw new Error('The new build is still reaching the deployment server. Please retry in a moment.');
+        mark('verify');progress(94,'DEPLOYMENT VERIFIED');
+        message.textContent='Update verified. Restarting Backdoor HQ and restoring your commander session…';
+        try{sessionStorage.setItem('bhq_open_update_log_after_refresh','1');}catch(e){}
+        try{localStorage.removeItem('bhq_update_dismissed_version');}catch(e){}
+        mark('restart');progress(100,'INSTALLATION COMPLETE');
+        setTimeout(function(){var next=new URL(location.href);next.searchParams.set('bhqBuildRefresh',String(Date.now()));location.replace(next.toString());},650);
+      }catch(e){
+        stage.textContent='INSTALLATION INTERRUPTED';message.textContent=(e&&e.message?e.message:'Update could not be installed.')+' Your game data remains saved. Tap RETRY INSTALLATION to try again.';
+        progress(0,'RETRY REQUIRED');
+        var retry=document.createElement('button');retry.id='bhqUpdateInstall';retry.type='button';retry.textContent='RETRY INSTALLATION';retry.style.cssText='width:100%;min-height:43px;margin-top:15px;border:1px solid #64ffb4;border-radius:7px;background:linear-gradient(90deg,#075c3b,#0c3a2b);color:#dffff0;font:900 10px ui-monospace,monospace;letter-spacing:1.4px;box-shadow:0 0 18px #39ff9a30';retry.onclick=install;card.querySelector('div[style*="position:relative"]').appendChild(retry);
+      }
+    }
+    var installButton=document.createElement('button');installButton.id='bhqUpdateInstall';installButton.type='button';installButton.textContent='INSTALL UPDATE';installButton.style.cssText='width:100%;min-height:43px;margin-top:16px;border:1px solid #64ffb4;border-radius:7px;background:linear-gradient(90deg,#075c3b,#0c3a2b);color:#dffff0;font:900 10px ui-monospace,monospace;letter-spacing:1.4px;box-shadow:0 0 18px #39ff9a30';installButton.onclick=install;card.querySelector('div[style*="position:relative"]').appendChild(installButton);
   }
   async function check(){
     if(checking||prompted||!window.BHQ_GAME_ACTIVE)return;
@@ -6998,12 +7029,8 @@ document.addEventListener('DOMContentLoaded',function(){
       var response=await fetch(u.toString(),{cache:'no-store',credentials:'same-origin'});if(!response.ok)return;
       var source=await response.text(),matches=[...source.matchAll(/(?:var\s+version|version)\s*=\s*['"]([0-9]+(?:\.[0-9]+)+)['"]/g)];
       var remote=matches.length?matches[matches.length-1][1]:'',current=String(window.BHQ_UPDATE_VERSION||version);
-      if(remote&&newer(remote,current)){
-        var dismissed='';try{dismissed=localStorage.getItem('bhq_update_dismissed_version')||'';}catch(e){}
-        if(remote===dismissed)return;
-        prompted=true;try{if(window.BHQ_SAVE)window.BHQ_SAVE()}catch(e){}panel(remote);
-      }
-    }catch(e){/* Retry after a transient network or GitHub Pages propagation delay. */}
+      if(remote&&newer(remote,current)){prompted=true;try{if(window.BHQ_SAVE)window.BHQ_SAVE()}catch(e){}panel(remote);}
+    }catch(e){/* Retry after a transient network or deployment propagation delay. */}
     finally{checking=false;}
   }
   setTimeout(check,8000);setInterval(check,30000);
