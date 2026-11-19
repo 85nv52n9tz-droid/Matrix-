@@ -2680,6 +2680,56 @@ body{overflow-y:auto!important;touch-action:pan-y!important}
 #testViewport{height:auto!important;max-height:calc(100dvh - 190px)!important;min-height:260px!important;overflow-y:auto!important;overflow-x:auto!important;touch-action:pan-x pan-y!important;overscroll-behavior:contain!important;-webkit-overflow-scrolling:touch!important}
 #t-bot,#t-bot *{overscroll-behavior-y:contain!important}
 </style>
+
+<style id="window-layout-mobile-pass-v1">
+/* 1.1.23 — unify mission and operations windows; mobile-first readability and layout. */
+#t-mis,#t-map,#t-bot{box-sizing:border-box;min-width:0}
+#t-mis .mission-fixed-top{position:relative!important;top:auto!important;z-index:1!important;background:transparent!important;backdrop-filter:none!important}
+#t-mis .mission-scroll-area{position:relative!important;min-height:0!important;height:auto!important;max-height:none!important;overflow:visible!important;padding-bottom:16px}
+#t-mis .mission-section-head{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;line-height:1.4}
+#t-mis .mission-section-head span{font-size:10px;font-weight:900;letter-spacing:1px;color:#b9f5d0}
+#t-mis .mission-section-head small{font-size:8px;line-height:1.4;color:#8cae9b;white-space:normal}
+#t-mis #missionAutoPanel{min-width:0;max-width:100%;overflow-wrap:anywhere}
+#t-mis #mlist{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:9px!important;align-items:stretch}
+#t-mis #mlist>*{min-width:0;max-width:100%;box-sizing:border-box}
+#t-mis #mlist .mission-contract{width:100%;height:auto!important;min-height:0!important;overflow:visible;box-sizing:border-box}
+#t-mis #mlist .mission-contract *{min-width:0;overflow-wrap:anywhere}
+#t-mis #mlist .mission-contract button{min-height:40px;white-space:normal;line-height:1.25;touch-action:manipulation}
+#t-map #solo,#t-map #dnet,#t-map #cyberDefence,#t-map #cyberOps{box-sizing:border-box;width:100%;min-width:0;max-width:100%;padding:clamp(9px,2.8vw,14px)!important;border-radius:12px;overflow-x:hidden!important;overflow-wrap:anywhere}
+#t-map #solo #msub{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:7px!important}
+#t-map #solo #msub button{min-height:44px!important;padding:9px 7px!important;font-size:10px!important;line-height:1.3!important;overflow-wrap:anywhere}
+#t-map #solo #mp0,#t-map #solo #mp1,#t-map #solo #mp2,#t-map #solo #mp3{min-width:0;width:100%;max-width:100%;box-sizing:border-box}
+#t-map #solo svg[id^="map"]{width:100%!important;height:auto!important;min-height:145px;max-height:none!important;aspect-ratio:2/1;display:block}
+#t-map #solo #nd,#t-map #solo #nd2,#t-map #solo #nd3,#t-map #solo #npcMissionPanel{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;min-width:0}
+#t-map #solo #nd>*,#t-map #solo #nd2>*,#t-map #solo #nd3>*,#t-map #solo #npcMissionPanel>*{min-width:0;max-width:100%;box-sizing:border-box}
+#t-map #solo .card,#t-map #solo .mission-card,#t-map #solo .npc-mission-card{width:100%;max-width:100%;box-sizing:border-box;overflow-wrap:anywhere}
+#t-map #solo button,#t-map #dnet button,#t-map #cyberDefence button,#t-map #cyberOps button{min-height:40px;max-width:100%;white-space:normal;line-height:1.3;touch-action:manipulation}
+#t-map #solo p,#t-map #dnet p,#t-map #cyberDefence p,#t-map #cyberOps p{line-height:1.5;overflow-wrap:anywhere}
+#t-map .hack-mission-grid{grid-template-columns:minmax(0,1fr)!important}
+#t-map .hack-mission-card{min-width:0}
+#t-map .hack-mission-card p{min-height:0!important}
+#t-map .cyber-ops-head,#t-map .cyber-defence-head{flex-wrap:wrap;min-width:0}
+#t-map .cyber-ops-head>*,#t-map .cyber-defence-head>*{min-width:0;max-width:100%}
+#t-map .cyber-ops-rank{white-space:normal;text-align:left}
+#t-map .npc-map-instruction,#t-map .npc-campaign-summary,#t-map .dn-map-legend{min-width:0;max-width:100%;box-sizing:border-box;overflow-wrap:anywhere}
+.nano-report,.mpc-confirm,.nano-report-box,.mpc-confirm-box{box-sizing:border-box}
+.nano-report,.mpc-confirm{padding:max(12px,env(safe-area-inset-top)) 12px max(12px,env(safe-area-inset-bottom))}
+.nano-report-box,.mpc-confirm-box{width:min(100%,440px)!important;max-width:100%;max-height:min(82dvh,760px)!important;overflow-x:hidden!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch}
+@media(min-width:520px){
+ #t-mis #mlist{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ #t-map .hack-mission-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ #t-map #solo #nd,#t-map #solo #nd2,#t-map #solo #nd3,#t-map #solo #npcMissionPanel{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(min-width:760px){
+ #t-map .hack-mission-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+ #t-map #solo #msub{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+}
+@media(max-width:360px){
+ #t-mis .mission-section-head small{width:100%;text-align:left}
+ #t-map #solo #msub button{font-size:9px!important;padding:8px 4px!important}
+ .nano-report-box,.mpc-confirm-box{padding:12px!important}
+}
+</style>
 </head>
 <body>
 <div id="authGate">
