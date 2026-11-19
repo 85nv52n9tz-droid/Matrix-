@@ -5976,5 +5976,50 @@ if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.
 if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.62',date:'18 NOV 2026',title:'NEXUS SPECIAL OPERATIONS // MULTI-OBJECTIVE TASKING',tag:'RANDOM TWO-TO-FOUR STAGE MISSIONS · HARDER DEADLINES · VARIABLE REWARDS',items:['Replaced simple single-action Nexus challenges with randomly assembled operations containing two, three or four independently tracked objectives. Objective pools draw from HQ progression, facility upgrades, crew training, Nano bot expansion, research, completed field missions and Alliance contributions when an Alliance is active.','Each objective tracks its own baseline and progress, and every objective must be completed before the operation deadline. Task combinations, operation titles, difficulty and objective targets vary between offers.','Increased operation windows to 35–65 minutes depending on the number of objectives, with longer windows for larger operations.','Completed operations award two to four randomly selected unlocked resource types, with reward quantities scaling to HQ level. Existing account saves, mission counters and legacy Nexus task records are retained.']});
 </script>
 
+
+<style id="bhq-visual-operations-suite-1077">
+/* 1.0.77 — visual treatment is scoped to non-HQ operations environments only. */
+#t-map .ops-environment-hero{position:relative;display:flex;align-items:center;gap:13px;min-height:106px;margin:10px 0 13px;padding:13px 15px;overflow:hidden;border:1px solid rgba(76,202,231,.28);border-radius:14px;background:linear-gradient(112deg,rgba(5,20,32,.98),rgba(7,39,54,.92) 58%,rgba(5,15,26,.98));box-shadow:inset 0 1px rgba(255,255,255,.05),0 9px 24px rgba(0,0,0,.22)}
+#t-map .ops-environment-hero:after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent 0 17px,rgba(76,202,231,.045) 18px),linear-gradient(90deg,transparent 35%,rgba(61,210,236,.07),transparent 78%)}
+#t-map .ops-environment-art{position:relative;z-index:1;flex:0 0 92px;width:92px;height:76px;filter:drop-shadow(0 0 10px rgba(48,201,234,.2))}
+#t-map .ops-environment-copy{position:relative;z-index:1;min-width:0}
+#t-map .ops-environment-copy small{display:block;margin-bottom:5px;color:#6de6d6;font-size:9px;font-weight:800;letter-spacing:1.5px}
+#t-map .ops-environment-copy b{display:block;color:#effcff;font-size:clamp(16px,4vw,21px);line-height:1.15;letter-spacing:.5px}
+#t-map .ops-environment-copy span{display:block;margin-top:6px;color:#a8c5d0;font-size:11px;line-height:1.4}
+#t-map .ops-environment-hero.solo-hero{border-color:rgba(77,180,255,.32);background:linear-gradient(112deg,#07192a,#0b3450 58%,#071725)}
+#t-map .ops-environment-hero.defence-hero{border-color:rgba(91,226,164,.3);background:linear-gradient(112deg,#071c1b,#103c35 58%,#081b1d)}
+#t-map .ops-environment-hero.hack-hero{border-color:rgba(177,121,255,.3);background:linear-gradient(112deg,#170f2a,#30204d 58%,#100d20)}
+#t-map .ops-environment-hero.net-hero{border-color:rgba(67,218,226,.3)}
+@media(max-width:520px){#t-map .ops-environment-hero{min-height:92px;gap:9px;margin:8px 0 10px;padding:10px}#t-map .ops-environment-art{flex-basis:72px;width:72px;height:66px}#t-map .ops-environment-copy span{font-size:10px}}
+</style>
+<script id="bhq-visual-operations-suite-1077-script">
+(function(){
+ var art={
+ solo:'<svg viewBox="0 0 100 80" role="img" aria-label="Holographic solo operation map"><path d="M8 61L27 19 52 38 77 12 92 52 64 69 34 57Z" fill="#0b3450" stroke="#4db8f5" stroke-width="1.5"/><path d="M8 61L34 57 52 38 64 69M27 19L52 38 77 12M52 38L92 52" fill="none" stroke="#65eaff" stroke-width="1.5" stroke-dasharray="3 3"/><g fill="#a6f4ff" stroke="#167eb1" stroke-width="2"><circle cx="27" cy="19" r="5"/><circle cx="52" cy="38" r="6"/><circle cx="77" cy="12" r="4"/><circle cx="92" cy="52" r="5"/><circle cx="34" cy="57" r="4"/></g><circle cx="52" cy="38" r="13" fill="none" stroke="#4db8f5" opacity=".5"/></svg>',
+ net:'<svg viewBox="0 0 100 80" role="img" aria-label="Connected digital network nodes"><g stroke="#54e8ec" stroke-width="1.5" fill="none"><path d="M13 21L49 13 84 28 71 65 31 69 13 21M13 21L71 65M49 13L31 69M84 28L31 69"/></g><g fill="#092d3d" stroke="#70f8f1" stroke-width="2"><circle cx="13" cy="21" r="6"/><circle cx="49" cy="13" r="7"/><circle cx="84" cy="28" r="6"/><circle cx="71" cy="65" r="7"/><circle cx="31" cy="69" r="5"/></g><circle cx="49" cy="13" r="2.5" fill="#9dfff4"/></svg>',
+ defence:'<svg viewBox="0 0 100 80" role="img" aria-label="Layered cyber defence shield"><path d="M50 5L83 17V39Q79 62 50 75Q21 62 17 39V17Z" fill="#0b302b" stroke="#68e9ac" stroke-width="2"/><path d="M50 15L72 23V39Q68 54 50 64Q32 54 28 39V23Z" fill="none" stroke="#45bd91" stroke-width="1.5"/><path d="M37 40L46 49 65 29" fill="none" stroke="#a1ffd0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 40H22M78 40H92" stroke="#68e9ac" stroke-dasharray="3 3"/></svg>',
+ hack:'<svg viewBox="0 0 100 80" role="img" aria-label="Intrusion terminal and encrypted data"><rect x="8" y="9" width="84" height="61" rx="7" fill="#1b1530" stroke="#b18bff" stroke-width="1.5"/><path d="M8 23H92" stroke="#7b60a9"/><circle cx="17" cy="16" r="2" fill="#ff7f9f"/><circle cx="25" cy="16" r="2" fill="#ffd36f"/><circle cx="33" cy="16" r="2" fill="#7dffc2"/><path d="M20 37L30 45 20 53M39 53H61M69 36V54M64 41L69 35 74 41" fill="none" stroke="#d7c2ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M78 29V25Q78 20 83 20Q88 20 88 25V29" fill="none" stroke="#8cefe1" stroke-width="2"/><rect x="75" y="29" width="16" height="13" rx="2" fill="#254b4d" stroke="#8cefe1"/></svg>'
+ };
+ function add(id,cls,kicker,title,desc,key){
+  var host=document.getElementById(id);if(!host||host.querySelector('.ops-environment-hero'))return;
+  var el=document.createElement('div');el.className='ops-environment-hero '+cls;
+  el.innerHTML='<div class="ops-environment-art">'+art[key]+'</div><div class="ops-environment-copy"><small>'+kicker+'</small><b>'+title+'</b><span>'+desc+'</span></div>';
+  host.insertBefore(el,host.firstChild);
+ }
+ add('solo','solo-hero','FIELD OPERATIONS // DEPLOYMENT ZONE','SOLO OPERATIONS','Select a live contract, plan your route and deploy your operative team.','solo');
+ add('dnet','net-hero','GLOBAL NETWORK // TARGET INTELLIGENCE','DATA NET','Survey connected targets, inspect intelligence and choose your next digital operation.','net');
+ add('cyberDefence','defence-hero','SECURITY COMMAND // ACTIVE PROTECTION','CYBER DEFENCE GRID','Strengthen your firewall, intrusion detection and encryption before threats reach your network.','defence');
+ add('cyberOps','hack-hero','OPERATION BLACKGLASS // INTRUSION LAB','LIVE HACKING','Work through the campaign, solve each breach and build your Hacker rank and equipment.','hack');
+})();
+</script>
+
+if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.77',date:'19 NOV 2026',title:'OPERATIONS THEATRES // VISUAL ENVIRONMENT SUITE',tag:'SOLO OPERATIONS · DATA NET · CYBER DEFENCE · LIVE HACK',items:[
+ 'The non-HQ operations areas now have their own illustrated command headers. Solo Operations uses a field-deployment map, Data Net uses a connected intelligence network, Cyber Defence uses a layered security shield, and Live Hacking uses an intrusion terminal visual.',
+ 'Each environment header explains the purpose of that area before you use its existing controls, making the four operation types easier to recognise as you move between them.',
+ 'The artwork is lightweight, responsive vector illustration designed to remain crisp on iPhone screens. It is presentation-only: existing missions, costs, rewards, equipment, timers, target selection and saved progress continue to use their original systems.',
+ 'The visual update is deliberately limited to these operations environments. The main HQ, its four surrounding buildings, Alliance HQ and all Alliance buildings remain protected and unchanged.'
+]});
+BHQ_UPDATE_VERSION='1.0.77';
+if(typeof checkUpdateNotice==='function')checkUpdateNotice();
 </body>
 </html>
