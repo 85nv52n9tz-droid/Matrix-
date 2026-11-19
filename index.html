@@ -1385,155 +1385,163 @@ section[id^="t-"]:not(#t-hq){padding-right:54px!important;box-sizing:border-box}
    and max-level green states remain controlled by the existing status classes. */
 
 /* STANDARD HQ BUILDINGS */
-#testBuildingLayer [data-test-building="node"] .structure{
+#testBuildingLayer [data-test-building="node"] .structure,</style>
+
+<style id="unique-test-building-architecture">
+/* Distinct silhouettes for each HQ-area building. Upgrade-ready green lighting
+   and max-level green states remain controlled by the existing status classes. */
+
+/* STANDARD HQ BUILDINGS */
+#allyBuildingLayer [data-test-building="node"] .structure{
   width:58px!important;height:48px!important;border-radius:5px 5px 3px 3px!important;
   background:
     linear-gradient(90deg,transparent 12%,#79e6ad22 12% 15%,transparent 15% 85%,#79e6ad22 85% 88%,transparent 88%),
     repeating-linear-gradient(0deg,#071b14 0 7px,#397b56 8px 10px,#10271c 11px 15px)!important;
 }
-#testBuildingLayer [data-test-building="node"] .structure:before{
+#testBuildingLayer [data-test-building="node"] .structure:before,#allyBuildingLayer [data-test-building="node"] .structure:before{
   left:8%!important;right:8%!important;top:-9px!important;height:12px!important;
   border-radius:4px 4px 1px 1px!important;background:linear-gradient(180deg,#b4e5c0,#477c5c)!important;
 }
-#testBuildingLayer [data-test-building="node"] .structure:after{
+#testBuildingLayer [data-test-building="node"] .structure:after,#allyBuildingLayer [data-test-building="node"] .structure:after{
   left:16%!important;right:16%!important;bottom:10%!important;height:8px!important;
   border:1px solid #8af0b0!important;background:repeating-linear-gradient(90deg,#09160f 0 7px,#69d995 8px 10px)!important;
 }
 
-#testBuildingLayer [data-test-building="siphon"] .structure{
+#testBuildingLayer [data-test-building="siphon"] .structure,#allyBuildingLayer [data-test-building="siphon"] .structure{
   width:45px!important;height:64px!important;border-radius:17px 17px 7px 7px!important;
   background:
     linear-gradient(90deg,transparent 20%,#8ce7ff33 21% 25%,transparent 26% 72%,#8ce7ff33 73% 77%,transparent 78%),
     linear-gradient(180deg,#7bc4d2 0%,#27677a 28%,#123545 72%,#081b25 100%)!important;
 }
-#testBuildingLayer [data-test-building="siphon"] .structure:before{
+#testBuildingLayer [data-test-building="siphon"] .structure:before,#allyBuildingLayer [data-test-building="siphon"] .structure:before{
   left:20%!important;right:20%!important;top:-12px!important;height:16px!important;
   border-radius:50% 50% 5px 5px!important;background:linear-gradient(180deg,#c3f5fa,#397f91)!important;
 }
-#testBuildingLayer [data-test-building="siphon"] .structure:after{
+#testBuildingLayer [data-test-building="siphon"] .structure:after,#allyBuildingLayer [data-test-building="siphon"] .structure:after{
   left:42%!important;right:42%!important;bottom:10%!important;height:58%!important;
   border:1px solid #9beaff!important;border-radius:8px!important;
   background:linear-gradient(180deg,#b8f5ff88,#2c8ca988 45%,#071c27)!important;
 }
 
-#testBuildingLayer [data-test-building="miner"] .structure{
+#testBuildingLayer [data-test-building="miner"] .structure,#allyBuildingLayer [data-test-building="miner"] .structure{
   width:70px!important;height:43px!important;border-radius:7px 7px 4px 4px!important;
   background:
     radial-gradient(ellipse at 50% 100%,#ffcb6433,transparent 48%),
     repeating-linear-gradient(90deg,#17251e 0 8px,#6e9b69 9px 12px,#253a2b 13px 17px)!important;
 }
-#testBuildingLayer [data-test-building="miner"] .structure:before{
+#testBuildingLayer [data-test-building="miner"] .structure:before,#allyBuildingLayer [data-test-building="miner"] .structure:before{
   left:5%!important;right:5%!important;top:-8px!important;height:12px!important;
   border-radius:5px 5px 2px 2px!important;background:linear-gradient(135deg,#e3c78a,#6d7046)!important;
 }
-#testBuildingLayer [data-test-building="miner"] .structure:after{
+#testBuildingLayer [data-test-building="miner"] .structure:after,#allyBuildingLayer [data-test-building="miner"] .structure:after{
   left:12%!important;right:12%!important;bottom:9%!important;height:10px!important;
   border:1px solid #e7bd6b!important;background:repeating-linear-gradient(90deg,#17190f 0 9px,#e7a94d 10px 12px)!important;
 }
 
-#testBuildingLayer [data-test-building="lab"] .structure{
+#testBuildingLayer [data-test-building="lab"] .structure,#allyBuildingLayer [data-test-building="lab"] .structure{
   width:55px!important;height:59px!important;border-radius:48% 48% 12% 12%!important;
   background:
     radial-gradient(ellipse at 50% 20%,#d5ffeb55,transparent 35%),
     linear-gradient(90deg,#173e35,#4e9b78 45%,#1c4b3a 78%,#0b241c)!important;
 }
-#testBuildingLayer [data-test-building="lab"] .structure:before{
+#testBuildingLayer [data-test-building="lab"] .structure:before,#allyBuildingLayer [data-test-building="lab"] .structure:before{
   left:18%!important;right:18%!important;top:-13px!important;height:20px!important;
   border-radius:50% 50% 20% 20%!important;background:linear-gradient(180deg,#d5ffe6,#4e9674)!important;
 }
-#testBuildingLayer [data-test-building="lab"] .structure:after{
+#testBuildingLayer [data-test-building="lab"] .structure:after,#allyBuildingLayer [data-test-building="lab"] .structure:after{
   left:36%!important;right:36%!important;bottom:9%!important;height:35%!important;
   border:1px solid #a6ffd2!important;border-radius:10px 10px 4px 4px!important;
   background:linear-gradient(180deg,#b7ffe477,#1b765b)!important;
 }
 
 /* SIX PRESTIGE BUILDINGS — each has its own architectural identity. */
-#testBuildingLayer [data-test-building="tech"] .structure{
+#testBuildingLayer [data-test-building="tech"] .structure,/* SIX PRESTIGE BUILDINGS — each has its own architectural identity. */
+#allyBuildingLayer [data-test-building="tech"] .structure{
   width:57px!important;height:59px!important;border-radius:48% 48% 13% 13%!important;
   background:
     radial-gradient(ellipse at 50% 28%,#ffb7f466,transparent 36%),
     repeating-linear-gradient(90deg,transparent 0 9px,#ff78dc22 10px 11px),
     linear-gradient(145deg,#a64b9a,#52245d 48%,#1b102b)!important;
 }
-#testBuildingLayer [data-test-building="tech"] .structure:before{
+#testBuildingLayer [data-test-building="tech"] .structure:before,#allyBuildingLayer [data-test-building="tech"] .structure:before{
   left:28%!important;right:28%!important;top:-16px!important;height:21px!important;
   border-radius:50% 50% 3px 3px!important;background:linear-gradient(180deg,#ffd2f4,#9a4b9b)!important;
   box-shadow:0 -7px 0 -5px #ff9be7,0 -13px 0 -6px #ff9be7!important;
 }
-#testBuildingLayer [data-test-building="tech"] .structure:after{
+#testBuildingLayer [data-test-building="tech"] .structure:after,#allyBuildingLayer [data-test-building="tech"] .structure:after{
   left:39%!important;right:39%!important;bottom:9%!important;height:30%!important;
   border:1px solid #ff9fe8!important;border-radius:10px 10px 3px 3px!important;
   background:linear-gradient(180deg,#ffb7f4aa,#59255e)!important;
 }
 
-#testBuildingLayer [data-test-building="bank"] .structure{
+#testBuildingLayer [data-test-building="bank"] .structure,#allyBuildingLayer [data-test-building="bank"] .structure{
   width:52px!important;height:68px!important;border-radius:5px 5px 2px 2px!important;
   background:
     linear-gradient(90deg,transparent 12%,#ffe08a44 13% 17%,transparent 18% 82%,#ffe08a44 83% 87%,transparent 88%),
     repeating-linear-gradient(0deg,#30220d 0 8px,#9b752b 9px 11px,#49340f 12px 18px)!important;
 }
-#testBuildingLayer [data-test-building="bank"] .structure:before{
+#testBuildingLayer [data-test-building="bank"] .structure:before,#allyBuildingLayer [data-test-building="bank"] .structure:before{
   left:9%!important;right:9%!important;top:-13px!important;height:17px!important;
   border-radius:3px 3px 0 0!important;background:linear-gradient(180deg,#fff0b5,#a17a2c)!important;
 }
-#testBuildingLayer [data-test-building="bank"] .structure:after{
+#testBuildingLayer [data-test-building="bank"] .structure:after,#allyBuildingLayer [data-test-building="bank"] .structure:after{
   left:22%!important;right:22%!important;bottom:8%!important;height:55%!important;
   border:1px solid #ffdf85!important;border-top-width:3px!important;
   background:repeating-linear-gradient(90deg,#1a160d 0 6px,#e4b84e 7px 9px)!important;
 }
 
-#testBuildingLayer [data-test-building="vault"] .structure{
+#testBuildingLayer [data-test-building="vault"] .structure,#allyBuildingLayer [data-test-building="vault"] .structure{
   width:69px!important;height:49px!important;border-radius:18px 18px 12px 12px!important;
   background:
     radial-gradient(circle at 50% 48%,#c9f4ff55 0 13%,transparent 14%),
     linear-gradient(145deg,#9dd9f4,#367ba4 35%,#12324d 78%,#071a2a)!important;
   box-shadow:inset 0 0 0 5px #173c57,inset 0 0 0 7px #9bd8f0!important;
 }
-#testBuildingLayer [data-test-building="vault"] .structure:before{
+#testBuildingLayer [data-test-building="vault"] .structure:before,#allyBuildingLayer [data-test-building="vault"] .structure:before{
   left:13%!important;right:13%!important;top:-9px!important;height:14px!important;
   border-radius:9px 9px 4px 4px!important;background:linear-gradient(180deg,#d6f5ff,#477c9b)!important;
 }
-#testBuildingLayer [data-test-building="vault"] .structure:after{
+#testBuildingLayer [data-test-building="vault"] .structure:after,#allyBuildingLayer [data-test-building="vault"] .structure:after{
   left:37%!important;right:37%!important;bottom:15%!important;height:42%!important;
   border:3px double #c2efff!important;border-radius:50%!important;
   background:radial-gradient(circle,#14324a 0 25%,#b6eaff 27% 33%,#255b7b 35% 100%)!important;
 }
 
-#testBuildingLayer [data-test-building="forge"] .structure{
+#testBuildingLayer [data-test-building="forge"] .structure,#allyBuildingLayer [data-test-building="forge"] .structure{
   width:68px!important;height:54px!important;border-radius:4px 4px 7px 7px!important;
   background:
     linear-gradient(90deg,transparent 0 12%,#baff9a22 13% 18%,transparent 19% 81%,#baff9a22 82% 87%,transparent 88%),
     radial-gradient(ellipse at 50% 100%,#c6ff6844,transparent 45%),
     linear-gradient(145deg,#8ec66b,#376b37 40%,#122b1b 100%)!important;
 }
-#testBuildingLayer [data-test-building="forge"] .structure:before{
+#testBuildingLayer [data-test-building="forge"] .structure:before,#allyBuildingLayer [data-test-building="forge"] .structure:before{
   left:13%!important;right:13%!important;top:-15px!important;height:20px!important;
   border-radius:2px 2px 0 0!important;background:linear-gradient(90deg,#c9ed9c 0 25%,#315b35 26% 39%,#b5dc83 40% 65%,#24492d 66%)!important;
 }
-#testBuildingLayer [data-test-building="forge"] .structure:after{
+#testBuildingLayer [data-test-building="forge"] .structure:after,#allyBuildingLayer [data-test-building="forge"] .structure:after{
   left:17%!important;right:17%!important;bottom:8%!important;height:27%!important;
   border:1px solid #c0ff8d!important;background:repeating-linear-gradient(90deg,#152619 0 8px,#a0e56b 9px 12px)!important;
 }
 
-#testBuildingLayer [data-test-building="foundry"] .structure{
+#testBuildingLayer [data-test-building="foundry"] .structure,#allyBuildingLayer [data-test-building="foundry"] .structure{
   width:67px!important;height:57px!important;border-radius:3px 15px 3px 3px!important;
   background:
     linear-gradient(90deg,transparent 8%,#ff9a7b33 9% 14%,transparent 15% 86%,#ff9a7b33 87% 92%,transparent 93%),
     radial-gradient(ellipse at 50% 100%,#ff583e66,transparent 45%),
     linear-gradient(145deg,#d66a56,#78352f 48%,#2b1718)!important;
 }
-#testBuildingLayer [data-test-building="foundry"] .structure:before{
+#testBuildingLayer [data-test-building="foundry"] .structure:before,#allyBuildingLayer [data-test-building="foundry"] .structure:before{
   left:6%!important;right:6%!important;top:-13px!important;height:18px!important;
   border-radius:2px!important;background:linear-gradient(90deg,#ffc2a4,#914b3d 28% 40%,#e99a79 41% 68%,#65302c 69%)!important;
 }
-#testBuildingLayer [data-test-building="foundry"] .structure:after{
+#testBuildingLayer [data-test-building="foundry"] .structure:after,#allyBuildingLayer [data-test-building="foundry"] .structure:after{
   left:30%!important;right:30%!important;bottom:8%!important;height:43%!important;
   border:2px solid #ff9a79!important;border-radius:3px 3px 12px 12px!important;
   background:linear-gradient(180deg,#ffca8055,#ff4b2caa 60%,#241313)!important;
   box-shadow:0 0 9px #ff563d88!important;
 }
 
-#testBuildingLayer [data-test-building="hive"] .structure{
+#testBuildingLayer [data-test-building="hive"] .structure,#allyBuildingLayer [data-test-building="hive"] .structure{
   width:58px!important;height:61px!important;border-radius:30% 30% 43% 43%!important;
   background:
     radial-gradient(circle at 50% 28%,#f0ddff66 0 8%,transparent 9%),
@@ -1541,11 +1549,11 @@ section[id^="t-"]:not(#t-hq){padding-right:54px!important;box-sizing:border-box}
     repeating-linear-gradient(-60deg,transparent 0 10px,#d9b6ff22 11px 12px),
     linear-gradient(145deg,#a58ad5,#58447f 48%,#211a39)!important;
 }
-#testBuildingLayer [data-test-building="hive"] .structure:before{
+#testBuildingLayer [data-test-building="hive"] .structure:before,#allyBuildingLayer [data-test-building="hive"] .structure:before{
   left:22%!important;right:22%!important;top:-10px!important;height:16px!important;
   border-radius:50%!important;background:linear-gradient(180deg,#eadcff,#7d66ad)!important;
 }
-#testBuildingLayer [data-test-building="hive"] .structure:after{
+#testBuildingLayer [data-test-building="hive"] .structure:after,#allyBuildingLayer [data-test-building="hive"] .structure:after{
   left:33%!important;right:33%!important;bottom:8%!important;height:35%!important;
   border:1px solid #e1caff!important;border-radius:50% 50% 35% 35%!important;
   background:linear-gradient(180deg,#d8c1ff88,#3e2b66)!important;
@@ -1553,7 +1561,8 @@ section[id^="t-"]:not(#t-hq){padding-right:54px!important;box-sizing:border-box}
 
 /* Keep the green ready-state aura legible around all of the new silhouettes. */
 #testBuildingLayer .test-building.upgrade-ready .structure,
-#testBuildingLayer .test-building.complete .structure{
+#testBuildingLayer .test-building.complete .structure,/* Keep the green ready-state aura legible around all of the new silhouettes. */
+#allyBuildingLayer .test-building.upgrade-ready .structure,#allyBuildingLayer .test-building.complete .structure{
   filter:drop-shadow(0 0 5px #55ff8b88);
 }
 </style>
@@ -2372,7 +2381,12 @@ body:has(#t-bot:not([hidden])){height:100dvh!important;overflow:hidden!important
 @media(max-width:430px){#t-ally .ally-command-map{grid-template-rows:repeat(3,minmax(103px,1fr));gap:5px;padding:6px;min-height:340px}#t-ally .ally-hq-building{min-height:100px;padding:5px 2px}#t-ally .ally-hq-building .ally-hq-structure{width:45px;height:42px}#t-ally .ally-hq-building .building-name{font-size:7px!important}#t-ally .ally-hq-core{min-height:100px}}
 @media(max-width:350px){#t-ally .ally-command-map{gap:3px;padding:4px}#t-ally .ally-hq-building em{font-size:6px}}
 </style>
-</head>
+<style id="alliance-clean-hq-copy">
+#t-ally .alliance-hq-copy{max-width:none}
+#t-ally .alliance-hq-copy .test-viewport{margin-top:0}
+#t-ally .alliance-hq-copy .test-building-layer{min-height:100%}
+#t-ally .alliance-hq-copy .test-world{min-height:100%}
+</style></head>
 <body>
 <div id="authGate">
   <div id="authNetwork" aria-hidden="true">
@@ -2457,18 +2471,13 @@ body:has(#t-bot:not([hidden])){height:100dvh!important;overflow:hidden!important
   <div id="ppage" hidden><button id="pback" class="back"></button><div id="phead"></div><div id="pup"></div><div class="sub">Module sockets (modules come from the Shop)</div><div id="psock"></div><div id="pmods"></div><div id="presw" hidden><div class="sub">Research (costs Quantum)</div><div id="pres" class="bgrid"></div></div></div>
 </div>
 <section id="t-ally" hidden>
-<div id="acreate" class="ally-new-create"><div class="ally-new-kicker">BACKDOOR HQ // NETWORK COMMAND</div><h2>ESTABLISH AN <em>ALLIANCE</em></h2><p>Create your own network and build a shared command base.</p><input id="aname" maxlength="20" placeholder="Alliance name" autocomplete="off"><button id="acbtn" type="button">CREATE ALLIANCE</button></div>
-<div id="amain" hidden>
-  <div id="allyCampus" class="ally-new-campus ally-command-campus"><div class="ally-new-campus-head"><div><small>NEW ALLIANCE AREA // COMMAND CAMPUS</small><h2 id="allyCampusName">ALLIANCE HQ</h2><p>A dedicated Alliance headquarters with six upgradeable specialist buildings.</p></div><div class="ally-new-live"><i></i> ALLIANCE ONLINE</div></div><div id="allyCampusWorld" class="ally-new-world"></div></div>
-  <div id="allyInterior" class="ally-new-interior" hidden>
-    <header class="ally-new-header"><button type="button" id="allyBackCampus">← CAMPUS</button><div><small>ALLIANCE COMMAND // SECURE INTERIOR</small><h2 id="an"></h2><p id="ad"></p></div><div class="ally-new-emblem">⌘<small>HQ CORE</small></div></header>
-    <div class="ally-new-bank" id="allyNewBank"></div>
-    <nav class="ally-new-nav" id="allyTabs"></nav>
-    <div id="allyTown" class="ally-new-page" hidden><div id="allyMemberCol"><div id="amemh"></div><div id="amem"></div></div><div id="allyAppCol"><div id="aapph"></div><div id="aapp"></div></div></div>
-    <div id="allyOther" class="ally-new-page"></div>
-    <div id="ap4" hidden></div>
-    <div id="ally-board" hidden><div id="allyLeaderName"></div><div id="allySupportSlots"></div></div>
-  </div>
+<div class="test-shell alliance-hq-copy">
+ <div class="test-hq-status-grid" id="allyHqStatusGrid">
+  <section class="test-hq-status-card upgrades"><div class="test-hq-status-kicker">HQ &amp; BUILDING TIMERS</div><div id="allyHqUpgradeStatus" class="test-hq-status-content">No active buildings</div></section>
+  <section class="test-hq-status-card buffs"><div class="test-hq-status-kicker">ACTIVE CREW MEMBERS</div><div id="allyHqCrewBuffs" class="test-hq-status-content">No active crew buffs</div></section>
+ </div>
+ <div class="test-viewport" id="allyTestViewport"><div class="test-world" id="allyTestWorld"><div class="test-building-layer" id="allyBuildingLayer"></div></div></div>
+ <button class="test-attack" id="allyTestAttack" title="Incoming attack — open Nano Defence" aria-label="Incoming attack — open Nano Defence" hidden>☠<small>INCOMING</small></button>
 </div>
 </section><section id="t-hq" hidden><div class="test-shell"><div class="test-hq-status-grid" id="testHqStatusGrid"><section class="test-hq-status-card upgrades"><div class="test-hq-status-kicker">HQ &amp; BUILDING TIMERS</div><div id="testHqUpgradeStatus" class="test-hq-status-content">No active buildings</div></section><section class="test-hq-status-card buffs"><div class="test-hq-status-kicker">ACTIVE CREW MEMBERS</div><div id="testHqCrewBuffs" class="test-hq-status-content">No active crew buffs</div></section></div><div class="test-viewport" id="testViewport"><div class="test-world" id="testWorld"><div class="test-building-layer" id="testBuildingLayer"></div></div></div><button class="test-attack" id="testAttack" title="Incoming attack — open Nano Defence" aria-label="Incoming attack — open Nano Defence" hidden>☠<small>INCOMING</small></button><div class="test-chat" id="testChat" aria-label="Global and alliance communications">
   <div class="test-chat-bar">
@@ -3212,6 +3221,8 @@ function build(){
   allyTerritoryMapsEl=$('allyTerritoryMaps');
   if($('testAttack'))$('testAttack').onclick=function(){show('bot')};
   if($('testBuildingLayer'))$('testBuildingLayer').addEventListener('click',function(ev){var h=ev.target&&ev.target.closest&&ev.target.closest('#testHqTap');if(h){var list=S.pr>0?PB:B;if(testBulkUpgradeState(list).ready){testBulkUpgrade(list)}else{openTestHq()}return}var b=ev.target&&ev.target.closest&&ev.target.closest('[data-test-building]');if(b)openTestBuilding(b.getAttribute('data-test-building'))});
+  if($('allyBuildingLayer'))$('allyBuildingLayer').addEventListener('click',function(ev){var h=ev.target&&ev.target.closest&&ev.target.closest('#testHqTap');if(h){openTestHq();return}var b=ev.target&&ev.target.closest&&ev.target.closest('[data-test-building]');if(b)openTestBuilding(b.getAttribute('data-test-building'))});
+  if($('allyTestAttack'))$('allyTestAttack').onclick=function(){show('bot')};
   if($('testHqClose'))$('testHqClose').onclick=closeTestHq;
   if($('testHqModal'))$('testHqModal').addEventListener('click',function(ev){if(ev.target===$('testHqModal'))closeTestHq()});
   if($('testHqUpgrade'))$('testHqUpgrade').onclick=function(){upHQ();renderTestHqModal()};
@@ -4507,6 +4518,13 @@ function testBulkUpgrade(list){
   list.forEach(function(o){var c=cost(o),next=lvl(o)+1;pay(c);if(isNode(o)){S.lv[o.id]=next;log('Created '+o.name+' at level '+next+' from HQ batch upgrade.')}else{S.up[o.id]={s:now,end:now+upTime(o.id,next)*1000};log('Started '+o.name+' upgrade to level '+next+' from HQ batch upgrade.')}});
   save();render();return true;
 }
+function renderTestHqStatusForAlliance(){
+ var list=B,upHost=$('allyHqUpgradeStatus'),buffHost=$('allyHqCrewBuffs'),active=[];
+ if(S.up&&S.up.hq)active.push({id:'hq',name:'Headquarters',level:S.hq+1});
+ list.forEach(function(o){if(S.up&&S.up[o.id])active.push({id:o.id,name:o.name,level:lvl(o)+1})});
+ if(upHost)upHost.innerHTML=active.length?active.map(function(o){var u=S.up[o.id],remaining=Math.max(0,(u.end-Date.now())/1000),fc=finCost(o.id,o.level,remaining),can=S.r.in>=fc;return '<div class="test-hq-status-line '+(can?'ready':'')+'"><b>'+o.name+'</b><span>LV '+o.level+' · '+fmtT(remaining)+'</span></div>'}).join(''):'<div class="test-hq-status-empty">No active buildings</div>';
+ if(buffHost){var buffs=[];list.forEach(function(o){var assigned=crewFor(o.id)||[],bonus=buildingCrewBonus(o);if(assigned.length&&bonus>0)buffs.push({name:o.name,bonus:bonus,count:assigned.length})});buffHost.innerHTML=buffs.length?buffs.slice(0,4).map(function(x){return '<div class="test-hq-status-line"><b>'+x.name+'</b><span>+'+(x.bonus*100).toFixed(1).replace(/\\.0$/,'')+'% · '+x.count+' crew</span></div>'}).join(''):'<div class="test-hq-status-empty">No active crew buffs</div>'}
+}
 function renderTestHqStatus(){
   var list=S.pr>0?PB:B,upHost=$('testHqUpgradeStatus'),buffHost=$('testHqCrewBuffs'),active=[];
   if(S.up&&S.up.hq)active.push({id:'hq',name:S.pr?'Prestige HQ':'Headquarters',level:S.hq+S.pr+1});
@@ -4570,9 +4588,11 @@ function tronHq(lv){lv=Math.max(1,Math.min(30,Number(lv)||1));var t=Math.min(5,M
  return '<svg viewBox="0 0 140 138" aria-hidden="true">'+s+'</svg>'}
 function tronRoad(cx,cy,x,y,id,i,up,done){var c=TRC[id]||'#28e6ff',sx=cx*10,sy=cy*7,ex=x*10,ey=y*7,midX=Math.round((sx+ex)/2),midY=Math.round((sy+ey)/2),d='M'+sx+' '+sy+' H'+ex+' V'+ey;
  return '<path d="'+d+'" class="tron-road" stroke="'+c+'" pathLength="400" opacity="'+(done||up?.92:.58)+'"/><path d="'+d+'" class="tron-run" stroke="'+(up?'#fff':c)+'" pathLength="400" style="animation-delay:-'+(i*.65)+'s"/><path d="'+d+'" class="tron-run rev" stroke="#fff" pathLength="400" style="animation-delay:-'+(i*.9+1)+'s"/><path d="'+d+'" class="tron-stream" stroke="'+c+'" pathLength="400" style="animation-delay:-'+(i*.47+.25)+'s"/><circle class="tron-route-node" cx="'+ex+'" cy="'+ey+'" r="4" fill="'+c+'"/><circle class="tron-route-core" cx="'+ex+'" cy="'+ey+'" r="1.7" fill="#fff"/><circle class="tron-route-junction" cx="'+midX+'" cy="'+midY+'" r="2.2" fill="'+c+'"/>'}
-function renderTestArea(){
-  renderTestHqStatus();var layer=$('testBuildingLayer');if(!layer)return;
-  var prestige=S.pr>0,list=prestige?PB:B;
+function renderTestArea(targetLayerId){
+  var allianceCopy=targetLayerId==='allyBuildingLayer';
+  if(!allianceCopy)renderTestHqStatus();
+  var layer=$(targetLayerId||'testBuildingLayer');if(!layer)return;
+  var prestige=!allianceCopy&&S.pr>0,list=prestige?PB:B;
   var spots=prestige?[[42,23],[69,35],[69,61],[42,73],[15,61],[15,35]]:[[8,13],[76,13],[76,75],[8,75]];
   var centreX=42,centreY=44,bulk=testBulkUpgradeState(list),html='',paths='';
   if(!prestige){
@@ -4589,9 +4609,7 @@ function renderTestArea(){
   var hqRise=58+Math.round(hqLevel*1.25),hqWidth=94+Math.round(hqLevel*.8),hqCore=42+Math.round(hqLevel*.45),hqHue=188+(hqLevel-1)*1.9,hqCrown=54+(hqLevel%5)*2+Math.floor((hqLevel-1)/5)*3,hqRing=112+(hqLevel%4)*3,hqSpire=28+Math.round(hqLevel*1.6);
   html+='<div class="test-building hq'+(bulk.ready?' bulk-ready':'')+(prestige?'':' tron-hq')+'" data-hq-level="'+hqLevel+'" data-hq-stage="'+hqStage+'" style="left:'+centreX+'%;top:'+centreY+'%;--hq-rise:'+hqRise+'px;--hq-width:'+hqWidth+'px;--hq-core:'+hqCore+'px;--hq-accent:hsl('+hqHue+',92%,68%);--hq-crown-w:'+hqCrown+'%;--hq-ring-w:'+hqRing+'%;--hq-spire-height:'+hqSpire+'px;transform:translate(-50%,-50%)">'+(prestige?'<div class="structure"><i class="hq-arch-platform"></i><i class="hq-arch-wing wing-left"></i><i class="hq-arch-wing wing-right"></i><i class="hq-arch-core"></i><i class="hq-arch-crown"></i><i class="hq-arch-ring ring-low"></i><i class="hq-arch-ring ring-high"></i><i class="hq-arch-spire"></i><i class="hq-arch-beacon"></i><i class="hq-arch-window"></i><span class="glyph">⌂</span><i class="roof-mark">BD // HQ</i></div>':'<div class="structure tron" style="color:'+tronHqColor(hqLevel)+'">'+tronHq(hqLevel)+'</div>')+'<b class="building-name">'+(prestige?'PRESTIGE HQ':'CENTRAL HQ')+'</b><small class="building-level">'+(bulk.ready?'BATCH UPGRADE READY':prestige?'PRESTIGE P'+S.pr:'HQ LEVEL '+S.hq+' / 30')+'</small><button class="test-hq-tap" id="testHqTap" aria-label="'+(bulk.ready?'Upgrade all buildings one level':'Open HQ requirements and upgrade controls')+'"></button></div>';
   layer.innerHTML='<svg class="test-data-links" viewBox="0 0 1000 700" preserveAspectRatio="none" aria-hidden="true"><g fill="none">'+paths+'</g></svg>'+html;
-  if(testHqModalOpen)renderTestHqModal();
-  if(testBuildingModalId)renderTestBuildingModal();
-  if(testInsideId)renderTestInside();
+  if(!allianceCopy){if(testHqModalOpen)renderTestHqModal();if(testBuildingModalId)renderTestBuildingModal();if(testInsideId)renderTestInside();}
 }
 function openTestBuilding(id){testBuildingModalId=id;$('testBuildingModal').hidden=false;renderTestBuildingModal()}
 var testInsideId=null,testInsideLast='';
@@ -4756,7 +4774,7 @@ function render(){
   compSyncCalendarButton();
   if(tab==='progression')renderProgressionArchive();
   var r=rates(),m=mult(),wb=$('warn');
-  dnSync();wb.hidden=true;renderTestArea();var npcMapShortcut=document.querySelector('[data-test-go=\"map\"]');if(npcMapShortcut){var npcUnread=Math.max(0,Number(S.npcMissionUnread)||0);npcMapShortcut.setAttribute('data-unread',npcUnread?String(Math.min(99,npcUnread)):'0');npcMapShortcut.setAttribute('aria-label',npcUnread?'Open Missions Map · '+npcUnread+' NPC mission completed':'Open Missions Map');}
+  dnSync();wb.hidden=true;renderTestArea();if(tab==='ally')renderTestArea('allyBuildingLayer');var npcMapShortcut=document.querySelector('[data-test-go=\"map\"]');if(npcMapShortcut){var npcUnread=Math.max(0,Number(S.npcMissionUnread)||0);npcMapShortcut.setAttribute('data-unread',npcUnread?String(Math.min(99,npcUnread)):'0');npcMapShortcut.setAttribute('aria-label',npcUnread?'Open Missions Map · '+npcUnread+' NPC mission completed':'Open Missions Map');}
   tb.bot.style.color=S.inc?'#ff6b5a':'';
   var inAlliance=tab==='ally';ensureAllianceBank();RS.forEach(function(x){chips[x[0]].d.hidden=inAlliance;chips[x[0]].v.textContent=fmtResource(S.r[x[0]]);chips[x[0]].r.textContent='+'+fmtResource(r[x[0]])+'/s'});ARS.forEach(function(x){var ar=allianceRates();allyChips[x[0]].d.hidden=!inAlliance;allyChips[x[0]].v.textContent=fmtResource(S.al.res[x[0]]);allyChips[x[0]].r.textContent='+'+fmtResource(ar[x[0]])+'/s'});chips.qt.d.hidden=inAlliance||S.pr<1;$('chips').style.gridTemplateColumns='repeat('+(inAlliance?5:(S.pr>0?6:5))+',1fr)';
   if(tab==='hq'){
@@ -4776,7 +4794,7 @@ function render(){
   }
   if(tab==='user')renderChiefProfile();
   if(tab==='mis')renderMis();
-  if(tab==='ally')renderAllyTab();
+  if(tab==='ally'){renderTestHqStatusForAlliance();}
   if(tab==='map')renderMapTab();
   if(tab==='bot')renderNano();
   if(tab==='rank')renderRank();
