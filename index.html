@@ -6717,5 +6717,39 @@ if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.1.
 BHQ_UPDATE_VERSION='1.1.14';
 </script>
 
+
+<style id="datanet-intelligence-controls-v1115">
+/* 1.1.15 — Data Net target intelligence and action-control presentation only. */
+#dnet #map7{border:1px solid rgba(91,177,218,.22);border-radius:10px;background:radial-gradient(ellipse at 50% 45%,rgba(24,103,143,.12),transparent 68%),#050d14;box-shadow:inset 0 0 22px rgba(57,174,225,.045)}
+#dnet #dnMapLegend{display:flex;flex-wrap:wrap;align-items:center;gap:7px 12px;padding:8px 10px;border:1px solid rgba(91,177,218,.16);border-radius:8px;background:rgba(5,16,24,.72)}
+#dnet #dnd{min-width:0}
+#dnet .dn-target-dossier{padding:0 0 2px;isolation:isolate}
+#dnet .dn-dossier-head{min-height:38px}
+#dnet .dn-dossier-status{display:flex;align-items:center;gap:7px;line-height:1.4}
+#dnet .dn-intel-freshness>div{align-items:center;flex-wrap:wrap}
+#dnet .dn-dossier-meter>div{align-items:center;line-height:1.4}
+#dnet .dn-dossier-meter>i{height:7px;box-shadow:inset 0 1px 2px rgba(0,0,0,.45)}
+#dnet .dn-dossier-disclaimer{max-width:70ch}
+#dnet .dn-readiness-item{min-height:66px}
+#dnet .dn-readiness-item>small{overflow-wrap:anywhere}
+#dnet #dnd .atkb,#dnet #dnd .stlb{min-height:42px;touch-action:manipulation;transition:filter .14s,border-color .14s,background .14s,transform .14s}
+#dnet #dnd .atkb:not(:disabled){box-shadow:inset 0 0 0 1px rgba(255,111,91,.08),0 3px 12px rgba(0,0,0,.16)}
+#dnet #dnd .stlb:not(:disabled){box-shadow:inset 0 0 0 1px rgba(255,201,51,.08),0 3px 12px rgba(0,0,0,.16)}
+#dnet #dnd .atkb:focus-visible,#dnet #dnd .stlb:focus-visible,#dnet #dnd button:focus-visible{outline:2px solid #8bdcff;outline-offset:3px}
+#dnet #dnd button:disabled{cursor:not-allowed;filter:saturate(.55);opacity:.58}
+@media(max-width:520px){
+ #dnet #dnMapLegend{gap:6px 9px;padding:8px;font-size:8px}
+ #dnet .dn-dossier-head{align-items:flex-start;flex-wrap:wrap}
+ #dnet .dn-dossier-foot{align-items:flex-start;line-height:1.5}
+ #dnet .dn-readiness-item{min-height:0}
+ #dnet #dnd .atkb,#dnet #dnd .stlb{min-height:46px}
+}
+@media(prefers-reduced-motion:reduce){#dnet #dnd .atkb,#dnet #dnd .stlb{transition:none}}
+</style>
+<script id="datanet-intelligence-release-v1115">
+if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.1.15',date:'19 NOV 2026',title:'DATA NET // INTELLIGENCE & TARGET CONTROL REFINEMENT',tag:'TARGET DOSSIER · MAP LEGEND · ACTION READINESS',items:['The Data Net target map and legend now have clearer framing and spacing, improving the relationship between the live map and its key.','The selected-target dossier has improved status alignment, reconnaissance-window readability and probability-meter contrast.','Attack and steal controls have clearer touch sizing, focus visibility and disabled-state feedback on mobile.','The operation-readiness panel now keeps its action explanations easier to scan at narrow screen widths.','All target locations, scan freshness, probability calculations, combat outcomes, resource theft, cooldowns and saved player data remain unchanged. Player HQ and every protected Alliance building remain untouched.']});
+BHQ_UPDATE_VERSION='1.1.15';
+</script>
+
 </body>
 </html>
