@@ -6223,6 +6223,23 @@ if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.
   }catch(e){try{console.error('Alliance entry-point cleanup:',e)}catch(_){}}
 })();
 
+
+/* ALLIANCE OLD CAMPUS VISUALS — keep the red tab HQ-copy only. */
+(function(){
+  try{
+    if(typeof allyInteriorOpen!=='undefined')allyInteriorOpen=false;
+    var old=document.createElement('style');
+    old.id='remove-legacy-alliance-campus-visuals';
+    old.textContent=[
+      '#allyCampus,#allyInterior,#acreate,#amain{display:none!important}',
+      '#t-ally .ally-new-create,#t-ally .ally-new-campus,#t-ally .ally-new-interior{display:none!important}',
+      '#t-ally .ally-territory-hub,#t-ally .ally-territory-building,#t-ally .ally-hq-core,#t-ally .ally-hq-core-building{display:none!important}',
+      '#t-ally .ally-new-world,#t-ally .ally-new-core{display:none!important}'
+    ].join('');
+    document.head.appendChild(old);
+  }catch(e){try{console.error('Legacy Alliance visual cleanup:',e)}catch(_){}}
+})();
+
 </script>
 </body>
 </html>
