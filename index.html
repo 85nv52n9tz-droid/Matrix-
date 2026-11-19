@@ -5470,12 +5470,21 @@ show('hq');checkUpdateNotice();checkSystemGiftDelivery();setInterval(tick,1000);
     var openReleaseArchive=false;
     try{openReleaseArchive=sessionStorage.getItem('bhq_open_update_log_after_refresh')==='1';}catch(e){}
     if(openReleaseArchive){
-      setTimeout(function(){
-        try{sessionStorage.removeItem('bhq_open_update_log_after_refresh');}catch(e){}
-        if(typeof window.show==='function')window.show('updates');
-        var releaseTab=document.querySelector('[data-update-pane="releases"]');if(releaseTab)releaseTab.click();
+      var archiveAttempts=0;
+      function openInstalledReleaseArchive(){
+        archiveAttempts++;
+        var ready=typeof window.show==='function'&&document.getElementById('t-updates')&&document.getElementById('updateLogEntries');
+        if(!ready&&archiveAttempts<30){setTimeout(openInstalledReleaseArchive,500);return;}
+        if(!ready)return;
+        try{window.show('updates');}catch(e){}
+        var releaseTab=document.querySelector('[data-update-pane="releases"]');
+        if(releaseTab&&releaseTab.getAttribute('aria-selected')!=='true')releaseTab.click();
         if(typeof window.renderUpdateLog==='function')window.renderUpdateLog();
-      },5700);
+        var pane=document.getElementById('t-updates');
+        if(pane&&!pane.hidden){try{sessionStorage.removeItem('bhq_open_update_log_after_refresh');}catch(e){}}
+        else if(archiveAttempts<30)setTimeout(openInstalledReleaseArchive,500);
+      }
+      setTimeout(openInstalledReleaseArchive,6200);
     }else if(window.BHQ_SHOW_LOGIN_UPDATE_NOTICE)setTimeout(window.BHQ_SHOW_LOGIN_UPDATE_NOTICE,5700);
     const h=document.getElementById('hbtns');
     if(!testMode&&h&&!document.getElementById('logoutBtn')){
@@ -5528,6 +5537,16 @@ show('hq');checkUpdateNotice();checkSystemGiftDelivery();setInterval(tick,1000);
     if(!window.supabase||!window.supabase.createClient){say('Could not load the Supabase library. Check your internet connection and refresh.');return}
     if(SUPABASE_URL.indexOf('PASTE_')===0||SUPABASE_ANON_KEY.indexOf('PASTE_')===0){say('Add your Supabase project URL and publishable/anon key in the script at the bottom of this file.');return}
     client=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+    // Refresh the active authentication token before a deployment reload so the same commander remains signed in.
+    window.BHQ_PREPARE_UPDATE_SESSION=async function(){
+      if(window.BHQ_TEST_MODE)return true;
+      var current=await client.auth.getSession();
+      if(current.error)throw current.error;
+      if(!current.data||!current.data.session)throw new Error('Your commander login could not be confirmed. Please log in again before installing so the session can be preserved.');
+      var renewed=await client.auth.refreshSession();
+      if(renewed.error||!renewed.data||!renewed.data.session)throw (renewed.error||new Error('The commander session could not be renewed safely.'));
+      return true;
+    };
     // Save and refresh the deployed build without signing out or clearing the authenticated session.
     window.BHQ_FORCE_SIGNOUT_AND_REFRESH=async function(){
       try{if(window.BHQ_SAVE)window.BHQ_SAVE();}catch(e){}
@@ -6994,7 +7013,9 @@ if(Array.isArray(BHQ_UPDATE_RELEASES)){
 
 <script id="bhq-player-controlled-update-check-v1092">
 (function(){
-  var version='1.0.93',checking=false,prompted=false,lastCheck=0;
+  var version='1.0.94',checking=false,prompted=false,lastCheck=0;
+  try{window.BHQ_UPDATE_VERSION=version;}catch(e){}
+  if(Array.isArray(window.BHQ_UPDATE_RELEASES))window.BHQ_UPDATE_RELEASES.unshift({version:'1.0.94',date:'19 NOV 2026',title:'UPDATE HANDOFF // SESSION & RELEASE ARCHIVE REPAIR',tag:'SESSION REFRESH · AUTOMATIC UPDATE LOG',items:['The installer now refreshes and verifies the active commander authentication session before restarting, reducing unexpected sign-outs during deployment.','After restart, Backdoor HQ reliably waits for the game interface to become ready, then opens More → Updates directly on the Update Log and renders the latest patch notes.','The update-log handoff marker is retained until the archive is successfully opened, so a delayed login restoration does not lose the destination.']});
   function newer(a,b){var x=String(a||'').split('.').map(Number),y=String(b||'').split('.').map(Number);for(var i=0;i<Math.max(x.length,y.length);i++){var d=(x[i]||0)-(y[i]||0);if(d)return d>0;}return false;}
   function wait(ms){return new Promise(function(resolve){setTimeout(resolve,ms);});}
   function buildNumber(html){var matches=Array.from(html.matchAll(/(?:window\.)?BHQ_UPDATE_VERSION\s*=\s*['"]([0-9]+(?:\.[0-9]+)+)['"]/g));return matches.length?matches[matches.length-1][1]:'';}
@@ -7053,6 +7074,7 @@ if(Array.isArray(BHQ_UPDATE_RELEASES)){
       try{
         title.textContent='INSTALLING SYSTEM';message.textContent='Saving commander data, verifying the new deployment and preparing a single controlled restart.';core.textContent='⚙';mark('save');progress(4,'SAVING COMMANDER DATA');status.textContent='WRITING SECURE SAVE CHECKPOINT';
         if(typeof window.BHQ_SAVE==='function')window.BHQ_SAVE();
+        if(typeof window.BHQ_PREPARE_UPDATE_SESSION==='function')await window.BHQ_PREPARE_UPDATE_SESSION();
         await wait(350);
         mark('download');progress(28,'FETCHING PUBLISHED BUILD');status.textContent='CONNECTING TO LIVE DEPLOYMENT';
         var u=new URL('index.html',location.href);u.searchParams.set('_bhq_install',String(Date.now()));
