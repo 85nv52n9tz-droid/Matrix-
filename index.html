@@ -5540,11 +5540,13 @@ show('hq');checkUpdateNotice();checkSystemGiftDelivery();setInterval(tick,1000);
     // Refresh the active authentication token before a deployment reload so the same commander remains signed in.
     window.BHQ_PREPARE_UPDATE_SESSION=async function(){
       if(window.BHQ_TEST_MODE)return true;
+      // Do not rotate the Supabase refresh token during deployment. Supabase already
+      // persists the active session in localStorage; a token rotation immediately
+      // before a page navigation can race the browser's storage write on mobile.
       var current=await client.auth.getSession();
       if(current.error)throw current.error;
-      if(!current.data||!current.data.session)throw new Error('Your commander login could not be confirmed. Please log in again before installing so the session can be preserved.');
-      var renewed=await client.auth.refreshSession();
-      if(renewed.error||!renewed.data||!renewed.data.session)throw (renewed.error||new Error('The commander session could not be renewed safely.'));
+      if(!current.data||!current.data.session)throw new Error('Your commander session is not available. Please log in before installing.');
+      try{localStorage.setItem('bhq-session-preserve-before-update','1');}catch(e){}
       return true;
     };
     // Save and refresh the deployed build without signing out or clearing the authenticated session.
@@ -6601,6 +6603,38 @@ html body .hdr{margin-bottom:0!important}
 
 
 
+
+<style id="bhq-neon-banner-visuals-v1096">
+/* Lively neon cyber-interface treatment for game banners and section headers. */
+#gameShell .banner,#gameShell [class*="banner"],#gameShell .section-head,#gameShell .panel-title,
+#gameShell .update-hub-top,#gameShell .update-current-strip,#gameShell .update-section-label{
+ position:relative;isolation:isolate;overflow:hidden;
+}
+#gameShell .banner:after,#gameShell [class*="banner"]:after,#gameShell .section-head:after,
+#gameShell .panel-title:after,#gameShell .update-hub-top:after,#gameShell .update-current-strip:after{
+ content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
+ background:linear-gradient(110deg,transparent 0%,#35ffe00a 34%,#39ffb52b 48%,#48cfff12 55%,transparent 72%);
+ background-size:220% 100%;animation:bhqBannerSweep 5.5s linear infinite;
+}
+#gameShell .banner,#gameShell [class*="banner"],#gameShell .section-head,
+#gameShell .update-hub-top,#gameShell .update-current-strip{
+ box-shadow:inset 0 0 18px #20ff9a12,0 0 14px #18f5bd13;
+}
+#gameShell .banner:before,#gameShell [class*="banner"]:before,#gameShell .section-head:before{
+ content:"";position:absolute;left:0;right:0;top:0;height:1px;z-index:1;pointer-events:none;
+ background:linear-gradient(90deg,transparent,#38ffb9,#49dfff,transparent);
+ opacity:.8;box-shadow:0 0 9px #36ffc5;animation:bhqBannerPulse 2.8s ease-in-out infinite;
+}
+#gameShell .update-live i,#gameShell .update-current-icon{
+ filter:drop-shadow(0 0 7px #35ffb8);animation:bhqNeonBeat 1.8s ease-in-out infinite;
+}
+#gameShell .update-orbit i,#gameShell .update-orbit b{filter:drop-shadow(0 0 7px #38ffd0)}
+@keyframes bhqBannerSweep{0%{background-position:150% 0}100%{background-position:-150% 0}}
+@keyframes bhqBannerPulse{0%,100%{opacity:.35}50%{opacity:1}}
+@keyframes bhqNeonBeat{0%,100%{opacity:.7;filter:drop-shadow(0 0 3px #35ffb8)}50%{opacity:1;filter:drop-shadow(0 0 11px #35ffb8)}}
+@media(prefers-reduced-motion:reduce){#gameShell .banner:after,#gameShell [class*="banner"]:after,#gameShell .section-head:after{animation:none}}
+</style>
+
 </body>
 </html>
 
@@ -7013,9 +7047,9 @@ if(Array.isArray(BHQ_UPDATE_RELEASES)){
 
 <script id="bhq-player-controlled-update-check-v1092">
 (function(){
-  var BHQ_UPDATE_VERSION='1.0.95';window.BHQ_UPDATE_VERSION=BHQ_UPDATE_VERSION;
+  var BHQ_UPDATE_VERSION='1.0.96';window.BHQ_UPDATE_VERSION=BHQ_UPDATE_VERSION;
   var version=BHQ_UPDATE_VERSION,checking=false,prompted=false,lastCheck=0;
-  if(Array.isArray(window.BHQ_UPDATE_RELEASES))window.BHQ_UPDATE_RELEASES.unshift({version:'1.0.95',date:'19 NOV 2026',title:'DEPLOYMENT SIGNATURE // VERSION DETECTION CORRECTION',tag:'INSTALLER VERSION MATCH · UPDATE DISCOVERY RESTORED',items:['Corrected the published build signature so the update checker and installer both recognise version 1.0.95.','Restored reliable detection of the latest deployed build and the automatic update availability prompt.','Retained the session-preservation check and automatic More → Updates release archive handoff from the previous patch.']});
+  if(Array.isArray(window.BHQ_UPDATE_RELEASES))window.BHQ_UPDATE_RELEASES.unshift({version:'1.0.96',date:'19 NOV 2026',title:'NEXUS DEPLOYMENT // SESSION & UPDATE ARCHIVE REPAIR',tag:'SINGLE INSTALL · SESSION PRESERVED · RELEASE NOTES HANDOFF',items:['Removed the pre-reload Supabase token rotation that could interrupt the saved commander session on mobile browsers. The existing persisted session is now verified without forcing a refresh-token change.','Added a persistent installed-build checkpoint so a completed deployment is not offered repeatedly after the page reloads.','Reworked the post-install destination to open the actual More → Updates → Update Log screen and retain the handoff until the release archive is visible.','Enhanced the update and interface banners with animated neon cyan/green lighting, scan sweeps, pulsing edge glows and moving data accents.']});
   try{window.BHQ_UPDATE_VERSION=version;}catch(e){}
   if(Array.isArray(window.BHQ_UPDATE_RELEASES))window.BHQ_UPDATE_RELEASES.unshift({version:'1.0.94',date:'19 NOV 2026',title:'UPDATE HANDOFF // SESSION & RELEASE ARCHIVE REPAIR',tag:'SESSION REFRESH · AUTOMATIC UPDATE LOG',items:['The installer now refreshes and verifies the active commander authentication session before restarting, reducing unexpected sign-outs during deployment.','After restart, Backdoor HQ reliably waits for the game interface to become ready, then opens More → Updates directly on the Update Log and renders the latest patch notes.','The update-log handoff marker is retained until the archive is successfully opened, so a delayed login restoration does not lose the destination.']});
   function newer(a,b){var x=String(a||'').split('.').map(Number),y=String(b||'').split('.').map(Number);for(var i=0;i<Math.max(x.length,y.length);i++){var d=(x[i]||0)-(y[i]||0);if(d)return d>0;}return false;}
@@ -7087,7 +7121,7 @@ if(Array.isArray(BHQ_UPDATE_RELEASES)){
         if(!downloaded||newer(remote,downloaded)||newer(version,downloaded))throw new Error('The published build has not fully reached the deployment server yet. Please retry shortly.');
         mark('verify');progress(88,'BUILD INTEGRITY CONFIRMED');status.textContent='DEPLOYMENT '+downloaded+' VERIFIED';
         try{sessionStorage.setItem('bhq_open_update_log_after_refresh','1');sessionStorage.setItem('bhq_update_pending_version',downloaded);sessionStorage.setItem('bhq_update_refresh_started','1');}catch(e){}
-        try{localStorage.setItem('bhq-confirmed-build-version',downloaded);}catch(e){}
+        try{localStorage.setItem('bhq-confirmed-build-version',downloaded);localStorage.setItem('bhq-installed-build-version',downloaded);}catch(e){}
         mark('restart');progress(96,'PREPARING CONTROLLED RESTART');status.textContent='PRESERVING AUTHENTICATED COMMANDER SESSION';
         await wait(650);progress(100,'SYSTEM UPGRADE COMPLETE');title.textContent='SYSTEM UPGRADED';message.textContent='NEXUS core is ready. Reconnecting your commander session and opening the latest deployment notes…';core.textContent='✦';status.textContent='REBOOTING BACKDOOR HQ';
         await wait(650);
@@ -7107,8 +7141,8 @@ if(Array.isArray(BHQ_UPDATE_RELEASES)){
       var response=await fetch(u.toString(),{cache:'no-store',credentials:'same-origin'});if(!response.ok)return;
       var source=await response.text(),remote=buildNumber(source),current=String(window.BHQ_UPDATE_VERSION||version);
       if(remote&&newer(remote,current)){
-        var dismissed='';try{dismissed=localStorage.getItem('bhq_update_dismissed_version')||'';}catch(e){}
-        if(dismissed===remote)return;
+        var dismissed='',installed='';try{dismissed=localStorage.getItem('bhq_update_dismissed_version')||'';installed=localStorage.getItem('bhq-installed-build-version')||'';}catch(e){}
+        if(dismissed===remote||(!newer(remote,installed)&&installed))return;
         prompted=true;try{if(window.BHQ_SAVE)window.BHQ_SAVE();}catch(e){}panel(remote);
       }
     }catch(e){/* A transient network error is retried by the next scheduled check. */}
