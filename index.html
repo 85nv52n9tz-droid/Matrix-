@@ -2199,23 +2199,24 @@ function init(){Object.keys(T).forEach(function(k){var el=document.getElementByI
 function tick(){var t=new Date().toTimeString().slice(0,8);clocks.forEach(function(c){c.textContent=t})}tick();setInterval(tick,1000)}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();})();
 </script>
-<style id="alliance-bottom-navigation-v1">
-/* Alliance command navigation: bottom dock, matching the game's primary navigation language. */
-#t-ally .ally-tabs-bottom{position:sticky;bottom:0;top:auto;z-index:110;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:14px -2px 0;padding:10px 7px max(10px,env(safe-area-inset-bottom));border:1px solid #2676a0;border-bottom:0;border-radius:13px 13px 0 0;background:linear-gradient(180deg,rgba(7,24,39,.97),rgba(3,11,21,.99));box-shadow:0 -7px 22px #0009,inset 0 1px #67d9ff20;backdrop-filter:blur(12px)}
-#t-ally .ally-tabs-bottom button{min-width:0;min-height:43px;padding:6px 3px;border:1px solid #28506a;border-radius:8px;background:linear-gradient(145deg,#10283a,#081522);color:#b9d9e8;font-size:10px;font-weight:800;letter-spacing:.025em;line-height:1.15}
-#t-ally .ally-tabs-bottom button.on{color:#baffd5;border-color:#39ff9a;background:linear-gradient(145deg,#123b31,#0a201f);box-shadow:0 0 12px #39ff8830,inset 0 0 12px #39ff8812}
-#t-ally .ally-shop-intro{display:flex;flex-direction:column;gap:5px;margin:8px 0 12px;padding:12px;border:1px solid #287a9b;border-radius:10px;background:linear-gradient(120deg,#0d2638,#091722)}
-#t-ally .ally-shop-intro b{font-size:12px;color:#d8f4ff;letter-spacing:.08em}
-#t-ally .ally-shop-intro span{font-size:10px;color:#9db9c9;line-height:1.5}
-#t-ally .ally-shop-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-#t-ally .ally-shop-card{display:grid;grid-template-columns:36px minmax(0,1fr) 12px;align-items:center;gap:8px;min-width:0;min-height:84px;padding:10px;text-align:left;border:1px solid #285b70;border-radius:10px;background:linear-gradient(145deg,#102638,#08141f);color:#d9f4ff}
-#t-ally .ally-shop-card:active{transform:scale(.98)}
-#t-ally .ally-shop-icon{display:grid;place-items:center;width:34px;height:34px;border:1px solid #3aa5c8;border-radius:9px;background:#0c3040;color:#8deaff;font-size:20px}
-#t-ally .ally-shop-copy{display:flex;flex-direction:column;gap:4px;min-width:0}
-#t-ally .ally-shop-copy b{font-size:10px;line-height:1.2}
-#t-ally .ally-shop-copy small{font-size:8px;line-height:1.35;color:#9ab6c5}
-#t-ally .ally-shop-arrow{font-size:20px;color:#70d7ff}
-@media(max-width:390px){#t-ally .ally-tabs-bottom{gap:4px;padding-left:4px;padding-right:4px}#t-ally .ally-tabs-bottom button{font-size:9px;min-height:40px}#t-ally .ally-shop-grid{grid-template-columns:1fr}}
+
+<style id="alliance-hq-bottom-dock-v2">
+/* Alliance HQ navigation dock: fixed to the viewport like the main Network dock. */
+#t-ally #allyInterior{padding-bottom:126px}
+#t-ally .ally-tabs-bottom{position:fixed;left:50%;right:auto;top:auto;bottom:calc(8px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:120;
+  width:min(calc(100% - 16px),540px);margin:0;padding:8px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;
+  border:1px solid rgba(120,255,220,.3);border-radius:21px;background:linear-gradient(180deg,rgba(14,34,30,.88),rgba(4,12,10,.96));
+  backdrop-filter:blur(18px) saturate(1.6);-webkit-backdrop-filter:blur(18px) saturate(1.6);
+  box-shadow:0 10px 30px #000d,0 0 22px rgba(60,255,200,.16),inset 0 1px 0 rgba(255,255,255,.12)}
+#t-ally .ally-tabs-bottom button{min-width:0;min-height:43px;height:43px;margin:0;padding:4px 2px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  border:1px solid rgba(120,255,220,.16);border-radius:12px;background:linear-gradient(160deg,rgba(120,255,220,.08),rgba(0,0,0,.24));
+  color:#a9d8ca;font:800 8px/1 ui-monospace,monospace;letter-spacing:.45px}
+#t-ally .ally-tabs-bottom .ally-nav-icon{font-size:17px;line-height:1;filter:drop-shadow(0 0 5px rgba(120,255,220,.38))}
+#t-ally .ally-tabs-bottom .ally-nav-label{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#t-ally .ally-tabs-bottom button.on{border-color:#7dffe0;color:#d5fff2;background:radial-gradient(circle at 50% 25%,rgba(80,255,210,.24),rgba(80,255,210,.04) 78%);
+  box-shadow:0 0 13px rgba(60,255,200,.22),inset 0 0 10px rgba(120,255,220,.1)}
+#t-ally .ally-tabs-bottom button.on .ally-nav-icon{transform:translateY(-1px) scale(1.1);filter:drop-shadow(0 0 8px rgba(120,255,220,.85))}
+@media(max-width:370px){#t-ally .ally-tabs-bottom{gap:3px;padding:6px}#t-ally .ally-tabs-bottom button{height:41px;min-height:41px;font-size:7px}#t-ally .ally-tabs-bottom .ally-nav-icon{font-size:15px}}
 </style>
 </head>
 <body>
@@ -3048,7 +3049,8 @@ $('progressionReportClose').onclick=function(){$('progressionReportModal').hidde
   E.pf=card($('rprof'),'hq','crew');E.pf.t.textContent=window.BHQ_USERNAME||'You';E.pf.b.parentNode.hidden=true;
   ['Regions','Towns','Cities','NPC Missions'].forEach(function(t,i){var b=document.createElement('button');b.textContent=t;b.onclick=function(){msub=i;render()};$('msub').appendChild(b);mb.push(b)});
   ['Solo','Data net'].forEach(function(t,i){var b=document.createElement('button');b.type='button';b.className='map-mode-btn mode-'+(i===0?0:2);b.textContent=t;b.setAttribute('aria-pressed','false');b.onclick=function(){mtop=i===0?0:2;render()};$('mtop').appendChild(b);mt.push(b)});
-  ['War Logs','Buildings','Shop','Leaderboard','Gifts','Help','Tech','Events'].forEach(function(t,i){var b=document.createElement('button');b.type='button';b.dataset.atab=String(i+1);b.textContent=t;b.onclick=function(){atab=i+1;if(atab===7)techTab=0;if(atab===8&&S.al)S.al.eventSeenHour=evWin().hr;render()};$('allyTabs').appendChild(b);ab2.push(b)});
+  var allyTabIcons=['⚔','⌂','▤','♛','✧','⇄','⬡','◉'];
+  ['War Logs','Territory','Alliance Shop','Leaderboard','Gifts','Help','Tech','Events'].forEach(function(t,i){var b=document.createElement('button');b.type='button';b.dataset.atab=String(i+1);b.innerHTML='<span class="ally-nav-icon">'+allyTabIcons[i]+'</span><span class="ally-nav-label"></span>';b.querySelector('.ally-nav-label').textContent=t;b.setAttribute('aria-label',t);b.onclick=function(){atab=i+1;if(atab===7)techTab=0;if(atab===8&&S.al)S.al.eventSeenHour=evWin().hr;render()};$('allyTabs').appendChild(b);ab2.push(b)});
   // Legacy Outposts / Strongholds / Citadels navigation removed; territory is now one HQ-centred environment.
   AL.forEach(function(l,k){var e=E['nd'+(4+k)]=card($('nd'+(4+k)),'','rank');e.b.onclick=function(){if(S.al.n)allianceBuy(l.filter(function(n){return n.id===asel[k]})[0])}});
   $('acbtn').onclick=function(){var v=$('aname').value.replace(/[<>&"']/g,'').trim().slice(0,20);if(!v)return;S.al={n:v,mem:[],app:[],cd:{},nx:Date.now()+8000,res:{ac:50000,dc:3000,cs:250,wi:50,dm:10},tech:{},techPts:0,techLevelClaimed:1};log('Alliance '+v+' founded. Applications will start arriving soon.');save();render()};
@@ -3648,17 +3650,6 @@ function renderAllianceCampus(){
  var title=$('allyCampusName');if(title)title.textContent=(S.al&&S.al.n?S.al.n:'ALLIANCE')+' // HQ';
  renderAllianceTerritory('allyCampusWorld');
 }
-function renderAllianceShopOverview(){
- var host=$('allyOther');if(!host)return;
- var cards=[
-  {id:'bank',icon:'▤',name:'Alliance Bank',desc:'View shared resources, passive production and building upgrades.',tab:2},
-  {id:'missions',icon:'⌖',name:'Mission Records',desc:'Review completed mission outcomes and alliance contributions.',tab:1},
-  {id:'gifts',icon:'✧',name:'Member Gifts',desc:'Send supplies and build alliance contribution.',tab:5},
-  {id:'research',icon:'⬡',name:'Alliance Research',desc:'Invest shared resources into permanent alliance bonuses.',tab:7}
- ];
- host.innerHTML='<div class="sub">ALLIANCE NETWORK // OPERATIONS &amp; SERVICES</div><div class="ally-shop-intro"><b>ALLIANCE SERVICES</b><span>Select a service below to open its dedicated section.</span></div><div class="ally-shop-grid">'+cards.map(function(c){return '<button type="button" class="ally-shop-card" data-ally-shop="'+c.id+'"><span class="ally-shop-icon">'+c.icon+'</span><span class="ally-shop-copy"><b>'+c.name+'</b><small>'+c.desc+'</small></span><span class="ally-shop-arrow">›</span></button>'}).join('')+'</div>';
- host.querySelectorAll('[data-ally-shop]').forEach(function(button){button.onclick=function(){var card=cards.filter(function(c){return c.id===button.getAttribute('data-ally-shop')})[0];if(card){atab=card.tab;render()}}});
-}
 function renderAllyTab(){
   techSyncPoints();var A=S.al;ab2.forEach(function(b){b.className=Number(b.dataset.atab)===atab?'on':''});
   $('acreate').hidden=!!A.n;$('amain').hidden=!A.n;if(!A.n)return;
@@ -3705,7 +3696,6 @@ function renderAllyTab(){
   }
   if(atab===1){renderWartimeRewards();renderAllianceContributionLog()}
   else if(atab===2){renderAllianceTerritory()}
-  else if(atab===3){renderAllianceShopOverview()}
   else if(atab===5){renderAllianceGifts()}
   else if(atab===7){renderAllianceTech()}
   else if(atab===8){renderEvent();$('allyOther').hidden=true;$('ap4').hidden=false;return}
@@ -3950,7 +3940,7 @@ function renderSettings(){
  });
 }
 function renderChiefProfile(){var h=$('chiefHqLevel'),sh=$('chiefStatHq'),pw=$('chiefStatPower'),ki=$('chiefStatKills'),cr=$('chiefStatCrew');if(h)h.textContent=S.hq;if(sh)sh.textContent=S.hq;if(pw)pw.textContent=fmt(power());if(ki)ki.textContent=fmt(S.kills||0);if(cr)cr.textContent=crewAvailableCount()+' / 7';var nm=$('chiefPlayerName');if(nm)nm.textContent=(window.backdoorPlayerName||'YOUR CHIEF').toString().slice(0,24);var pa=$('openProgressionArchive');if(pa)pa.onclick=function(){show('progression')};document.querySelectorAll('[data-chief-slot]').forEach(function(b){b.onclick=function(){document.querySelectorAll('[data-chief-slot]').forEach(function(x){x.classList.remove('active')});b.classList.add('active');var labels={helmet:'Neural Visor · head protection and signal focus.',chest:'Core Armour · personal defensive plating.',gloves:'Pulse Gloves · precision control and combat handling.',boots:'Vector Boots · mobility and movement systems.',weapon:'Data Blade · personal chief weapon slot.',accessory:'Signal Core · auxiliary chief enhancement module.'};$('chiefSlotInfo').textContent=labels[b.getAttribute('data-chief-slot')]+' Equipment upgrades can be connected here in a later pass.'}});document.querySelectorAll('[data-chief-go]').forEach(function(b){b.onclick=function(){show(b.getAttribute('data-chief-go'))}})}
-var BHQ_UPDATE_VERSION='1.0.55';
+var BHQ_UPDATE_VERSION='1.0.56';
 var BHQ_UPDATE_RELEASES=[
  {version:'1.0.54',date:'18 NOV 2026',title:'HQ STATUS DRAWER // RETRACTABLE UPCOMING STRIP',tag:'COMPACT COLLAPSIBLE TIMER & CREW PANELS',items:['Added a slim UPCOMING handle with a small arrow at the top of the HQ scene. The timer and active crew panels now retract by default and slide down when tapped, then close again when tapped a second time.','The HQ buildings move up into the reclaimed space while the drawer is closed; opening it shifts the HQ scene down to reveal the existing timer and crew panels without changing their horizontal three-card scrolling behaviour.']},
  {version:'1.0.53',date:'18 NOV 2026',title:'HQ COMMAND STRIP // COMPACT HORIZONTAL STATUS CARDS',tag:'THREE BUILDINGS VISIBLE · SWIPEABLE TIMERS & CREW',items:['Reduced the HQ & Building Timers and Active Crew Members panels and arranged them as compact full-width strips above the HQ scene. Each strip shows three building cards at a time and scrolls horizontally to reveal the remaining cards.','Timer cards now show only the building name, remaining countdown and exact Influence finish cost. Tapping an eligible timer still uses the existing instant-finish action. Crew cards retain each building’s active crew count and production bonus.','Moved the HQ scene upward to reclaim screen space while preserving the existing building positions, upgrade-ready flashes, HQ Upgrade All control, account saves and game progression.']},
@@ -5222,7 +5212,7 @@ enforceUniqueCrewAssignments();
 refreshCompPointValues();
 
 /* BACKDOOR HQ 1.0.53 — NEON COMMAND CAMPUS VISUAL REDESIGN */
-var BHQ_UPDATE_VERSION='1.0.55';
+var BHQ_UPDATE_VERSION='1.0.56';
 if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.53',date:'18 NOV 2026',title:'NEON COMMAND CAMPUS // HQ ARCHITECTURE REDESIGN',tag:'30 HQ LEVEL DESIGNS · FOUR BUILDING EVOLUTIONS · CYBER-GRID ENVIRONMENT',items:[
  'Redesigned the standard HQ area as a central futuristic command campus, with the main HQ centred and the four standard resource buildings arranged around it. Prestige buildings retain their existing visuals.',
  'Added 30 level-specific HQ architecture variants: the command tower grows in height and width, subtly shifts its energy colour and crown geometry at every level, and gains additional decks, antenna structures and energy rings as HQ levels increase.',
@@ -5234,6 +5224,13 @@ if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.
  'Renamed Territory to Buildings and made the Alliance building network, Alliance HQ and shared bank production easier to reach from the Buildings tab.',
  'Reworked the Shop tab into a clean Alliance Services screen with direct shortcuts to Alliance Bank, Mission Records, Member Gifts and Alliance Research.',
  'Added the new Alliance redesign to the Update Log. The version has been advanced so returning players who have not read this release receive the update notification automatically at login.'
+]});
+
+if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.56',date:'19 NOV 2026',title:'ALLIANCE HQ // NAVIGATION DOCK CORRECTION',tag:'FIXED BOTTOM NAVIGATION · MAIN NETWORK DOCK STYLE',items:[
+ 'Corrected the Alliance HQ navigation so the eight existing Alliance tabs are anchored in a fixed bottom dock, rather than relying on a sticky page position.',
+ 'Restored the original Territory and Alliance Shop tab labels and removed the previous Alliance Services shortcut screen.',
+ 'Restyled the Alliance HQ dock to match the main Network navigation with a glass-effect panel, illuminated active tab, icons, mobile spacing and iPhone safe-area support.',
+ 'Reserved space below Alliance HQ content so the fixed dock does not cover the information or controls. The login update notice is enabled for version 1.0.56.'
 ]});
 
 show('hq');checkUpdateNotice();checkSystemGiftDelivery();setInterval(tick,1000);
