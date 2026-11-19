@@ -3966,7 +3966,7 @@ function renderAllyTab(){
 function renderDnet(){
   dnSync();var n=Date.now(),sv=$('map7'),P=atkP(),e=E.dn,ids=S.dn.ids,hit=ids.filter(function(j){return S.dn.d[j]}).length,busy=dnAnim&&Date.now()<dnAnim.e?dnAnim.i:-1;
   $('dnh').innerHTML='Data net \u00b7 hit <span class="lv">'+hit+'/'+ids.length+'</span> \u00b7 refreshes in <span class="rwd">'+fmtT((S.dn.t-n)/1000)+'</span>. Each target can be attacked or robbed once per refresh.';var mapLegend=$('dnMapLegend');if(mapLegend)mapLegend.innerHTML='<span><i class="dn-legend-dot hostile"></i> HOSTILE AVAILABLE</span><span><i class="dn-legend-dot used"></i> ALREADY HIT</span><span><i class="dn-legend-dot ally"></i> ALLIANCE MEMBER</span><span><i class="dn-legend-dot selected"></i> SELECTED TARGET</span>';
-  var logEl=$('dnBattleLog'),logs=S.dnBattleLog||[];if(logEl){var lh='<h3>RECENT ATTACK & STEAL LOG</h3>';if(!logs.length)lh+='<div class="dn-log-empty">Your successful and unsuccessful attacks will appear here.</div>';else logs.slice(0,1).forEach(function(x){lh+='<div class="dn-log-entry '+(x.win?'win':'loss')+'"><span class="dn-status">'+(x.win?'SUCCESS':'FAILED')+'</span><div><b>'+x.kind+' · '+x.enemy+'</b><small>'+x.details+' · '+new Date(x.time).toLocaleString()+'</small></div></div>'});logEl.innerHTML=lh;}
+  var logEl=$('dnBattleLog'),logs=S.dnBattleLog||[];if(logEl){var lh='<div class="dn-log-heading"><h3>RECENT ATTACK & STEAL LOG</h3><span>'+logs.length+' / 20 RECORDS</span></div>';if(!logs.length)lh+='<div class="dn-log-empty">Your successful and unsuccessful attacks will appear here.</div>';else{lh+='<div class="dn-log-list">';logs.slice(0,5).forEach(function(x,idx){lh+='<div class="dn-log-entry '+(x.win?'win':'loss')+'"><span class="dn-log-index">'+String(idx+1).padStart(2,'0')+'</span><span class="dn-status">'+(x.win?'SUCCESS':'FAILED')+'</span><div class="dn-log-copy"><b>'+x.kind+' · '+x.enemy+'</b><small>'+x.details+'</small><time>'+new Date(x.time).toLocaleString()+'</time></div></div>'});lh+='</div>'}logEl.innerHTML=lh;}
   if(dsel>=ids.length)dsel=0;
   DNP.forEach(function(q,k){var c=sv.querySelector('[data-id="'+k+'"]'),tx=sv.querySelector('[data-t="'+k+'"]');if(!c)return;var j=ids[k];c.style.display=tx.style.display=j===undefined?'none':'';if(j===undefined)return;
     var used=S.dn.d[j]&&busy!==j,ally=isAlly(j),col=ally?'#5ab8ff':used?'#1a5a38':'#ff6b5a';
@@ -6225,6 +6225,22 @@ if(typeof checkUpdateNotice==='function')checkUpdateNotice();
 .npc-map-legend i{display:inline-block;width:7px;height:7px;border-radius:50%;background:#55ff9a;box-shadow:0 0 5px currentColor}
 .npc-map-legend i.active{background:#5ab8ff}.npc-map-legend i.claim{background:#ffc46b}.npc-map-legend i.cleared{background:#8b9b91}
 @media(max-width:390px){.npc-map-legend{gap:6px 9px;padding:7px}.npc-map-legend span{font-size:6px}}
+
+/* Data Net expanded attack history */
+.dn-log-heading{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px}
+.dn-log-heading h3{margin:0}
+.dn-log-heading>span{color:#6e9e80;font-size:7px;font-weight:900;letter-spacing:.6px;white-space:nowrap}
+.dn-log-list{display:flex;flex-direction:column;max-height:310px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#286b49 transparent}
+.dn-log-entry{display:grid;grid-template-columns:20px 50px minmax(0,1fr);gap:7px;align-items:start;padding:9px 3px;border-top:1px solid rgba(65,121,81,.25)}
+.dn-log-entry:first-child{border-top:0}
+.dn-log-index{padding-top:1px;color:#62856d;font-size:8px;font-weight:900}
+.dn-log-entry .dn-status{font-size:8px;letter-spacing:.4px}
+.dn-log-copy{min-width:0}
+.dn-log-copy>b,.dn-log-copy>small,.dn-log-copy>time{display:block}
+.dn-log-copy>b{color:#c3f5d1;font-size:9px;line-height:1.3}
+.dn-log-copy>small{margin-top:3px;color:#92b39b;font-size:8px;line-height:1.4}
+.dn-log-copy>time{margin-top:4px;color:#688b74;font-size:7px}
+@media(max-width:390px){.dn-log-entry{grid-template-columns:16px 45px minmax(0,1fr);gap:5px;padding:8px 1px}.dn-log-copy>b{font-size:8px}.dn-log-copy>small{font-size:7px}}
 </style>
 
 if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.79',date:'19 NOV 2026',title:'RESOURCE LEDGER // COMMAND STRIP REFINEMENT',tag:'RESOURCE READABILITY · DISTINCT RESOURCE IDENTITIES · MOBILE FIT',items:[
@@ -6293,7 +6309,13 @@ if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.
  'A compact legend explains the status colours. The map reads the existing saved mission records and does not change unlocks, timers, crew requirements or rewards.',
  'Only the Solo Operations network map is affected. The HQ campus and all protected Alliance buildings remain unchanged.'
 ]});
-BHQ_UPDATE_VERSION='1.0.89';
+if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.90',date:'19 NOV 2026',title:'DATA NET // EXPANDED ATTACK HISTORY',tag:'FIVE RECENT RECORDS · SUCCESS / FAILURE · TIMESTAMPED DETAILS',items:[
+ 'The Data Net attack and theft log now shows the five most recent records instead of only the latest one, with a numbered sequence and a record counter.',
+ 'Each entry separates success or failure, action type, target, result details and timestamp so you can review recent activity without losing the newest result.',
+ 'The game continues to retain up to 20 records in its existing saved history. This update changes only how many are displayed and does not change combat results or storage.',
+ 'The expanded history is scrollable and sized for mobile screens. HQ and Alliance building designs remain untouched.'
+]});
+BHQ_UPDATE_VERSION='1.0.90';
 if(typeof checkUpdateNotice==='function')checkUpdateNotice();
 </body>
 </html>
