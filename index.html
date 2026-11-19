@@ -6189,6 +6189,18 @@ if(typeof checkUpdateNotice==='function')checkUpdateNotice();
 .defence-audit-metrics em{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,#38bb7c,#91ffc0)}
 .defence-audit-summary>small{display:block;color:#789d87;font-size:8px;line-height:1.4}
 @media(max-width:520px){.defence-audit-panel{grid-template-columns:1fr}.defence-audit-panel>button{width:100%}.defence-audit-metrics{gap:7px}.defence-audit-metrics span{font-size:6px}}
+
+/* Solo Operations field dossier presentation */
+#npcMissionPanel .card{overflow:hidden;border:1px solid rgba(73,215,145,.28);border-radius:14px;background:linear-gradient(145deg,rgba(7,27,21,.98),rgba(8,17,29,.98));box-shadow:0 8px 24px rgba(0,0,0,.2)}
+#npcMissionPanel .card:before{content:"MPC // SOLO OPERATIONS FIELD DOSSIER";display:block;padding:10px 12px;border-bottom:1px solid rgba(91,215,150,.16);background:radial-gradient(ellipse at 80% 50%,rgba(58,224,141,.16),transparent 60%),linear-gradient(100deg,#0b281d,#0c1927);color:#8eeeb3;font-size:8px;font-weight:900;letter-spacing:1.1px}
+#npcMissionPanel .bd{padding:12px}
+#npcMissionPanel .bd>b:first-child{display:block;margin-bottom:7px;color:#d1ffe2;font-size:16px;letter-spacing:.2px}
+#npcMissionPanel .desc{color:#9fcab0;line-height:1.45}
+#npcMissionPanel .prog{height:7px;margin:10px 0 8px;border:1px solid rgba(95,213,150,.16);border-radius:8px;background:rgba(85,151,112,.12);overflow:hidden}
+#npcMissionPanel .prog i{display:block;height:100%;border-radius:8px;background:linear-gradient(90deg,#27bb76,#8effb8);box-shadow:0 0 10px rgba(83,255,159,.25)}
+#npcMissionPanel .lv{display:block;margin:8px 0;color:#a5ffc8;font-size:9px;letter-spacing:.55px}
+#npcMissionPanel .buy{width:100%;margin-top:8px}
+@media(max-width:390px){#npcMissionPanel .bd{padding:10px}#npcMissionPanel .bd>b:first-child{font-size:14px}}
 </style>
 
 if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.79',date:'19 NOV 2026',title:'RESOURCE LEDGER // COMMAND STRIP REFINEMENT',tag:'RESOURCE READABILITY · DISTINCT RESOURCE IDENTITIES · MOBILE FIT',items:[
@@ -6239,7 +6251,13 @@ if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.
  'The dashboard updates after every module upgrade and uses the existing caps and formulas. It does not add hidden protection or change audit outcomes.',
  'The dashboard is confined to Cyber Defence and leaves the protected HQ and Alliance building designs unchanged.'
 ]});
-BHQ_UPDATE_VERSION='1.0.86';
+if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.87',date:'19 NOV 2026',title:'SOLO OPERATIONS // FIELD DOSSIER REFINEMENT',tag:'MISSION PANEL HIERARCHY · LIVE PROGRESS · MOBILE FIT',items:[
+ 'The Solo Operations mission panel now has a dedicated field-dossier treatment, separating mission identity, deployment details and completion status from the surrounding map.',
+ 'The live progress bar is clearer and easier to read, with improved spacing and a stronger status line for active, completed and locked operations.',
+ 'Mission duration, crew selection, saved-team reuse, timers and reward processing are unchanged. This is a presentation-only update.',
+ 'The update is limited to the Solo Operations mission panel and leaves the HQ campus and protected Alliance buildings untouched.'
+]});
+BHQ_UPDATE_VERSION='1.0.87';
 if(typeof checkUpdateNotice==='function')checkUpdateNotice();
 </body>
 </html>
