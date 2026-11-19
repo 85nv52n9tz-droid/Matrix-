@@ -6751,5 +6751,34 @@ if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.1.
 BHQ_UPDATE_VERSION='1.1.15';
 </script>
 
+
+<style id="cyber-defence-operations-v1116">
+/* 1.1.16 — Cyber Defence operations interface refinement; no balance changes. */
+#cyberDefence .cyber-defence-shell{min-width:0}
+#cyberDefence .cyber-defence-head{align-items:flex-start;flex-wrap:wrap;padding:12px;border:1px solid rgba(91,158,224,.2);border-radius:12px;background:radial-gradient(ellipse at 90% 0%,rgba(63,139,221,.15),transparent 52%),linear-gradient(145deg,#0b1a2d,#070d18)}
+#cyberDefence .cyber-defence-head>div:first-child{min-width:0;flex:1 1 220px}
+#cyberDefence .cyber-defence-head p{max-width:65ch;line-height:1.6}
+#cyberDefence .cyber-defence-score{padding:7px 9px;border:1px solid rgba(125,177,237,.2);border-radius:9px;background:rgba(4,13,26,.55)}
+#cyberDefence .cyber-defence-score b{font-variant-numeric:tabular-nums;text-shadow:0 0 16px rgba(111,174,255,.24)}
+#cyberDefence .defence-upgrade-grid{align-items:stretch}
+#cyberDefence .defence-upgrade-card{display:flex;flex-direction:column;min-width:0;overflow:hidden;border-color:rgba(89,137,194,.34);background:linear-gradient(155deg,#0d1a2d,#08111e)}
+#cyberDefence .defence-upgrade-card p{min-height:0;flex:1;line-height:1.55}
+#cyberDefence .defence-upgrade-card span{min-height:0;line-height:1.5;overflow-wrap:anywhere}
+#cyberDefence .defence-module-visual{width:100%;box-sizing:border-box}
+#cyberDefence .defence-module-visual svg{max-width:100%}
+#cyberDefence .defence-upgrade-card button,#cyberDefence .defence-audit-panel button{min-height:42px;touch-action:manipulation;transition:filter .14s,border-color .14s,transform .14s}
+#cyberDefence .defence-upgrade-card button:focus-visible,#cyberDefence .defence-audit-panel button:focus-visible{outline:2px solid #a8d6ff;outline-offset:3px}
+#cyberDefence .defence-upgrade-card button:disabled,#cyberDefence .defence-audit-panel button:disabled{cursor:not-allowed;opacity:.58;filter:saturate(.55)}
+#cyberDefence .defence-audit-panel{min-width:0;overflow-wrap:anywhere;border-color:rgba(91,158,224,.25)}
+#cyberDefence .defence-audit-panel :is(p,small,span){line-height:1.5}
+@media(max-width:650px){#cyberDefence .defence-upgrade-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}#cyberDefence .defence-upgrade-card{padding:8px}#cyberDefence .defence-module-visual{grid-template-columns:minmax(0,1fr) 72px;min-height:78px;padding:8px}#cyberDefence .defence-module-visual svg{width:72px;height:52px}#cyberDefence .defence-upgrade-card button,#cyberDefence .defence-audit-panel button{min-height:46px}}
+@media(max-width:380px){#cyberDefence .defence-upgrade-grid{grid-template-columns:minmax(0,1fr)}#cyberDefence .defence-module-visual{grid-template-columns:minmax(0,1fr) 88px}#cyberDefence .defence-module-visual svg{width:88px}}
+@media(prefers-reduced-motion:reduce){#cyberDefence .defence-upgrade-card button,#cyberDefence .defence-audit-panel button{transition:none}}
+</style>
+<script id="cyber-defence-release-v1116">
+if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.1.16',date:'19 NOV 2026',title:'CYBER DEFENCE // SECURITY OPERATIONS REFINEMENT',tag:'DEFENCE MODULES · SECURITY STATUS · MOBILE CONTROLS',items:['The Cyber Defence header and security rating now have clearer hierarchy and responsive spacing.','Firewall, intrusion detection and Quantum Encryption module cards have improved layout consistency and readable upgrade-effect descriptions.','Upgrade controls have clearer touch sizing, keyboard focus and unavailable-state feedback.','The security audit panel now handles long status text more cleanly on narrow screens.','Defence levels, upgrade costs, protection effects, audit records, combat calculations and saved data are unchanged. Player HQ and all Alliance buildings remain untouched.']});
+BHQ_UPDATE_VERSION='1.1.16';
+</script>
+
 </body>
 </html>
