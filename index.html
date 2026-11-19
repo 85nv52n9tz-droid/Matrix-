@@ -5990,13 +5990,13 @@ if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.push({version:'1.0.65'
   ensureAllianceBank();$('allyCampus').hidden=true;$('allyInterior').hidden=false;$('an').textContent=S.al.n;$('ad').textContent='LEVEL '+allianceLevel()+' · '+(S.al.mem.length+1)+' MEMBERS · SHARED NETWORK';$('allyLeaderName').textContent=window.BHQ_USERNAME||'You';renderNewBank();
   $('allyTabs').innerHTML=tabs.map(function(t){return newTab(t[0],t[1])}).join('');
   $('allyTabs').querySelectorAll('[data-new-ally-tab]').forEach(function(b){b.onclick=function(){atab=Number(b.dataset.newAllyTab);render() }});
-  $('allyTown').hidden=true;$('allyOther').hidden=false;$('ap4').hidden=true;
+  $('allyTown').hidden=true;$('allyOther').hidden=false;var oldEventPanel=$('ap4');if(oldEventPanel)oldEventPanel.hidden=true;
   if(atab===0)renderNewOverview();
   else if(atab===1)renderNewRoster();
   else if(atab===2)allyOpsRender();
   else if(atab===3)renderAllianceTech();
   else if(atab===4)renderNewExchange();
-  else if(atab===5){renderEvent();$('allyOther').innerHTML='<div class="ally-new-section"><h3>ALLIANCE EVENTS</h3><p class="ally-new-muted">Successful event rewards are paid directly into the shared bank.</p>'+($('ap4').innerHTML||'<p>No event data available.</p>')+'</div>'}
+  else if(atab===5){$('allyOther').innerHTML='<div class="ally-new-section"><h3>ALLIANCE EVENTS</h3><p class="ally-new-muted">Successful event rewards are paid directly into the shared bank.</p><div id="ap4"></div></div>';renderEvent();}
   else if(atab===6)allyCommsRender();
   else if(atab===7)allyAcademyRender();
   else if(atab===8)allyArchivesRender();
