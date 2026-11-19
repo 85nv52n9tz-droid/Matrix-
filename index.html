@@ -6199,6 +6199,30 @@ if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.
   }catch(e){try{console.error('Alliance cleanup guard:',e)}catch(_){}}
 })();
 
+
+/* Final removal pass: suppress Alliance chat/competition entry points while retaining normal competitions and global chat. */
+(function(){
+  try{
+    if(window.BHQ_CHAT&&typeof window.BHQ_CHAT.post==='function'){
+      var originalChatPost=window.BHQ_CHAT.post;
+      window.BHQ_CHAT.post=function(channel,kind,sender,message){
+        if(String(channel||'').toUpperCase()==='AC')return false;
+        return originalChatPost(channel,kind,sender,message);
+      };
+    }
+    if(typeof renderCompetition==='function'){
+      var renderCompetitionWithoutAlliance=renderCompetition;
+      renderCompetition=function(which){
+        if(which==='alliance')which='daily';
+        renderCompetitionWithoutAlliance(which);
+        var host=$('competitionContent');
+        if(host)host.querySelectorAll('[data-comp-period="alliance"]').forEach(function(b){b.remove()});
+      };
+    }
+    var ac=$('testChatAC');if(ac){ac.hidden=true;ac.disabled=true;ac.style.display='none'}
+  }catch(e){try{console.error('Alliance entry-point cleanup:',e)}catch(_){}}
+})();
+
 </script>
 </body>
 </html>
