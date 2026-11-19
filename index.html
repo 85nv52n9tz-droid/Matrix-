@@ -3938,6 +3938,7 @@ function buildMap(){
   var maps=[[N,'map',5.4],[T,'map2',4.6],[C,'map3',6],[AL[0],'map4',5.6],[AL[1],'map5',5.6],[AL[2],'map6',5.6]];
   maps.forEach(function(a,mi){
     var sv=$(a[1]),s='';
+    if(!sv)return; // Legacy Alliance map mounts were removed by the new campus layout.
     if(mi<3){
       s='<defs><linearGradient id="soloRoad'+mi+'" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#263b48"/><stop offset="1" stop-color="#142631"/></linearGradient><linearGradient id="soloGround'+mi+'" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#0d2630"/><stop offset="1" stop-color="#07151d"/></linearGradient></defs>';
       s+='<rect x="0" y="0" width="200" height="100" fill="url(#soloGround'+mi+')"/>';
