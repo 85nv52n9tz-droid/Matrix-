@@ -1126,44 +1126,93 @@ section[id^="t-"]:not(#t-hq){padding-right:54px!important;box-sizing:border-box}
 #t-ally .ally-emblem small{font-size:7px;color:#b8ddf4}
 
 #t-ally .npc-war-entry{padding:6px 8px!important;margin:4px 0!important}#t-ally .npc-war-entry-top b{font-size:9px!important}#t-ally .npc-war-entry-top time{font-size:7px!important}#t-ally .npc-war-reward{font-size:8px!important;padding:3px 5px!important}#t-ally .npc-war-empty{font-size:9px!important;padding:9px!important}
-/* ALLIANCE CAMPUS — single authoritative design system */
-.ally-campus{padding:4px 0 14px}
-.ally-campus-head{padding:10px;text-align:center;color:#eaf7ff}
-.ally-campus-world{position:relative;overflow:hidden;padding:14px 10px 16px;border:1px solid #286176;border-radius:14px;background:radial-gradient(ellipse at 50% 0%,#17485a,#0a1b29 68%,#06111b);box-shadow:inset 0 0 40px #39c7d522,0 10px 24px #0008}
-.ally-campus-world:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.45;background-image:linear-gradient(#48d5d014 1px,transparent 1px),linear-gradient(90deg,#48d5d014 1px,transparent 1px);background-size:24px 24px}
-.ally-territory-stage{position:relative;z-index:1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-.ally-territory-links,.ally-world-grid{display:none}
-.ally-territory-hub{grid-column:1/-1;position:relative;display:flex;align-items:center;gap:12px;width:100%;min-height:100px;padding:12px;border:1px solid #75ded0;border-radius:12px;background:linear-gradient(135deg,#164d58,#0a2635);color:#efffff;text-align:left;box-shadow:inset 0 0 22px #4ee9d522,0 5px 14px #0006}
-.ally-territory-hub .structure{display:grid;place-items:center;flex:none;width:68px;height:68px;border:1px solid #9bfff0;border-radius:12px;background:linear-gradient(145deg,#398b87,#123747);box-shadow:0 0 18px #43e4d044}
-.ally-territory-hub .glyph{font-size:36px;color:#e1fff5;text-shadow:0 0 12px #9dfff0}
-.ally-territory-hub .roof-mark,.ally-territory-hub .core-light{display:none}
-.ally-territory-hub .building-name{display:block;font:900 13px monospace;letter-spacing:1px;color:#eaffff}
-.ally-territory-hub .building-level{display:block;margin-top:6px;font:800 9px monospace;color:#7de5d4}
-.ally-territory-building{position:relative;display:flex;align-items:center;gap:8px;width:100%;min-width:0;min-height:88px;padding:9px;border:1px solid #286176;border-radius:10px;background:linear-gradient(145deg,#123442,#091c29);color:#efffff;text-align:left;box-shadow:inset 0 0 14px #43d7d010;cursor:pointer}
-.ally-territory-building .structure{position:relative;display:grid;place-items:center;flex:none;width:42px;height:42px;border:1px solid #69b6b2;border-radius:8px;background:linear-gradient(145deg,#447e7e,#1a4652 56%,#0a202c);box-shadow:inset 0 0 10px #9ffff022}
-.ally-territory-building .structure:before{content:"";position:absolute;inset:5px;border:1px solid #7dd5c866;border-radius:5px}
-.ally-territory-building .structure:after{display:none}
-.ally-territory-building .glyph{position:relative;z-index:1;font-size:22px;color:#d8fff5;text-shadow:0 0 8px #8fffe8}
-.ally-territory-building .building-core{display:none}
-.ally-territory-building .building-name{display:block;min-width:0;font:900 9px/1.3 monospace;color:#eaffff;overflow-wrap:anywhere}
-.ally-territory-building .building-level{display:block;margin-top:5px;font:800 8px monospace;color:#7de5d4}
-.ally-territory-building.upgrade-ready{border-color:#39ff88;box-shadow:inset 0 0 16px #39ff8818,0 0 10px #39ff8833}
-.ally-territory-building.upgrade-ready .building-level{color:#9bffb9}
-.ally-territory-building.locked{opacity:.58;filter:grayscale(.35)}
-.ally-territory-building.maxed{border-color:#b99b54}
-.ally-territory-building.maxed .building-level{color:#ffd77b}
-.ally-world-legend{position:relative;z-index:1;display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin:12px 0 2px;color:#8fcac6;font:700 8px monospace}
-.legend-dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:4px;background:#43d7d0;box-shadow:0 0 7px #43d7d0}.legend-dot.ready{background:#39ff88;box-shadow:0 0 7px #39ff88}
+/* Alliance Territory: compact HQ-centred building environment, matching Test HQ visuals. */
+.ally-territory-stage{position:relative;width:100%;height:570px;max-width:none;margin:0 auto 2px;overflow:hidden;border:0;border-radius:0;background:radial-gradient(ellipse at 50% 20%,#1a5688 0%,#10416e 42%,#0b3158 100%);box-shadow:none}
+.ally-territory-stage:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 42%,#4eb8ff12,transparent 60%),linear-gradient(0deg,transparent 24%,#5bb9ff0a 25%,transparent 26%),linear-gradient(90deg,transparent 24%,#5bb9ff0a 25%,transparent 26%);background-size:auto,30px 30px,30px 30px;opacity:.4;pointer-events:none}
+.ally-territory-links{position:absolute;inset:0;width:100%;height:100%;z-index:0;overflow:visible}
+.ally-territory-links path{fill:none;stroke:#4fc7ff;stroke-width:1.1;opacity:.68;filter:drop-shadow(0 0 3px #36bfff)}
+.ally-territory-hub,.ally-territory-building{position:absolute;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;min-width:0;transform:translate(-50%,-50%);cursor:pointer;filter:drop-shadow(0 9px 7px #0009);background:none;border:0;padding:0;color:#f4f9ff}
+.ally-territory-hub{left:50%;top:13%;width:138px}
+.ally-territory-building{width:104px}
+.ally-territory-hub .structure{width:112px;height:76px;border:3px solid #d7c17c;background:linear-gradient(145deg,#d8c57f,#536d50 38%,#193628 100%);box-shadow:inset 0 0 22px #ffe9a044,0 8px 0 #302817,0 12px 0 #987c3c,8px 12px 0 #101c12}
+.ally-territory-hub .structure:before{height:27px;top:-19px;background:linear-gradient(135deg,#f2dda0,#8c7542);border-color:#e7d18b}
+.ally-territory-hub .glyph{font-size:48px;color:#ffe7a0;text-shadow:0 0 16px #ffe59a}
+.ally-territory-building .structure{width:66px;height:52px;border:2px solid #8bc49a;border-radius:8px 8px 5px 5px;transform:perspective(420px) rotateX(12deg) skewY(-5deg);background:linear-gradient(145deg,#719b7e 0%,#315844 38%,#142c22 100%);box-shadow:inset 0 0 16px #b4ffca22,0 7px 0 #09150f,0 10px 0 #284b35,6px 10px 0 #0a1b12;position:relative;overflow:visible}
+.ally-territory-building .structure:before{content:"";position:absolute;left:7%;right:7%;top:-12px;height:18px;transform:skewY(7deg) rotate(-5deg);background:linear-gradient(135deg,#b2d6a9,#476e4f 70%);border:2px solid #a8d5a8;border-radius:5px;box-shadow:0 3px 0 #14291d}
+.ally-territory-building .structure:after{content:"";position:absolute;left:12%;right:12%;bottom:8%;height:24%;border:1px solid #8ae2a3;background:repeating-linear-gradient(90deg,#091c14 0 8px,#4a9b62 9px 12px);box-shadow:0 0 8px #39ff8844}
+.ally-territory-building .glyph{position:relative;z-index:1;font-size:31px;color:#d8ffe4;text-shadow:0 0 10px #a9ffc4;transform:translateY(-5px)}
+.ally-territory-building .building-name,.ally-territory-hub .building-name{display:block;margin-top:12px;max-width:112px;text-align:center;white-space:normal;color:#eaf6ff;text-shadow:0 2px 4px #000;font:900 9px/1.2 monospace;letter-spacing:.3px}
+.ally-territory-building .building-level,.ally-territory-hub .building-level{font:800 8px monospace;color:#8be8a9;margin-top:4px;letter-spacing:.6px}
+.ally-territory-building.upgrade-ready .structure{border-color:#58ff9c;box-shadow:inset 0 0 18px #6bff9d55,0 0 0 2px #39ff8855,0 7px 0 #09150f,0 10px 0 #2e8c52,0 0 18px #39ff8888;animation:allyBuildingReady 1.35s ease-in-out infinite}
+.ally-territory-building.upgrade-ready .building-level{color:#9bffb9;text-shadow:0 0 8px #39ff88}
+.ally-territory-building.locked{opacity:.62;filter:grayscale(.35) drop-shadow(0 8px 6px #0008)}
+.ally-territory-building.maxed .structure{border-color:#ffd77b;box-shadow:inset 0 0 14px #ffd77b44,0 7px 0 #332715,0 10px 0 #96743b}
+@keyframes allyBuildingReady{0%,100%{filter:brightness(1);transform:perspective(420px) rotateX(12deg) skewY(-5deg) scale(1)}50%{filter:brightness(1.35);transform:perspective(420px) rotateX(12deg) skewY(-5deg) scale(1.06)}}
+.ally-territory-hub .building-name{max-width:140px;font-size:10px;color:#fff0bc}
 .ally-territory-modal{position:fixed;inset:0;z-index:10050;display:flex;align-items:center;justify-content:center;padding:16px;background:#020b16d9;backdrop-filter:blur(5px)}
-.ally-territory-dialog{position:relative;width:min(420px,100%);max-height:88dvh;overflow:auto;padding:70px 17px 17px;border:1px solid #6dbaff;border-radius:15px;background:linear-gradient(155deg,#16485d,#091e30);box-shadow:0 16px 48px #000b;color:#f4f9ff}
-.ally-territory-dialog .close,.ally-territory-nav button{position:absolute;top:8px;width:34px;height:32px;border:1px solid #8fcaff;border-radius:8px;background:#174b78;color:white;font-weight:900}
-.ally-territory-dialog .close{right:10px;font-size:22px}.ally-territory-nav{position:static;height:0;margin:0}.ally-territory-nav button:first-child{left:10px}.ally-territory-nav button:last-child{right:49px}.ally-territory-nav span{position:absolute;top:43px;left:0;right:0;text-align:center;font:800 9px monospace;color:#b9e2ff}
-.ally-territory-dialog .dialog-art{width:74px;height:62px;margin:8px auto 12px;display:grid;place-items:center;border:1px solid #8bc49a;border-radius:9px;background:linear-gradient(145deg,#397e7e,#142c22);color:#d8ffe4;font-size:36px}
-.ally-territory-dialog h3{text-align:center;margin:0 36px 5px;font:900 14px monospace}.ally-territory-dialog .status{text-align:center;color:#9bffb9;font:800 9px monospace;letter-spacing:1px}.ally-territory-dialog p{font-size:11px;line-height:1.5;color:#d7eaff}.ally-territory-dialog .cost-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin:10px 0}.ally-territory-dialog .cost-list span{padding:7px;border:1px solid #5b91bd;border-radius:7px;background:#0a2d4d;font:800 10px monospace}.ally-territory-dialog .buy{width:100%;margin-top:7px}
-.ally-bank-production{position:relative;z-index:1;margin:9px 0 0;padding:10px;border:1px solid #245779;border-radius:10px;background:#081b29;color:#d9efff}
-.ally-bank-production>div:first-child b{display:block;font-size:9px}.ally-bank-production small{display:block;margin-top:4px;color:#86a8bc;font-size:8px}
-.ally-bank-rates{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.ally-bank-rates span{padding:5px 7px;border:1px solid #245779;border-radius:6px;background:#0c2635;font-size:8px}
-@media(max-width:360px){.ally-territory-stage{gap:6px}.ally-territory-building{padding:7px;min-height:82px;gap:6px}.ally-territory-building .structure{width:34px;height:34px}.ally-territory-building .glyph{font-size:19px}.ally-territory-building .building-name{font-size:8px}}
+.ally-territory-dialog{position:relative;width:min(420px,100%);max-height:88dvh;overflow:auto;padding:17px;border:2px solid #6dbaff;border-radius:15px;background:linear-gradient(155deg,#1a5688,#0b2d50);box-shadow:0 16px 48px #000b;color:#f4f9ff}
+.ally-territory-dialog .close{position:absolute;right:10px;top:8px;width:32px;height:32px;border:1px solid #8fcaff;border-radius:8px;background:#174b78;color:white;font-size:22px}
+.ally-territory-dialog{padding-top:70px!important}.ally-territory-nav{position:static;display:block;width:100%;height:0;min-height:0;margin:0}.ally-territory-nav button{position:absolute;top:8px;width:34px;height:32px;border:1px solid #8fcaff;border-radius:8px;background:#174b78;color:#e8f7ff;font-weight:900}.ally-territory-nav button:first-child{left:10px}.ally-territory-nav button:last-child{right:49px}.ally-territory-nav span{display:block;position:absolute;top:43px;left:0;right:0;font:800 9px monospace;color:#b9e2ff;text-align:center;min-width:0}
+.ally-territory-dialog .dialog-art{width:74px;height:62px;margin:8px auto 12px;display:grid;place-items:center;border:2px solid #8bc49a;border-radius:9px;background:linear-gradient(145deg,#719b7e,#142c22);box-shadow:0 6px 0 #08150f;color:#d8ffe4;font-size:36px}
+.ally-territory-dialog h3{text-align:center;margin:0 36px 5px;font:900 14px monospace}
+.ally-territory-dialog .status{text-align:center;color:#9bffb9;font:800 9px monospace;letter-spacing:1px}
+.ally-territory-dialog p{font-size:11px;line-height:1.5;color:#d7eaff}
+.ally-territory-dialog .cost-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin:10px 0}
+.ally-territory-dialog .cost-list span{padding:7px;border:1px solid #5b91bd;border-radius:7px;background:#0a2d4d;font:800 10px monospace}
+.ally-territory-dialog .buy{width:100%;margin-top:7px}
+@media(max-width:380px){.ally-territory-stage{height:535px}.ally-territory-hub .structure{width:96px;height:66px}.ally-territory-building{width:92px}.ally-territory-building .structure{width:58px;height:46px}.ally-territory-building .building-name{font-size:8px;max-width:94px}}
+
+
+/* Alliance HQ world: independent cyber-industrial visual language, eight distinct outposts. */
+.ally-campus{padding:2px 0 14px}
+.ally-campus-head{padding:8px 10px 9px;text-align:center;color:#eaf7ff}
+.ally-campus-head>b{display:block;font:900 15px monospace;letter-spacing:1.5px;margin:5px 0;color:#dff5ff}
+.ally-campus-head>small{display:block;font:8px/1.5 monospace;color:#a9cde5}
+.ally-campus-world{position:relative;height:740px;max-width:680px;margin:0 auto;overflow:hidden;background:radial-gradient(ellipse at 50% 48%,#173d49 0%,#102b38 43%,#081923 78%);border:1px solid #286176;border-radius:16px;box-shadow:inset 0 0 55px #39c7d522,0 12px 28px #0008}
+.ally-campus-world:before{content:"";position:absolute;inset:0;background:linear-gradient(30deg,transparent 49.7%,#48d5d014 50%,transparent 50.3%),linear-gradient(150deg,transparent 49.7%,#48d5d014 50%,transparent 50.3%),radial-gradient(circle at 50% 50%,transparent 0 18%,#5bd5d018 18.2% 18.5%,transparent 18.7% 34%,#5bd5d010 34.2% 34.5%,transparent 34.7%);background-size:100% 100%;pointer-events:none}
+.ally-campus-world:after{content:"ALLIANCE SECURE NETWORK // NODE ARRAY";position:absolute;left:12px;top:10px;color:#73c5c4;font:700 7px monospace;letter-spacing:1.4px;opacity:.7;pointer-events:none}
+.ally-territory-stage{position:relative;width:100%;height:100%;overflow:hidden}
+.ally-world-grid{position:absolute;inset:0;background-image:radial-gradient(#5ac9c433 .8px,transparent .8px);background-size:17px 17px;opacity:.45}
+.ally-territory-links{position:absolute;inset:0;width:100%;height:100%;z-index:1;overflow:visible;pointer-events:none}
+.ally-territory-links .data-link{fill:none;stroke:#43d7d0;stroke-width:.48;stroke-dasharray:1.5 1.8;opacity:.68;filter:drop-shadow(0 0 2px #40f2e9);animation:dataPulse 3.8s linear infinite;animation-delay:var(--link-delay,0s)}
+@keyframes dataPulse{to{stroke-dashoffset:-26}}
+.ally-territory-hub,.ally-territory-building{position:absolute;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;min-width:0;transform:translate(-50%,-50%);cursor:pointer;background:none;border:0;padding:0;color:#f4f9ff;filter:drop-shadow(0 8px 8px #000b)}
+.ally-territory-hub{left:50%;top:50%;width:150px;z-index:4}
+.ally-territory-hub .structure{position:relative;width:116px;height:112px;border:2px solid #76d6d0;clip-path:polygon(50% 0,92% 22%,100% 78%,72% 100%,28% 100%,0 78%,8% 22%);background:linear-gradient(145deg,#8ac8bf 0%,#316c70 25%,#163d4a 64%,#0b202d 100%);box-shadow:inset 0 0 25px #a6fff044,0 0 25px #28d9d455}
+.ally-territory-hub .structure:before{content:"";position:absolute;inset:12px;border:1px solid #b2f6e5;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);background:linear-gradient(145deg,#397e80,#102c3a)}
+.ally-territory-hub .glyph{position:absolute;z-index:2;left:0;right:0;top:22px;text-align:center;font-size:48px;color:#e1fff5;text-shadow:0 0 14px #9dfff0}
+.ally-territory-hub .roof-mark{position:absolute;z-index:3;top:6px;left:0;right:0;text-align:center;font:900 9px monospace;color:#eafff8;font-style:normal;letter-spacing:2px}
+.ally-territory-hub .core-light{position:absolute;z-index:3;width:8px;height:8px;border-radius:50%;background:#a5fff1;box-shadow:0 0 12px 5px #38e9d899;left:calc(50% - 4px);bottom:20px}
+.ally-territory-building{width:98px;z-index:3}
+.ally-territory-building .structure{position:relative;display:grid;place-items:center;width:66px;height:58px;border:1px solid #69b6b2;background:linear-gradient(145deg,#447e7e,#1a4652 56%,#0a202c);box-shadow:inset 0 0 14px #9ffff022,0 5px 0 #07141d,0 8px 0 #214653;overflow:visible}
+.ally-territory-building .structure:before{content:"";position:absolute;left:8%;right:8%;top:-10px;height:12px;background:linear-gradient(135deg,#8acac0,#2d6870);border:1px solid #7dd5c8;clip-path:polygon(15% 0,85% 0,100% 100%,0 100%)}
+.ally-territory-building .structure:after{content:"";position:absolute;left:15%;right:15%;bottom:6px;height:9px;border:1px solid #5fd4c8;background:repeating-linear-gradient(90deg,#09202a 0 6px,#56b6a6 7px 9px);opacity:.9}
+.ally-territory-building .glyph{position:relative;z-index:2;font-size:30px;color:#d8fff5;text-shadow:0 0 10px #8fffe8;transform:translateY(-3px)}
+.ally-territory-building .building-core{position:absolute;z-index:3;left:calc(50% - 3px);top:14px;width:6px;height:6px;border-radius:50%;background:#86fff0;box-shadow:0 0 9px 3px #4de5d4aa}
+.ally-territory-building .building-name,.ally-territory-hub .building-name{display:block;margin-top:10px;max-width:108px;text-align:center;color:#eaffff;text-shadow:0 2px 4px #000;font:900 8px/1.2 monospace;letter-spacing:.35px}
+.ally-territory-building .building-level,.ally-territory-hub .building-level{font:800 7px monospace;color:#7de5d4;margin-top:4px;letter-spacing:.5px;text-shadow:0 1px 4px #000}
+.ally-territory-hub .building-name{max-width:150px;font-size:10px;color:#d9fff5}
+.ally-territory-building.upgrade-ready .structure{border-color:#58ff9c;box-shadow:inset 0 0 18px #6bff9d55,0 0 0 2px #39ff8855,0 5px 0 #07141d,0 8px 0 #2e8c52,0 0 18px #39ff8888;animation:allyBuildingReady 1.35s ease-in-out infinite}
+.ally-territory-building.upgrade-ready .building-level{color:#9bffb9;text-shadow:0 0 8px #39ff88}
+.ally-territory-building.locked{opacity:.58;filter:grayscale(.4) drop-shadow(0 8px 6px #0008)}
+.ally-territory-building.maxed .structure{border-color:#ffd77b;box-shadow:inset 0 0 14px #ffd77b44,0 5px 0 #07141d,0 8px 0 #96743b}
+/* Eight unmistakably different silhouettes/materials. */
+.ally-arch-ao1 .structure{border-radius:50% 50% 8px 8px;width:56px;height:68px;background:linear-gradient(90deg,#153c49,#80c7bb,#17414c)}
+.ally-arch-ao2 .structure{clip-path:polygon(0 15%,20% 0,80% 0,100% 15%,100% 100%,0 100%);width:72px;height:52px;background:repeating-linear-gradient(90deg,#162d3a 0 8px,#5a9c9a 9px 12px)}
+.ally-arch-ao3 .structure{width:46px;height:78px;border-radius:20px 20px 3px 3px;background:linear-gradient(90deg,#17394b,#85d9d0,#17394b)}
+.ally-arch-ao4 .structure{width:76px;height:44px;border-radius:4px;background:linear-gradient(180deg,#a58c61,#4b483c 42%,#182b31)}
+.ally-arch-as1 .structure{width:70px;height:54px;clip-path:polygon(50% 0,100% 30%,90% 100%,10% 100%,0 30%);background:linear-gradient(145deg,#a4b7b1,#385c62 45%,#142a36)}
+.ally-arch-as2 .structure{width:58px;height:70px;border-radius:5px 5px 22px 22px;background:linear-gradient(90deg,#102c40,#4c93a5,#102c40)}
+.ally-arch-as3 .structure{width:78px;height:50px;border-radius:12px 12px 3px 3px;background:repeating-linear-gradient(90deg,#173a46 0 7px,#76b8a4 8px 11px,#234b51 12px 17px)}
+.ally-arch-as4 .structure{width:68px;height:62px;clip-path:polygon(50% 0,100% 25%,85% 100%,15% 100%,0 25%);background:linear-gradient(145deg,#9b9b83,#4b6460 50%,#142d37)}
+.ally-world-legend{position:absolute;z-index:5;left:10px;right:10px;bottom:10px;display:flex;justify-content:space-between;gap:8px;color:#8fcac6;font:700 7px monospace;letter-spacing:.5px;pointer-events:none}
+.legend-dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:4px;background:#43d7d0;box-shadow:0 0 7px #43d7d0}.legend-dot.ready{background:#39ff88;box-shadow:0 0 7px #39ff88}
+@keyframes allyBuildingReady{0%,100%{filter:brightness(1);transform:scale(1)}50%{filter:brightness(1.35);transform:scale(1.06)}}
+@media(max-width:420px){.ally-campus-world{height:690px;border-radius:10px}.ally-territory-building{width:84px}.ally-territory-building .building-name{font-size:7px;max-width:88px}.ally-territory-building .structure{transform:scale(.88)}.ally-territory-hub{width:132px}.ally-territory-hub .structure{width:102px;height:100px}.ally-territory-hub .glyph{font-size:42px}.ally-world-legend{font-size:6px}}
+
+/* Alliance command interior spacing. */
+#allyInterior{padding-top:2px}
+
 
 
 /* Five-second system breach / loading sequence */
@@ -1385,163 +1434,155 @@ section[id^="t-"]:not(#t-hq){padding-right:54px!important;box-sizing:border-box}
    and max-level green states remain controlled by the existing status classes. */
 
 /* STANDARD HQ BUILDINGS */
-#testBuildingLayer [data-test-building="node"] .structure,</style>
-
-<style id="unique-test-building-architecture">
-/* Distinct silhouettes for each HQ-area building. Upgrade-ready green lighting
-   and max-level green states remain controlled by the existing status classes. */
-
-/* STANDARD HQ BUILDINGS */
-#allyBuildingLayer [data-test-building="node"] .structure{
+#testBuildingLayer [data-test-building="node"] .structure{
   width:58px!important;height:48px!important;border-radius:5px 5px 3px 3px!important;
   background:
     linear-gradient(90deg,transparent 12%,#79e6ad22 12% 15%,transparent 15% 85%,#79e6ad22 85% 88%,transparent 88%),
     repeating-linear-gradient(0deg,#071b14 0 7px,#397b56 8px 10px,#10271c 11px 15px)!important;
 }
-#testBuildingLayer [data-test-building="node"] .structure:before,#allyBuildingLayer [data-test-building="node"] .structure:before{
+#testBuildingLayer [data-test-building="node"] .structure:before{
   left:8%!important;right:8%!important;top:-9px!important;height:12px!important;
   border-radius:4px 4px 1px 1px!important;background:linear-gradient(180deg,#b4e5c0,#477c5c)!important;
 }
-#testBuildingLayer [data-test-building="node"] .structure:after,#allyBuildingLayer [data-test-building="node"] .structure:after{
+#testBuildingLayer [data-test-building="node"] .structure:after{
   left:16%!important;right:16%!important;bottom:10%!important;height:8px!important;
   border:1px solid #8af0b0!important;background:repeating-linear-gradient(90deg,#09160f 0 7px,#69d995 8px 10px)!important;
 }
 
-#testBuildingLayer [data-test-building="siphon"] .structure,#allyBuildingLayer [data-test-building="siphon"] .structure{
+#testBuildingLayer [data-test-building="siphon"] .structure{
   width:45px!important;height:64px!important;border-radius:17px 17px 7px 7px!important;
   background:
     linear-gradient(90deg,transparent 20%,#8ce7ff33 21% 25%,transparent 26% 72%,#8ce7ff33 73% 77%,transparent 78%),
     linear-gradient(180deg,#7bc4d2 0%,#27677a 28%,#123545 72%,#081b25 100%)!important;
 }
-#testBuildingLayer [data-test-building="siphon"] .structure:before,#allyBuildingLayer [data-test-building="siphon"] .structure:before{
+#testBuildingLayer [data-test-building="siphon"] .structure:before{
   left:20%!important;right:20%!important;top:-12px!important;height:16px!important;
   border-radius:50% 50% 5px 5px!important;background:linear-gradient(180deg,#c3f5fa,#397f91)!important;
 }
-#testBuildingLayer [data-test-building="siphon"] .structure:after,#allyBuildingLayer [data-test-building="siphon"] .structure:after{
+#testBuildingLayer [data-test-building="siphon"] .structure:after{
   left:42%!important;right:42%!important;bottom:10%!important;height:58%!important;
   border:1px solid #9beaff!important;border-radius:8px!important;
   background:linear-gradient(180deg,#b8f5ff88,#2c8ca988 45%,#071c27)!important;
 }
 
-#testBuildingLayer [data-test-building="miner"] .structure,#allyBuildingLayer [data-test-building="miner"] .structure{
+#testBuildingLayer [data-test-building="miner"] .structure{
   width:70px!important;height:43px!important;border-radius:7px 7px 4px 4px!important;
   background:
     radial-gradient(ellipse at 50% 100%,#ffcb6433,transparent 48%),
     repeating-linear-gradient(90deg,#17251e 0 8px,#6e9b69 9px 12px,#253a2b 13px 17px)!important;
 }
-#testBuildingLayer [data-test-building="miner"] .structure:before,#allyBuildingLayer [data-test-building="miner"] .structure:before{
+#testBuildingLayer [data-test-building="miner"] .structure:before{
   left:5%!important;right:5%!important;top:-8px!important;height:12px!important;
   border-radius:5px 5px 2px 2px!important;background:linear-gradient(135deg,#e3c78a,#6d7046)!important;
 }
-#testBuildingLayer [data-test-building="miner"] .structure:after,#allyBuildingLayer [data-test-building="miner"] .structure:after{
+#testBuildingLayer [data-test-building="miner"] .structure:after{
   left:12%!important;right:12%!important;bottom:9%!important;height:10px!important;
   border:1px solid #e7bd6b!important;background:repeating-linear-gradient(90deg,#17190f 0 9px,#e7a94d 10px 12px)!important;
 }
 
-#testBuildingLayer [data-test-building="lab"] .structure,#allyBuildingLayer [data-test-building="lab"] .structure{
+#testBuildingLayer [data-test-building="lab"] .structure{
   width:55px!important;height:59px!important;border-radius:48% 48% 12% 12%!important;
   background:
     radial-gradient(ellipse at 50% 20%,#d5ffeb55,transparent 35%),
     linear-gradient(90deg,#173e35,#4e9b78 45%,#1c4b3a 78%,#0b241c)!important;
 }
-#testBuildingLayer [data-test-building="lab"] .structure:before,#allyBuildingLayer [data-test-building="lab"] .structure:before{
+#testBuildingLayer [data-test-building="lab"] .structure:before{
   left:18%!important;right:18%!important;top:-13px!important;height:20px!important;
   border-radius:50% 50% 20% 20%!important;background:linear-gradient(180deg,#d5ffe6,#4e9674)!important;
 }
-#testBuildingLayer [data-test-building="lab"] .structure:after,#allyBuildingLayer [data-test-building="lab"] .structure:after{
+#testBuildingLayer [data-test-building="lab"] .structure:after{
   left:36%!important;right:36%!important;bottom:9%!important;height:35%!important;
   border:1px solid #a6ffd2!important;border-radius:10px 10px 4px 4px!important;
   background:linear-gradient(180deg,#b7ffe477,#1b765b)!important;
 }
 
 /* SIX PRESTIGE BUILDINGS — each has its own architectural identity. */
-#testBuildingLayer [data-test-building="tech"] .structure,/* SIX PRESTIGE BUILDINGS — each has its own architectural identity. */
-#allyBuildingLayer [data-test-building="tech"] .structure{
+#testBuildingLayer [data-test-building="tech"] .structure{
   width:57px!important;height:59px!important;border-radius:48% 48% 13% 13%!important;
   background:
     radial-gradient(ellipse at 50% 28%,#ffb7f466,transparent 36%),
     repeating-linear-gradient(90deg,transparent 0 9px,#ff78dc22 10px 11px),
     linear-gradient(145deg,#a64b9a,#52245d 48%,#1b102b)!important;
 }
-#testBuildingLayer [data-test-building="tech"] .structure:before,#allyBuildingLayer [data-test-building="tech"] .structure:before{
+#testBuildingLayer [data-test-building="tech"] .structure:before{
   left:28%!important;right:28%!important;top:-16px!important;height:21px!important;
   border-radius:50% 50% 3px 3px!important;background:linear-gradient(180deg,#ffd2f4,#9a4b9b)!important;
   box-shadow:0 -7px 0 -5px #ff9be7,0 -13px 0 -6px #ff9be7!important;
 }
-#testBuildingLayer [data-test-building="tech"] .structure:after,#allyBuildingLayer [data-test-building="tech"] .structure:after{
+#testBuildingLayer [data-test-building="tech"] .structure:after{
   left:39%!important;right:39%!important;bottom:9%!important;height:30%!important;
   border:1px solid #ff9fe8!important;border-radius:10px 10px 3px 3px!important;
   background:linear-gradient(180deg,#ffb7f4aa,#59255e)!important;
 }
 
-#testBuildingLayer [data-test-building="bank"] .structure,#allyBuildingLayer [data-test-building="bank"] .structure{
+#testBuildingLayer [data-test-building="bank"] .structure{
   width:52px!important;height:68px!important;border-radius:5px 5px 2px 2px!important;
   background:
     linear-gradient(90deg,transparent 12%,#ffe08a44 13% 17%,transparent 18% 82%,#ffe08a44 83% 87%,transparent 88%),
     repeating-linear-gradient(0deg,#30220d 0 8px,#9b752b 9px 11px,#49340f 12px 18px)!important;
 }
-#testBuildingLayer [data-test-building="bank"] .structure:before,#allyBuildingLayer [data-test-building="bank"] .structure:before{
+#testBuildingLayer [data-test-building="bank"] .structure:before{
   left:9%!important;right:9%!important;top:-13px!important;height:17px!important;
   border-radius:3px 3px 0 0!important;background:linear-gradient(180deg,#fff0b5,#a17a2c)!important;
 }
-#testBuildingLayer [data-test-building="bank"] .structure:after,#allyBuildingLayer [data-test-building="bank"] .structure:after{
+#testBuildingLayer [data-test-building="bank"] .structure:after{
   left:22%!important;right:22%!important;bottom:8%!important;height:55%!important;
   border:1px solid #ffdf85!important;border-top-width:3px!important;
   background:repeating-linear-gradient(90deg,#1a160d 0 6px,#e4b84e 7px 9px)!important;
 }
 
-#testBuildingLayer [data-test-building="vault"] .structure,#allyBuildingLayer [data-test-building="vault"] .structure{
+#testBuildingLayer [data-test-building="vault"] .structure{
   width:69px!important;height:49px!important;border-radius:18px 18px 12px 12px!important;
   background:
     radial-gradient(circle at 50% 48%,#c9f4ff55 0 13%,transparent 14%),
     linear-gradient(145deg,#9dd9f4,#367ba4 35%,#12324d 78%,#071a2a)!important;
   box-shadow:inset 0 0 0 5px #173c57,inset 0 0 0 7px #9bd8f0!important;
 }
-#testBuildingLayer [data-test-building="vault"] .structure:before,#allyBuildingLayer [data-test-building="vault"] .structure:before{
+#testBuildingLayer [data-test-building="vault"] .structure:before{
   left:13%!important;right:13%!important;top:-9px!important;height:14px!important;
   border-radius:9px 9px 4px 4px!important;background:linear-gradient(180deg,#d6f5ff,#477c9b)!important;
 }
-#testBuildingLayer [data-test-building="vault"] .structure:after,#allyBuildingLayer [data-test-building="vault"] .structure:after{
+#testBuildingLayer [data-test-building="vault"] .structure:after{
   left:37%!important;right:37%!important;bottom:15%!important;height:42%!important;
   border:3px double #c2efff!important;border-radius:50%!important;
   background:radial-gradient(circle,#14324a 0 25%,#b6eaff 27% 33%,#255b7b 35% 100%)!important;
 }
 
-#testBuildingLayer [data-test-building="forge"] .structure,#allyBuildingLayer [data-test-building="forge"] .structure{
+#testBuildingLayer [data-test-building="forge"] .structure{
   width:68px!important;height:54px!important;border-radius:4px 4px 7px 7px!important;
   background:
     linear-gradient(90deg,transparent 0 12%,#baff9a22 13% 18%,transparent 19% 81%,#baff9a22 82% 87%,transparent 88%),
     radial-gradient(ellipse at 50% 100%,#c6ff6844,transparent 45%),
     linear-gradient(145deg,#8ec66b,#376b37 40%,#122b1b 100%)!important;
 }
-#testBuildingLayer [data-test-building="forge"] .structure:before,#allyBuildingLayer [data-test-building="forge"] .structure:before{
+#testBuildingLayer [data-test-building="forge"] .structure:before{
   left:13%!important;right:13%!important;top:-15px!important;height:20px!important;
   border-radius:2px 2px 0 0!important;background:linear-gradient(90deg,#c9ed9c 0 25%,#315b35 26% 39%,#b5dc83 40% 65%,#24492d 66%)!important;
 }
-#testBuildingLayer [data-test-building="forge"] .structure:after,#allyBuildingLayer [data-test-building="forge"] .structure:after{
+#testBuildingLayer [data-test-building="forge"] .structure:after{
   left:17%!important;right:17%!important;bottom:8%!important;height:27%!important;
   border:1px solid #c0ff8d!important;background:repeating-linear-gradient(90deg,#152619 0 8px,#a0e56b 9px 12px)!important;
 }
 
-#testBuildingLayer [data-test-building="foundry"] .structure,#allyBuildingLayer [data-test-building="foundry"] .structure{
+#testBuildingLayer [data-test-building="foundry"] .structure{
   width:67px!important;height:57px!important;border-radius:3px 15px 3px 3px!important;
   background:
     linear-gradient(90deg,transparent 8%,#ff9a7b33 9% 14%,transparent 15% 86%,#ff9a7b33 87% 92%,transparent 93%),
     radial-gradient(ellipse at 50% 100%,#ff583e66,transparent 45%),
     linear-gradient(145deg,#d66a56,#78352f 48%,#2b1718)!important;
 }
-#testBuildingLayer [data-test-building="foundry"] .structure:before,#allyBuildingLayer [data-test-building="foundry"] .structure:before{
+#testBuildingLayer [data-test-building="foundry"] .structure:before{
   left:6%!important;right:6%!important;top:-13px!important;height:18px!important;
   border-radius:2px!important;background:linear-gradient(90deg,#ffc2a4,#914b3d 28% 40%,#e99a79 41% 68%,#65302c 69%)!important;
 }
-#testBuildingLayer [data-test-building="foundry"] .structure:after,#allyBuildingLayer [data-test-building="foundry"] .structure:after{
+#testBuildingLayer [data-test-building="foundry"] .structure:after{
   left:30%!important;right:30%!important;bottom:8%!important;height:43%!important;
   border:2px solid #ff9a79!important;border-radius:3px 3px 12px 12px!important;
   background:linear-gradient(180deg,#ffca8055,#ff4b2caa 60%,#241313)!important;
   box-shadow:0 0 9px #ff563d88!important;
 }
 
-#testBuildingLayer [data-test-building="hive"] .structure,#allyBuildingLayer [data-test-building="hive"] .structure{
+#testBuildingLayer [data-test-building="hive"] .structure{
   width:58px!important;height:61px!important;border-radius:30% 30% 43% 43%!important;
   background:
     radial-gradient(circle at 50% 28%,#f0ddff66 0 8%,transparent 9%),
@@ -1549,11 +1590,11 @@ section[id^="t-"]:not(#t-hq){padding-right:54px!important;box-sizing:border-box}
     repeating-linear-gradient(-60deg,transparent 0 10px,#d9b6ff22 11px 12px),
     linear-gradient(145deg,#a58ad5,#58447f 48%,#211a39)!important;
 }
-#testBuildingLayer [data-test-building="hive"] .structure:before,#allyBuildingLayer [data-test-building="hive"] .structure:before{
+#testBuildingLayer [data-test-building="hive"] .structure:before{
   left:22%!important;right:22%!important;top:-10px!important;height:16px!important;
   border-radius:50%!important;background:linear-gradient(180deg,#eadcff,#7d66ad)!important;
 }
-#testBuildingLayer [data-test-building="hive"] .structure:after,#allyBuildingLayer [data-test-building="hive"] .structure:after{
+#testBuildingLayer [data-test-building="hive"] .structure:after{
   left:33%!important;right:33%!important;bottom:8%!important;height:35%!important;
   border:1px solid #e1caff!important;border-radius:50% 50% 35% 35%!important;
   background:linear-gradient(180deg,#d8c1ff88,#3e2b66)!important;
@@ -1561,8 +1602,7 @@ section[id^="t-"]:not(#t-hq){padding-right:54px!important;box-sizing:border-box}
 
 /* Keep the green ready-state aura legible around all of the new silhouettes. */
 #testBuildingLayer .test-building.upgrade-ready .structure,
-#testBuildingLayer .test-building.complete .structure,/* Keep the green ready-state aura legible around all of the new silhouettes. */
-#allyBuildingLayer .test-building.upgrade-ready .structure,#allyBuildingLayer .test-building.complete .structure{
+#testBuildingLayer .test-building.complete .structure{
   filter:drop-shadow(0 0 5px #55ff8b88);
 }
 </style>
@@ -2327,66 +2367,7 @@ body:has(#t-bot:not([hidden])){height:100dvh!important;overflow:hidden!important
 })();
 </script>
 
-<style id="alliance-hq-redesign-v2">
-/* New Alliance shortcut: unmistakable bright-red identity. */
-.test-shortcut-alliance{background:linear-gradient(145deg,#ff263d,#8f071b)!important;border:1px solid #ff8993!important;color:#fff!important;box-shadow:0 0 12px #ff203c88,inset 0 0 12px #ffb0b522!important}
-.alliance-rail-logo{width:25px;height:25px;display:grid;place-items:center;border:2px solid #fff;border-radius:8px 8px 10px 10px;background:linear-gradient(145deg,#ff5264,#a90020);color:#fff;font:1000 16px/1 ui-monospace,monospace;text-shadow:0 0 8px #fff;box-shadow:0 0 10px #ff304c}
-#t-ally .ally-command-campus{border:1px solid #57202a;background:linear-gradient(160deg,#170b10,#08090c 70%);box-shadow:0 0 18px #ff24351a}
-#t-ally .ally-command-campus .ally-new-campus-head{border-color:#7e2634}
-#t-ally .ally-command-campus .ally-new-campus-head small{color:#ff7887;letter-spacing:1.2px;font-weight:900}
-#t-ally .ally-command-campus .ally-new-campus-head h2{color:#fff;text-shadow:0 0 12px #ff2848}
-#t-ally .ally-command-campus .ally-new-live{color:#ff9aa5}
-#t-ally .ally-command-campus .ally-new-live i{background:#ff314b;box-shadow:0 0 10px #ff314b}
-#t-ally .ally-new-world{display:block!important;padding:8px!important;background:radial-gradient(ellipse at 50% 50%,#32121b 0,#160b11 48%,#08090d 100%)!important;border:1px solid #662332;border-radius:12px;overflow:hidden}
-#t-ally .ally-command-map{position:relative;isolation:isolate;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(3,minmax(116px,1fr));gap:8px;min-height:390px;padding:10px;border:1px solid #702636;border-radius:12px;background:radial-gradient(ellipse at 50% 50%,#4b1824 0,#1b0c13 48%,#090a0e 100%);overflow:hidden}
-#t-ally .ally-map-ground{position:absolute;inset:0;z-index:-1;pointer-events:none;background:repeating-linear-gradient(0deg,transparent 0 31px,#ff46500a 32px 33px),repeating-linear-gradient(90deg,transparent 0 31px,#ff46500a 32px 33px)}
-#t-ally .ally-map-ground i{position:absolute;width:9px;height:9px;border:1px solid #ff5369;border-radius:50%;background:#ff243d;box-shadow:0 0 12px #ff243d;animation:allyRedPulse 2.2s ease-in-out infinite}
-#t-ally .ally-map-ground i:nth-child(1){left:8%;top:10%}#t-ally .ally-map-ground i:nth-child(2){right:8%;top:10%;animation-delay:.5s}#t-ally .ally-map-ground i:nth-child(3){left:8%;bottom:10%;animation-delay:1s}#t-ally .ally-map-ground i:nth-child(4){right:8%;bottom:10%;animation-delay:1.5s}
-#t-ally .ally-map-road{position:absolute;left:8%;right:8%;top:50%;height:5px;transform:translateY(-50%);background:linear-gradient(90deg,transparent,#ff465055,transparent);box-shadow:0 0 10px #ff263322}
-#t-ally .ally-road-v{left:50%;right:auto;top:8%;bottom:8%;width:5px;height:auto;transform:translateX(-50%);background:linear-gradient(180deg,transparent,#ff465055,transparent)}
-#t-ally .ally-hq-building{position:relative;z-index:2;align-self:center;justify-self:center;width:100%;height:100%;min-width:0;min-height:108px;padding:8px 3px 6px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;border:1px solid #70303b;border-radius:9px;background:linear-gradient(160deg,#27121a,#100b10 75%);color:#ffe9ec;box-shadow:0 7px 0 #08070a,0 10px 0 #461923,0 12px 14px #000b;transition:transform .15s,border-color .15s,box-shadow .15s}
-#t-ally .ally-hq-building:active{transform:translateY(2px);border-color:#ff7181;box-shadow:0 4px 0 #08070a,0 7px 0 #461923}
-#t-ally .ally-hq-building .ally-hq-structure{position:relative;flex:none;width:clamp(47px,15vw,65px);height:48px;border:1px solid var(--accent,#ff5268);border-radius:7px 7px 3px 3px;background:linear-gradient(145deg,#ffb0b9 0%,#a52a42 15%,#531627 48%,#1b0b12 100%);box-shadow:inset 0 0 17px #ff9aa533,0 0 13px color-mix(in srgb,var(--accent,#ff5268) 55%,transparent),0 7px 0 #09070a,0 10px 0 #6a2030;transform:perspective(500px) rotateX(8deg);overflow:visible}
-#t-ally .ally-hq-building .structure:before{content:"";position:absolute;left:8%;right:8%;top:-9px;height:11px;border:1px solid var(--accent,#ff5268);border-radius:4px 4px 1px 1px;background:linear-gradient(180deg,#ffe8eb,#df5369 55%,#571526);box-shadow:0 0 10px #ff5369}
-#t-ally .ally-hq-building .structure:after{content:"";position:absolute;left:14%;right:14%;bottom:7%;height:14%;border:1px solid var(--accent,#ff5268);background:repeating-linear-gradient(90deg,#160a10 0 6px,#ff8090 7px 8px,#39101a 9px 12px)}
-#t-ally .ally-hq-building .arch-side{position:absolute;top:14%;bottom:10%;width:13%;border:1px solid #ff8291;background:linear-gradient(180deg,#ffdce1aa,#6b1d2e 45%,#180a10);box-shadow:0 0 7px #ff536955}
-#t-ally .ally-hq-building .arch-side-a{left:-9%;clip-path:polygon(35% 0,100% 12%,100% 88%,0 100%,0 18%)}
-#t-ally .ally-hq-building .arch-side-b{right:-9%;clip-path:polygon(0 12%,65% 0,100% 18%,100% 100%,0 88%)}
-#t-ally .ally-hq-building .arch-spire{position:absolute;z-index:3;left:50%;top:-25%;width:5px;height:34%;transform:translateX(-50%);border:1px solid #ff9ba8;background:linear-gradient(90deg,#501323,#fff0f2,#501323);box-shadow:0 0 8px #ff5369}
-#t-ally .ally-hq-building .arch-core{position:absolute;z-index:4;left:50%;top:24%;width:25%;height:48%;transform:translateX(-50%);border:1px solid #ffe1e5;background:linear-gradient(180deg,#fff0f2aa,#ed456055 48%,#270b14);box-shadow:0 0 10px #ff5268,inset 0 0 8px #fff8}
-#t-ally .ally-hq-building .arch-energy{position:absolute;z-index:5;left:12%;right:12%;top:10%;height:3px;background:#ff6479;box-shadow:0 0 8px #ff5268,0 0 14px #ff5268;animation:allyRedPulse 2s ease-in-out infinite}
-#t-ally .ally-hq-building .glyph{position:absolute;z-index:7;left:50%;top:50%;transform:translate(-50%,-50%);font-size:20px;color:#fff;text-shadow:0 0 8px #ff5268,0 0 16px #ff5268}
-#t-ally .ally-hq-building .ally-hq-label{display:flex;flex-direction:column;align-items:center;gap:3px;max-width:100%;text-align:center}
-#t-ally .ally-hq-building .building-name{font-size:8px!important;line-height:1.15;color:#ffe8eb!important;text-shadow:0 0 7px #ff5369!important;overflow-wrap:anywhere}
-#t-ally .ally-hq-building .building-level{font-size:8px!important;color:#ff9aa7!important}
-#t-ally .ally-hq-building em{font-style:normal;font-size:7px;color:#ff6479;letter-spacing:.5px}
-#t-ally .ally-hq-building[data-visual-stage="2"] .ally-hq-structure{height:52px;width:51px}
-#t-ally .ally-hq-building[data-visual-stage="3"] .ally-hq-structure{height:56px;width:55px}
-#t-ally .ally-hq-building[data-visual-stage="4"] .ally-hq-structure{height:60px;width:58px}
-#t-ally .ally-hq-building[data-visual-stage="5"] .ally-hq-structure{height:64px;width:61px}
-#t-ally .ally-hq-building[data-visual-stage="6"] .ally-hq-structure{height:68px;width:64px}
-#t-ally .ally-hq-building[data-visual-stage="7"] .ally-hq-structure{height:73px;width:68px}
-#t-ally .ally-hq-building.cyber-node{--accent:#ff6479}
-#t-ally .ally-hq-building.cyber-siphon{--accent:#ff9c57}
-#t-ally .ally-hq-building.cyber-miner{--accent:#d88cff}
-#t-ally .ally-hq-building.cyber-lab{--accent:#ffce68}
-#t-ally .ally-hq-core{position:relative;z-index:3;grid-column:2;grid-row:2;align-self:center;justify-self:center;width:100%;height:100%;min-height:112px;padding:8px 3px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;border:1px solid #ff697d;border-radius:12px;background:radial-gradient(circle at 50% 25%,#8d263a,#300d19 58%,#11080d);color:#fff;box-shadow:0 0 20px #ff234855,inset 0 0 18px #ff73851c}
-#t-ally .ally-hq-core-orbit{position:absolute;inset:8%;border:1px dashed #ff9aa7;border-radius:50%;transform:rotateX(65deg);animation:allyCoreOrbit 18s linear infinite}
-#t-ally .ally-hq-core-building{width:47px;height:43px;display:grid;place-items:center;border:2px solid #ffd8de;border-radius:8px 8px 3px 3px;background:linear-gradient(145deg,#ffdce1,#b22e48 35%,#3a0d1a);box-shadow:0 0 15px #ff5268,0 7px 0 #17070c,0 10px 0 #7d1d31}
-#t-ally .ally-hq-core-building b{font-size:24px;text-shadow:0 0 10px #fff}
-#t-ally .ally-hq-core strong{font-size:9px;letter-spacing:.5px;text-shadow:0 0 8px #ff5268}
-#t-ally .ally-hq-core small{font-size:7px;color:#ffc0c8}
-#t-ally .ally-hq-core em{font-style:normal;font-size:7px;color:#ff9aa7}
-@keyframes allyRedPulse{50%{filter:brightness(1.5);opacity:.65}}@keyframes allyCoreOrbit{to{transform:rotateX(65deg) rotate(360deg)}}
-@media(max-width:430px){#t-ally .ally-command-map{grid-template-rows:repeat(3,minmax(103px,1fr));gap:5px;padding:6px;min-height:340px}#t-ally .ally-hq-building{min-height:100px;padding:5px 2px}#t-ally .ally-hq-building .ally-hq-structure{width:45px;height:42px}#t-ally .ally-hq-building .building-name{font-size:7px!important}#t-ally .ally-hq-core{min-height:100px}}
-@media(max-width:350px){#t-ally .ally-command-map{gap:3px;padding:4px}#t-ally .ally-hq-building em{font-size:6px}}
-</style>
-<style id="alliance-clean-hq-copy">
-#t-ally .alliance-hq-copy{max-width:none}
-#t-ally .alliance-hq-copy .test-viewport{margin-top:0}
-#t-ally .alliance-hq-copy .test-building-layer{min-height:100%}
-#t-ally .alliance-hq-copy .test-world{min-height:100%}
-</style></head>
+</head>
 <body>
 <div id="authGate">
   <div id="authNetwork" aria-hidden="true">
@@ -2470,16 +2451,8 @@ body:has(#t-bot:not([hidden])){height:100dvh!important;overflow:hidden!important
   <div id="bpage" hidden><button id="bback" class="back"></button><div id="bhead"></div><div id="bgrids"></div></div>
   <div id="ppage" hidden><button id="pback" class="back"></button><div id="phead"></div><div id="pup"></div><div class="sub">Module sockets (modules come from the Shop)</div><div id="psock"></div><div id="pmods"></div><div id="presw" hidden><div class="sub">Research (costs Quantum)</div><div id="pres" class="bgrid"></div></div></div>
 </div>
-<section id="t-ally" hidden>
-<div class="test-shell alliance-hq-copy">
- <div class="test-hq-status-grid" id="allyHqStatusGrid">
-  <section class="test-hq-status-card upgrades"><div class="test-hq-status-kicker">HQ &amp; BUILDING TIMERS</div><div id="allyHqUpgradeStatus" class="test-hq-status-content">No active buildings</div></section>
-  <section class="test-hq-status-card buffs"><div class="test-hq-status-kicker">ACTIVE CREW MEMBERS</div><div id="allyHqCrewBuffs" class="test-hq-status-content">No active crew buffs</div></section>
- </div>
- <div class="test-viewport" id="allyTestViewport"><div class="test-world" id="allyTestWorld"><div class="test-building-layer" id="allyBuildingLayer"></div></div></div>
- <button class="test-attack" id="allyTestAttack" title="Incoming attack — open Nano Defence" aria-label="Incoming attack — open Nano Defence" hidden>☠<small>INCOMING</small></button>
-</div>
-</section><section id="t-hq" hidden><div class="test-shell"><div class="test-hq-status-grid" id="testHqStatusGrid"><section class="test-hq-status-card upgrades"><div class="test-hq-status-kicker">HQ &amp; BUILDING TIMERS</div><div id="testHqUpgradeStatus" class="test-hq-status-content">No active buildings</div></section><section class="test-hq-status-card buffs"><div class="test-hq-status-kicker">ACTIVE CREW MEMBERS</div><div id="testHqCrewBuffs" class="test-hq-status-content">No active crew buffs</div></section></div><div class="test-viewport" id="testViewport"><div class="test-world" id="testWorld"><div class="test-building-layer" id="testBuildingLayer"></div></div></div><button class="test-attack" id="testAttack" title="Incoming attack — open Nano Defence" aria-label="Incoming attack — open Nano Defence" hidden>☠<small>INCOMING</small></button><div class="test-chat" id="testChat" aria-label="Global and alliance communications">
+<section id="t-ally" hidden><div id="acreate"><input id="aname" maxlength="20" placeholder="Alliance name" autocomplete="off"><button id="acbtn">Create alliance</button></div><div id="amain" hidden><div id="allyCampus" class="ally-campus"><div class="ally-campus-head"><div class="sub">ALLIANCE NETWORK // HOME BASE</div><b id="allyCampusName">ALLIANCE HQ</b><small>Eight specialist facilities orbit the central command core. Follow the live data links and select a building to upgrade it.</small></div><div id="allyCampusWorld" class="ally-campus-world"></div></div><div id="allyInterior" hidden><div class="ally-board" id="ally-board"><div class="ally-board-top"><div><div class="sub">ALLIANCE COMMAND // BOARD</div><div class="ally-title" id="an"></div><div class="ally-sub" id="ad"></div></div><div class="ally-emblem" aria-label="Alliance emblem"><svg viewBox="0 0 64 64"><path d="M32 4 55 16v25L32 60 9 41V16z"/><path d="M32 15 45 22v15L32 48 19 37V22z"/><path d="M24 32h16M32 24v16"/></svg><small>ALLIANCE</small></div></div><div class="ally-leadership"><div class="ally-role leader"><small>ALLIANCE LEADER</small><b id="allyLeaderName">You</b><span>Full command</span></div><div class="ally-support" id="allySupportSlots"></div></div></div><div class="ally-tabs" id="allyTabs"></div><div id="allyTown" class="ally-panel"><div class="ally-town-grid"><div id="allyMemberCol"><div class="sub" id="amemh"></div><div id="amem"></div></div><div id="allyAppCol"><div class="sub" id="aapph"></div><div id="aapp"></div></div></div></div><div id="allyOther" class="ally-panel" hidden><div id="allyTerritoryIntro"><div class="sub">ALLIANCE TERRITORY // CONTROL NETWORK</div><div class="ally-info-grid"><div class="ally-info-card"><b>Alliance territories</b><span>Manage your alliance outposts, strongholds and citadels from the three regional maps below.</span></div><div class="ally-info-card"><b>Expand your influence</b><span>Select a location on a map to inspect it and spend Alliance Credits, Data Cores, Crypto Shards, War Intel and Dark Matter on upgrades.</span></div></div></div><div id="allyTerritoryMaps"><div id="asubs2"></div><div id="ap1" hidden><svg id="map4" viewBox="0 0 200 100"></svg><div id="nd4"></div></div><div id="ap2" hidden><svg id="map5" viewBox="0 0 200 100"></svg><div id="nd5"></div></div><div id="ap3" hidden><svg id="map6" viewBox="0 0 200 100"></svg><div id="nd6"></div></div></div></div><div id="ap4" hidden></div></div></div></section>
+<section id="t-hq" hidden><div class="test-shell"><div class="test-hq-status-grid" id="testHqStatusGrid"><section class="test-hq-status-card upgrades"><div class="test-hq-status-kicker">HQ &amp; BUILDING TIMERS</div><div id="testHqUpgradeStatus" class="test-hq-status-content">No active buildings</div></section><section class="test-hq-status-card buffs"><div class="test-hq-status-kicker">ACTIVE CREW MEMBERS</div><div id="testHqCrewBuffs" class="test-hq-status-content">No active crew buffs</div></section></div><div class="test-viewport" id="testViewport"><div class="test-world" id="testWorld"><div class="test-building-layer" id="testBuildingLayer"></div></div></div><button class="test-attack" id="testAttack" title="Incoming attack — open Nano Defence" aria-label="Incoming attack — open Nano Defence" hidden>☠<small>INCOMING</small></button><div class="test-chat" id="testChat" aria-label="Global and alliance communications">
   <div class="test-chat-bar">
     <div class="chat-avatar">💬</div>
     <div class="test-chat-copy"><b id="testChatName">[ARB] Vee</b><span id="testChatText">Anyone online for a quick run?</span></div>
@@ -2547,7 +2520,7 @@ body:has(#t-bot:not([hidden])){height:100dvh!important;overflow:hidden!important
     <button type="button" class="test-side-icon test-shortcut-nano" data-test-go="bot" title="Nano Bots" aria-label="Open Nano Bots">⬡</button>
     <button type="button" class="test-side-icon test-shortcut-crew" data-test-go="crew" title="Crew" aria-label="Open Crew">♟</button>
     <button type="button" class="test-side-icon test-shortcut-ranks" data-test-go="rank" title="Ranks" aria-label="Open Ranks">▤</button>
-    <button type="button" class="test-side-icon test-shortcut-alliance" data-test-go="ally" title="NEW ALLIANCE HQ" aria-label="Open the new Alliance HQ"><span class="alliance-rail-logo">A</span><span class="nav-notify" id="allianceNavBadge" hidden>!</span></button>
+    <button type="button" class="test-side-icon test-shortcut-alliance" data-test-go="ally" title="Alliance" aria-label="Open Alliance">⚑<span class="nav-notify" id="allianceNavBadge" hidden>!</span></button>
     <button type="button" class="test-side-icon feature-activity" data-test-go="activity" title="Activity Board" aria-label="Open Activity Board">▦</button>
   </div>
   <button type="button" class="home-gold" data-test-go="hq" title="Headquarters" aria-label="Open Headquarters">⌂</button>
@@ -3123,15 +3096,15 @@ function claimNpcMission(id){
   if(Math.random()<0.25){var vp=1+Math.floor(Math.random()*3);S.vipPoints=(S.vipPoints||0)+vp;rewards.push('+'+vp+' VIP Points');}
   if(Math.random()<0.38){var botTier=Math.floor(Math.random()*Math.max(1,tierMax())),botCount=1+Math.floor(Math.random()*4),room=Math.max(0,Math.floor((capN()-used())/(botTier+1)));botCount=Math.min(botCount,room);if(botCount>0){S.nb[botTier]=(S.nb[botTier]||0)+botCount;rewards.push('+'+botCount+' '+TR[botTier].name+' nanobots');}}
   if(Math.random()<0.30){var crewPool=CM.map(function(_,i){return i}).filter(function(i){return i<15&&recruited(i)&&CREW_PATHS[i]});if(crewPool.length){var who=crewPool[Math.floor(Math.random()*crewPool.length)],paths=[CREW_PATHS[who].a,CREW_PATHS[who].b],slot=paths[Math.floor(Math.random()*paths.length)],key=who+'_'+slot;S.freeUpgrades=S.freeUpgrades||{};S.freeUpgrades[key]=(S.freeUpgrades[key]||0)+1;rewards.push('FREE CREW UPGRADE · '+CM[who]+' · '+GS[slot].n);}}
-  
-  
-  S.npcRewardLog=S.npcRewardLog||[];S.npcRewardLog.unshift({time:Date.now(),mission:cfg.name,rewards:rewards});if(S.npcRewardLog.length>60)S.npcRewardLog.length=60;
+  if(S.al&&S.al.n&&Math.random()<0.55){ensureAllianceBank();var ar={ac:1200+Math.floor(Math.random()*3801),dc:60+Math.floor(Math.random()*191),cs:5+Math.floor(Math.random()*16),wi:Math.random()<0.65?1+Math.floor(Math.random()*2):0,dm:Math.random()<0.30?1:0};Object.keys(ar).forEach(function(k){S.al.res[k]=(S.al.res[k]||0)+ar[k]});rewards.push('ALLIANCE BANK BONUS · '+giftResourceText(ar,ANM));}
+  if(S.al&&S.al.n&&Math.random()<0.42){ensureAllianceBank();var points=2+Math.floor(Math.random()*3);S.al.techPts=(S.al.techPts||0)+points;rewards.push('FREE ALLIANCE TECH · +'+points+' Research Points');}
+  var npcContributionPoints=awardAllianceContribution('MPC / NPC mission '+cfg.name,1,5,'mission',rewards.join(' · ')||'No additional rewards');S.npcRewardLog=S.npcRewardLog||[];S.npcRewardLog.unshift({time:Date.now(),mission:cfg.name,rewards:rewards,contributionPoints:npcContributionPoints});if(S.npcRewardLog.length>60)S.npcRewardLog.length=60;
   log('NPC mission completed: '+cfg.name+'. '+rewards.join(' · '));chatPost('GC','mission','MPC MISSION COMPLETE',cfg.name+' — MISSION COMPLETED SUCCESSFULLY.');save();
   render(); // Personal mission collection is silent; rewards and War Log entries are still recorded.
 }
 function npcMissionWatch(){var n=Date.now();Object.keys(S.npcRuns||{}).forEach(function(id){var run=S.npcRuns[id];if(run&&run.end<=n&&!run.claimed)claimNpcMission(id)})}
 var NPC_OPS=[{id:'npc1',name:'Ghost Relay',desc:'Infiltrate a lightly guarded relay station.',time:90,x:35,y:40},{id:'npc2',name:'Blacksite Server',desc:'Breach a hidden server facility.',time:180,x:100,y:24},{id:'npc3',name:'Dead Signal',desc:'Trace and disable an encrypted signal hub.',time:300,x:157,y:57},{id:'npc4',name:'Iron Vault',desc:'Penetrate a hardened data vault.',time:480,x:80,y:78}];
-function renderNpcMap(){var sv=$('map8'),panel=$('npcMissionPanel');if(!sv||!panel)return;if(!sv.dataset.built){var st='<defs><radialGradient id="npcGlow"><stop offset="0%" stop-color="#8affc0" stop-opacity=".9"/><stop offset="55%" stop-color="#19b96b" stop-opacity=".45"/><stop offset="100%" stop-color="#062012" stop-opacity=".1"/></radialGradient><linearGradient id="npcRoute"><stop stop-color="#35f59a"/><stop offset="1" stop-color="#55baff"/></linearGradient></defs><rect x="0" y="0" width="200" height="100" rx="4" fill="#040d0b"/><path d="M0 20H200M0 40H200M0 60H200M0 80H200M20 0V100M40 0V100M60 0V100M80 0V100M100 0V100M120 0V100M140 0V100M160 0V100M180 0V100" stroke="#1a6446" stroke-width=".25" opacity=".45"/><path d="M0 86L35 40L100 24L157 57L200 18M35 40L80 78L157 57" fill="none" stroke="#1d9c68" stroke-width="1" stroke-dasharray="2 3" opacity=".7"/><text x="4" y="8" fill="#5edca0" font-size="4" letter-spacing="1">MPC OPERATIONS NETWORK // LIVE SCAN</text><text x="196" y="96" text-anchor="end" fill="#477f69" font-size="3.5">TAP A SIGNAL TO DEPLOY</text>';NPC_OPS.forEach(function(o,i){st+='<g class="npc-map-node" data-npc="'+o.id+'"><circle class="npc-map-wave" cx="'+o.x+'" cy="'+o.y+'" r="10"/><circle class="npc-map-halo" cx="'+o.x+'" cy="'+o.y+'" r="7"/><circle class="npc-map-core" cx="'+o.x+'" cy="'+o.y+'" r="4.2"/><circle cx="'+o.x+'" cy="'+o.y+'" r="11" fill="transparent"/><text x="'+o.x+'" y="'+(o.y+15)+'" text-anchor="middle" class="npc-map-name">'+o.name.toUpperCase()+'</text><rect x="'+(o.x-13)+'" y="'+(o.y-16)+'" width="26" height="6" rx="2" class="npc-map-tag"/><text x="'+o.x+'" y="'+(o.y-11.5)+'" text-anchor="middle" class="npc-map-tagtext">AVAILABLE</text></g>'});sv.innerHTML=st;sv.dataset.built='1';sv.addEventListener('click',function(ev){var node=ev.target.closest?ev.target.closest('[data-npc]'):ev.target;var id=node&&node.getAttribute('data-npc');if(id){if(operationBlocked()){log('An operation is already running. Wait for the countdown to finish.');render();return}if(S.npcRuns[id]&&S.npcRuns[id].end<=Date.now()&&!S.npcRuns[id].claimed){npcSelected=id;render();return}npcSelected=id;var savedCrew=(S.npcCrew||[]).filter(function(i){return recruited(i)&&crewReady(i).ok}).slice(0,3);if(savedCrew.length){requestNpcMissionConfirmation(id,savedCrew)}else{openCrewPicker('npc:'+id,'NPC MISSION TEAM',3,[],function(a){if(a.length){S.npcCrew=a.slice(0,3);save();requestNpcMissionConfirmation(id,a)}else render()})}}})}var o=NPC_OPS.filter(function(x){return x.id===npcSelected})[0],run=S.npcRuns[o.id],left=run?Math.max(0,(run.end-Date.now())/1000):0,other=activeOperation()&&!run;$('npcMissionPanel').innerHTML='<div class="card"><div class="bd"><b>'+o.name+'</b><div class="desc">'+o.desc+'</div><div class="desc">Duration: '+fmtT(o.time)+' · Team: '+(run?(run.crew||[]).map(function(i){return CM[i]}).join(', '):(S.npcCrew||[]).map(function(i){return CM[i]}).join(', ')||'Choose once, then reuse')+'</div><div class="prog"><i style="width:'+(run?Math.min(100,(Date.now()-run.s)/(run.end-run.s)*100):0)+'%"></i></div><b class="lv">'+(run?(left>0?'IN PROGRESS · '+fmtT(left):(run.claimed?'MISSION COMPLETE · REWARDS ADDED':'MISSION COMPLETE · PROCESSING REWARDS')):other?'LOCKED · another operation is running':'SELECTED CREW SAVED FOR FUTURE MISSIONS')+'</b>'+(run?'':'<button class="buy" id="npcChangeCrew" type="button">CHANGE SAVED CREW</button>')+'</div></div>';var changeCrew=$( 'npcChangeCrew' );if(changeCrew)changeCrew.onclick=function(){openCrewPicker('npc:'+o.id,'NPC MISSION TEAM',3,S.npcCrew||[],function(a){if(a.length){S.npcCrew=a.slice(0,3);save();render()} })}}
+function renderNpcMap(){var sv=$('map8');if(!sv.dataset.built){var st='<defs><radialGradient id="npcGlow"><stop offset="0%" stop-color="#8affc0" stop-opacity=".9"/><stop offset="55%" stop-color="#19b96b" stop-opacity=".45"/><stop offset="100%" stop-color="#062012" stop-opacity=".1"/></radialGradient><linearGradient id="npcRoute"><stop stop-color="#35f59a"/><stop offset="1" stop-color="#55baff"/></linearGradient></defs><rect x="0" y="0" width="200" height="100" rx="4" fill="#040d0b"/><path d="M0 20H200M0 40H200M0 60H200M0 80H200M20 0V100M40 0V100M60 0V100M80 0V100M100 0V100M120 0V100M140 0V100M160 0V100M180 0V100" stroke="#1a6446" stroke-width=".25" opacity=".45"/><path d="M0 86L35 40L100 24L157 57L200 18M35 40L80 78L157 57" fill="none" stroke="#1d9c68" stroke-width="1" stroke-dasharray="2 3" opacity=".7"/><text x="4" y="8" fill="#5edca0" font-size="4" letter-spacing="1">MPC OPERATIONS NETWORK // LIVE SCAN</text><text x="196" y="96" text-anchor="end" fill="#477f69" font-size="3.5">TAP A SIGNAL TO DEPLOY</text>';NPC_OPS.forEach(function(o,i){st+='<g class="npc-map-node" data-npc="'+o.id+'"><circle class="npc-map-wave" cx="'+o.x+'" cy="'+o.y+'" r="10"/><circle class="npc-map-halo" cx="'+o.x+'" cy="'+o.y+'" r="7"/><circle class="npc-map-core" cx="'+o.x+'" cy="'+o.y+'" r="4.2"/><circle cx="'+o.x+'" cy="'+o.y+'" r="11" fill="transparent"/><text x="'+o.x+'" y="'+(o.y+15)+'" text-anchor="middle" class="npc-map-name">'+o.name.toUpperCase()+'</text><rect x="'+(o.x-13)+'" y="'+(o.y-16)+'" width="26" height="6" rx="2" class="npc-map-tag"/><text x="'+o.x+'" y="'+(o.y-11.5)+'" text-anchor="middle" class="npc-map-tagtext">AVAILABLE</text></g>'});sv.innerHTML=st;sv.dataset.built='1';sv.addEventListener('click',function(ev){var node=ev.target.closest?ev.target.closest('[data-npc]'):ev.target;var id=node&&node.getAttribute('data-npc');if(id){if(operationBlocked()){log('An operation is already running. Wait for the countdown to finish.');render();return}if(S.npcRuns[id]&&S.npcRuns[id].end<=Date.now()&&!S.npcRuns[id].claimed){npcSelected=id;render();return}npcSelected=id;var savedCrew=(S.npcCrew||[]).filter(function(i){return recruited(i)&&crewReady(i).ok}).slice(0,3);if(savedCrew.length){requestNpcMissionConfirmation(id,savedCrew)}else{openCrewPicker('npc:'+id,'NPC MISSION TEAM',3,[],function(a){if(a.length){S.npcCrew=a.slice(0,3);save();requestNpcMissionConfirmation(id,a)}else render()})}}})}var o=NPC_OPS.filter(function(x){return x.id===npcSelected})[0],run=S.npcRuns[o.id],left=run?Math.max(0,(run.end-Date.now())/1000):0,other=activeOperation()&&!run;$('npcMissionPanel').innerHTML='<div class="card"><div class="bd"><b>'+o.name+'</b><div class="desc">'+o.desc+'</div><div class="desc">Duration: '+fmtT(o.time)+' · Team: '+(run?(run.crew||[]).map(function(i){return CM[i]}).join(', '):(S.npcCrew||[]).map(function(i){return CM[i]}).join(', ')||'Choose once, then reuse')+'</div><div class="prog"><i style="width:'+(run?Math.min(100,(Date.now()-run.s)/(run.end-run.s)*100):0)+'%"></i></div><b class="lv">'+(run?(left>0?'IN PROGRESS · '+fmtT(left):(run.claimed?'MISSION COMPLETE · REWARDS ADDED':'MISSION COMPLETE · PROCESSING REWARDS')):other?'LOCKED · another operation is running':'SELECTED CREW SAVED FOR FUTURE MISSIONS')+'</b>'+(run?'':'<button class="buy" id="npcChangeCrew" type="button">CHANGE SAVED CREW</button>')+'</div></div>';var changeCrew=$( 'npcChangeCrew' );if(changeCrew)changeCrew.onclick=function(){openCrewPicker('npc:'+o.id,'NPC MISSION TEAM',3,S.npcCrew||[],function(a){if(a.length){S.npcCrew=a.slice(0,3);save();render()} })}}
 function rates(){var r={cr:0,da:0,cy:0,ex:0,in:0,qt:0},bm={cr:0,da:0,cy:0,ex:0,in:0,qt:0},m=mult(),gm=(1+crewBonus(crewFor('hq'),4,'all'))*(1+vipIncomeBonus()+(boostActive('income')?0.25:0)+(boostActive('surge')?0.5:0)+techCount('usr_income')*.02+techCount('usr_income2')*.03+allianceBuildingBonus('memberIncome'));B.concat(PB,N).forEach(function(o){r[o.res]+=out(o,lvl(o))*m*(1+buildingCrewBonus(o))});if(S.pr>0){r.cr+=30000;r.da+=15000;r.cy+=7500;r.ex+=3500;r.in+=0.3}T.concat(C).forEach(function(o){bm[o.res]+=o.bonus*lvl(o)});for(var k in r)r[k]*=(1+bm[k])*gm;r.in*=1+techCount('usr_influence')*.02;itemFlat(r);return r}
 function rewM(){return (1+armyB())*(1+techCount('usr_mission')*.02+allianceBuildingBonus('mission'))}
 function timeM(){return Math.max(.75,1-techCount('usr_time2')*.02-allianceBuildingBonus('missionTime'))}
@@ -3221,8 +3194,6 @@ function build(){
   allyTerritoryMapsEl=$('allyTerritoryMaps');
   if($('testAttack'))$('testAttack').onclick=function(){show('bot')};
   if($('testBuildingLayer'))$('testBuildingLayer').addEventListener('click',function(ev){var h=ev.target&&ev.target.closest&&ev.target.closest('#testHqTap');if(h){var list=S.pr>0?PB:B;if(testBulkUpgradeState(list).ready){testBulkUpgrade(list)}else{openTestHq()}return}var b=ev.target&&ev.target.closest&&ev.target.closest('[data-test-building]');if(b)openTestBuilding(b.getAttribute('data-test-building'))});
-  if($('allyBuildingLayer'))$('allyBuildingLayer').addEventListener('click',function(ev){var h=ev.target&&ev.target.closest&&ev.target.closest('#testHqTap');if(h){openTestHq();return}var b=ev.target&&ev.target.closest&&ev.target.closest('[data-test-building]');if(b)openTestBuilding(b.getAttribute('data-test-building'))});
-  if($('allyTestAttack'))$('allyTestAttack').onclick=function(){show('bot')};
   if($('testHqClose'))$('testHqClose').onclick=closeTestHq;
   if($('testHqModal'))$('testHqModal').addEventListener('click',function(ev){if(ev.target===$('testHqModal'))closeTestHq()});
   if($('testHqUpgrade'))$('testHqUpgrade').onclick=function(){upHQ();renderTestHqModal()};
@@ -3266,13 +3237,10 @@ $('progressionReportClose').onclick=function(){$('progressionReportModal').hidde
   E.pf=card($('rprof'),'hq','crew');E.pf.t.textContent=window.BHQ_USERNAME||'You';E.pf.b.parentNode.hidden=true;
   ['Regions','Towns','Cities','NPC Missions'].forEach(function(t,i){var b=document.createElement('button');b.textContent=t;b.onclick=function(){msub=i;render()};$('msub').appendChild(b);mb.push(b)});
   ['Solo','Data net'].forEach(function(t,i){var b=document.createElement('button');b.type='button';b.className='map-mode-btn mode-'+(i===0?0:2);b.textContent=t;b.setAttribute('aria-pressed','false');b.onclick=function(){mtop=i===0?0:2;render()};$('mtop').appendChild(b);mt.push(b)});
-  var allyTabHost=$('allyTabs');if(allyTabHost){['War Logs','Territory','Shop','Leaderboard','Gifts','Help','Tech','Events'].forEach(function(t,i){if(t==='Territory')return;var b=document.createElement('button');b.type='button';b.dataset.atab=String(i+1);b.textContent=t;b.onclick=function(){atab=i+1;if(atab===7)techTab=0;if(atab===8&&S.al)S.al.eventSeenHour=evWin().hr;render()};allyTabHost.appendChild(b);ab2.push(b)});}
+  ['War Logs','Territory','Shop','Leaderboard','Gifts','Help','Tech','Events'].forEach(function(t,i){if(t==='Territory')return;var b=document.createElement('button');b.type='button';b.dataset.atab=String(i+1);b.textContent=t;b.onclick=function(){atab=i+1;if(atab===7)techTab=0;if(atab===8&&S.al)S.al.eventSeenHour=evWin().hr;render()};$('allyTabs').appendChild(b);ab2.push(b)});
   // Legacy Outposts / Strongholds / Citadels navigation removed; territory is now one HQ-centred environment.
-  // Legacy Alliance territory cards were removed with the old Alliance tab. The rebuilt HQ uses its own campus and research renderers, so do not create cards inside the deleted nd4+ mounts.
-  var allianceCreateBtn=$('acbtn'),allianceNameInput=$('aname');if(allianceCreateBtn&&allianceNameInput){allianceCreateBtn.onclick=function(){var v=allianceNameInput.value.replace(/[<>&"']/g,'').trim().slice(0,20);if(!v)return;S.al={n:v,mem:[],app:[],cd:{},nx:Date.now()+8000,res:{ac:50000,dc:3000,cs:250,wi:50,dm:10},tech:{},techPts:0,techLevelClaimed:1};log('Alliance '+v+' founded. Applications will start arriving soon.');save();render()};}
-  // Legacy Alliance roster mounts are intentionally absent from the rebuilt HQ-only Alliance screen.
-  // Only initialise the old roster widgets if both legacy containers exist.
-  if($('aapp')&&$('amem')){
+  AL.forEach(function(l,k){var e=E['nd'+(4+k)]=card($('nd'+(4+k)),'','rank');e.b.onclick=function(){if(S.al.n)allianceBuy(l.filter(function(n){return n.id===asel[k]})[0])}});
+  $('acbtn').onclick=function(){var v=$('aname').value.replace(/[<>&"']/g,'').trim().slice(0,20);if(!v)return;S.al={n:v,mem:[],app:[],cd:{},nx:Date.now()+8000,res:{ac:50000,dc:3000,cs:250,wi:50,dm:10},tech:{},techPts:0,techLevelClaimed:1};log('Alliance '+v+' founded. Applications will start arriving soon.');save();render()};
   S.rv.forEach(function(r,j){[['aapp',aa,true],['amem',am,false]].forEach(function(z){
     var c=document.createElement('div');c.className='rk';
     c.innerHTML='<div class="rb"><b></b><small></small></div><div class="ra"><div class="rbt"><button class="ab">Info</button>'+(z[2]?'<button class="ab">Accept</button><button class="ab">Deny</button>':'<button class="ab atk">Kick</button>')+'</div></div><div class="rx" hidden></div>';
@@ -3282,7 +3250,6 @@ $('progressionReportClose').onclick=function(){$('progressionReportModal').hidde
     c.hidden=true;$(z[0]).appendChild(c);z[1][j]=o})});
   var yr=document.createElement('div');yr.className='rk me';yr.innerHTML='<div class="rb"><b>'+(window.BHQ_USERNAME||'You')+' (leader)</b><small></small></div>';$('amem').insertBefore(yr,$('amem').firstChild);aYou=yr;
   for(var q2=0;q2<ALCAP-1;q2++){var er=document.createElement('div');er.className='rk';er.style.opacity=0.5;er.innerHTML='<div class="rb"><b>Open slot</b><small>Waiting for a player to join</small></div>';er.hidden=true;$('amem').appendChild(er);aEmp.push(er)}
-  }
   E.bh=card($('bhead'),'hq','node');E.bh.b.parentNode.hidden=true;$('bback').textContent='\u2190 Back to HQ';$('bback').onclick=closeB;
   B.forEach(function(o){var g=document.createElement('div');g.className='bgrid';g.id='bg-'+o.id;g.hidden=true;$('bgrids').appendChild(g);for(var j=0;j<10;j++)(function(j){var e=E['u'+o.id+j]=card(g,'',o.id);e.t.textContent=UN[o.id][j];e.m.style.color='var(--pi)';e.b.onclick=function(){ubBuy(o,j)}})(j)});
   ['Training','Roster','Nightfall'].forEach(function(t,i){var b=document.createElement('button');b.onclick=function(){if(i===1&&S.tr<1)return;csub=i;cview=null;render()};b.textContent=t;$('csub').appendChild(b);csb.push(b)});
@@ -3948,7 +3915,7 @@ function renderAllianceContributionLog(){
  html+='</div>';$('allyOther').insertAdjacentHTML('beforeend',html);
 }
 var allyTerritorySelected=null;
-function allianceTerritoryBuildings(){return AL[0].concat(AL[1]).slice(0,6)}
+function allianceTerritoryBuildings(){return AL[0].concat(AL[1])}
 function openAllianceTerritoryBuilding(id){allyTerritorySelected=id;renderAllianceTerritoryModal()}
 function renderAllianceTerritoryModal(){
  var old=document.getElementById('allyTerritoryModal');if(old)old.remove();if(!allyTerritorySelected)return;
@@ -3964,12 +3931,12 @@ function renderAllianceTerritoryModal(){
 }
 function renderAllianceTerritory(targetId){
  targetId=targetId||'allyOther';var host=$(targetId);if(!host)return;ensureAllianceBank();
- var buildings=allianceTerritoryBuildings(),glyphs=['⌁','▤','⌖','⚙','⬡','◈','▥','⛨'];
- var html='<div class="ally-campus-world"><div class="ally-territory-stage"><button class="ally-territory-hub" type="button" data-territory-hub><div class="structure"><span class="glyph">⌂</span></div><div><b class="building-name">ALLIANCE COMMAND</b><small class="building-level">LEVEL '+allianceLevel()+' · CENTRAL HQ</small></div></button>';
- buildings.forEach(function(o,i){var l=lvl(o),locked=S.hq<o.u,ready=!!S.al.n&&!locked&&l<cap(o)&&allianceAfford(allianceCost(o)),maxed=l>=cap(o),glyph=glyphs[i]||'⌂';html+='<button type="button" class="ally-territory-building ally-arch-'+o.id+' '+(ready?'upgrade-ready':locked?'locked':maxed?'maxed':'')+'" data-territory-building="'+o.id+'"><div class="structure"><span class="glyph">'+glyph+'</span></div><span><b class="building-name">'+o.name+'</b><small class="building-level">'+(maxed?'MAX LEVEL':locked?'REQUIRES HQ '+o.u:'LEVEL '+l+' / '+cap(o))+'</small></span></button>'});
- html+='</div><div class="ally-world-legend"><span><i class="legend-dot live"></i> ALLIANCE FACILITY</span><span><i class="legend-dot ready"></i> UPGRADE AVAILABLE</span></div></div>';
- var bankRate=allianceRates(),bankNames={ac:'AC',dc:'DC',cs:'CS',wi:'WI',dm:'DM'};
- html+='<div class="ally-bank-production"><div><b>ALLIANCE BANK · PASSIVE PRODUCTION</b><small>Shared resources accumulate automatically, including offline time.</small></div><div class="ally-bank-rates">'+Object.keys(bankRate).map(function(k){return '<span><b>'+bankNames[k]+'</b> +'+fmt(bankRate[k])+'/s</span>'}).join('')+'</div></div><div class="ally-bank-production"><div><b>MEMBER BONUSES</b><small>Current alliance-wide benefits from upgraded facilities.</small></div><div class="ally-bank-rates"><span>ATTACK +'+(allianceBuildingBonus('atk')*100).toFixed(1)+'%</span><span>DEFENCE +'+(allianceBuildingBonus('def')*100).toFixed(1)+'%</span><span>PASSIVE INCOME +'+(allianceBuildingBonus('memberIncome')*100).toFixed(1)+'%</span><span>MISSION REWARDS +'+(allianceBuildingBonus('mission')*100).toFixed(1)+'%</span></div></div>';
+ var buildings=allianceTerritoryBuildings(),positions=[[15,22],[82,19],[85,48],[76,78],[23,78],[13,51],[38,10],[57,84]],glyphs=['⌁','▤','⌖','⚙','⬡','◈','▥','⛨'];
+ var html='<div class="ally-territory-stage"><div class="ally-world-grid"></div><svg class="ally-territory-links" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">';
+ positions.forEach(function(pos,i){var x=pos[0],y=pos[1],cx=50,cy=50,mx=(x+cx)/2+(i%2?7:-7),my=(y+cy)/2+(i%3-1)*5;html+='<path class="data-link" style="--link-delay:'+i*.22+'s" d="M '+cx+' '+cy+' Q '+mx+' '+my+' '+x+' '+y+'"/>'});
+ html+='</svg><button class="ally-territory-hub" type="button" data-territory-hub><div class="structure"><span class="glyph">⌂</span><i class="roof-mark">HQ</i><i class="core-light"></i></div><b class="building-name">ALLIANCE HQ</b><small class="building-level">ALLIANCE LEVEL '+allianceLevel()+'</small></button>';
+ buildings.forEach(function(o,i){var l=lvl(o),locked=S.hq<o.u,ready=!!S.al.n&&!locked&&l<cap(o)&&allianceAfford(allianceCost(o)),maxed=l>=cap(o),pos=positions[i],glyph=glyphs[i];html+='<button type="button" class="ally-territory-building ally-arch-'+o.id+' '+(ready?'upgrade-ready':locked?'locked':maxed?'maxed':'')+'" data-territory-building="'+o.id+'" style="left:'+pos[0]+'%;top:'+pos[1]+'%"><div class="structure"><span class="glyph">'+glyph+'</span><i class="building-core"></i></div><b class="building-name">'+o.name+'</b><small class="building-level">'+(maxed?'MAX':locked?'HQ '+o.u+' REQUIRED':'LV '+l+' / '+cap(o))+'</small></button>'});
+ html+='</div><div class="ally-world-legend"><span><i class="legend-dot live"></i> LIVE DATA NETWORK</span><span><i class="legend-dot ready"></i> UPGRADE AVAILABLE</span></div>';var bankRate=allianceRates(),bankNames={ac:'AC',dc:'DC',cs:'CS',wi:'WI',dm:'DM'};html+='<div class="ally-bank-production"><div><b>ALLIANCE BANK // PASSIVE PRODUCTION</b><small>Resources accumulate automatically while your alliance is active, including offline time.</small></div><div class="ally-bank-rates">'+Object.keys(bankRate).map(function(k){return '<span><b>'+bankNames[k]+'</b> +'+fmt(bankRate[k])+'/s</span>'}).join('')+'</div></div><div class="ally-bank-production"><div><b>ACTIVE MEMBER BONUSES</b><small>Personal bonuses only. Dead Drop adds personal passive income; the other facilities mainly produce shared Alliance Bank resources or improve other member statistics.</small></div><div class="ally-bank-rates"><span>ATTACK +'+(allianceBuildingBonus('atk')*100).toFixed(1)+'%</span><span>DEFENCE +'+(allianceBuildingBonus('def')*100).toFixed(1)+'%</span><span>PASSIVE INCOME +'+(allianceBuildingBonus('memberIncome')*100).toFixed(1)+'%</span><span>MISSION REWARDS +'+(allianceBuildingBonus('mission')*100).toFixed(1)+'%</span></div></div>';
  host.innerHTML=html;
  host.querySelectorAll('[data-territory-building]').forEach(function(b){b.onclick=function(){openAllianceTerritoryBuilding(b.getAttribute('data-territory-building'))}});
  host.querySelector('[data-territory-hub]').onclick=function(){allyInteriorOpen=true;render()};
@@ -4007,7 +3974,6 @@ function buildMap(){
   var maps=[[N,'map',5.4],[T,'map2',4.6],[C,'map3',6],[AL[0],'map4',5.6],[AL[1],'map5',5.6],[AL[2],'map6',5.6]];
   maps.forEach(function(a,mi){
     var sv=$(a[1]),s='';
-    if(!sv)return; // Legacy Alliance map mounts were removed by the new campus layout.
     if(mi<3){
       s='<defs><linearGradient id="soloRoad'+mi+'" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#263b48"/><stop offset="1" stop-color="#142631"/></linearGradient><linearGradient id="soloGround'+mi+'" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#0d2630"/><stop offset="1" stop-color="#07151d"/></linearGradient></defs>';
       s+='<rect x="0" y="0" width="200" height="100" fill="url(#soloGround'+mi+')"/>';
@@ -4522,13 +4488,6 @@ function testBulkUpgrade(list){
   list.forEach(function(o){var c=cost(o),next=lvl(o)+1;pay(c);if(isNode(o)){S.lv[o.id]=next;log('Created '+o.name+' at level '+next+' from HQ batch upgrade.')}else{S.up[o.id]={s:now,end:now+upTime(o.id,next)*1000};log('Started '+o.name+' upgrade to level '+next+' from HQ batch upgrade.')}});
   save();render();return true;
 }
-function renderTestHqStatusForAlliance(){
- var list=B,upHost=$('allyHqUpgradeStatus'),buffHost=$('allyHqCrewBuffs'),active=[];
- if(S.up&&S.up.hq)active.push({id:'hq',name:'Headquarters',level:S.hq+1});
- list.forEach(function(o){if(S.up&&S.up[o.id])active.push({id:o.id,name:o.name,level:lvl(o)+1})});
- if(upHost)upHost.innerHTML=active.length?active.map(function(o){var u=S.up[o.id],remaining=Math.max(0,(u.end-Date.now())/1000),fc=finCost(o.id,o.level,remaining),can=S.r.in>=fc;return '<div class="test-hq-status-line '+(can?'ready':'')+'"><b>'+o.name+'</b><span>LV '+o.level+' · '+fmtT(remaining)+'</span></div>'}).join(''):'<div class="test-hq-status-empty">No active buildings</div>';
- if(buffHost){var buffs=[];list.forEach(function(o){var assigned=crewFor(o.id)||[],bonus=buildingCrewBonus(o);if(assigned.length&&bonus>0)buffs.push({name:o.name,bonus:bonus,count:assigned.length})});buffHost.innerHTML=buffs.length?buffs.slice(0,4).map(function(x){return '<div class="test-hq-status-line"><b>'+x.name+'</b><span>+'+(x.bonus*100).toFixed(1).replace(/\\.0$/,'')+'% · '+x.count+' crew</span></div>'}).join(''):'<div class="test-hq-status-empty">No active crew buffs</div>'}
-}
 function renderTestHqStatus(){
   var list=S.pr>0?PB:B,upHost=$('testHqUpgradeStatus'),buffHost=$('testHqCrewBuffs'),active=[];
   if(S.up&&S.up.hq)active.push({id:'hq',name:S.pr?'Prestige HQ':'Headquarters',level:S.hq+S.pr+1});
@@ -4592,11 +4551,9 @@ function tronHq(lv){lv=Math.max(1,Math.min(30,Number(lv)||1));var t=Math.min(5,M
  return '<svg viewBox="0 0 140 138" aria-hidden="true">'+s+'</svg>'}
 function tronRoad(cx,cy,x,y,id,i,up,done){var c=TRC[id]||'#28e6ff',sx=cx*10,sy=cy*7,ex=x*10,ey=y*7,midX=Math.round((sx+ex)/2),midY=Math.round((sy+ey)/2),d='M'+sx+' '+sy+' H'+ex+' V'+ey;
  return '<path d="'+d+'" class="tron-road" stroke="'+c+'" pathLength="400" opacity="'+(done||up?.92:.58)+'"/><path d="'+d+'" class="tron-run" stroke="'+(up?'#fff':c)+'" pathLength="400" style="animation-delay:-'+(i*.65)+'s"/><path d="'+d+'" class="tron-run rev" stroke="#fff" pathLength="400" style="animation-delay:-'+(i*.9+1)+'s"/><path d="'+d+'" class="tron-stream" stroke="'+c+'" pathLength="400" style="animation-delay:-'+(i*.47+.25)+'s"/><circle class="tron-route-node" cx="'+ex+'" cy="'+ey+'" r="4" fill="'+c+'"/><circle class="tron-route-core" cx="'+ex+'" cy="'+ey+'" r="1.7" fill="#fff"/><circle class="tron-route-junction" cx="'+midX+'" cy="'+midY+'" r="2.2" fill="'+c+'"/>'}
-function renderTestArea(targetLayerId){
-  var allianceCopy=targetLayerId==='allyBuildingLayer';
-  if(!allianceCopy)renderTestHqStatus();
-  var layer=$(targetLayerId||'testBuildingLayer');if(!layer)return;
-  var prestige=!allianceCopy&&S.pr>0,list=prestige?PB:B;
+function renderTestArea(){
+  renderTestHqStatus();var layer=$('testBuildingLayer');if(!layer)return;
+  var prestige=S.pr>0,list=prestige?PB:B;
   var spots=prestige?[[42,23],[69,35],[69,61],[42,73],[15,61],[15,35]]:[[8,13],[76,13],[76,75],[8,75]];
   var centreX=42,centreY=44,bulk=testBulkUpgradeState(list),html='',paths='';
   if(!prestige){
@@ -4613,7 +4570,9 @@ function renderTestArea(targetLayerId){
   var hqRise=58+Math.round(hqLevel*1.25),hqWidth=94+Math.round(hqLevel*.8),hqCore=42+Math.round(hqLevel*.45),hqHue=188+(hqLevel-1)*1.9,hqCrown=54+(hqLevel%5)*2+Math.floor((hqLevel-1)/5)*3,hqRing=112+(hqLevel%4)*3,hqSpire=28+Math.round(hqLevel*1.6);
   html+='<div class="test-building hq'+(bulk.ready?' bulk-ready':'')+(prestige?'':' tron-hq')+'" data-hq-level="'+hqLevel+'" data-hq-stage="'+hqStage+'" style="left:'+centreX+'%;top:'+centreY+'%;--hq-rise:'+hqRise+'px;--hq-width:'+hqWidth+'px;--hq-core:'+hqCore+'px;--hq-accent:hsl('+hqHue+',92%,68%);--hq-crown-w:'+hqCrown+'%;--hq-ring-w:'+hqRing+'%;--hq-spire-height:'+hqSpire+'px;transform:translate(-50%,-50%)">'+(prestige?'<div class="structure"><i class="hq-arch-platform"></i><i class="hq-arch-wing wing-left"></i><i class="hq-arch-wing wing-right"></i><i class="hq-arch-core"></i><i class="hq-arch-crown"></i><i class="hq-arch-ring ring-low"></i><i class="hq-arch-ring ring-high"></i><i class="hq-arch-spire"></i><i class="hq-arch-beacon"></i><i class="hq-arch-window"></i><span class="glyph">⌂</span><i class="roof-mark">BD // HQ</i></div>':'<div class="structure tron" style="color:'+tronHqColor(hqLevel)+'">'+tronHq(hqLevel)+'</div>')+'<b class="building-name">'+(prestige?'PRESTIGE HQ':'CENTRAL HQ')+'</b><small class="building-level">'+(bulk.ready?'BATCH UPGRADE READY':prestige?'PRESTIGE P'+S.pr:'HQ LEVEL '+S.hq+' / 30')+'</small><button class="test-hq-tap" id="testHqTap" aria-label="'+(bulk.ready?'Upgrade all buildings one level':'Open HQ requirements and upgrade controls')+'"></button></div>';
   layer.innerHTML='<svg class="test-data-links" viewBox="0 0 1000 700" preserveAspectRatio="none" aria-hidden="true"><g fill="none">'+paths+'</g></svg>'+html;
-  if(!allianceCopy){if(testHqModalOpen)renderTestHqModal();if(testBuildingModalId)renderTestBuildingModal();if(testInsideId)renderTestInside();}
+  if(testHqModalOpen)renderTestHqModal();
+  if(testBuildingModalId)renderTestBuildingModal();
+  if(testInsideId)renderTestInside();
 }
 function openTestBuilding(id){testBuildingModalId=id;$('testBuildingModal').hidden=false;renderTestBuildingModal()}
 var testInsideId=null,testInsideLast='';
@@ -4778,9 +4737,9 @@ function render(){
   compSyncCalendarButton();
   if(tab==='progression')renderProgressionArchive();
   var r=rates(),m=mult(),wb=$('warn');
-  dnSync();wb.hidden=true;renderTestArea();if(tab==='ally')renderTestArea('allyBuildingLayer');var npcMapShortcut=document.querySelector('[data-test-go=\"map\"]');if(npcMapShortcut){var npcUnread=Math.max(0,Number(S.npcMissionUnread)||0);npcMapShortcut.setAttribute('data-unread',npcUnread?String(Math.min(99,npcUnread)):'0');npcMapShortcut.setAttribute('aria-label',npcUnread?'Open Missions Map · '+npcUnread+' NPC mission completed':'Open Missions Map');}
+  dnSync();wb.hidden=true;renderTestArea();var npcMapShortcut=document.querySelector('[data-test-go=\"map\"]');if(npcMapShortcut){var npcUnread=Math.max(0,Number(S.npcMissionUnread)||0);npcMapShortcut.setAttribute('data-unread',npcUnread?String(Math.min(99,npcUnread)):'0');npcMapShortcut.setAttribute('aria-label',npcUnread?'Open Missions Map · '+npcUnread+' NPC mission completed':'Open Missions Map');}
   tb.bot.style.color=S.inc?'#ff6b5a':'';
-  var inAlliance=false;ensureAllianceBank();RS.forEach(function(x){chips[x[0]].d.hidden=inAlliance;chips[x[0]].v.textContent=fmtResource(S.r[x[0]]);chips[x[0]].r.textContent='+'+fmtResource(r[x[0]])+'/s'});ARS.forEach(function(x){var ar=allianceRates();allyChips[x[0]].d.hidden=!inAlliance;allyChips[x[0]].v.textContent=fmtResource(S.al.res[x[0]]);allyChips[x[0]].r.textContent='+'+fmtResource(ar[x[0]])+'/s'});chips.qt.d.hidden=inAlliance||S.pr<1;$('chips').style.gridTemplateColumns='repeat('+(inAlliance?5:(S.pr>0?6:5))+',1fr)';
+  var inAlliance=tab==='ally';ensureAllianceBank();RS.forEach(function(x){chips[x[0]].d.hidden=inAlliance;chips[x[0]].v.textContent=fmtResource(S.r[x[0]]);chips[x[0]].r.textContent='+'+fmtResource(r[x[0]])+'/s'});ARS.forEach(function(x){var ar=allianceRates();allyChips[x[0]].d.hidden=!inAlliance;allyChips[x[0]].v.textContent=fmtResource(S.al.res[x[0]]);allyChips[x[0]].r.textContent='+'+fmtResource(ar[x[0]])+'/s'});chips.qt.d.hidden=inAlliance||S.pr<1;$('chips').style.gridTemplateColumns='repeat('+(inAlliance?5:(S.pr>0?6:5))+',1fr)';
   if(tab==='hq'){
     var h=E.hq,ph=S.pr>0,need=ph?preqs():reqs(),ok=need.every(function(x){return x.ok}),lv0=ph?10*S.pr:S.hq,done=ph&&S.pr>=5;
     h.t.textContent=ph?'Prestige HQ':'Headquarters';
@@ -4798,7 +4757,7 @@ function render(){
   }
   if(tab==='user')renderChiefProfile();
   if(tab==='mis')renderMis();
-  if(tab==='ally'){renderTestHqStatusForAlliance();}
+  if(tab==='ally')renderAllyTab();
   if(tab==='map')renderMapTab();
   if(tab==='bot')renderNano();
   if(tab==='rank')renderRank();
@@ -5905,341 +5864,5 @@ if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.
 if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.62',date:'18 NOV 2026',title:'NEXUS SPECIAL OPERATIONS // MULTI-OBJECTIVE TASKING',tag:'RANDOM TWO-TO-FOUR STAGE MISSIONS · HARDER DEADLINES · VARIABLE REWARDS',items:['Replaced simple single-action Nexus challenges with randomly assembled operations containing two, three or four independently tracked objectives. Objective pools draw from HQ progression, facility upgrades, crew training, Nano bot expansion, research, completed field missions and Alliance contributions when an Alliance is active.','Each objective tracks its own baseline and progress, and every objective must be completed before the operation deadline. Task combinations, operation titles, difficulty and objective targets vary between offers.','Increased operation windows to 35–65 minutes depending on the number of objectives, with longer windows for larger operations.','Completed operations award two to four randomly selected unlocked resource types, with reward quantities scaling to HQ level. Existing account saves, mission counters and legacy Nexus task records are retained.']});
 </script>
 
-<script id="bhq-alliance-complete-redesign">
-(function(){
-'use strict';
-var allianceShopCatalog=[
- {id:'credits1',cat:'SUPPLIES',name:'Resource Cache',desc:'A balanced bundle for your next HQ upgrade.',cost:120,reward:{cr:1800,da:650,cy:120},icon:'▣'},
- {id:'credits2',cat:'SUPPLIES',name:'Data Core Crate',desc:'Extra data cores for research and development.',cost:85,reward:{da:1800},icon:'◈'},
- {id:'credits3',cat:'SUPPLIES',name:'Crypto Shard Pack',desc:'A compact pack of specialist crypto shards.',cost:110,reward:{cy:450},icon:'⬡'},
- {id:'credits4',cat:'SUPPLIES',name:'War Intel Bundle',desc:'War intel for alliance operations and upgrades.',cost:95,reward:{ex:350},icon:'⌖'},
- {id:'credits5',cat:'SUPPLIES',name:'Dark Matter Case',desc:'Rare dark matter for advanced facilities.',cost:160,reward:{in:90},icon:'✦'},
- {id:'credits6',cat:'SUPPLIES',name:'Kill Token Reserve',desc:'Tokens for specialist intelligence upgrades.',cost:140,reward:{killTokens:45},icon:'◎'},
- {id:'credits7',cat:'SUPPLIES',name:'Influence Shipment',desc:'A shipment of Influence for your HQ operations.',cost:100,reward:{qt:180},icon:'⚡'},
- {id:'credits8',cat:'SUPPLIES',name:'VIP Point Voucher',desc:'A small boost towards your next VIP level.',cost:180,reward:{vipPoints:100},icon:'★'},
- {id:'daily',cat:'DAILY',name:'Daily Operative Parcel',desc:'One free daily parcel. Resets every 24 hours.',cost:0,reward:{cr:500,da:250,cy:25},icon:'🎁',daily:true}
-];
-function allyShopEnsure(){if(!S.al)return; if(!S.al.shop)S.al.shop={credits:0,purchases:{},dailyAt:0,history:[]};if(!S.al.shop.purchases)S.al.shop.purchases={};if(!Array.isArray(S.al.shop.history))S.al.shop.history=[];}
-function allyShopSafe(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-function allyShopRewardText(reward){return Object.keys(reward).map(function(k){var names={cr:'Credits',da:'Data',cy:'Crypto',ex:'War Intel',in:'Dark Matter',qt:'Influence',killTokens:'Kill Tokens',vipPoints:'VIP Points'};return '+'+fmt(reward[k])+' '+(names[k]||k)}).join(' · ')}
-function allyShopBuy(id){allyShopEnsure();var item=allianceShopCatalog.filter(function(x){return x.id===id})[0],shop=S.al.shop;if(!item)return;if(item.daily&&shop.dailyAt&&Date.now()-shop.dailyAt<86400000){toast('Daily parcel already collected.');return}if(shop.credits<item.cost){toast('Not enough Alliance Credits.');return}shop.credits-=item.cost;if(item.daily)shop.dailyAt=Date.now();Object.keys(item.reward).forEach(function(k){if(k==='killTokens')S.killTokens=(Number(S.killTokens)||0)+item.reward[k];else if(k==='vipPoints')S.vipPoints=(Number(S.vipPoints)||0)+item.reward[k];else S.r[k]=(Number(S.r[k])||0)+item.reward[k]});shop.purchases[id]=(Number(shop.purchases[id])||0)+1;shop.history.unshift({time:Date.now(),name:item.name,cost:item.cost,reward:allyShopRewardText(item.reward)});shop.history=shop.history.slice(0,30);save();toast(item.name+' purchased.');renderAllyShop()}
-function renderAllyShop(){allyShopEnsure();var host=$('allyOther');if(!host)return;var shop=S.al.shop,now=Date.now(),dailyReady=!shop.dailyAt||now-shop.dailyAt>=86400000,tab=window.allyShopTab||'ALL';var cats=['ALL','DAILY','SUPPLIES'];var html='<div class="ally-redesign-page"><div class="ally-page-head"><div><div class="sub">ALLIANCE EXCHANGE // QUARTERMASTER</div><h2>SUPPLY <em>DEPOT</em></h2><p>Exchange your personal Alliance Credits for resources and specialist supplies. Purchases are saved to your account.</p></div><div class="ally-credit-wallet"><small>YOUR ALLIANCE CREDITS</small><b>'+fmt(shop.credits)+'</b><span>Earn credits through Alliance activity</span></div></div><div class="ally-shop-banner"><span class="ally-shop-banner-icon">✦</span><div><b>OPERATIVE REQUISITION</b><small>Daily parcel refreshes every 24 hours · Items are delivered instantly</small></div><span class="ally-shop-live">LIVE STOCK</span></div><div class="ally-shop-tabs">'+cats.map(function(c){return '<button type="button" data-shop-cat="'+c+'" class="'+(tab===c?'on':'')+'">'+c+'</button>'}).join('')+'</div><div class="ally-shop-grid">';
- allianceShopCatalog.filter(function(x){return tab==='ALL'||x.cat===tab}).forEach(function(x){var ready=!x.daily||dailyReady;html+='<article class="ally-shop-item"><div class="ally-shop-item-top"><span class="ally-shop-item-icon">'+x.icon+'</span><span class="ally-shop-stock">'+(x.daily?(ready?'AVAILABLE':'CLAIMED'):'IN STOCK')+'</span></div><b>'+x.name+'</b><p>'+x.desc+'</p><div class="ally-shop-reward">'+allyShopRewardText(x.reward)+'</div><div class="ally-shop-buy-row"><span>'+(x.cost?fmt(x.cost)+' <small>AC</small>':'FREE')+'</span><button type="button" data-shop-buy="'+x.id+'" '+(ready&&shop.credits>=x.cost?'':'disabled')+'>'+(x.daily&&!ready?'Collected':shop.credits<x.cost?'Need credits':'REDEEM')+'</button></div></article>'});html+='</div><div class="ally-shop-history"><div class="sub">RECENT PURCHASES</div>'+(shop.history.length?shop.history.slice(0,8).map(function(x){return '<div class="ally-shop-history-row"><span><b>'+allyShopSafe(x.name)+'</b><small>'+new Date(x.time).toLocaleString()+' · '+allyShopSafe(x.reward)+'</small></span><strong>−'+fmt(x.cost)+' AC</strong></div>'}).join(''):'<div class="ally-empty-state">No purchases yet. Your redeemed items will appear here.</div>')+'</div></div>';
- host.innerHTML=html;host.querySelectorAll('[data-shop-cat]').forEach(function(b){b.onclick=function(){window.allyShopTab=b.getAttribute('data-shop-cat');renderAllyShop()}});host.querySelectorAll('[data-shop-buy]').forEach(function(b){b.onclick=function(){allyShopBuy(b.getAttribute('data-shop-buy'))}})
-}
-function allyHelpEnsure(){if(!S.al)return;if(!Array.isArray(S.al.helpRequests))S.al.helpRequests=[]}
-function renderAllyHelp(){allyHelpEnsure();var host=$('allyOther'),requests=S.al.helpRequests,me=window.BHQ_USERNAME||'You',html='<div class="ally-redesign-page"><div class="ally-page-head"><div><div class="sub">ALLIANCE NETWORK // MEMBER SERVICES</div><h2>MEMBER <em>SUPPORT</em></h2><p>Request help from your alliance, offer assistance and keep track of support across the network.</p></div><div class="ally-credit-wallet"><small>OPEN REQUESTS</small><b>'+requests.filter(function(x){return !x.closed}).length+'</b><span>Alliance-wide assistance board</span></div></div><div class="ally-help-compose"><div><b>REQUEST ASSISTANCE</b><small>Choose what you need and publish a request for your alliance.</small></div><select id="allyHelpType"><option value="Resources">Resource assistance</option><option value="Research">Research support</option><option value="Defence">Defence support</option><option value="War">War preparation</option><option value="General">General advice</option></select><input id="allyHelpNote" maxlength="100" placeholder="Add a short message (optional)"><button type="button" id="allyHelpSend">POST REQUEST</button></div><div class="sub">ALLIANCE SUPPORT BOARD</div><div class="ally-help-list">';
- if(!requests.length)html+='<div class="ally-empty-state">No support requests yet. Be the first to ask your alliance for help.</div>';requests.slice().sort(function(a,b){return b.time-a.time}).forEach(function(x){html+='<article class="ally-help-request '+(x.closed?'closed':'')+'"><div class="ally-help-avatar">'+(x.type==='War'?'⚔':x.type==='Defence'?'⛨':x.type==='Research'?'⌬':'✚')+'</div><div class="ally-help-copy"><b>'+allyShopSafe(x.type)+' SUPPORT · '+allyShopSafe(x.member)+'</b><p>'+allyShopSafe(x.note||'Assistance requested from alliance members.')+'</p><small>'+new Date(x.time).toLocaleString()+' · '+(x.closed?'COMPLETED':'OPEN')+' · '+(x.helpers||0)+' assists</small></div><button type="button" data-help-action="'+x.id+'" '+(x.closed||x.member===me?'disabled':'')+'>'+(x.closed?'CLOSED':x.member===me?'YOUR REQUEST':'ASSIST')+'</button></article>'});html+='</div></div>';host.innerHTML=html;
- var send=host.querySelector('#allyHelpSend');send.onclick=function(){var note=host.querySelector('#allyHelpNote').value.trim(),type=host.querySelector('#allyHelpType').value;if(requests.some(function(x){return x.member===me&&!x.closed&&x.type===type})){toast('You already have an open request of this type.');return}requests.push({id:'help-'+Date.now(),member:me,type:type,note:note,time:Date.now(),helpers:0,closed:false});requests=requests.slice(-40);S.al.helpRequests=requests;save();renderAllyHelp();toast('Alliance support request posted.')};host.querySelectorAll('[data-help-action]').forEach(function(b){b.onclick=function(){var req=requests.filter(function(x){return x.id===b.getAttribute('data-help-action')})[0];if(!req||req.closed||req.member===me)return;req.helpers=(req.helpers||0)+1;if(req.helpers>=3)req.closed=true;save();renderAllyHelp();toast('You provided alliance assistance.')}})
-}
-function allyRenderPlaceholderPage(which){var host=$('allyOther');if(!host)return;var meta={1:['WAR OPERATIONS','Coordinate attacks, review battle outcomes and record alliance activity.','⚔','War room'],6:['MEMBER SUPPORT','Ask for help, coordinate resources and support your alliance members.','✚','Support board']},m=meta[which];if(!m)return;host.innerHTML='<div class="ally-redesign-page"><div class="ally-page-head"><div><div class="sub">ALLIANCE HQ // '+m[0]+'</div><h2>'+m[3].toUpperCase()+'</h2><p>'+m[1]+'</p></div><div class="ally-credit-wallet"><small>ALLIANCE STATUS</small><b>ACTIVE</b><span>Operations network online</span></div></div><div class="ally-empty-state">'+m[2]+' &nbsp; Your alliance operations are ready. Select another facility from the Alliance HQ campus to manage this system.</div></div>'}
-var _allyAwardForShop=awardAllianceContribution;awardAllianceContribution=function(){var result=_allyAwardForShop.apply(this,arguments);if(S.al&&S.al.n){allyShopEnsure();S.al.shop.credits=(Number(S.al.shop.credits)||0)+Math.max(1,Math.floor(Number(result)||0));save()}return result};
-var _renderAllyTabRedesign=renderAllyTab;renderAllyTab=function(){_renderAllyTabRedesign();if(!S.al||!S.al.n||!allyInteriorOpen)return;if(atab===3)renderAllyShop();else if(atab===6)renderAllyHelp()};
-var style=document.createElement('style');style.id='ally-hq-complete-redesign';style.textContent=`
-#allyCampus{border:1px solid #20577a!important;background:radial-gradient(ellipse at 50% 20%,#102c46 0%,#071522 48%,#030a12 100%)!important;border-radius:18px!important;overflow:hidden!important;box-shadow:0 12px 35px #0009,inset 0 0 35px #1c8fc21c!important}
-.ally-campus-head{padding:15px 16px 12px!important;background:linear-gradient(100deg,#0b1c2d,#102b43 52%,#091523)!important;border-bottom:1px solid #286184!important}
-.ally-campus-head b{letter-spacing:2px!important;color:#dff6ff!important;text-shadow:0 0 14px #43c9ff55!important}
-.ally-campus-world{background:radial-gradient(ellipse at center,#123554 0%,#081a2b 48%,#030b14 100%)!important;min-height:440px!important}
-.ally-territory-hub,.ally-territory-building{filter:drop-shadow(0 6px 8px #000b)!important}
-.ally-territory-hub .structure,.ally-territory-building .structure{background:linear-gradient(145deg,#174363,#071a2b)!important;border:1px solid #55c8ff!important;box-shadow:0 0 18px #27bfff35,inset 0 0 14px #48caff22!important}
-.ally-territory-building .building-name,.ally-territory-hub .building-name{color:#e0f7ff!important;text-shadow:0 2px 5px #000!important}
-.ally-territory-building .building-level,.ally-territory-hub .building-level{color:#73d7ff!important}
-.ally-redesign-page{color:#d9efff;padding:2px 0 18px}.ally-page-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px;border:1px solid #245779;border-radius:14px;background:linear-gradient(120deg,#0d263b,#071522);margin-bottom:12px}.ally-page-head h2{font-size:21px;letter-spacing:1.5px;margin:5px 0;color:#e6f8ff}.ally-page-head h2 em{color:#64d4ff;font-style:normal}.ally-page-head p{font-size:11px;color:#91b4c9;line-height:1.5;margin:4px 0 0;max-width:430px}.ally-credit-wallet{min-width:112px;padding:10px;border:1px solid #28648a;border-radius:10px;background:#06111c;text-align:right}.ally-credit-wallet small,.ally-credit-wallet span{display:block;font-size:8px;color:#83a9bf}.ally-credit-wallet b{display:block;font-size:22px;color:#8ce4ff;margin:3px 0}.ally-shop-banner{display:flex;align-items:center;gap:10px;padding:12px;border:1px solid #245779;border-radius:12px;background:linear-gradient(100deg,#102c43,#081725);margin-bottom:12px}.ally-shop-banner-icon{font-size:26px;color:#7ee0ff}.ally-shop-banner b,.ally-shop-banner small{display:block}.ally-shop-banner b{font-size:11px;letter-spacing:1px}.ally-shop-banner small{font-size:9px;color:#8eafc2;margin-top:3px}.ally-shop-live{margin-left:auto;color:#8dffc1;font-size:8px;font-weight:900;white-space:nowrap}.ally-shop-tabs{display:flex;gap:6px;margin:10px 0;overflow:auto}.ally-shop-tabs button{border:1px solid #245779;background:#091a29;color:#a9c8dc;border-radius:8px;padding:8px 14px;font-size:10px;font-weight:900}.ally-shop-tabs button.on{background:#15517a;border-color:#65d7ff;color:white}.ally-shop-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.ally-shop-item{min-width:0;padding:11px;border:1px solid #1d4966;border-radius:12px;background:linear-gradient(145deg,#0c2031,#07121e);box-shadow:0 5px 12px #0005}.ally-shop-item-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}.ally-shop-item-icon{width:36px;height:36px;display:grid;place-items:center;border-radius:10px;background:#123b57;border:1px solid #367da4;font-size:19px;color:#a4edff}.ally-shop-stock{font-size:7px;color:#83d9ff;font-weight:900;letter-spacing:.6px}.ally-shop-item>b{font-size:11px;color:#e4f7ff}.ally-shop-item p{font-size:9px;color:#8ca9bc;line-height:1.4;min-height:26px;margin:5px 0}.ally-shop-reward{font-size:9px;color:#9dffc0;min-height:26px}.ally-shop-buy-row{display:flex;align-items:center;justify-content:space-between;border-top:1px solid #1b3c52;padding-top:8px;margin-top:7px}.ally-shop-buy-row>span{font-size:12px;font-weight:900;color:#f4d58a}.ally-shop-buy-row small{font-size:8px;color:#a6c5d9}.ally-shop-buy-row button,.ally-help-compose button{border:1px solid #55c9ff;border-radius:7px;background:linear-gradient(140deg,#17608a,#103653);color:#effbff;font-size:9px;font-weight:900;padding:8px 10px}.ally-shop-buy-row button:disabled{opacity:.4;filter:grayscale(1)}.ally-shop-history{margin-top:17px;padding:12px;border:1px solid #1d4966;border-radius:12px;background:#071521}.ally-shop-history-row{display:flex;justify-content:space-between;gap:8px;padding:9px 0;border-bottom:1px solid #18354a;font-size:10px}.ally-shop-history-row:last-child{border:0}.ally-shop-history-row small{display:block;color:#7897ab;font-size:8px;margin-top:3px}.ally-shop-history-row strong{color:#ffd88c;white-space:nowrap}.ally-empty-state{padding:20px 12px;text-align:center;border:1px dashed #28516c;border-radius:11px;background:#081725;color:#86a8bc;font-size:10px;line-height:1.6}.ally-help-compose{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:13px;border:1px solid #245779;border-radius:12px;background:#0a1d2c;margin-bottom:14px}.ally-help-compose>div{grid-column:1/-1}.ally-help-compose b,.ally-help-compose small{display:block}.ally-help-compose b{font-size:11px}.ally-help-compose small{font-size:9px;color:#8eafc2;margin-top:3px}.ally-help-compose select,.ally-help-compose input{width:100%;min-width:0;border:1px solid #24516c;border-radius:7px;background:#06121d;color:#d9efff;padding:9px;font-size:10px}.ally-help-compose button{grid-column:1/-1}.ally-help-list{display:grid;gap:8px;margin-top:8px}.ally-help-request{display:flex;align-items:center;gap:10px;padding:11px;border:1px solid #1e4b68;border-radius:11px;background:#091a28}.ally-help-request.closed{opacity:.6}.ally-help-avatar{width:36px;height:36px;flex:0 0 36px;display:grid;place-items:center;border-radius:9px;background:#123b57;color:#8ee4ff;font-size:18px}.ally-help-copy{flex:1;min-width:0}.ally-help-copy>b{font-size:10px;color:#dff5ff}.ally-help-copy p{font-size:9px;color:#9bb8c9;margin:4px 0;overflow-wrap:anywhere}.ally-help-copy small{font-size:8px;color:#7193a9}.ally-help-request>button{border:1px solid #347da2;border-radius:7px;background:#103a55;color:#ccefff;padding:7px;font-size:8px;font-weight:900}.ally-help-request>button:disabled{opacity:.45}
-@media(max-width:520px){.ally-page-head{align-items:flex-start}.ally-page-head h2{font-size:18px}.ally-credit-wallet{min-width:95px;padding:8px}.ally-shop-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.ally-shop-item{padding:9px}.ally-shop-item p{font-size:8px}.ally-shop-buy-row button{padding:7px 8px;font-size:8px}.ally-help-compose{grid-template-columns:1fr}.ally-help-compose>div,.ally-help-compose button{grid-column:1}.ally-help-request{align-items:flex-start}.ally-help-request>button{padding:7px 5px}}
-`;
-document.head.appendChild(style);
-
-// Alliance completion pass: Operations, Communications, Academy and Archives.
-var ALLY_EXTRA_TABS=[['Operations',1],['Territory',2],['Exchange',3],['Rankings',4],['Gifts',5],['Support',6],['Research',7],['Events',8],['Communications',9],['Academy',10],['Archives',11]];
-(function(){
- var tabHost=$('allyTabs');if(!tabHost)return;
- // Keep the original eight navigation actions, but make every facility explicit.
- var labels={1:'Operations',2:'Territory',3:'Exchange',4:'Rankings',5:'Gifts',6:'Support',7:'Research',8:'Events'};
- ab2.forEach(function(b){var n=Number(b.dataset.atab);if(labels[n])b.textContent=labels[n]});
- [[9,'Communications'],[10,'Academy'],[11,'Archives']].forEach(function(pair){if(tabHost.querySelector('[data-atab="'+pair[0]+'"]'))return;var b=document.createElement('button');b.type='button';b.dataset.atab=String(pair[0]);b.textContent=pair[1];b.onclick=function(){atab=pair[0];render()};tabHost.appendChild(b);ab2.push(b)});
-})();
-function allyOpsEnsure(){if(!S.al)return;if(!S.al.ops)S.al.ops={active:null,last:{},history:[]};if(!S.al.ops.last)S.al.ops.last={};if(!Array.isArray(S.al.ops.history))S.al.ops.history=[]}
-function allyOpsRender(){allyOpsEnsure();var host=$('allyOther'),ops=S.al.ops,now=Date.now(),active=ops.active;
- var missions=[{id:'recovery',name:'DATA RECOVERY',icon:'▦',desc:'Recover encrypted supply caches from a derelict relay station.',duration:60000,reward:{ac:1800,dc:80,cs:8},cp:18},{id:'perimeter',name:'PERIMETER SWEEP',icon:'⛨',desc:'Sweep the alliance border and reinforce vulnerable network nodes.',duration:120000,reward:{ac:2600,dc:120,wi:3},cp:26},{id:'blacksite',name:'BLACKSITE INTEL',icon:'⌁',desc:'Infiltrate a hostile data vault and extract strategic intelligence.',duration:180000,reward:{ac:3400,cs:18,wi:5,dm:1},cp:35}];
- var academy=S.al.academy||{},academyBonus=1+Math.min(.5,(academy.operations||0)*.05),safe=allyShopSafe;
- var html='<div class="ally-redesign-page"><div class="ally-page-head"><div><div class="sub">ALLIANCE HQ // WAR OPERATIONS</div><h2>OPERATIONS <em>COMMAND</em></h2><p>Dispatch alliance missions, secure shared supplies and review the command activity log.</p></div><div class="ally-credit-wallet"><small>ALLIANCE LEVEL</small><b>'+allianceLevel()+'</b><span>'+fmt(allianceGiftProgress().into)+' / 1,000 contribution</span></div></div><div class="ally-ops-status"><b>FIELD STATUS</b><span>'+(active?'MISSION IN PROGRESS':'ALL OPERATIVES AVAILABLE')+'</span><small>One alliance operation can run at a time. Rewards enter the shared Alliance Bank.</small></div>';
- if(active){var m=missions.filter(function(x){return x.id===active.id})[0],left=Math.max(0,(active.ends||0)-now);if(m){html+='<div class="ally-op-active"><div class="ally-op-icon">'+m.icon+'</div><div class="ally-op-copy"><b>'+m.name+'</b><p>'+(left>0?'Your alliance team is completing this operation.':'Operation complete — claim the recovered supplies.')+'</p><small>'+(left>0?'TIME REMAINING · '+fmtT(left/1000):'READY TO CLAIM')+'</small></div>'+(left>0?'<button type="button" disabled>IN FIELD</button>':'<button type="button" data-ally-op-claim>CLAIM REWARD</button>')+'</div>'}}
- html+='<div class="sub">AVAILABLE OPERATIONS</div><div class="ally-ops-grid">';missions.forEach(function(m){var last=ops.last[m.id]||0,cd=Math.max(0,last+300000-now),locked=!!active||cd>0;var reward=Object.keys(m.reward).map(function(k){return '+'+fmt(m.reward[k]*academyBonus)+' '+(ANM[k]||k.toUpperCase())}).join(' · ');html+='<article class="ally-op-card"><div class="ally-op-card-top"><span>'+m.icon+'</span><small>'+Math.round(m.duration/60000)+' MIN OPERATION</small></div><b>'+m.name+'</b><p>'+m.desc+'</p><div class="ally-op-reward">'+reward+' · +'+m.cp+' CP</div><button type="button" data-ally-op-start="'+m.id+'" '+(locked?'disabled':'')+'>'+(active?'ANOTHER OPERATION ACTIVE':cd>0?'REDEPLOY IN '+fmtT(cd/1000):'DISPATCH TEAM')+'</button></article>'});html+='</div><div class="ally-ops-log"><div class="sub">RECENT ALLIANCE OPERATIONS</div>';
- if(!ops.history.length)html+='<div class="ally-empty-state">No operations completed yet. Dispatch your first team to begin building the alliance record.</div>';ops.history.slice(0,8).forEach(function(x){html+='<div class="ally-archive-row"><b>'+safe(x.name)+'</b><span>'+safe(x.reward)+'</span><small>'+new Date(x.time).toLocaleString()+'</small></div>'});html+='</div></div>';host.innerHTML=html;
- host.querySelectorAll('[data-ally-op-start]').forEach(function(b){b.onclick=function(){if(ops.active)return;var m=missions.filter(function(x){return x.id===b.dataset.allyOpStart})[0];if(!m)return;var cd=(ops.last[m.id]||0)+300000*(1-Math.min(.2,(Number(academy.defence)||0)*.02))-now;if(cd>0){toast('This operation team is still redeploying.');return}ops.active={id:m.id,started:now,ends:now+m.duration};save();allyOpsRender();toast(m.name+' team dispatched.')}});
- var claim=host.querySelector('[data-ally-op-claim]');if(claim)claim.onclick=function(){var a=ops.active,m=missions.filter(function(x){return x.id===a.id})[0];if(!m||Date.now()<(a.ends||0))return;ensureAllianceBank();var mult=academyBonus;Object.keys(m.reward).forEach(function(k){S.al.res[k]=(Number(S.al.res[k])||0)+m.reward[k]*mult});ops.last[m.id]=Date.now();ops.history.unshift({name:m.name,time:Date.now(),reward:Object.keys(m.reward).map(function(k){return fmt(m.reward[k]*mult)+' '+(ANM[k]||k)}).join(' · ')});ops.history=ops.history.slice(0,30);ops.active=null;awardAllianceContribution('Alliance Operation · '+m.name,m.cp,m.cp,'operation');save();allyOpsRender();toast('Operation complete. Supplies delivered to the Alliance Bank.')};
-}
-function allyCommsEnsure(){if(!S.al)return;if(!Array.isArray(S.al.comms))S.al.comms=[]}
-function allyCommsRender(){allyCommsEnsure();var host=$('allyOther'),posts=S.al.comms,me=window.BHQ_USERNAME||'You',html='<div class="ally-redesign-page"><div class="ally-page-head"><div><div class="sub">ALLIANCE HQ // NETWORK COMMS</div><h2>COMMUNICATIONS <em>CENTRE</em></h2><p>Publish alliance notices, coordinate events and keep important command messages in one place.</p></div><div class="ally-credit-wallet"><small>MESSAGES</small><b>'+posts.length+'</b><span>Saved to this alliance</span></div></div><div class="ally-comms-compose"><b>NEW ALLIANCE NOTICE</b><input id="allyCommsTitle" maxlength="48" placeholder="Notice heading"><textarea id="allyCommsBody" maxlength="240" rows="3" placeholder="Write an announcement, event plan or instruction..."></textarea><button type="button" id="allyCommsPost">PUBLISH NOTICE</button></div><div class="sub">ALLIANCE NOTICEBOARD</div><div class="ally-comms-list">';
- if(!posts.length)html+='<div class="ally-empty-state">No notices have been published. Use the form above to post the first alliance announcement.</div>';posts.slice().sort(function(a,b){return (b.time||0)-(a.time||0)}).forEach(function(x){html+='<article class="ally-comms-post"><div><b>'+allyShopSafe(x.title)+'</b><small>'+allyShopSafe(x.author)+' · '+new Date(x.time||Date.now()).toLocaleString()+'</small></div><p>'+allyShopSafe(x.body).replace(/\n/g,'<br>')+'</p>'+(x.author===me?'<button type="button" data-comms-delete="'+x.id+'">DELETE</button>':'')+'</article>'});html+='</div></div>';host.innerHTML=html;
- host.querySelector('#allyCommsPost').onclick=function(){var title=host.querySelector('#allyCommsTitle').value.trim(),body=host.querySelector('#allyCommsBody').value.trim();if(!title||!body){toast('Add a heading and message first.');return}posts.unshift({id:'notice-'+Date.now(),title:title,body:body,author:me,time:Date.now()});S.al.comms=posts.slice(0,40);save();allyCommsRender();toast('Alliance notice published.')};host.querySelectorAll('[data-comms-delete]').forEach(function(b){b.onclick=function(){S.al.comms=S.al.comms.filter(function(x){return x.id!==b.dataset.commsDelete||x.author!==me});save();allyCommsRender()}})
-}
-function allyAcademyEnsure(){if(!S.al)return;if(!S.al.academy)S.al.academy={operations:0,logistics:0,defence:0};['operations','logistics','defence'].forEach(function(k){S.al.academy[k]=Math.max(0,Number(S.al.academy[k])||0)})}
-function allyAcademyRender(){allyAcademyEnsure();allyShopEnsure();var host=$('allyOther'),a=S.al.academy,tracks=[{id:'operations',name:'OPERATIONS TRAINING',icon:'⚔',desc:'Improve Alliance Operation rewards by 5% per level.',max:10},{id:'logistics',name:'LOGISTICS SCHOOL',icon:'▣',desc:'Improve Alliance Exchange contribution credit earnings by 3% per level.',max:10},{id:'defence',name:'DEFENCE ACADEMY',icon:'⛨',desc:'Reduce Alliance Operation redeployment cooldowns by 2% per level.',max:10}];var total=a.operations+a.logistics+a.defence,html='<div class="ally-redesign-page"><div class="ally-page-head"><div><div class="sub">ALLIANCE HQ // TRAINING ACADEMY</div><h2>OPERATIVE <em>ACADEMY</em></h2><p>Invest Alliance Credits into specialist training paths and develop permanent alliance-wide bonuses.</p></div><div class="ally-credit-wallet"><small>ALLIANCE CREDITS</small><b>'+fmt(S.al.shop.credits)+'</b><span>'+total+' total academy levels</span></div></div><div class="ally-academy-grid">';
- tracks.forEach(function(t){var lv=Number(a[t.id])||0,cost=50+lv*50;html+='<article class="ally-academy-card"><div class="ally-academy-icon">'+t.icon+'</div><small>TRAINING PATH</small><b>'+t.name+'</b><p>'+t.desc+'</p><div class="ally-academy-level">LEVEL '+lv+' / '+t.max+'</div><div class="ally-academy-track"><i style="width:'+(lv/t.max*100)+'%"></i></div><div class="ally-academy-footer"><span>'+(lv>=t.max?'MAX LEVEL':fmt(cost)+' CREDITS')+'</span><button type="button" data-academy-up="'+t.id+'" '+(lv>=t.max||S.al.shop.credits<cost?'disabled':'')+'>'+(lv>=t.max?'MAXED':'TRAIN')+'</button></div></article>'});html+='</div><div class="ally-empty-state">Training is permanent and saved to your alliance. Operations Training boosts mission rewards; Logistics School boosts Alliance Credit earnings; Defence Academy improves the bank income modifier.</div></div>';host.innerHTML=html;
- host.querySelectorAll('[data-academy-up]').forEach(function(b){b.onclick=function(){var id=b.dataset.academyUp,track=tracks.filter(function(t){return t.id===id})[0],lv=Number(a[id])||0,cost=50+lv*50;if(!track||lv>=track.max||S.al.shop.credits<cost)return;S.al.shop.credits-=cost;a[id]=lv+1;save();allyAcademyRender();toast(track.name+' upgraded to level '+(lv+1)+'.')}})
-}
-function allyArchivesRender(){var host=$('allyOther'),A=S.al,logs=(A.activityLog||[]).slice(0,30),ops=A.ops&&A.ops.history||[],comms=A.comms||[],gifts=A.gifts||{},shop=A.shop&&A.shop.history||[],help=A.helpRequests||[];var html='<div class="ally-redesign-page"><div class="ally-page-head"><div><div class="sub">ALLIANCE HQ // RECORDS & INTELLIGENCE</div><h2>ALLIANCE <em>ARCHIVES</em></h2><p>A searchable-style record of alliance progress, completed operations, notices, support and supply activity.</p></div><div class="ally-credit-wallet"><small>ACTIVITY RECORDS</small><b>'+(logs.length+ops.length+comms.length+shop.length+help.length)+'</b><span>Latest saved entries</span></div></div>';
- function section(title,rows,empty){html+='<div class="sub">'+title+'</div><div class="ally-archive-list">';if(!rows.length)html+='<div class="ally-empty-state">'+empty+'</div>';rows.forEach(function(x){html+='<div class="ally-archive-row"><b>'+allyShopSafe(x.title)+'</b><span>'+allyShopSafe(x.detail||'')+'</span><small>'+new Date(x.time||Date.now()).toLocaleString()+'</small></div>'});html+='</div>'}
- section('OPERATION HISTORY',ops.slice(0,12).map(function(x){return{title:x.name,detail:x.reward,time:x.time}}),'No alliance operations completed yet.');section('COMMUNICATIONS',comms.slice(0,10).map(function(x){return{title:x.title,detail:'Posted by '+x.author,time:x.time}}),'No notices published yet.');section('SUPPLY EXCHANGE',shop.slice(0,10).map(function(x){return{title:x.name,detail:'-'+x.cost+' credits · '+x.reward,time:x.time}}),'No Exchange purchases yet.');section('MEMBER SUPPORT',help.slice(0,10).map(function(x){return{title:x.type+' request · '+x.member,detail:(x.closed?'Completed':'Open')+' · '+(x.helpers||0)+' assists · '+(x.note||''),time:x.time}}),'No support requests yet.');section('CONTRIBUTION LOG',logs.slice(0,15).map(function(x){return{title:(x.member||'Member')+' · +'+(x.points||0)+' CP',detail:x.source||'Alliance activity',time:x.time}}),'No contribution records yet.');html+='</div>';host.innerHTML=html}
-var _allyAwardAcademy=awardAllianceContribution;awardAllianceContribution=function(){var result=_allyAwardAcademy.apply(this,arguments);if(S.al&&S.al.n&&S.al.academy&&S.al.academy.logistics){var extra=Math.floor((Number(result)||0)*S.al.academy.logistics*.03);if(extra>0){allyShopEnsure();S.al.shop.credits+=extra;save()}}return result};
-var _renderAllyWithExtra=renderAllyTab;renderAllyTab=function(){_renderAllyWithExtra();if(!S.al||!S.al.n||!allyInteriorOpen)return;if(atab===1)allyOpsRender();else if(atab===3)renderAllyShop();else if(atab===6)renderAllyHelp();else if(atab===9)allyCommsRender();else if(atab===10)allyAcademyRender();else if(atab===11)allyArchivesRender()};
-var allyExtraStyle=document.createElement('style');allyExtraStyle.id='ally-extra-facilities-style';allyExtraStyle.textContent=`
-.ally-ops-status,.ally-op-active,.ally-op-card,.ally-comms-compose,.ally-comms-post,.ally-academy-card,.ally-archive-list{border:1px solid #245779;border-radius:12px;background:linear-gradient(145deg,#0c2031,#07121e);padding:12px;margin:8px 0;color:#d9efff}.ally-ops-status{display:grid;grid-template-columns:1fr auto;gap:5px}.ally-ops-status b{font-size:10px}.ally-ops-status span{font-size:9px;color:#8dffc1}.ally-ops-status small{grid-column:1/-1;color:#86a8bc;font-size:9px}.ally-ops-grid,.ally-academy-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:9px 0}.ally-op-card,.ally-academy-card{margin:0;min-width:0}.ally-op-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}.ally-op-card-top span,.ally-academy-icon{font-size:23px;color:#85e3ff}.ally-op-card-top small,.ally-academy-card>small{font-size:8px;color:#83b4d0}.ally-op-card>b,.ally-academy-card>b{display:block;font-size:10px;letter-spacing:.4px}.ally-op-card p,.ally-academy-card p{font-size:9px;line-height:1.5;color:#8eafc2;min-height:42px}.ally-op-reward{font-size:8px;color:#a4ffc4;line-height:1.5;min-height:30px}.ally-op-card button,.ally-op-active button,.ally-comms-compose button,.ally-academy-footer button,.ally-comms-post button{border:1px solid #55c9ff;border-radius:7px;background:linear-gradient(140deg,#17608a,#103653);color:#effbff;font-size:8px;font-weight:900;padding:8px;width:100%;margin-top:8px}.ally-op-card button:disabled,.ally-academy-footer button:disabled{opacity:.4;filter:grayscale(1)}.ally-op-active{display:flex;align-items:center;gap:10px}.ally-op-icon{font-size:26px;color:#80e3ff}.ally-op-copy{flex:1;min-width:0}.ally-op-copy b{font-size:10px}.ally-op-copy p,.ally-op-copy small{display:block;font-size:8px;color:#8eafc2;margin:4px 0}.ally-op-active button{width:auto;max-width:115px}.ally-comms-compose{display:grid;gap:8px}.ally-comms-compose>b{font-size:10px}.ally-comms-compose input,.ally-comms-compose textarea{width:100%;box-sizing:border-box;background:#06121d;border:1px solid #24516c;border-radius:7px;padding:10px;color:#d9efff;font:10px inherit}.ally-comms-post{margin:8px 0}.ally-comms-post>div{display:flex;justify-content:space-between;gap:8px}.ally-comms-post b{font-size:10px}.ally-comms-post small,.ally-archive-row small{font-size:8px;color:#7897ab}.ally-comms-post p{font-size:9px;line-height:1.55;color:#a9c5d6;overflow-wrap:anywhere}.ally-comms-post button{width:auto}.ally-academy-icon{margin-bottom:6px}.ally-academy-level{font-size:9px;color:#83d9ff;font-weight:900}.ally-academy-track{height:5px;background:#06111c;border-radius:8px;overflow:hidden;margin:8px 0}.ally-academy-track i{display:block;height:100%;background:linear-gradient(90deg,#2388b8,#7be3ff)}.ally-academy-footer{display:flex;align-items:center;justify-content:space-between;gap:6px}.ally-academy-footer span{font-size:8px;color:#f4d58a}.ally-academy-footer button{width:auto;margin:0}.ally-archive-list{padding:6px 12px;margin:7px 0 14px}.ally-archive-row{display:grid;grid-template-columns:1fr;gap:3px;padding:9px 0;border-bottom:1px solid #18354a}.ally-archive-row:last-child{border:0}.ally-archive-row b{font-size:9px;color:#e0f5ff}.ally-archive-row span{font-size:8px;color:#a4ffc4;line-height:1.4}.ally-archive-row small{font-size:8px}@media(max-width:520px){.ally-ops-grid,.ally-academy-grid{grid-template-columns:1fr}.ally-op-card p,.ally-academy-card p{min-height:0}.ally-op-active{align-items:flex-start}.ally-op-active button{max-width:95px;padding:7px 5px}}
-`;
-document.head.appendChild(allyExtraStyle);
-if(typeof BHQ_UPDATE_VERSION!=='undefined')BHQ_UPDATE_VERSION='1.0.66';
-if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.66',date:'19 NOV 2026',title:'ALLIANCE HQ // FULL FACILITY ACTIVATION',tag:'OPERATIONS · COMMUNICATIONS · ACADEMY · ARCHIVES',items:['Activated the War Operations facility with three timed alliance missions, shared-bank rewards, contribution gains, redeployment cooldowns and a persistent operation history.','Added the Communications Centre with saved alliance announcements and member-owned notice deletion.','Added the Operative Academy with three permanent training paths purchased using Alliance Credits.','Added the Alliance Archives, bringing operation history, notices, Exchange purchases, support requests and contribution records together.','Renamed and expanded Alliance navigation so each facility has a clear purpose while preserving existing territory, research, gifts, events, membership and progression systems.']});
-if(typeof BHQ_UPDATE_VERSION!=='undefined')BHQ_UPDATE_VERSION='1.0.65';
-if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.push({version:'1.0.65',date:'19 NOV 2026',title:'ALLIANCE HQ // EXCHANGE & MEMBER SERVICES',tag:'REBUILT ALLIANCE CAMPUS · WORKING SHOP · MEMBER SUPPORT',items:['Restyled the Alliance campus to align its central HQ and specialist facilities with the main HQ building language, with a deeper command-campus palette, brighter facility cores and clearer labels.','Added the Alliance Exchange with daily free supplies, resource and specialist-item stock, personal Alliance Credits, instant delivery and a persistent purchase history. Alliance Credits are earned from Alliance Contribution activities.','Rebuilt Member Help into a working support board with request categories, optional member notes, assist actions, open-request tracking and saved history.','Preserved existing Alliance members, leadership, territory buildings, bank production, War Logs, gifts, research, events and account progression.']});
-
-/* ALLIANCE HQ V3 — complete replacement of the legacy Alliance interface. */
-(function(){
- var style=document.createElement('style');style.id='ally-hq-v3-style';style.textContent=`
- #t-ally{color:#d8f5df}
- .ally-new-create,.ally-new-campus,.ally-new-interior{border:1px solid #24583e;border-radius:15px;background:radial-gradient(ellipse at 50% 0%,#123b28,#07150e 64%,#030907);padding:15px;margin:8px 0 18px;box-shadow:0 12px 30px #0008,inset 0 0 25px #38ff8810}
- .ally-new-create{text-align:center;max-width:520px;margin:25px auto;padding:26px 18px}.ally-new-create h2,.ally-new-campus h2,.ally-new-header h2{margin:5px 0;color:#eafff0;letter-spacing:1.5px}.ally-new-create h2 em{font-style:normal;color:#67ff9b}.ally-new-create p,.ally-new-campus p,.ally-new-header p{color:#8eb9a0;font-size:11px;line-height:1.5}.ally-new-kicker,.ally-new-campus-head small,.ally-new-header small{font-size:8px;letter-spacing:1.6px;color:#61d98b;font-weight:900}.ally-new-create input{display:block;width:100%;max-width:340px;margin:14px auto 8px;padding:12px;background:#041009;border:1px solid #286344;border-radius:8px;color:#eafff0}.ally-new-create button,.ally-new-nav button,.ally-new-building button,.ally-new-action{border:1px solid #3eaa69;background:linear-gradient(135deg,#155d35,#0a2a19);color:#eafff0;border-radius:8px;padding:10px 13px;font-weight:900;font-size:9px;letter-spacing:.5px}
- .ally-new-campus-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}.ally-new-live{white-space:nowrap;color:#82ffac;font-size:8px;font-weight:900}.ally-new-live i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#65ff9a;box-shadow:0 0 9px #65ff9a;margin-right:5px}
- .ally-new-world{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:15px;padding:12px;border:1px solid #1d5034;border-radius:13px;background:radial-gradient(ellipse at center,#143b27,#07160e 65%,#030907);overflow:hidden}
- .ally-new-core{grid-column:2;grid-row:2;min-height:112px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid #63ff9a;border-radius:12px;background:linear-gradient(145deg,#164c2d,#06170d);box-shadow:0 0 24px #42ff8b33,inset 0 0 18px #4aff901c;text-align:center}
- .ally-new-core strong{font-size:12px;letter-spacing:1.3px;color:#eafff0}.ally-new-core span{font-size:8px;color:#7bdfa0;margin-top:5px}.ally-new-core b{font-size:26px;color:#76ffa7;text-shadow:0 0 14px #5aff9a66}
- .ally-new-building{min-width:0;min-height:104px;border:1px solid #235b3c;border-radius:11px;padding:9px 7px;background:linear-gradient(145deg,#102b1b,#07130c);color:#dfffea;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}.ally-new-building .glyph{font-size:23px;color:#79ffa8;text-shadow:0 0 12px #39ff8b55}.ally-new-building b{font-size:8px;letter-spacing:.5px}.ally-new-building small{font-size:8px;color:#8db99d}.ally-new-building button{margin-top:4px;padding:6px 8px;font-size:8px}.ally-new-building .ready{color:#9bffba}.ally-new-building.locked{opacity:.55}
- .ally-new-header{display:flex;align-items:center;gap:12px;padding:5px 0 13px;border-bottom:1px solid #1b5032}.ally-new-header>div:nth-child(2){flex:1;min-width:0}.ally-new-header>button{flex:0 0 auto;border:1px solid #326a49;background:#0a1c11;color:#a9e9be;border-radius:7px;padding:8px;font-size:8px;font-weight:900}.ally-new-emblem{width:45px;height:45px;flex:0 0 45px;display:grid;place-items:center;border:1px solid #5bd987;border-radius:11px;color:#8dffb1;font-size:24px;background:#0b2817}.ally-new-emblem small{font-size:6px;letter-spacing:0}
- .ally-new-bank{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin:12px 0}.ally-bank-cell{padding:8px 4px;text-align:center;border:1px solid #24583c;border-radius:8px;background:#06140c;min-width:0}.ally-bank-cell small{display:block;font-size:7px;color:#80b996;white-space:nowrap}.ally-bank-cell b{display:block;font-size:11px;color:#a5ffbf;margin-top:4px;overflow-wrap:anywhere}.ally-bank-cell span{font-size:7px;color:#719a80}
- .ally-new-nav{display:flex;gap:6px;overflow-x:auto;padding:3px 0 11px;scrollbar-width:thin}.ally-new-nav button{white-space:nowrap;padding:9px 11px;flex:0 0 auto;background:#091a10;border-color:#28573b;color:#9cc8aa}.ally-new-nav button.active{background:linear-gradient(135deg,#1d7542,#0e3b23);border-color:#72f6a0;color:#fff}
- .ally-new-page{min-height:120px}.ally-new-section{border:1px solid #1e4b31;border-radius:11px;background:linear-gradient(145deg,#0c2114,#061109);padding:12px;margin:8px 0}.ally-new-section h3{margin:0 0 7px;font-size:11px;color:#caffd9;letter-spacing:1px}.ally-new-section p,.ally-new-muted{font-size:9px;color:#91b39b;line-height:1.5}.ally-new-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.ally-new-stat{padding:11px;border:1px solid #24583c;border-radius:9px;background:#07170d}.ally-new-stat small{display:block;color:#81ad90;font-size:8px}.ally-new-stat b{display:block;color:#9bffb7;font-size:17px;margin-top:4px}.ally-new-row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 0;border-bottom:1px solid #173b25}.ally-new-row:last-child{border:0}.ally-new-row b{font-size:9px;color:#e2ffea}.ally-new-row small{display:block;color:#83a991;font-size:8px;margin-top:3px}.ally-new-row button{border:1px solid #387a50;border-radius:6px;background:#10351e;color:#d8ffe3;padding:7px;font-size:8px}
- .ally-new-page .ally-info-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.ally-new-page .ally-info-card{background:#07170d;border:1px solid #23563a;border-radius:9px;padding:10px}.ally-new-page .ally-info-card b{font-size:9px;color:#d7ffe1}.ally-new-page .ally-info-card span{display:block;font-size:8px;color:#88b296;line-height:1.5;margin-top:5px}
- #allyTown{display:grid;grid-template-columns:1fr;gap:10px}#allyTown #allyMemberCol,#allyTown #allyAppCol{border:1px solid #24583c;border-radius:10px;padding:10px;background:#07170d}#allyTown .rk{margin:5px 0}
- @media(max-width:520px){.ally-new-world{gap:6px;padding:8px}.ally-new-building{min-height:95px;padding:6px 3px}.ally-new-building b{font-size:7px}.ally-new-core{min-height:95px}.ally-new-bank{gap:4px}.ally-bank-cell{padding:7px 2px}.ally-bank-cell small{font-size:6px}.ally-bank-cell b{font-size:9px}.ally-new-header{gap:7px}.ally-new-header>button{padding:7px 6px;font-size:7px}.ally-new-emblem{width:36px;height:36px;flex-basis:36px}}
- `;document.head.appendChild(style);
- var oldCampusRender=renderAllianceTerritory,oldRender=renderAllyTab;
- var facilityGlyph={ao1:'⌁',ao2:'▤',ao3:'⌖',ao4:'✚',as1:'⬡',as2:'⛨',as3:'▥',as4:'⚔'};
- var facilityNames={ac:'Alliance Credits',dc:'Data Cores',cs:'Crypto Shards',wi:'War Intel',dm:'Dark Matter'};
- function bankAdd(key,amount,source){ensureAllianceBank();if(!ARS.some(function(x){return x[0]===key}))return 0;var n=Math.max(0,Number(amount)||0);S.al.res[key]=(Number(S.al.res[key])||0)+n;if(n&&source){if(!Array.isArray(S.al.bankLog))S.al.bankLog=[];S.al.bankLog.unshift({time:Date.now(),key:key,amount:n,source:String(source)});S.al.bankLog=S.al.bankLog.slice(0,100)}return n}
- function bankPay(cost,source){ensureAllianceBank();if(!allianceAfford(cost))return false;Object.keys(cost).forEach(function(k){S.al.res[k]=Math.max(0,(Number(S.al.res[k])||0)-Number(cost[k]||0))});if(!Array.isArray(S.al.bankLog))S.al.bankLog=[];S.al.bankLog.unshift({time:Date.now(),type:'debit',source:String(source||'Alliance purchase'),cost:JSON.parse(JSON.stringify(cost))});S.al.bankLog=S.al.bankLog.slice(0,100);return true}
- function renderNewBank(){ensureAllianceBank();var host=$('allyNewBank'),rates=allianceRates();if(!host)return;host.innerHTML=ARS.map(function(x){return '<div class="ally-bank-cell"><small>'+x[1]+'</small><b>'+fmt(S.al.res[x[0]]||0)+'</b><span>+'+fmt(rates[x[0]]||0)+'/s</span></div>'}).join('')}
- function renderNewCampus(){
-  ensureAllianceBank();var host=$('allyCampusWorld');if(!host)return;
-  var buildings=allianceTerritoryBuildings(),slots=[[1,1],[3,1],[1,2],[3,2],[1,3],[3,3]];
-  var glyphs={ao1:'⌁',ao2:'▤',ao3:'⌖',ao4:'✚',as1:'⚔',as2:'⛨'};
-  var html='<div class="ally-command-map"><div class="ally-map-ground"><i></i><i></i><i></i><i></i><span class="ally-map-road ally-road-h"></span><span class="ally-map-road ally-road-v"></span></div>';
-  buildings.forEach(function(o,i){
-   var level=lvl(o),stage=Math.max(1,Math.min(7,Math.ceil(level/Math.max(1,cap(o))*7)));
-   html+='<button type="button" class="ally-hq-building cyber-building normal-building" style="grid-column:'+slots[i][0]+';grid-row:'+slots[i][1]+'" data-ally-facility="'+o.id+'" data-visual-stage="'+stage+'" aria-label="Open '+allyShopSafe(o.name)+', level '+level+' of '+cap(o)+'">'+
-    '<div class="ally-hq-structure structure"><span class="arch-side arch-side-a"></span><span class="arch-side arch-side-b"></span><span class="arch-spire"></span><span class="arch-core"></span><span class="arch-energy"></span><span class="glyph">'+(glyphs[o.id]||'⌂')+'</span></div>'+
-    '<span class="ally-hq-label"><b class="building-name">'+allyShopSafe(o.name).toUpperCase()+'</b><small class="building-level">LEVEL '+level+' / '+cap(o)+'</small><em>UPGRADE FACILITY</em></span></button>';
-  });
-  html+='<button type="button" class="ally-hq-core" aria-label="Enter Alliance HQ"><span class="ally-hq-core-orbit"></span><span class="ally-hq-core-building"><b>⌘</b></span><strong>ALLIANCE HQ</strong><small>COMMAND CENTRE · ENTER</small><em id="allyNewMemberCount"></em></button></div>';
-  host.innerHTML=html;
-  var core=host.querySelector('.ally-hq-core');if(core)core.onclick=function(){allyInteriorOpen=true;atab=0;render()};
-  host.querySelectorAll('[data-ally-facility]').forEach(function(el){el.onclick=function(){openNewFacility(el.dataset.allyFacility)}});
-  var count=$('allyNewMemberCount');if(count)count.textContent=(S.al.mem.length+1)+' OPERATIVES';
- }
- function openNewFacility(id){
-  var o=allianceTerritoryBuildings().filter(function(x){return x.id===id})[0];if(!o)return;o.u=1;ensureAllianceBank();var c=allianceCost(o),l=lvl(o),ready=l<cap(o)&&allianceAfford(c),inc=Object.keys(o.inc||{}).map(function(k){return '+'+fmt(o.inc[k]*l)+'/s '+(ANM[k]||k)}).join(' · ')||'Specialist alliance bonus';
-  var old=document.getElementById('allyFacilityDialog');if(old)old.remove();var modal=document.createElement('div');modal.id='allyFacilityDialog';modal.style.cssText='position:fixed;inset:0;z-index:99999;background:#000c;display:grid;place-items:center;padding:16px';
-  var cost=Object.keys(c).map(function(k){return '<span>'+fmt(c[k])+' '+(ANM[k]||k)+'</span>'}).join(' · ');
-  modal.innerHTML='<div style="width:min(430px,100%);max-height:85vh;overflow:auto;border:1px solid #4b9d68;border-radius:14px;background:linear-gradient(145deg,#102b1b,#040d07);padding:17px;color:#eaffef"><button type="button" data-close style="float:right;background:#102318;border:1px solid #477653;color:#dfffdf;border-radius:6px;padding:6px 10px">CLOSE ×</button><div style="font-size:26px;color:#7bffa7">'+(facilityGlyph[id]||'⌂')+'</div><small style="color:#7fdfa0;letter-spacing:1px">ALLIANCE SPECIALIST FACILITY</small><h2 style="margin:7px 0">'+o.name+'</h2><p style="font-size:10px;color:#a2c6ad;line-height:1.5">'+o.desc+'</p><div style="padding:10px;background:#07170d;border:1px solid #285b3b;border-radius:8px;font-size:9px">LEVEL '+l+' / '+cap(o)+'<br>OUTPUT: '+inc+'</div><p style="font-size:9px;color:#8fb99a">NEXT UPGRADE COST: '+cost+'</p><button type="button" data-upgrade '+(ready?'':'disabled')+' style="width:100%;padding:12px;border:1px solid #64d88b;border-radius:8px;background:#155b32;color:white;font-weight:900">'+(l>=cap(o)?'MAX LEVEL':ready?'UPGRADE FACILITY':'NOT ENOUGH ALLIANCE RESOURCES')+'</button></div>';
-  document.body.appendChild(modal);modal.querySelector('[data-close]').onclick=function(){modal.remove()};modal.addEventListener('click',function(e){if(e.target===modal)modal.remove()});modal.querySelector('[data-upgrade]').onclick=function(){if(!ready)return;modal.remove();allianceBuy(o)}
- }
- function renderNewOverview(){
-  var p=allianceGiftProgress(),rank=allyList().filter(function(x){return x.me||x.m.length}).sort(function(a,b){return b.pw-a.pw}).findIndex(function(x){return x.me})+1;
-  $('allyOther').innerHTML='<div class="ally-new-section"><h3>COMMAND OVERVIEW</h3><div class="ally-new-stats"><div class="ally-new-stat"><small>ALLIANCE LEVEL</small><b>'+p.level+'</b></div><div class="ally-new-stat"><small>MEMBERS</small><b>'+(S.al.mem.length+1)+' / '+ALCAP+'</b></div><div class="ally-new-stat"><small>YOUR CONTRIBUTION</small><b>'+fmt(p.total)+'</b></div><div class="ally-new-stat"><small>ALLIANCE RANK</small><b>#'+Math.max(1,rank)+'</b></div></div></div><div class="ally-new-section"><h3>COMMAND DIRECTIVES</h3><p>The central HQ coordinates your alliance. Upgrade the seven specialist facilities around it to increase shared-bank production and strengthen the network. Alliance HQ itself is permanent and has no upgrade level.</p><p>Alliance-specific mission, event, research and facility rewards are deposited into the Alliance Resource Bank.</p></div><div class="ally-new-section"><h3>RECENT BANK ACTIVITY</h3>'+((S.al.bankLog||[]).slice(0,8).map(function(x){return '<div class="ally-new-row"><div><b>'+String(x.source||'Alliance activity')+'</b><small>'+new Date(x.time||Date.now()).toLocaleString()+'</small></div><small>'+(x.key?'+':'')+(x.amount?fmt(x.amount)+' '+(ANM[x.key]||x.key):x.type==='debit'?'SPENT':'RECORDED')+'</small></div>'}).join('')||'<p class="ally-new-muted">Alliance bank deposits and spending will be recorded here.</p>')+'</div>';
- }
- function renderNewRoster(){
-  var A=S.al,host=$('allyOther'),members=A.mem||[],apps=A.app||[];var html='<div class="ally-new-section"><h3>MEMBER ROSTER · '+(members.length+1)+' / '+ALCAP+'</h3><div class="ally-new-row"><div><b>'+allyShopSafe(window.BHQ_USERNAME||'You')+' · ALLIANCE LEADER</b><small>HQ '+S.hq+' · Power '+fmt(atkP())+'</small></div><small>COMMAND</small></div>';
-  members.forEach(function(i){var r=S.rv[i];if(!r)return;html+='<div class="ally-new-row"><div><b>'+allyShopSafe(r.n)+'</b><small>HQ '+r.hq+' · Power '+fmt(rvPow(r))+' · '+fmt(Math.floor(r.k))+' kills</small></div><button type="button" data-ally-kick="'+i+'">REMOVE</button></div>'});
-  html+='</div><div class="ally-new-section"><h3>PLAYER APPLICATIONS · '+apps.length+' / 5</h3>';
-  if(!apps.length)html+='<p class="ally-new-muted">No applications waiting.</p>';
-  apps.forEach(function(x){var r=S.rv[x.i];if(!r)return;html+='<div class="ally-new-row"><div><b>'+allyShopSafe(r.n)+'</b><small>HQ '+r.hq+' · Power '+fmt(rvPow(r))+'</small></div><span><button type="button" data-ally-accept="'+x.i+'">ACCEPT</button> <button type="button" data-ally-deny="'+x.i+'">DENY</button></span></div>'});
-  html+='</div>';host.innerHTML=html;host.querySelectorAll('[data-ally-accept]').forEach(function(b){b.onclick=function(){aAccept(Number(b.dataset.allyAccept));render()}});host.querySelectorAll('[data-ally-deny]').forEach(function(b){b.onclick=function(){aDeny(Number(b.dataset.allyDeny));render()}});host.querySelectorAll('[data-ally-kick]').forEach(function(b){b.onclick=function(){aKick(Number(b.dataset.allyKick));render()}})
- }
- function renderNewExchange(){
-  ensureAllianceBank();var host=$('allyOther'),items=[
-   {id:'data',name:'DATA CORE RESERVE',desc:'Convert shared Alliance Credits into Data Cores.',cost:{ac:1200},gain:{dc:100},icon:'▤'},
-   {id:'crypto',name:'CRYPTO SHARD CACHE',desc:'A secured cache of specialist Crypto Shards.',cost:{ac:2500},gain:{cs:25},icon:'◇'},
-   {id:'intel',name:'WAR INTELLIGENCE FILE',desc:'Purchase verified intelligence for alliance operations.',cost:{ac:4200},gain:{wi:5},icon:'⌁'},
-   {id:'matter',name:'DARK MATTER CONTAINER',desc:'A rare alliance-grade material shipment.',cost:{ac:9000},gain:{dm:2},icon:'⬡'},
-   {id:'supply',name:'ALLIANCE SUPPLY CRATE',desc:'A balanced shared resource delivery for the whole network.',cost:{ac:6500},gain:{dc:180,cs:15,wi:2},icon:'▣'}
-  ];
-  host.innerHTML='<div class="ally-new-section"><h3>ALLIANCE EXCHANGE</h3><p>Every purchase uses the shared Alliance Resource Bank. Rewards are deposited back into that same bank — nothing is sent to personal resources.</p>'+items.map(function(x){var ok=allianceAfford(x.cost);return '<div class="ally-new-row"><div><b>'+x.icon+' '+x.name+'</b><small>'+x.desc+'</small><small>COST: '+Object.keys(x.cost).map(function(k){return fmt(x.cost[k])+' '+ANM[k]}).join(' · ')+' → RECEIVE: '+Object.keys(x.gain).map(function(k){return '+'+fmt(x.gain[k])+' '+ANM[k]}).join(' · ')+'</small></div><button type="button" data-exchange="'+x.id+'" '+(ok?'':'disabled')+'>EXCHANGE</button></div>'}).join('')+'</div>';
-  host.querySelectorAll('[data-exchange]').forEach(function(b){b.onclick=function(){var x=items.filter(function(y){return y.id===b.dataset.exchange})[0];if(!x||!bankPay(x.cost,'Alliance Exchange · '+x.name))return;Object.keys(x.gain).forEach(function(k){bankAdd(k,x.gain[k],'Alliance Exchange · '+x.name)});save();renderNewInterior();toast('Exchange complete. Alliance Bank updated.')}});
- }
- function renderNewBankLog(){
-  var rows=S.al.bankLog||[];$('allyOther').innerHTML='<div class="ally-new-section"><h3>ALLIANCE RESOURCE BANK LEDGER</h3><p class="ally-new-muted">All shared-resource deposits and purchases are recorded here.</p>'+(rows.length?rows.slice(0,60).map(function(x){var amount=x.amount?((x.amount>0?'+':'')+fmt(x.amount)+' '+(ANM[x.key]||x.key)):Object.keys(x.cost||{}).map(function(k){return '-'+fmt(x.cost[k])+' '+(ANM[k]||k)}).join(' · ');return '<div class="ally-new-row"><div><b>'+allyShopSafe(x.source||'Alliance transaction')+'</b><small>'+new Date(x.time||Date.now()).toLocaleString()+'</small></div><small>'+amount+'</small></div>'}).join(''):'<p class="ally-new-muted">No transactions yet.</p>')+'</div>'
- }
- function newTab(id,label){return '<button type="button" data-new-ally-tab="'+id+'" class="'+(atab===id?'active':'')+'">'+label+'</button>'}
- var tabs=[[0,'OVERVIEW'],[1,'ROSTER'],[2,'OPERATIONS'],[3,'RESEARCH'],[4,'EXCHANGE'],[5,'EVENTS'],[6,'COMMS'],[7,'ACADEMY'],[8,'ARCHIVES'],[9,'BANK LEDGER'],[10,'MEMBER HELP']];
- function renderNewInterior(){
-  ensureAllianceBank();$('allyCampus').hidden=true;$('allyInterior').hidden=false;$('an').textContent=S.al.n;$('ad').textContent='LEVEL '+allianceLevel()+' · '+(S.al.mem.length+1)+' MEMBERS · SHARED NETWORK';$('allyLeaderName').textContent=window.BHQ_USERNAME||'You';renderNewBank();
-  $('allyTabs').innerHTML=tabs.map(function(t){return newTab(t[0],t[1])}).join('');
-  $('allyTabs').querySelectorAll('[data-new-ally-tab]').forEach(function(b){b.onclick=function(){atab=Number(b.dataset.newAllyTab);render() }});
-  $('allyTown').hidden=true;$('allyOther').hidden=false;var oldEventPanel=$('ap4');if(oldEventPanel)oldEventPanel.hidden=true;
-  if(atab===0)renderNewOverview();
-  else if(atab===1)renderNewRoster();
-  else if(atab===2)allyOpsRender();
-  else if(atab===3)renderAllianceTech();
-  else if(atab===4)renderNewExchange();
-  else if(atab===5){$('allyOther').innerHTML='<div class="ally-new-section"><h3>ALLIANCE EVENTS</h3><p class="ally-new-muted">Successful event rewards are paid directly into the shared bank.</p><div id="ap4"></div></div>';renderEvent();}
-  else if(atab===6)allyCommsRender();
-  else if(atab===7)allyAcademyRender();
-  else if(atab===8)allyArchivesRender();
-  else if(atab===9)renderNewBankLog();
-  else if(atab===10)renderAllyHelp();
-  renderNewBank();
- }
- renderAllianceTerritory=function(){renderNewCampus()};
- renderAllyTab=function(){
-  ensureAllianceBank();var A=S.al;$('acreate').hidden=!!A.n;$('amain').hidden=!A.n;if(!A.n)return;
-  if(allyInteriorOpen)renderNewInterior();else{$('allyInterior').hidden=true;$('allyCampus').hidden=false;renderNewCampus();var title=$('allyCampusName');if(title)title.textContent=A.n+' // ALLIANCE HQ'}
- };
- var back=$('allyBackCampus');if(back)back.onclick=function(){allyInteriorOpen=false;render()};
- var _oldOpenFacility=openAllianceTerritoryBuilding;openAllianceTerritoryBuilding=function(id){openNewFacility(id)};
- /* Route every Alliance mission payout through the single shared-bank deposit helper. */
- var _oldAllianceBuy=allianceBuy;allianceBuy=function(o){if(!o)return;var before=JSON.stringify(S.al&&S.al.res||{});_oldAllianceBuy(o);if(S.al&&S.al.res&&before!==JSON.stringify(S.al.res)){if(!Array.isArray(S.al.bankLog))S.al.bankLog=[];S.al.bankLog.unshift({time:Date.now(),type:'debit',source:'Facility upgrade · '+o.name});S.al.bankLog=S.al.bankLog.slice(0,100);save()}};
- var _oldOpsRender=allyOpsRender;allyOpsRender=function(){_oldOpsRender();var h=$('allyOther');if(h&&h.querySelector('[data-ally-op-claim]')){var b=h.querySelector('[data-ally-op-claim]');b.addEventListener('click',function(){setTimeout(renderNewBank,0)})}};
- if(!S.al)S.al={n:'',mem:[],app:[],cd:{},nx:0};
- ensureAllianceBank();
-})();
-if(typeof BHQ_UPDATE_VERSION!=='undefined')BHQ_UPDATE_VERSION='1.0.67';
-if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.0.67',date:'19 NOV 2026',title:'ALLIANCE HQ // REBUILT FROM SCRATCH',tag:'NEW CAMPUS · NEW COMMAND INTERIOR · SHARED RESOURCE BANK',items:['Replaced the old Alliance tab layout with a new Alliance campus and a redesigned HQ interior.','Made the central Alliance HQ a permanent command hub; the surrounding specialist facilities are the upgradeable buildings.','Added a shared Alliance Resource Bank display, bank ledger and Alliance Exchange that spends and deposits shared resources only.','Moved Alliance operations, roster, research, events, communications, academy, archives and member support into the new HQ interior.','Preserved existing Alliance bank balances, member data, applications, building levels, research and activity records.']});
-})();
-
-
-/* ALLIANCE SYSTEM REMOVAL // preserve independent gameplay and use the normal HQ as the red-tab layout. */
-(function(){
-  try{
-    if(typeof S==='object'&&S){
-      S.al={n:'',mem:[],app:[],cd:{},nx:0};
-    }
-    /* No activity may write to an Alliance bank, wall, roster or contribution ledger. */
-    if(typeof awardAllianceContribution==='function')awardAllianceContribution=function(){return 0};
-    if(typeof allianceContributionRate==='function')allianceContributionRate=function(){return 0};
-    if(typeof allianceBuildingBonus==='function')allianceBuildingBonus=function(){return 0};
-    if(typeof techCount==='function')techCount=function(){return 0};
-    if(typeof allianceRates==='function')allianceRates=function(){return {ac:0,dc:0,cs:0,wi:0,dm:0}};
-    if(typeof allianceAfford==='function')allianceAfford=function(){return false};
-    if(typeof alliancePay==='function')alliancePay=function(){return false};
-    if(typeof allianceBuy==='function')allianceBuy=function(){return false};
-    if(typeof bankAdd==='function')bankAdd=function(){return 0};
-    if(typeof bankPay==='function')bankPay=function(){return false};
-    if(typeof allyStep==='function')allyStep=function(){};
-    if(typeof isAlly==='function')isAlly=function(){return false};
-    if(typeof evHit==='function')evHit=function(){};
-    if(typeof evAddReward==='function')evAddReward=function(){return ''};
-    if(typeof renderEvent==='function')renderEvent=function(){var p=$('ap4');if(p)p.innerHTML=''};
-    if(typeof allianceCompClaim==='function')allianceCompClaim=function(){};
-    if(typeof renderAllianceCompetition==='function')renderAllianceCompetition=function(){var h=$('competitionContent');if(h)h.innerHTML='<div class="desc">This Alliance feature has been removed.</div>'};
-    if(typeof buyAllianceGift==='function')buyAllianceGift=function(){};
-    if(typeof renderAllianceGifts==='function')renderAllianceGifts=function(){};
-    if(typeof renderAllianceTech==='function')renderAllianceTech=function(){};
-    if(typeof allyOpsRender==='function')allyOpsRender=function(){};
-    if(typeof allyCommsRender==='function')allyCommsRender=function(){};
-    if(typeof allyAcademyRender==='function')allyAcademyRender=function(){};
-    if(typeof allyArchivesRender==='function')allyArchivesRender=function(){};
-    if(typeof renderAllyHelp==='function')renderAllyHelp=function(){};
-    if(typeof aAccept==='function')aAccept=function(){};
-    if(typeof aKick==='function')aKick=function(){};
-    if(typeof aDeny==='function')aDeny=function(){};
-    if(typeof openAllianceTerritoryBuilding==='function')openAllianceTerritoryBuilding=function(){};
-    if(typeof renderAllianceTerritory==='function')renderAllianceTerritory=function(){};
-    if(typeof renderAllianceCampus==='function')renderAllianceCampus=function(){};
-    if(typeof renderNewInterior==='function')renderNewInterior=function(){};
-    if(typeof compClaimFinal==='function'){
-      compClaimFinal=function(period,index){
-        var c=compEnsure(),list=period==='weekly'?c.weeklyArchive:c.monthlyArchive,entry=list[index];
-        if(!entry||entry.claimed)return;
-        compGrant(entry.reward,period);entry.claimed=true;save();renderCompetition(period);
-        toast((period==='weekly'?'Weekly':'Monthly')+' placement reward claimed.');
-      };
-    }
-    if(typeof claimSystemGifts==='function'){
-      claimSystemGifts=function(){
-        if(!systemGiftPending()){toast('No compensation package is currently available.');return;}
-        var pack=systemGiftPackage();
-        Object.keys(pack.personal||{}).forEach(function(k){S.r[k]=(Number(S.r[k])||0)+pack.personal[k]});
-        S.vipPoints=(Number(S.vipPoints)||0)+pack.vip;S.killTokens=(Number(S.killTokens)||0)+pack.kills;
-        S.freeGhostProtocol=(Number(S.freeGhostProtocol)||0)+pack.ghost;
-        S.systemUpdateGiftClaimed=true;S.systemGiftDeliveryClaimed=true;S.systemGiftLastClaimAt=Date.now();
-        S.systemGiftLastClaimVersion=String(S.systemGiftPendingVersion||BHQ_UPDATE_VERSION);
-        S.systemGiftPendingVersion='';S.systemUpdateGiftReadyAt=0;
-        log('Accepted HQ '+pack.hq+' / Prestige '+pack.prestige+' compensation: personal resources, '+pack.vip+' VIP Points, '+pack.kills+' Kill Tokens and '+pack.ghost+' free Ghost Protocol activations.');
-        save();renderSystemGiftBadge();$('systemGiftModal').hidden=true;
-        toast('System compensation accepted. Check the Shop for your '+pack.ghost+' free Ghost Protocol uses.');render();
-      };
-    }
-    if(typeof openSystemGifts==='function'){
-      openSystemGifts=function(){
-        var host=$('systemGiftContents'),claimed=!!S.systemGiftDeliveryClaimed;if(!host)return;
-        if(!claimed&&!systemGiftPending()){var readyAt=Number(S.systemUpdateGiftReadyAt||0);toast(readyAt?'Your compensation is being prepared. It will arrive in '+Math.max(1,Math.ceil((readyAt-Date.now())/1000))+' seconds.':'Read the Update Log and close it first. Your compensation will arrive 30 seconds afterwards.');return;}
-        var pack=systemGiftPackage(),names={cr:'Credits',da:'Data',cy:'Crypto',ex:'Exploits',in:'Intel',qt:'Influence'};
-        var rows=[['PERSONAL RESOURCE BUNDLE · HQ '+pack.hq+' · PRESTIGE '+pack.prestige,systemGiftResourceText(pack.personal,names)],['VIP & COMBAT REWARDS',pack.vip+' VIP Points · '+pack.kills+' Kill Tokens'],['GHOST PROTOCOL',pack.ghost+' free activations · 15-minute boost · 60-minute cooldown']];
-        host.innerHTML=rows.map(function(x){return '<div class="system-gift-line"><b>'+x[0]+'</b><small>'+x[1]+'</small></div>'}).join('');
-        $('systemGiftClaim').disabled=claimed;$('systemGiftClaim').textContent=claimed?'COMPENSATION ACCEPTED':'ACCEPT COMPENSATION';
-        $('systemGiftFoot').textContent=claimed?'THIS ACCOUNT HAS ALREADY CLAIMED THIS PACKAGE':'ONE-TIME PLAYER COMPENSATION PACKAGE · SCALED TO YOUR HQ / PRESTIGE';
-        $('systemGiftModal').hidden=false;
-      };
-    }
-    /* The red Alliance tab is now a clean copy of the normal HQ, using the same four buildings and upgrade state. */
-    renderAllyTab=function(){
-      var create=$('acreate'),main=$('amain'),campus=$('allyCampus'),interior=$('allyInterior');
-      if(create)create.hidden=true;if(main)main.hidden=true;if(campus)campus.hidden=true;if(interior)interior.hidden=true;
-      var status=$('allyHqUpgradeStatus'),buffs=$('allyHqCrewBuffs');
-      if(typeof renderTestHqStatusForAlliance==='function')renderTestHqStatusForAlliance();
-      if(typeof renderTestArea==='function')renderTestArea('allyBuildingLayer');
-      var attack=$('allyTestAttack');if(attack)attack.hidden=!S.inc;
-      var tabs=$('allyTabs');if(tabs){tabs.innerHTML='';tabs.hidden=true}
-      var other=$('allyOther');if(other){other.innerHTML='';other.hidden=true}
-      var town=$('allyTown');if(town){town.innerHTML='';town.hidden=true}
-      var bank=$('allyNewBank');if(bank)bank.innerHTML='';
-      var chatAC=$('testChatAC');if(chatAC){chatAC.hidden=true;chatAC.disabled=true}
-    };
-    /* The old Alliance membership marker on the right-hand target list is removed. */
-    if(typeof isAlly==='function')isAlly=function(){return false};
-  }catch(e){try{console.error('Alliance cleanup guard:',e)}catch(_){}}
-})();
-
-
-/* Final removal pass: suppress Alliance chat/competition entry points while retaining normal competitions and global chat. */
-(function(){
-  try{
-    if(window.BHQ_CHAT&&typeof window.BHQ_CHAT.post==='function'){
-      var originalChatPost=window.BHQ_CHAT.post;
-      window.BHQ_CHAT.post=function(channel,kind,sender,message){
-        if(String(channel||'').toUpperCase()==='AC')return false;
-        return originalChatPost(channel,kind,sender,message);
-      };
-    }
-    if(typeof renderCompetition==='function'){
-      var renderCompetitionWithoutAlliance=renderCompetition;
-      renderCompetition=function(which){
-        if(which==='alliance')which='daily';
-        renderCompetitionWithoutAlliance(which);
-        var host=$('competitionContent');
-        if(host)host.querySelectorAll('[data-comp-period="alliance"]').forEach(function(b){b.remove()});
-      };
-    }
-    var ac=$('testChatAC');if(ac){ac.hidden=true;ac.disabled=true;ac.style.display='none'}
-  }catch(e){try{console.error('Alliance entry-point cleanup:',e)}catch(_){}}
-})();
-
-
-/* ALLIANCE OLD CAMPUS VISUALS — keep the red tab HQ-copy only. */
-(function(){
-  try{
-    if(typeof allyInteriorOpen!=='undefined')allyInteriorOpen=false;
-    var old=document.createElement('style');
-    old.id='remove-legacy-alliance-campus-visuals';
-    old.textContent=[
-      '#allyCampus,#allyInterior,#acreate,#amain{display:none!important}',
-      '#t-ally .ally-new-create,#t-ally .ally-new-campus,#t-ally .ally-new-interior{display:none!important}',
-      '#t-ally .ally-territory-hub,#t-ally .ally-territory-building,#t-ally .ally-hq-core,#t-ally .ally-hq-core-building{display:none!important}',
-      '#t-ally .ally-new-world,#t-ally .ally-new-core{display:none!important}'
-    ].join('');
-    document.head.appendChild(old);
-  }catch(e){try{console.error('Legacy Alliance visual cleanup:',e)}catch(_){}}
-})();
-
-</script>
 </body>
 </html>
