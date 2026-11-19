@@ -2318,6 +2318,60 @@ body:has(#t-bot:not([hidden])){height:100dvh!important;overflow:hidden!important
 })();
 </script>
 
+<style id="alliance-hq-redesign-v2">
+/* New Alliance shortcut: unmistakable bright-red identity. */
+.test-shortcut-alliance{background:linear-gradient(145deg,#ff263d,#8f071b)!important;border:1px solid #ff8993!important;color:#fff!important;box-shadow:0 0 12px #ff203c88,inset 0 0 12px #ffb0b522!important}
+.alliance-rail-logo{width:25px;height:25px;display:grid;place-items:center;border:2px solid #fff;border-radius:8px 8px 10px 10px;background:linear-gradient(145deg,#ff5264,#a90020);color:#fff;font:1000 16px/1 ui-monospace,monospace;text-shadow:0 0 8px #fff;box-shadow:0 0 10px #ff304c}
+#t-ally .ally-command-campus{border:1px solid #57202a;background:linear-gradient(160deg,#170b10,#08090c 70%);box-shadow:0 0 18px #ff24351a}
+#t-ally .ally-command-campus .ally-new-campus-head{border-color:#7e2634}
+#t-ally .ally-command-campus .ally-new-campus-head small{color:#ff7887;letter-spacing:1.2px;font-weight:900}
+#t-ally .ally-command-campus .ally-new-campus-head h2{color:#fff;text-shadow:0 0 12px #ff2848}
+#t-ally .ally-command-campus .ally-new-live{color:#ff9aa5}
+#t-ally .ally-command-campus .ally-new-live i{background:#ff314b;box-shadow:0 0 10px #ff314b}
+#t-ally .ally-new-world{display:block!important;padding:8px!important;background:radial-gradient(ellipse at 50% 50%,#32121b 0,#160b11 48%,#08090d 100%)!important;border:1px solid #662332;border-radius:12px;overflow:hidden}
+#t-ally .ally-command-map{position:relative;isolation:isolate;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(3,minmax(116px,1fr));gap:8px;min-height:390px;padding:10px;border:1px solid #702636;border-radius:12px;background:radial-gradient(ellipse at 50% 50%,#4b1824 0,#1b0c13 48%,#090a0e 100%);overflow:hidden}
+#t-ally .ally-map-ground{position:absolute;inset:0;z-index:-1;pointer-events:none;background:repeating-linear-gradient(0deg,transparent 0 31px,#ff46500a 32px 33px),repeating-linear-gradient(90deg,transparent 0 31px,#ff46500a 32px 33px)}
+#t-ally .ally-map-ground i{position:absolute;width:9px;height:9px;border:1px solid #ff5369;border-radius:50%;background:#ff243d;box-shadow:0 0 12px #ff243d;animation:allyRedPulse 2.2s ease-in-out infinite}
+#t-ally .ally-map-ground i:nth-child(1){left:8%;top:10%}#t-ally .ally-map-ground i:nth-child(2){right:8%;top:10%;animation-delay:.5s}#t-ally .ally-map-ground i:nth-child(3){left:8%;bottom:10%;animation-delay:1s}#t-ally .ally-map-ground i:nth-child(4){right:8%;bottom:10%;animation-delay:1.5s}
+#t-ally .ally-map-road{position:absolute;left:8%;right:8%;top:50%;height:5px;transform:translateY(-50%);background:linear-gradient(90deg,transparent,#ff465055,transparent);box-shadow:0 0 10px #ff263322}
+#t-ally .ally-road-v{left:50%;right:auto;top:8%;bottom:8%;width:5px;height:auto;transform:translateX(-50%);background:linear-gradient(180deg,transparent,#ff465055,transparent)}
+#t-ally .ally-hq-building{position:relative;z-index:2;align-self:center;justify-self:center;width:100%;height:100%;min-width:0;min-height:108px;padding:8px 3px 6px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;border:1px solid #70303b;border-radius:9px;background:linear-gradient(160deg,#27121a,#100b10 75%);color:#ffe9ec;box-shadow:0 7px 0 #08070a,0 10px 0 #461923,0 12px 14px #000b;transition:transform .15s,border-color .15s,box-shadow .15s}
+#t-ally .ally-hq-building:active{transform:translateY(2px);border-color:#ff7181;box-shadow:0 4px 0 #08070a,0 7px 0 #461923}
+#t-ally .ally-hq-building .ally-hq-structure{position:relative;flex:none;width:clamp(47px,15vw,65px);height:48px;border:1px solid var(--accent,#ff5268);border-radius:7px 7px 3px 3px;background:linear-gradient(145deg,#ffb0b9 0%,#a52a42 15%,#531627 48%,#1b0b12 100%);box-shadow:inset 0 0 17px #ff9aa533,0 0 13px color-mix(in srgb,var(--accent,#ff5268) 55%,transparent),0 7px 0 #09070a,0 10px 0 #6a2030;transform:perspective(500px) rotateX(8deg);overflow:visible}
+#t-ally .ally-hq-building .structure:before{content:"";position:absolute;left:8%;right:8%;top:-9px;height:11px;border:1px solid var(--accent,#ff5268);border-radius:4px 4px 1px 1px;background:linear-gradient(180deg,#ffe8eb,#df5369 55%,#571526);box-shadow:0 0 10px #ff5369}
+#t-ally .ally-hq-building .structure:after{content:"";position:absolute;left:14%;right:14%;bottom:7%;height:14%;border:1px solid var(--accent,#ff5268);background:repeating-linear-gradient(90deg,#160a10 0 6px,#ff8090 7px 8px,#39101a 9px 12px)}
+#t-ally .ally-hq-building .arch-side{position:absolute;top:14%;bottom:10%;width:13%;border:1px solid #ff8291;background:linear-gradient(180deg,#ffdce1aa,#6b1d2e 45%,#180a10);box-shadow:0 0 7px #ff536955}
+#t-ally .ally-hq-building .arch-side-a{left:-9%;clip-path:polygon(35% 0,100% 12%,100% 88%,0 100%,0 18%)}
+#t-ally .ally-hq-building .arch-side-b{right:-9%;clip-path:polygon(0 12%,65% 0,100% 18%,100% 100%,0 88%)}
+#t-ally .ally-hq-building .arch-spire{position:absolute;z-index:3;left:50%;top:-25%;width:5px;height:34%;transform:translateX(-50%);border:1px solid #ff9ba8;background:linear-gradient(90deg,#501323,#fff0f2,#501323);box-shadow:0 0 8px #ff5369}
+#t-ally .ally-hq-building .arch-core{position:absolute;z-index:4;left:50%;top:24%;width:25%;height:48%;transform:translateX(-50%);border:1px solid #ffe1e5;background:linear-gradient(180deg,#fff0f2aa,#ed456055 48%,#270b14);box-shadow:0 0 10px #ff5268,inset 0 0 8px #fff8}
+#t-ally .ally-hq-building .arch-energy{position:absolute;z-index:5;left:12%;right:12%;top:10%;height:3px;background:#ff6479;box-shadow:0 0 8px #ff5268,0 0 14px #ff5268;animation:allyRedPulse 2s ease-in-out infinite}
+#t-ally .ally-hq-building .glyph{position:absolute;z-index:7;left:50%;top:50%;transform:translate(-50%,-50%);font-size:20px;color:#fff;text-shadow:0 0 8px #ff5268,0 0 16px #ff5268}
+#t-ally .ally-hq-building .ally-hq-label{display:flex;flex-direction:column;align-items:center;gap:3px;max-width:100%;text-align:center}
+#t-ally .ally-hq-building .building-name{font-size:8px!important;line-height:1.15;color:#ffe8eb!important;text-shadow:0 0 7px #ff5369!important;overflow-wrap:anywhere}
+#t-ally .ally-hq-building .building-level{font-size:8px!important;color:#ff9aa7!important}
+#t-ally .ally-hq-building em{font-style:normal;font-size:7px;color:#ff6479;letter-spacing:.5px}
+#t-ally .ally-hq-building[data-visual-stage="2"] .ally-hq-structure{height:52px;width:51px}
+#t-ally .ally-hq-building[data-visual-stage="3"] .ally-hq-structure{height:56px;width:55px}
+#t-ally .ally-hq-building[data-visual-stage="4"] .ally-hq-structure{height:60px;width:58px}
+#t-ally .ally-hq-building[data-visual-stage="5"] .ally-hq-structure{height:64px;width:61px}
+#t-ally .ally-hq-building[data-visual-stage="6"] .ally-hq-structure{height:68px;width:64px}
+#t-ally .ally-hq-building[data-visual-stage="7"] .ally-hq-structure{height:73px;width:68px}
+#t-ally .ally-hq-building.cyber-node{--accent:#ff6479}
+#t-ally .ally-hq-building.cyber-siphon{--accent:#ff9c57}
+#t-ally .ally-hq-building.cyber-miner{--accent:#d88cff}
+#t-ally .ally-hq-building.cyber-lab{--accent:#ffce68}
+#t-ally .ally-hq-core{position:relative;z-index:3;grid-column:2;grid-row:2;align-self:center;justify-self:center;width:100%;height:100%;min-height:112px;padding:8px 3px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;border:1px solid #ff697d;border-radius:12px;background:radial-gradient(circle at 50% 25%,#8d263a,#300d19 58%,#11080d);color:#fff;box-shadow:0 0 20px #ff234855,inset 0 0 18px #ff73851c}
+#t-ally .ally-hq-core-orbit{position:absolute;inset:8%;border:1px dashed #ff9aa7;border-radius:50%;transform:rotateX(65deg);animation:allyCoreOrbit 18s linear infinite}
+#t-ally .ally-hq-core-building{width:47px;height:43px;display:grid;place-items:center;border:2px solid #ffd8de;border-radius:8px 8px 3px 3px;background:linear-gradient(145deg,#ffdce1,#b22e48 35%,#3a0d1a);box-shadow:0 0 15px #ff5268,0 7px 0 #17070c,0 10px 0 #7d1d31}
+#t-ally .ally-hq-core-building b{font-size:24px;text-shadow:0 0 10px #fff}
+#t-ally .ally-hq-core strong{font-size:9px;letter-spacing:.5px;text-shadow:0 0 8px #ff5268}
+#t-ally .ally-hq-core small{font-size:7px;color:#ffc0c8}
+#t-ally .ally-hq-core em{font-style:normal;font-size:7px;color:#ff9aa7}
+@keyframes allyRedPulse{50%{filter:brightness(1.5);opacity:.65}}@keyframes allyCoreOrbit{to{transform:rotateX(65deg) rotate(360deg)}}
+@media(max-width:430px){#t-ally .ally-command-map{grid-template-rows:repeat(3,minmax(103px,1fr));gap:5px;padding:6px;min-height:340px}#t-ally .ally-hq-building{min-height:100px;padding:5px 2px}#t-ally .ally-hq-building .ally-hq-structure{width:45px;height:42px}#t-ally .ally-hq-building .building-name{font-size:7px!important}#t-ally .ally-hq-core{min-height:100px}}
+@media(max-width:350px){#t-ally .ally-command-map{gap:3px;padding:4px}#t-ally .ally-hq-building em{font-size:6px}}
+</style>
 </head>
 <body>
 <div id="authGate">
@@ -2405,7 +2459,7 @@ body:has(#t-bot:not([hidden])){height:100dvh!important;overflow:hidden!important
 <section id="t-ally" hidden>
 <div id="acreate" class="ally-new-create"><div class="ally-new-kicker">BACKDOOR HQ // NETWORK COMMAND</div><h2>ESTABLISH AN <em>ALLIANCE</em></h2><p>Create your own network and build a shared command base.</p><input id="aname" maxlength="20" placeholder="Alliance name" autocomplete="off"><button id="acbtn" type="button">CREATE ALLIANCE</button></div>
 <div id="amain" hidden>
-  <div id="allyCampus" class="ally-new-campus"><div class="ally-new-campus-head"><div><small>SHARED NETWORK // SECURE TERRITORY</small><h2 id="allyCampusName">ALLIANCE HQ</h2><p>Upgrade the specialist facilities around your central command. The HQ itself is a permanent hub.</p></div><div class="ally-new-live"><i></i> NETWORK ONLINE</div></div><div id="allyCampusWorld" class="ally-new-world"></div></div>
+  <div id="allyCampus" class="ally-new-campus ally-command-campus"><div class="ally-new-campus-head"><div><small>NEW ALLIANCE AREA // COMMAND CAMPUS</small><h2 id="allyCampusName">ALLIANCE HQ</h2><p>A dedicated Alliance headquarters with six upgradeable specialist buildings.</p></div><div class="ally-new-live"><i></i> ALLIANCE ONLINE</div></div><div id="allyCampusWorld" class="ally-new-world"></div></div>
   <div id="allyInterior" class="ally-new-interior" hidden>
     <header class="ally-new-header"><button type="button" id="allyBackCampus">← CAMPUS</button><div><small>ALLIANCE COMMAND // SECURE INTERIOR</small><h2 id="an"></h2><p id="ad"></p></div><div class="ally-new-emblem">⌘<small>HQ CORE</small></div></header>
     <div class="ally-new-bank" id="allyNewBank"></div>
@@ -2484,7 +2538,7 @@ body:has(#t-bot:not([hidden])){height:100dvh!important;overflow:hidden!important
     <button type="button" class="test-side-icon test-shortcut-nano" data-test-go="bot" title="Nano Bots" aria-label="Open Nano Bots">⬡</button>
     <button type="button" class="test-side-icon test-shortcut-crew" data-test-go="crew" title="Crew" aria-label="Open Crew">♟</button>
     <button type="button" class="test-side-icon test-shortcut-ranks" data-test-go="rank" title="Ranks" aria-label="Open Ranks">▤</button>
-    <button type="button" class="test-side-icon test-shortcut-alliance" data-test-go="ally" title="Alliance" aria-label="Open Alliance">⚑<span class="nav-notify" id="allianceNavBadge" hidden>!</span></button>
+    <button type="button" class="test-side-icon test-shortcut-alliance" data-test-go="ally" title="NEW ALLIANCE HQ" aria-label="Open the new Alliance HQ"><span class="alliance-rail-logo">A</span><span class="nav-notify" id="allianceNavBadge" hidden>!</span></button>
     <button type="button" class="test-side-icon feature-activity" data-test-go="activity" title="Activity Board" aria-label="Open Activity Board">▦</button>
   </div>
   <button type="button" class="home-gold" data-test-go="hq" title="Headquarters" aria-label="Open Headquarters">⌂</button>
@@ -3879,7 +3933,7 @@ function renderAllianceContributionLog(){
  html+='</div>';$('allyOther').insertAdjacentHTML('beforeend',html);
 }
 var allyTerritorySelected=null;
-function allianceTerritoryBuildings(){return AL[0].concat(AL[1])}
+function allianceTerritoryBuildings(){return AL[0].concat(AL[1]).slice(0,6)}
 function openAllianceTerritoryBuilding(id){allyTerritorySelected=id;renderAllianceTerritoryModal()}
 function renderAllianceTerritoryModal(){
  var old=document.getElementById('allyTerritoryModal');if(old)old.remove();if(!allyTerritorySelected)return;
@@ -5943,14 +5997,21 @@ if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.push({version:'1.0.65'
  function bankPay(cost,source){ensureAllianceBank();if(!allianceAfford(cost))return false;Object.keys(cost).forEach(function(k){S.al.res[k]=Math.max(0,(Number(S.al.res[k])||0)-Number(cost[k]||0))});if(!Array.isArray(S.al.bankLog))S.al.bankLog=[];S.al.bankLog.unshift({time:Date.now(),type:'debit',source:String(source||'Alliance purchase'),cost:JSON.parse(JSON.stringify(cost))});S.al.bankLog=S.al.bankLog.slice(0,100);return true}
  function renderNewBank(){ensureAllianceBank();var host=$('allyNewBank'),rates=allianceRates();if(!host)return;host.innerHTML=ARS.map(function(x){return '<div class="ally-bank-cell"><small>'+x[1]+'</small><b>'+fmt(S.al.res[x[0]]||0)+'</b><span>+'+fmt(rates[x[0]]||0)+'/s</span></div>'}).join('')}
  function renderNewCampus(){
-  ensureAllianceBank();var host=$('allyCampusWorld');if(!host)return;var buildings=allianceTerritoryBuildings();buildings.forEach(function(o){o.u=1});
-  var html='<div class="ally-new-building" style="grid-column:1;grid-row:1" data-ally-facility="ao1"><span class="glyph">⌁</span><b>RELAY NETWORK</b><small>LV '+lvl(buildings[0])+'</small><button type="button">INSPECT</button></div>';
-  var slots=[['ao2',2,1],['ao3',3,1],['ao4',1,2],['as1',3,2],['as2',1,3],['as3',2,3],['as4',3,3]];
-  html='<div class="ally-new-building" style="grid-column:1;grid-row:1" data-ally-facility="ao1"><span class="glyph">⌁</span><b>RELAY NETWORK</b><small>LV '+lvl(buildings.filter(function(x){return x.id==='ao1'})[0])+'</small><button type="button">INSPECT</button></div>';
-  slots.forEach(function(v){var o=buildings.filter(function(x){return x.id===v[0]})[0];if(!o)return;html+='<div class="ally-new-building" style="grid-column:'+v[1]+';grid-row:'+v[2]+'" data-ally-facility="'+o.id+'"><span class="glyph">'+(facilityGlyph[o.id]||'⌂')+'</span><b>'+o.name.toUpperCase()+'</b><small>LEVEL '+lvl(o)+' / '+cap(o)+'</small><button type="button">INSPECT</button></div>'});
-  html+='<div class="ally-new-core" style="grid-column:2;grid-row:2"><b>⌘</b><strong>ALLIANCE HQ</strong><span>PERMANENT COMMAND CORE · NOT UPGRADABLE</span><span id="allyNewMemberCount"></span></div>';
-  host.innerHTML=html;var core=host.querySelector('.ally-new-core');if(core)core.onclick=function(){allyInteriorOpen=true;atab=0;render()};var first=host.querySelector('[data-ally-facility="ao1"]');if(first){var o=buildings.filter(function(x){return x.id==='ao1'})[0];first.querySelector('small').textContent='LEVEL '+lvl(o)+' / '+cap(o)}
-  host.querySelectorAll('[data-ally-facility]').forEach(function(el){el.onclick=function(){openNewFacility(el.dataset.allyFacility)}});var count=$('allyNewMemberCount');if(count)count.textContent=(S.al.mem.length+1)+' OPERATIVES';
+  ensureAllianceBank();var host=$('allyCampusWorld');if(!host)return;
+  var buildings=allianceTerritoryBuildings(),slots=[[1,1],[3,1],[1,2],[3,2],[1,3],[3,3]];
+  var glyphs={ao1:'⌁',ao2:'▤',ao3:'⌖',ao4:'✚',as1:'⚔',as2:'⛨'};
+  var html='<div class="ally-command-map"><div class="ally-map-ground"><i></i><i></i><i></i><i></i><span class="ally-map-road ally-road-h"></span><span class="ally-map-road ally-road-v"></span></div>';
+  buildings.forEach(function(o,i){
+   var level=lvl(o),stage=Math.max(1,Math.min(7,Math.ceil(level/Math.max(1,cap(o))*7)));
+   html+='<button type="button" class="ally-hq-building cyber-building normal-building" style="grid-column:'+slots[i][0]+';grid-row:'+slots[i][1]+'" data-ally-facility="'+o.id+'" data-visual-stage="'+stage+'" aria-label="Open '+allyShopSafe(o.name)+', level '+level+' of '+cap(o)+'">'+
+    '<div class="ally-hq-structure structure"><span class="arch-side arch-side-a"></span><span class="arch-side arch-side-b"></span><span class="arch-spire"></span><span class="arch-core"></span><span class="arch-energy"></span><span class="glyph">'+(glyphs[o.id]||'⌂')+'</span></div>'+
+    '<span class="ally-hq-label"><b class="building-name">'+allyShopSafe(o.name).toUpperCase()+'</b><small class="building-level">LEVEL '+level+' / '+cap(o)+'</small><em>UPGRADE FACILITY</em></span></button>';
+  });
+  html+='<button type="button" class="ally-hq-core" aria-label="Enter Alliance HQ"><span class="ally-hq-core-orbit"></span><span class="ally-hq-core-building"><b>⌘</b></span><strong>ALLIANCE HQ</strong><small>COMMAND CENTRE · ENTER</small><em id="allyNewMemberCount"></em></button></div>';
+  host.innerHTML=html;
+  var core=host.querySelector('.ally-hq-core');if(core)core.onclick=function(){allyInteriorOpen=true;atab=0;render()};
+  host.querySelectorAll('[data-ally-facility]').forEach(function(el){el.onclick=function(){openNewFacility(el.dataset.allyFacility)}});
+  var count=$('allyNewMemberCount');if(count)count.textContent=(S.al.mem.length+1)+' OPERATIVES';
  }
  function openNewFacility(id){
   var o=allianceTerritoryBuildings().filter(function(x){return x.id===id})[0];if(!o)return;o.u=1;ensureAllianceBank();var c=allianceCost(o),l=lvl(o),ready=l<cap(o)&&allianceAfford(c),inc=Object.keys(o.inc||{}).map(function(k){return '+'+fmt(o.inc[k]*l)+'/s '+(ANM[k]||k)}).join(' · ')||'Specialist alliance bonus';
