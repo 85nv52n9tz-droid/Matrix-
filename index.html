@@ -4105,6 +4105,8 @@ var BHQ_UPDATE_RELEASES=[
   {version:'1.0.83',date:'19 NOV 2026',title:'HQ TIMER CONTROLS // CLEAN UPDATE LOG',tag:'DIRECT BUILDING UPGRADES · READABLE RELEASE NOTES',items:['HQ timer controls start the selected building upgrade directly using the existing upgrade system.','The HQ timer button starts HQ upgrades while core facility timer buttons start their own upgrades.','Improved release-note filtering to prevent code fragments from appearing in the Update Log.']},
 ];
 window.BHQ_UPDATE_VERSION=BHQ_UPDATE_VERSION;window.BHQ_UPDATE_RELEASES=BHQ_UPDATE_RELEASES;
+/* Keep later deployment scripts connected to the exact version and release array used by renderUpdateLog(). */
+try{Object.defineProperty(window,'BHQ_UPDATE_VERSION',{configurable:true,enumerable:true,get:function(){return BHQ_UPDATE_VERSION},set:function(v){BHQ_UPDATE_VERSION=String(v)}});Object.defineProperty(window,'BHQ_UPDATE_RELEASES',{configurable:true,enumerable:true,get:function(){return BHQ_UPDATE_RELEASES},set:function(v){if(Array.isArray(v))BHQ_UPDATE_RELEASES=v}})}catch(e){window.BHQ_UPDATE_VERSION=BHQ_UPDATE_VERSION;window.BHQ_UPDATE_RELEASES=BHQ_UPDATE_RELEASES;}
 var SYSTEM_GIFT_PERSONAL_BASE={cr:25000,da:5000,cy:2500,ex:500,in:100,qt:25};var SYSTEM_GIFT_ALLIANCE_BASE={ac:10000,dc:1000,cs:250,wi:100,dm:25};
 function systemGiftPackage(){
  var hq=Math.max(1,Math.min(30,Number(S.hq)||1)),prestige=Math.max(0,Math.min(5,Number(S.pr)||0));
@@ -7197,5 +7199,36 @@ if(Array.isArray(BHQ_UPDATE_RELEASES)){
   }
   setTimeout(check,8000);setInterval(check,30000);
   document.addEventListener('visibilitychange',function(){if(!document.hidden)check()});window.addEventListener('focus',check);
+})();
+</script>
+
+<style id="bhq-v101-fixed-hq-viewport">
+/* Keep the HQ page locked to the device viewport so login never leaves it slightly off-centre. */
+html,body{overscroll-behavior:none}
+body:has(#t-hq:not([hidden])){position:fixed!important;inset:0!important;width:100%!important;height:100dvh!important;overflow:hidden!important}
+main#gameShell{height:100dvh!important;min-height:100dvh!important;max-height:100dvh!important;overflow:hidden!important;padding-bottom:0!important}
+#t-hq{height:calc(100dvh - var(--top-spacer-height,150px) - 10px)!important;min-height:0!important;max-height:calc(100dvh - var(--top-spacer-height,150px) - 10px)!important;overflow:hidden!important;overscroll-behavior:none!important;margin:0!important}
+#t-hq>.test-shell{height:100%!important;min-height:0!important;max-height:100%!important;overflow:hidden!important;display:flex!important;flex-direction:column!important}
+#t-hq .test-viewport{height:100%!important;min-height:0!important;max-height:100%!important;flex:1 1 auto!important;overscroll-behavior:contain!important}
+</style>
+<script id="bhq-v101-deployment-and-release-archive">
+/* v1.0.101: bind the external update scripts to the game engine's live release array/version. */
+(function(){
+  var version='1.0.101';
+  try{window.BHQ_UPDATE_VERSION=version;}catch(e){}
+  try{
+    var releases=window.BHQ_UPDATE_RELEASES;
+    if(Array.isArray(releases)){
+      releases=releases.filter(function(r){return String(r&&r.version||'')!=='1.0.101';});
+      releases.unshift({version:version,date:'19 NOV 2026',title:'HQ VIEWPORT LOCK // LIVE UPDATE ARCHIVE REPAIR',tag:'FORCED REDEPLOYMENT · FIXED HQ SCREEN · VERIFIED RELEASE NOTES',items:[
+        'Published a fresh build (1.0.101) so devices still running the previous deployment are prompted to install the new version.',
+        'Connected the live release archive to the same version and release list used by the game renderer. The current build number and newest patch notes now update together.',
+        'Repaired the release-note handoff so the latest deployment entry is available in More → Updates → Update Log after installation and login.',
+        'Locked the HQ page to the available device viewport and removed the extra page-level vertical movement that left the HQ screen sitting slightly off-centre after login.',
+        'Preserved the existing HQ map interaction, game systems and saved commander data.'
+      ]});
+      window.BHQ_UPDATE_RELEASES=releases;
+    }
+  }catch(e){}
 })();
 </script>
