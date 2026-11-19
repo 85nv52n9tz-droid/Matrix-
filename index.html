@@ -6964,3 +6964,34 @@ document.addEventListener('DOMContentLoaded',function(){
   if(typeof checkUpdateNotice==='function')checkUpdateNotice();
 })();
 </script>
+
+
+<script id="bhq-player-controlled-update-check-v1087">
+(function(){
+  var version='1.0.87',checking=false,prompted=false,lastCheck=0;
+  function newer(a,b){var x=String(a||'').split('.').map(Number),y=String(b||'').split('.').map(Number);for(var i=0;i<Math.max(x.length,y.length);i++){var d=(x[i]||0)-(y[i]||0);if(d)return d>0;}return false;}
+  function panel(remote){
+    if(document.getElementById('bhqUpdateAvailable'))return;
+    var shade=document.createElement('div');shade.id='bhqUpdateAvailable';shade.setAttribute('role','dialog');shade.setAttribute('aria-modal','false');
+    shade.style.cssText='position:fixed;z-index:100001;left:10px;right:10px;bottom:calc(12px + env(safe-area-inset-bottom,0px));max-width:540px;margin:0 auto;padding:14px;border:1px solid #55d99a;border-radius:12px;background:linear-gradient(145deg,#0c291a,#041009);box-shadow:0 12px 38px #000d,0 0 22px #35ff8433;color:#dffff0;font:12px/1.4 ui-monospace,monospace';
+    shade.innerHTML='<div style="font-size:9px;letter-spacing:1.5px;color:#8cffb7">BACKDOOR HQ // DEPLOYMENT DETECTED</div><b style="display:block;margin:5px 0 3px;font-size:14px">A NEW GAME UPDATE IS READY</b><div style="color:#a9d8ba;font-size:10px">Version '+remote+' is published. Save and return to the login screen to load the latest build and view its update briefing.</div><div style="display:flex;gap:7px;margin-top:11px"><button type="button" id="bhqUpdateNow" style="flex:1;min-height:36px;border:1px solid #65f5a2;border-radius:7px;background:#123c25;color:#caffdc;font:900 10px ui-monospace,monospace">UPDATE NOW · RETURN TO LOGIN</button><button type="button" id="bhqUpdateLater" style="min-width:78px;min-height:36px;border:1px solid #456c55;border-radius:7px;background:#0a1a10;color:#b7d9c2;font:800 10px ui-monospace,monospace">LATER</button></div>';
+    document.body.appendChild(shade);
+    document.getElementById('bhqUpdateLater').onclick=function(){shade.remove();prompted=false;};
+    document.getElementById('bhqUpdateNow').onclick=async function(){var b=this;b.disabled=true;b.textContent='SAVING & SIGNING OUT…';try{if(window.BHQ_SAVE)window.BHQ_SAVE();if(window.BHQ_FORCE_SIGNOUT_AND_REFRESH){var ok=await window.BHQ_FORCE_SIGNOUT_AND_REFRESH();if(!ok)throw new Error('Could not safely sign out. Please try again.');}else{var u=new URL(location.href);u.searchParams.set('bhqBuildRefresh',String(Date.now()));location.replace(u.toString());}}catch(e){b.disabled=false;b.textContent='RETRY UPDATE';var note=shade.querySelector('div:nth-of-type(2)');if(note)note.textContent=e.message||'Update could not start. Please try again.';}};
+  }
+  async function check(){
+    if(checking||prompted||!window.BHQ_GAME_ACTIVE)return;
+    var now=Date.now();if(now-lastCheck<25000)return;lastCheck=now;checking=true;
+    try{
+      var u=new URL('index.html',location.href);u.searchParams.set('_bhq_check',String(now));
+      var response=await fetch(u.toString(),{cache:'no-store',credentials:'same-origin'});if(!response.ok)return;
+      var source=await response.text(),matches=[...source.matchAll(/(?:var\s+version|version)\s*=\s*['"]([0-9]+(?:\.[0-9]+)+)['"]/g)];
+      var remote=matches.length?matches[matches.length-1][1]:'',current=String(window.BHQ_UPDATE_VERSION||version);
+      if(remote&&newer(remote,current)){prompted=true;try{if(window.BHQ_SAVE)window.BHQ_SAVE()}catch(e){}panel(remote);}
+    }catch(e){/* Retry after a transient network or GitHub Pages propagation delay. */}
+    finally{checking=false;}
+  }
+  setTimeout(check,8000);setInterval(check,30000);
+  document.addEventListener('visibilitychange',function(){if(!document.hidden)check()});window.addEventListener('focus',check);
+})();
+</script>
