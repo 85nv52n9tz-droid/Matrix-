@@ -6819,5 +6819,29 @@ if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.1.
 BHQ_UPDATE_VERSION='1.1.17';
 </script>
 
+
+<style id="research-technology-interface-v1118">
+/* 1.1.18 — Personal Research / Technology panel presentation only. */
+#ppage #presw{margin-top:12px;padding:10px;border:1px solid rgba(76,190,255,.24);border-radius:12px;background:radial-gradient(ellipse at 8% 0%,rgba(48,154,220,.12),transparent 58%),linear-gradient(150deg,#081827,#06111b)}
+#ppage #presw>.sub{display:flex;align-items:center;gap:8px;margin:0 0 10px;color:#8bdcff;font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase}
+#ppage #presw>.sub:before{content:"";width:4px;height:17px;border-radius:4px;background:#55c9ff;box-shadow:0 0 12px rgba(85,201,255,.45)}
+#ppage #pres{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:8px;align-items:stretch}
+#ppage #pres>*{min-width:0;box-sizing:border-box;position:relative;overflow:hidden;padding:10px;border:1px solid rgba(79,151,194,.28);border-radius:10px;background:linear-gradient(145deg,rgba(13,37,55,.98),rgba(6,17,27,.98));box-shadow:inset 0 1px rgba(255,255,255,.025)}
+#ppage #pres>*:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,#70d9ff,#287ab5);opacity:.8}
+#ppage #pres>*:focus-within{border-color:#65cfff;box-shadow:0 0 0 2px rgba(85,201,255,.12)}
+#ppage #pres button{width:100%;min-height:42px;margin-top:8px;touch-action:manipulation;white-space:normal;line-height:1.35}
+#ppage #pres button:focus-visible{outline:2px solid #9ce4ff;outline-offset:3px}
+#ppage #pres button:disabled{cursor:not-allowed;opacity:.58;filter:saturate(.55)}
+#ppage #pres small,#ppage #pres span{line-height:1.5;overflow-wrap:anywhere}
+#ppage #pres [class*="progress"],#ppage #pres progress{max-width:100%}
+@media(max-width:520px){#ppage #pres{gap:7px}#ppage #pres>*{padding:8px}#ppage #pres button{min-height:46px;font-size:11px}}
+@media(max-width:360px){#ppage #pres{grid-template-columns:minmax(0,1fr)}}
+@media(prefers-reduced-motion:reduce){#ppage #pres *{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+</style>
+<script id="research-technology-release-v1118">
+if(Array.isArray(BHQ_UPDATE_RELEASES))BHQ_UPDATE_RELEASES.unshift({version:'1.1.18',date:'19 NOV 2026',title:'RESEARCH & TECHNOLOGY // PERSONAL UPGRADE INTERFACE',tag:'RESEARCH CARDS · QUANTUM PANEL · MOBILE READABILITY',items:['The personal Research panel now has a clearer Quantum-themed frame and stronger visual hierarchy, separated from the module socket area.','Research upgrade cards have more consistent spacing, readable descriptions and clearer action boundaries, with responsive two-column and narrow-screen layouts.','Focus, disabled and touch states are easier to identify when reviewing available research upgrades.','Research levels, Quantum costs, unlock requirements, upgrade effects, prestige caps and saved progression are unchanged. Alliance research and all protected HQ / Alliance building designs remain untouched.']});
+BHQ_UPDATE_VERSION='1.1.18';
+</script>
+
 </body>
 </html>
