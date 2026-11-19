@@ -6590,7 +6590,7 @@ if(typeof checkUpdateNotice==='function')checkUpdateNotice();
 (function(){
   var checking=false,triggered=false,lastCheck=0;
   function versionFrom(html){
-    var matches=[...html.matchAll(/(?:var\\s+version|version)\\s*=\\s*['"]([0-9]+(?:\\.[0-9]+)+)['"]/g)];
+    var matches=[...html.matchAll(/(?:var\s+version|version)\s*=\s*['"]([0-9]+(?:\.[0-9]+)+)['"]/g)];
     if(!matches.length)return '';
     return matches[matches.length-1][1];
   }
