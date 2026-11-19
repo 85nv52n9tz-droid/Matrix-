@@ -6996,7 +6996,7 @@ document.addEventListener('DOMContentLoaded',function(){
     try{
       var u=new URL('index.html',location.href);u.searchParams.set('_bhq_check',String(now));
       var response=await fetch(u.toString(),{cache:'no-store',credentials:'same-origin'});if(!response.ok)return;
-      var source=await response.text(),matches=[...source.matchAll(/(?:var\\s+version|version)\\s*=\\s*['"]([0-9]+(?:\\.[0-9]+)+)['"]/g)];
+      var source=await response.text(),matches=[...source.matchAll(/(?:var\s+version|version)\s*=\s*['"]([0-9]+(?:\.[0-9]+)+)['"]/g)];
       var remote=matches.length?matches[matches.length-1][1]:'',current=String(window.BHQ_UPDATE_VERSION||version);
       if(remote&&newer(remote,current)){
         var dismissed='';try{dismissed=localStorage.getItem('bhq_update_dismissed_version')||'';}catch(e){}
