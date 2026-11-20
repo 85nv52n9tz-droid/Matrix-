@@ -2382,7 +2382,83 @@ section[id^="t-"]:not(#t-hq){
 .nexus-building-tap{position:absolute;inset:0;border:0;background:transparent;cursor:pointer;z-index:10}
 .nexus-hq-building:focus-visible{outline:2px solid #8cfaff;outline-offset:4px;border-radius:12px}
 @media(max-width:600px){.nexus-hq-building{top:15%;width:145px;height:130px}.nexus-building-shell{transform:scale(.88)}}
-</style></head>
+</style><style id="bhq-futuristic-global-rankings">
+#t-rank{padding:0 0 24px;isolation:isolate}
+#t-rank #rpl{position:relative;max-width:760px;margin:0 auto;padding:0 2px 20px}
+.rank-command-head{position:relative;overflow:hidden;margin:8px 0 10px;padding:15px 14px 13px;border:1px solid #1b6a58;border-radius:14px;background:radial-gradient(ellipse at 88% 0%,#087c6d55,transparent 48%),radial-gradient(ellipse at 0% 100%,#153a6b44,transparent 55%),linear-gradient(145deg,#061a1c,#08121e 65%,#0b1020);box-shadow:0 8px 24px #0008,inset 0 1px #b4fff51a}
+.rank-command-head:after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.22;background:repeating-linear-gradient(0deg,transparent 0 17px,#50e9dc12 18px),linear-gradient(110deg,transparent 25%,#7affed12 50%,transparent 70%);background-size:auto,220% 100%;animation:rankGridSweep 9s linear infinite}
+@keyframes rankGridSweep{to{background-position:0 0,220% 0}}
+.rank-eyebrow{position:relative;z-index:1;display:flex;align-items:center;gap:7px;color:#68dcca;font:900 8px ui-monospace,monospace;letter-spacing:1.8px}
+.rank-eyebrow i,.rank-signal i,.rank-own-foot i{width:6px;height:6px;border-radius:50%;background:#53ffd4;box-shadow:0 0 10px #53ffd4;display:inline-block}
+.rank-title-row{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px}
+.rank-title-row h2{margin:0;color:#e7fffc;font:950 clamp(21px,6vw,28px)/1 ui-monospace,monospace;letter-spacing:1px}
+.rank-title-row h2 em{font-style:normal;color:#56e8d2;text-shadow:0 0 16px #35e9d255}
+.rank-title-row p{margin:6px 0 0;color:#78a9b2;font:800 8px ui-monospace,monospace;letter-spacing:1.2px}
+.rank-signal{display:flex;align-items:center;gap:7px;padding:7px 9px;border:1px solid #226b6b;border-radius:7px;background:#03191b;color:#83e9df;font:900 8px/1.4 ui-monospace,monospace;letter-spacing:1px}
+.rank-signal i{animation:rankPulse 1.8s infinite}
+@keyframes rankPulse{50%{opacity:.35;box-shadow:0 0 2px #53ffd4}}
+.rank-pulse-stats{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:13px}
+.rank-pulse-stats>div{padding:7px 8px;border:1px solid #1c4850;border-radius:7px;background:#041319bb;min-width:0}
+.rank-pulse-stats small{display:block;color:#6799a4;font:800 7px ui-monospace,monospace;letter-spacing:1px}
+.rank-pulse-stats b{display:block;margin-top:4px;color:#d9fffa;font:900 14px ui-monospace,monospace;overflow:hidden;text-overflow:ellipsis}
+.rank-mode-switch{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:4px;margin:0 0 12px;border:1px solid #1d4851;border-radius:10px;background:linear-gradient(90deg,#06171c,#091322)}
+.rank-mode-switch button{min-height:42px;border:1px solid transparent;border-radius:7px;background:transparent;color:#7198a6;font:900 10px ui-monospace,monospace;letter-spacing:1px;cursor:pointer}
+.rank-mode-switch button span{font-size:15px;margin-right:5px}
+.rank-mode-switch button.active{border-color:#2a9d9a;background:linear-gradient(120deg,#0c3d3e,#10283b);color:#d8fffa;box-shadow:inset 0 0 15px #2ee8d41b,0 0 13px #27d9d51c}
+.rank-section-bar{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:10px 2px 5px;color:#75e2d1;font:900 9px ui-monospace,monospace;letter-spacing:1.25px}
+.rank-section-bar small{color:#668d9c;font-size:7px;letter-spacing:1px;text-align:right}
+.rank-sort{display:flex;gap:5px;margin:7px 0}
+.rank-sort button{flex:1;min-height:33px;padding:6px 4px;border:1px solid #1d4952;border-radius:6px;background:linear-gradient(180deg,#0b2028,#07131d);color:#7faab4;font:900 8px ui-monospace,monospace;letter-spacing:.5px}
+.rank-sort button.on{border-color:#31c6b4;background:linear-gradient(135deg,#0c3e3c,#0b2533);color:#b8fff4;box-shadow:0 0 11px #25d9c21c}
+#t-rank .rank-podium{margin:10px 0 12px;padding:9px 6px 0;gap:5px;border-color:#1b5260;background:radial-gradient(ellipse at 50% 0%,#14556a55,transparent 68%),linear-gradient(145deg,#07151d,#08101b 75%,#101427)}
+#t-rank .rank-podium-card{border-color:#24515a;background:linear-gradient(180deg,#102d35,#08151d);min-height:146px}
+#t-rank .rank-podium-card.podium-1{min-height:174px;border-color:#b79548;background:linear-gradient(180deg,#4b3a17,#171a17 72%);box-shadow:0 0 22px #e8bb4b24}
+#t-rank .rank-podium-card.podium-2{border-color:#6d9cae;background:linear-gradient(180deg,#214251,#0b1720)}
+#t-rank .rank-podium-card.podium-3{border-color:#98694f;background:linear-gradient(180deg,#482c25,#17111a)}
+#t-rank .podium-avatar{background:radial-gradient(circle,#12505a,#081b25);border-color:#36a9a9;color:#aafff4}
+#t-rank .podium-name{color:#e4fffb;font-size:10px}
+#t-rank .podium-sub{color:#8fc4ca;font-size:8px;line-height:1.35}
+#t-rank .podium-extra{color:#6da7ae;font-size:7px}
+#t-rank .rank-list-heading{display:flex;justify-content:space-between;align-items:center;margin:10px 2px 6px;color:#70d6ca;font:900 9px ui-monospace,monospace;letter-spacing:1px}
+#t-rank .rank-list-heading small{color:#608d9b;font-size:7px}
+#t-rank .rk{position:relative;gap:8px;margin:5px 0;padding:9px 9px;border:1px solid #173a45;border-radius:8px;background:linear-gradient(110deg,#0b1b24,#09131d);box-shadow:inset 0 1px #ffffff08}
+#t-rank .rk.me{border-color:#2ac6a4;background:linear-gradient(110deg,#0d302d,#0b1c26);box-shadow:0 0 13px #27e0b31b}
+#t-rank .rn{width:31px;color:#66c9c5;font:900 12px ui-monospace,monospace}
+#t-rank .rb b{color:#e0f9fa;font-size:11px}
+#t-rank .rb small{color:#78a5b1;font-size:9px}
+#t-rank .ra span{color:#75e6d6;font:900 11px ui-monospace,monospace}
+#t-rank .ab.inf{border-color:#286c77;color:#75cbd2;font-size:8px}
+#t-rank .rx{margin:4px 0 0;padding:8px;border:1px solid #1b4b55;border-radius:6px;background:#041017;color:#9fc8ce;font:8px/1.6 ui-monospace,monospace;white-space:pre-wrap}
+#t-rank #rrep{border-color:#1b5860;background:linear-gradient(120deg,#061a20,#081421);color:#86e6d6;font:8px/1.6 ui-monospace,monospace;padding:9px}
+.rank-own-card{position:relative;overflow:hidden;margin:9px 0;padding:12px;border:1px solid #2b8e7d;border-radius:11px;background:radial-gradient(ellipse at 100% 0%,#0c766355,transparent 55%),linear-gradient(130deg,#0a2829,#0a1723 70%,#101a2a);box-shadow:0 0 18px #16d6b21a,inset 0 1px #b9fff51a}
+.rank-own-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.rank-own-kicker{color:#7bdacb;font:900 8px ui-monospace,monospace;letter-spacing:1px}
+.rank-own-position{color:#ffe49a;font:950 22px ui-monospace,monospace;text-shadow:0 0 12px #ffc95a44}
+.rank-own-name{margin:5px 0 9px;color:#e5fffa;font:950 15px ui-monospace,monospace;overflow-wrap:anywhere}
+.rank-own-name span{color:#72a9b4;font-size:10px}
+.rank-own-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
+.rank-own-metrics>div{min-width:0;padding:6px 5px;border:1px solid #20535a;border-radius:6px;background:#04171dbb}
+.rank-own-metrics small{display:block;color:#6eabb2;font:800 6px ui-monospace,monospace;letter-spacing:.5px}
+.rank-own-metrics b{display:block;margin-top:4px;color:#d6fff5;font:900 11px ui-monospace,monospace;overflow:hidden;text-overflow:ellipsis}
+.rank-own-foot{display:flex;align-items:center;gap:6px;margin-top:9px;color:#66bdb1;font:800 7px ui-monospace,monospace;letter-spacing:.8px}
+.rank-own-foot i{width:5px;height:5px}
+.rank-alliance-row{position:relative;display:flex;align-items:center;gap:8px;margin:5px 0;padding:9px 8px;border:1px solid #183c49;border-radius:8px;background:linear-gradient(110deg,#0a1c26,#09131d);min-width:0}
+.rank-alliance-row.me{border-color:#2bc7a7;background:linear-gradient(110deg,#0c302d,#0b1b27);box-shadow:0 0 12px #27e0b31a}
+.rank-alliance-place{width:27px;flex:none;color:#73c9ca;font:900 11px ui-monospace,monospace}
+.rank-alliance-emblem{width:29px;height:29px;display:grid;place-items:center;flex:none;border:1px solid #287c80;border-radius:8px;background:#08252d;color:#8effed;font-size:17px}
+.rank-alliance-copy{flex:1;min-width:0}
+.rank-alliance-copy b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#e0f8f6;font:900 9px ui-monospace,monospace}
+.rank-alliance-copy small{display:block;margin-top:4px;color:#79aab3;font:700 7px ui-monospace,monospace}
+.rank-alliance-power{text-align:right;flex:none}
+.rank-alliance-power b{display:block;color:#8cebd9;font:900 10px ui-monospace,monospace}
+.rank-alliance-power small{display:block;margin-top:3px;color:#628d9a;font:800 6px ui-monospace,monospace;letter-spacing:1px}
+.rank-you-flag{padding:4px 5px;border:1px solid #2ec9a7;border-radius:4px;color:#8fffe0;font:900 7px ui-monospace,monospace}
+.rank-data-note{margin:10px 2px;padding:9px;border:1px dashed #24525a;border-radius:7px;color:#739ba5;font:7px/1.5 ui-monospace,monospace;letter-spacing:.25px}
+#t-rank #rpl:before,#t-rank #rpl:after{display:none}
+@media(max-width:390px){.rank-own-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.rank-title-row h2{font-size:21px}.rank-signal{padding:6px}.rank-pulse-stats b{font-size:12px}}
+@media(prefers-reduced-motion:reduce){.rank-command-head:after,.rank-signal i{animation:none!important}}
+</style>
+</head>
 <body>
 <div id="authGate">
   <div class="bhq-login-atmosphere" aria-hidden="true">
@@ -2487,7 +2563,13 @@ section[id^="t-"]:not(#t-hq){
 </div></section><div id="toasts"></div>
 <section id="t-map"><div id="mtop"></div><div id="solo"><div id="msub"></div><div id="mp0"><svg id="map" viewBox="0 0 200 100"></svg><div id="nd"></div></div><div id="mp1" hidden><svg id="map2" viewBox="0 0 200 100"></svg><div id="nd2"></div></div><div id="mp2" hidden><svg id="map3" viewBox="0 0 200 100"></svg><div id="nd3"></div></div><div id="mp3" hidden><div class="sub">NPC OPERATIONS // SELECT A TARGET</div><div class="npc-map-instruction"><span class="npc-live-dot"></span><b>LIVE SIGNALS DETECTED</b><span>Tap any pulsing AVAILABLE node on the map to inspect and launch that mission.</span></div><svg id="map8" viewBox="0 0 200 100"></svg><div id="npcMissionPanel"></div><div id="npcRewardLogPanel" aria-live="polite"></div></div></div><div id="dnet" hidden><div class="sub" id="dnh"></div><svg id="map7" viewBox="0 0 200 100"></svg><div id="dnd"></div><div id="dnBattleLog" class="dn-battle-log"></div></div></section>
 <section id="t-bot"><div class="nbx-stats"><div><label>CAPACITY</label><b id="nbxCap">0/0</b></div><div><label>DEFENCE</label><b id="nbxDef">0</b></div><div><label>ATTACK</label><b id="nbxAtk">0</b></div><div><label>READY BOTS</label><b id="nbxBots">0</b></div></div><div id="alert" class="al" hidden></div><div id="nanoBattleReport"></div><div class="nano-combat-split"><div id="nlab"></div><div id="nanoIncomingPanel" class="nano-incoming-card safe" aria-live="polite"><div class="nano-incoming-kicker">NANO DEFENCE // SCANNING</div><div class="nano-incoming-enemy">NO INCOMING ATTACK</div><div class="nano-incoming-meta"><span>Network secure</span><span class="nano-incoming-chance">—</span></div></div></div><div id="nanoScoutPanel" class="nano-scout-panel"></div><div id="qty"></div><div id="tiers"></div></section>
-<section id="t-rank"><div id="rpl"><div id="rprof"></div><div id="rsort"></div><div id="rpodium" class="rank-podium"></div><div class="rank-list-heading">GLOBAL PLAYER RANKING <small>POSITIONS 4–50</small></div><div id="rlist"></div><div id="rrep"></div></div></section>
+<section id="t-rank"><div id="rpl">
+ <header class="rank-command-head"><div class="rank-eyebrow"><i></i> BACKDOOR HQ // GLOBAL INTELLIGENCE</div><div class="rank-title-row"><div><h2>NETWORK <em>RANKINGS</em></h2><p>COMPETITIVE INDEX · LIVE LOCAL SIMULATION</p></div><div class="rank-signal"><i></i><span>FEED<br>ONLINE</span></div></div>
+ <div id="rankPulseStats" class="rank-pulse-stats"></div></header>
+ <nav class="rank-mode-switch" aria-label="Ranking category"><button type="button" data-rank-tab="players" class="active"><span>⌁</span> OPERATIVES</button><button type="button" data-rank-tab="alliances"><span>⬡</span> ALLIANCES</button></nav>
+ <div id="rankPlayersPanel"><div class="rank-section-bar"><span>GLOBAL OPERATIVE INDEX</span><small>50 COMMANDERS</small></div><div id="rsort" class="rank-sort"></div><div id="rpodium" class="rank-podium"></div><div class="rank-list-heading">OPERATIVE DIRECTORY <small>POSITIONS 4–50</small></div><div id="rlist"></div><div id="rrep"></div></div>
+ <div id="rankAlliancesPanel" hidden><div class="rank-section-bar"><span>ALLIANCE NETWORK INDEX</span><small id="rankAllianceCount">—</small></div><div id="rankAllianceSort" class="rank-sort"><button type="button" data-rank-alliance-sort="power" class="on">TOTAL POWER</button><button type="button" data-rank-alliance-sort="hq">HQ LEVEL</button><button type="button" data-rank-alliance-sort="members">MEMBERS</button></div><div id="rankAllianceSummary" class="rank-own-card"></div><div id="rankAlliancePodium" class="rank-podium"></div><div class="rank-list-heading">ALLIANCE DIRECTORY <small>NETWORK FACTIONS</small></div><div id="rankAllianceList"></div><div class="rank-data-note">NETWORK DATA · Your current Alliance is live from the new Alliance system. Rival factions are simulated NPC alliances in this local game build.</div></div>
+ </div></section>
 <section id="t-crew"><div id="csub"></div>
   <div id="cp0"><div id="crew"></div></div>
   <div id="cp1" hidden><div id="roster" class="tgrid"></div></div>
@@ -2910,8 +2992,43 @@ function incoming(){
     toast('Incoming attack from '+r.n+'. Lands in '+fmtT((S.inc.end-n)/1000)+'. Tap to open Nano Defence.',function(){show('bot')},5000,'incoming');
   }
 }
+function rankAllianceData(){
+ var a=alnS(),rivals=[
+  {id:'vnt',n:'VANTA PROTOCOL',tag:'VNT',hq:19,count:46,pw:168400,k:18420,xp:8420},
+  {id:'nox',n:'NOX COLLECTIVE',tag:'NOX',hq:17,count:42,pw:142750,k:16280,xp:7610},
+  {id:'hex',n:'HEX DIVISION',tag:'HEX',hq:16,count:39,pw:119600,k:13950,xp:6900},
+  {id:'arb',n:'ARB NETWORK',tag:'ARB',hq:15,count:38,pw:103250,k:11820,xp:6120},
+  {id:'qnt',n:'QUANTUM ORDER',tag:'QNT',hq:14,count:35,pw:88700,k:9860,xp:5340},
+  {id:'irn',n:'IRON ECLIPSE',tag:'IRN',hq:13,count:33,pw:74200,k:8240,xp:4480},
+  {id:'apx',n:'APEX SYNDICATE',tag:'APX',hq:12,count:29,pw:59600,k:6810,xp:3590}
+ ];
+ var own={id:'current',n:String(a.name||'YOUR ALLIANCE'),tag:String(a.tag||'ALLY'),hq:Number(a.hq)||1,count:a.members.length,pw:alnPw(),k:Number(a.kills||0),xp:Number(a.xp)||0,me:true};
+ return rivals.concat(own)
+}
+function rankEsc(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function renderAllianceRank(){
+ var all=rankAllianceData(),a=all[all.length-1],sort=rankAllianceSort;
+ all.sort(function(x,y){return (Number(y[sort])||0)-(Number(x[sort])||0)||(y.pw-x.pw)||x.n.localeCompare(y.n)});
+ var pos=all.findIndex(function(x){return x.me})+1,own=all.filter(function(x){return x.me})[0];
+ $('rankAllianceCount').textContent=all.length+' REGISTERED FACTIONS';
+ $('rankAllianceSort').querySelectorAll('button').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-rank-alliance-sort')===sort)});
+ $('rankAllianceSummary').innerHTML='<div class="rank-own-top"><span class="rank-own-kicker">YOUR ALLIANCE // CURRENT PROFILE</span><b class="rank-own-position">#'+pos+'</b></div><div class="rank-own-name">'+rankEsc(own.n)+' <span>['+rankEsc(own.tag)+']</span></div><div class="rank-own-metrics"><div><small>NETWORK POWER</small><b>'+fmt(own.pw)+'</b></div><div><small>HQ LEVEL</small><b>'+own.hq+'</b></div><div><small>OPERATIVES</small><b>'+own.count+'</b></div><div><small>ALLIANCE XP</small><b>'+fmt(own.xp)+'</b></div></div><div class="rank-own-foot"><i></i> LIVE DATA LINKED TO NEW ALLIANCE SYSTEM</div>';
+ $('rankAlliancePodium').innerHTML=all.slice(0,3).map(function(x,i){return rankPodiumCard({n:x.n,count:x.count,pw:x.pw,hq:x.hq*x.count,kl:x.k},i+1,'alliance')}).join('');
+ $('rankAllianceList').innerHTML='';
+ all.slice(3).forEach(function(x,i){
+  var el=document.createElement('article');el.className='rank-alliance-row'+(x.me?' me':'');
+  el.innerHTML='<div class="rank-alliance-place">#'+(i+4)+'</div><div class="rank-alliance-emblem">⬡</div><div class="rank-alliance-copy"><b>'+rankEsc(x.n)+'</b><small>['+rankEsc(x.tag)+'] · HQ '+x.hq+' · '+x.count+' OPERATIVES</small></div><div class="rank-alliance-power"><b>'+fmt(x.pw)+'</b><small>POWER</small></div>'+(x.me?'<span class="rank-you-flag">YOU</span>':'');
+  $('rankAllianceList').appendChild(el)
+ })
+}
 function renderRank(){
   $('rpl').hidden=false;
+  var playerPanel=$('rankPlayersPanel'),alliancePanel=$('rankAlliancesPanel');
+  if(playerPanel)playerPanel.hidden=rankMode!=='players';
+  if(alliancePanel)alliancePanel.hidden=rankMode!=='alliances';
+  document.querySelectorAll('[data-rank-tab]').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-rank-tab')===rankMode)});
+  if(rankMode==='alliances'){renderAllianceRank();return}
+  var statHost=$('rankPulseStats');if(statHost)statHost.innerHTML='<div><small>OPERATIVES</small><b>'+S.rv.length+'</b></div><div><small>YOUR HQ</small><b>'+S.hq+'</b></div><div><small>YOUR POWER</small><b>'+fmt(atkP())+'</b></div>';
   var P=atkP(),list=S.rv.slice(0,49).map(function(r,i){return{i:i,hq:r.hq,pw:rvPow(r),r:r,name:r.n,you:false}});
   list.push({i:-1,hq:S.hq,pw:P,r:null,name:window.BHQ_USERNAME||'You',you:true});
   var cmp={hq:function(a,b){return(b.hq-a.hq)||(b.pw-a.pw)},pw:function(a,b){return(b.pw-a.pw)||(b.hq-a.hq)}};
@@ -2921,7 +3038,7 @@ function renderRank(){
   $('rlist').innerHTML='';
   sorted.slice(3).forEach(function(x,index){var pos=index+3,w=rows[x.you?S.rv.length:x.i];$('rlist').appendChild(w.c);w.c.hidden=false;w.c.className='rk'+(x.you?' me':'');w.c.setAttribute('data-global-rank',String(pos+1));w.n.textContent='#'+(pos+1);w.s.innerHTML='HQ <span class="lv">'+x.hq+'</span> · power '+fmt(x.pw);w.nm.textContent=x.name;
     if(x.you){w.c.querySelector('.ra').hidden=false;w.pc.textContent='YOU';w.pc.style.color='var(--ok)';w.bi.hidden=true;w.rx.hidden=true;return}
-    var pc=Math.round(chance(P,x.pw)*100),v=S.vs[x.i]||{};w.pc.textContent=isAlly(x.i)?'Ally':pc+'%';w.pc.style.color=isAlly(x.i)?'#5ab8ff':pc>=60?'var(--ok)':pc>=40?'var(--rw)':'#ff6b5a';w.bi.hidden=false;w.bi.className='ab inf'+(rinfo===x.i?' on':'');w.rx.hidden=rinfo!==x.i;
+    var pc=Math.round(chance(P,x.pw)*100),v=S.vs[x.i]||{};w.pc.textContent=pc+'%';w.pc.style.color=pc>=60?'var(--ok)':pc>=40?'var(--rw)':'#ff6b5a';w.bi.hidden=false;w.bi.className='ab inf'+(rinfo===x.i?' on':'');w.rx.hidden=rinfo!==x.i;
     if(rinfo===x.i){var r=x.r,avg=(r.bl[0]+r.bl[1]+r.bl[2]+r.bl[3])/4,vt=['cr','da','cy','ex'].map(function(k){return fmt(r.res[k]||0)+' '+NM[k]}).join(', ');w.rx.textContent='Lifetime: '+fmt(r.stolen)+' resources taken · '+fmt(r.k)+' kills · '+fmt(r.wn)+'W/'+fmt(r.lo)+'L battles\nBuildings avg lv '+avg.toFixed(1)+' · nanobots '+fmt(foeCount(r))+'\nVault: '+vt+'\nYou vs them: attacks '+(v.aw||0)+'W/'+(v.al||0)+'L · steals '+(v.sw||0)+'W/'+(v.sl||0)+'L · you took '+fmt(v.tk||0)+' · your kills '+fmt(v.kl||0)+' · raids on you '+(v.dw||0)+'W/'+(v.dl||0)+'L'}
   });
   rb.forEach(function(b,j){b.className=rbv[j]===rsort?'on':''});
@@ -3154,7 +3271,7 @@ function card(parent,cls,icon){
   parent.appendChild(c);
   return{c:c,i:c.querySelector('.ico'),t:c.querySelector('span'),e:c.querySelector('em'),m:c.querySelector('.locked'),d:c.querySelector('.desc'),p:c.querySelector('.prog'),pi:c.querySelector('i'),b:c.querySelector('.buy'),f:c.querySelector('.fin')};
 }
-var crewProfileShopOpen=false;var pendingNpcLaunch=null;var nanoTierSelected=0;var allyChips={};var allyTerritoryMapsEl=null;var pickerDone=null,pickerContext='',pickerSelected=[],pickerMax=2,npcSelected='npc1',shopMode='general',shopModeBtns=[];var E={},tab='hq',sel='sf',chips={},tb={},qty=1,qb=[],qv=[],rsort='hq',rb=[],rbv=[],rows=[],lastOrd='',mb=[],csub=0,cview=null,csb=[],cqty=1,cqb=[],cqv=[],pks={},rinfo=-1,pconf=false;
+var crewProfileShopOpen=false;var pendingNpcLaunch=null;var nanoTierSelected=0;var allyChips={};var allyTerritoryMapsEl=null;var pickerDone=null,pickerContext='',pickerSelected=[],pickerMax=2,npcSelected='npc1',shopMode='general',shopModeBtns=[];var E={},tab='hq',sel='sf',chips={},tb={},qty=1,qb=[],qv=[],rsort='hq',rankMode='players',rankAllianceSort='power',rb=[],rbv=[],rows=[],lastOrd='',mb=[],csub=0,cview=null,csb=[],cqty=1,cqb=[],cqv=[],pks={},rinfo=-1,pconf=false;
 function initTestChat(){
   var panel=$('testChat'),expand=$('testChatExpand'),list=$('testChatFeedList'),name=$('testChatName'),preview=$('testChatText'),gc=$('testChatGC'),ac=$('testChatAC'),title=$('testChatFeedTitle'),form=$('testChatCompose'),input=$('testChatInput');
   if(!panel||!expand||!list||!name||!preview||!gc||!ac||!form||!input)return;
@@ -3283,7 +3400,9 @@ $('progressionReportClose').onclick=function(){$('progressionReportModal').hidde
   IT.forEach(function(it){var c=document.createElement('button');c.className='st';c.title=it.n;c.innerHTML=ic(it.i)+'<b></b><small></small>';c.querySelector('svg').style.color=itCol(it);c.querySelector('b').textContent=it.n;c.onclick=function(){ssl[itTab(it)]=it.id;openShopItem(it.id)};$('sgrid').appendChild(c);STL[it.id]={c:c,s:c.querySelector('small')}});
   E.sd=card($('sdet'),'','shop');E.sd.m.style.color='var(--pi)';E.sd.b.onclick=function(){if(shopMode==='general')ibuy(IM[ssl[stab]])};
   $('warn').onclick=function(e){if(e.target.className==='xb'){disInc=S.inc?S.inc.end:0;render()}else show('bot')};$('alert').onclick=function(e){if(e.target.className==='xb'){disInc=S.inc?S.inc.end:0;render()}};
-  [['hq','HQ level'],['pw','Power']].forEach(function(a){var b=document.createElement('button');b.textContent=a[1];b.onclick=function(){rsort=a[0];lastOrd='';render()};$('rsort').appendChild(b);rb.push(b);rbv.push(a[0])});
+  [['hq','HQ LEVEL'],['pw','TOTAL POWER']].forEach(function(a){var b=document.createElement('button');b.type='button';b.textContent=a[1];b.onclick=function(){rsort=a[0];lastOrd='';render()};$('rsort').appendChild(b);rb.push(b);rbv.push(a[0])});
+  document.querySelectorAll('[data-rank-tab]').forEach(function(b){b.addEventListener('click',function(){rankMode=b.getAttribute('data-rank-tab');renderRank()})});
+  document.querySelectorAll('[data-rank-alliance-sort]').forEach(function(b){b.addEventListener('click',function(){rankAllianceSort=b.getAttribute('data-rank-alliance-sort');renderRank()})});
   for(var j=0;j<=S.rv.length;j++)(function(j){var c=document.createElement('div'),me=j===S.rv.length;c.className='rk'+(me?' me':'');c.innerHTML='<div class="rn"></div><div class="rb"><b></b><small></small></div><div class="ra"><span></span><div class="rbt"><button class="ab inf">Info</button></div></div><div class="rx" hidden></div>';var bs=c.querySelectorAll('button'),o={c:c,n:c.querySelector('.rn'),nm:c.querySelector('b'),s:c.querySelector('small'),pc:c.querySelector('.ra span'),bi:bs[0],rx:c.querySelector('.rx')};if(me)c.querySelector('.ra').hidden=true;else{o.bi.onclick=function(){rinfo=rinfo===j?-1:j;render()}}rows.push(o);if(!me)$('rlist').appendChild(c)})(j);
   [[1,'x1'],[10,'x10'],['max','Max']].forEach(function(a){var b=document.createElement('button');b.textContent=a[1];b.onclick=function(){qty=a[0];render()};$('qty').appendChild(b);qb.push(b);qv.push(a[0])});
   TR.forEach(function(t,i){var e=E['t'+i]=card($('tiers'),'','bot');e.c.classList.add('nano-tier-card','nano-tier-'+(i+1));e.t.textContent=t.name;e.e.textContent='';e.d.textContent='';e.m.textContent='';e.i.style.color=TC[i];e.i.className+=' bot';e.i.innerHTML=sprite(i);e.pr=document.createElement('button');e.pr.className='buy pro';e.pr.hidden=i===0;e.b.parentNode.insertBefore(e.pr,e.f);e.pr.onclick=function(){nbPromote(i)};e.b.onclick=function(){nbTrain(i)};e.f.onclick=function(){nbFinish(i)};e.c.setAttribute('role','button');e.c.setAttribute('tabindex','0');e.c.setAttribute('aria-label','Open '+t.name+' controls');e.c.onclick=function(){openNanoTier(i)};e.c.onkeydown=function(ev){if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();openNanoTier(i)}}});
@@ -7290,9 +7409,21 @@ main#gameShell{height:100dvh!important;min-height:100dvh!important;max-height:10
 </style>
 <script id="bhq-v102-independent-update-archive">
 (function(){
-  var VERSION='0.0.4';
+  var VERSION='0.0.5';
+  try{window.BHQ_UPDATE_VERSION='0.0.5';}catch(e){}
   try{window.BHQ_UPDATE_VERSION='0.0.4';}catch(e){}
   var RELEASES=[{
+    version:VERSION,date:'20 NOV 2026',
+    title:'GLOBAL RANKINGS // ALLIANCE NETWORK OVERHAUL',
+    tag:'NEW ALLIANCE LEADERBOARD · OPERATIVE RANKING REDESIGN · FUTURISTIC COMMAND UI',
+    items:[
+      'Rebuilt Global Rankings with a new command-centre visual design, separate Operatives and Alliances views, competitive podiums, clearer ranking cards and mobile-first layout.',
+      'Added a new Alliance Network Index linked to the current Alliance system, showing your live Alliance name, tag, HQ level, member count, power, XP and rank alongside simulated rival NPC factions.',
+      'Upgraded the player ranking presentation with improved sorting, clearer power and HQ statistics, redesigned podium and cleaner operative directory.',
+      'This browser game currently stores one live player Alliance per save; the rival Alliance entries are local NPC simulation data, not a cross-player online leaderboard.',
+      'Preserved existing commander progression, Alliance buildings, member roster, Alliance bank, missions, events and saved game data.'
+    ]
+  },{
     version:VERSION,date:'20 NOV 2026',
     title:'DEPLOYMENT CHECK // LIVE UPDATE DELIVERY TEST',
     tag:'NEW BUILD DETECTED · UPDATE INSTALLER VERIFICATION · SAVE PRESERVATION',
