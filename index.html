@@ -2487,7 +2487,7 @@ section[id^="t-"]:not(#t-hq){
 </div></section><div id="toasts"></div>
 <section id="t-map"><div id="mtop"></div><div id="solo"><div id="msub"></div><div id="mp0"><svg id="map" viewBox="0 0 200 100"></svg><div id="nd"></div></div><div id="mp1" hidden><svg id="map2" viewBox="0 0 200 100"></svg><div id="nd2"></div></div><div id="mp2" hidden><svg id="map3" viewBox="0 0 200 100"></svg><div id="nd3"></div></div><div id="mp3" hidden><div class="sub">NPC OPERATIONS // SELECT A TARGET</div><div class="npc-map-instruction"><span class="npc-live-dot"></span><b>LIVE SIGNALS DETECTED</b><span>Tap any pulsing AVAILABLE node on the map to inspect and launch that mission.</span></div><svg id="map8" viewBox="0 0 200 100"></svg><div id="npcMissionPanel"></div><div id="npcRewardLogPanel" aria-live="polite"></div></div></div><div id="dnet" hidden><div class="sub" id="dnh"></div><svg id="map7" viewBox="0 0 200 100"></svg><div id="dnd"></div><div id="dnBattleLog" class="dn-battle-log"></div></div></section>
 <section id="t-bot"><div class="nbx-stats"><div><label>CAPACITY</label><b id="nbxCap">0/0</b></div><div><label>DEFENCE</label><b id="nbxDef">0</b></div><div><label>ATTACK</label><b id="nbxAtk">0</b></div><div><label>READY BOTS</label><b id="nbxBots">0</b></div></div><div id="alert" class="al" hidden></div><div id="nanoBattleReport"></div><div class="nano-combat-split"><div id="nlab"></div><div id="nanoIncomingPanel" class="nano-incoming-card safe" aria-live="polite"><div class="nano-incoming-kicker">NANO DEFENCE // SCANNING</div><div class="nano-incoming-enemy">NO INCOMING ATTACK</div><div class="nano-incoming-meta"><span>Network secure</span><span class="nano-incoming-chance">—</span></div></div></div><div id="nanoScoutPanel" class="nano-scout-panel"></div><div id="qty"></div><div id="tiers"></div></section>
-<section id="t-rank"><div id="rtop"></div><div id="rpl"><div id="rprof"></div><div id="rsort"></div><div id="rpodium" class="rank-podium"></div><div class="rank-list-heading">GLOBAL PLAYER RANKING <small>POSITIONS 4–50</small></div><div id="rlist"></div><div id="rrep"></div></div><div id="ral" hidden><div class="sub" id="alnote"></div><div id="alpodium" class="rank-podium alliance-podium"></div><div class="rank-list-heading">ALLIANCE RANKING <small>POSITIONS 4+</small></div><div id="alist"></div></div></section>
+<section id="t-rank"><div id="rpl"><div id="rprof"></div><div id="rsort"></div><div id="rpodium" class="rank-podium"></div><div class="rank-list-heading">GLOBAL PLAYER RANKING <small>POSITIONS 4–50</small></div><div id="rlist"></div><div id="rrep"></div></div></section>
 <section id="t-crew"><div id="csub"></div>
   <div id="cp0"><div id="crew"></div></div>
   <div id="cp1" hidden><div id="roster" class="tgrid"></div></div>
@@ -2911,7 +2911,7 @@ function incoming(){
   }
 }
 function renderRank(){
-  rtb.forEach(function(b,i){b.className=i===rtop?'on':''});$('rpl').hidden=rtop!==0;$('ral').hidden=rtop!==1;if(rtop===1)return renderAlRank();
+  $('rpl').hidden=false;
   var P=atkP(),list=S.rv.slice(0,49).map(function(r,i){return{i:i,hq:r.hq,pw:rvPow(r),r:r,name:r.n,you:false}});
   list.push({i:-1,hq:S.hq,pw:P,r:null,name:window.BHQ_USERNAME||'You',you:true});
   var cmp={hq:function(a,b){return(b.hq-a.hq)||(b.pw-a.pw)},pw:function(a,b){return(b.pw-a.pw)||(b.hq-a.hq)}};
@@ -3285,8 +3285,6 @@ $('progressionReportClose').onclick=function(){$('progressionReportModal').hidde
   $('warn').onclick=function(e){if(e.target.className==='xb'){disInc=S.inc?S.inc.end:0;render()}else show('bot')};$('alert').onclick=function(e){if(e.target.className==='xb'){disInc=S.inc?S.inc.end:0;render()}};
   [['hq','HQ level'],['pw','Power']].forEach(function(a){var b=document.createElement('button');b.textContent=a[1];b.onclick=function(){rsort=a[0];lastOrd='';render()};$('rsort').appendChild(b);rb.push(b);rbv.push(a[0])});
   for(var j=0;j<=S.rv.length;j++)(function(j){var c=document.createElement('div'),me=j===S.rv.length;c.className='rk'+(me?' me':'');c.innerHTML='<div class="rn"></div><div class="rb"><b></b><small></small></div><div class="ra"><span></span><div class="rbt"><button class="ab inf">Info</button></div></div><div class="rx" hidden></div>';var bs=c.querySelectorAll('button'),o={c:c,n:c.querySelector('.rn'),nm:c.querySelector('b'),s:c.querySelector('small'),pc:c.querySelector('.ra span'),bi:bs[0],rx:c.querySelector('.rx')};if(me)c.querySelector('.ra').hidden=true;else{o.bi.onclick=function(){rinfo=rinfo===j?-1:j;render()}}rows.push(o);if(!me)$('rlist').appendChild(c)})(j);
-  ['Players','Alliances'].forEach(function(t,i){var b=document.createElement('button');b.textContent=t;b.onclick=function(){rtop=i;render()};$('rtop').appendChild(b);rtb.push(b)});
-  for(var q=0;q<RANK_ALLIANCES.length+1;q++)(function(q){var c=document.createElement('div');c.className='rk';c.innerHTML='<div class="rn"></div><div class="rb"><b></b><small></small></div><div class="ra"><div class="rbt"><button class="ab inf">Info</button></div></div><div class="rx" hidden></div>';var bi=c.querySelector('button'),o={c:c,n:c.querySelector('.rn'),nm:c.querySelector('b'),s:c.querySelector('small'),bi:bi,rx:c.querySelector('.rx')};bi.onclick=function(){ralb=ralb===q?-2:q;render()};alrows.push(o);$('alist').appendChild(c)})(q);
   [[1,'x1'],[10,'x10'],['max','Max']].forEach(function(a){var b=document.createElement('button');b.textContent=a[1];b.onclick=function(){qty=a[0];render()};$('qty').appendChild(b);qb.push(b);qv.push(a[0])});
   TR.forEach(function(t,i){var e=E['t'+i]=card($('tiers'),'','bot');e.c.classList.add('nano-tier-card','nano-tier-'+(i+1));e.t.textContent=t.name;e.e.textContent='';e.d.textContent='';e.m.textContent='';e.i.style.color=TC[i];e.i.className+=' bot';e.i.innerHTML=sprite(i);e.pr=document.createElement('button');e.pr.className='buy pro';e.pr.hidden=i===0;e.b.parentNode.insertBefore(e.pr,e.f);e.pr.onclick=function(){nbPromote(i)};e.b.onclick=function(){nbTrain(i)};e.f.onclick=function(){nbFinish(i)};e.c.setAttribute('role','button');e.c.setAttribute('tabindex','0');e.c.setAttribute('aria-label','Open '+t.name+' controls');e.c.onclick=function(){openNanoTier(i)};e.c.onkeydown=function(ev){if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();openNanoTier(i)}}});
   E.dn=card($('dnd'),'','rank');E.dn.f.hidden=true;E.dn.b.classList.add('atkb');E.dn.s=document.createElement('button');E.dn.s.className='buy stlb';E.dn.b.parentNode.insertBefore(E.dn.s,E.dn.f);
@@ -3526,7 +3524,7 @@ function renderShop(){
   if(S.hq<it.u||(it.pr&&S.pr<it.pr)){e.c.style.opacity=0.6;e.e.textContent='';e.m.textContent='';e.b.textContent=it.pr&&S.pr<it.pr?'Unlocks at prestige P'+it.pr:'Unlocks at HQ level '+it.u;e.b.disabled=true;return}
   var c=iprice(it);e.c.style.opacity=1;e.e.textContent='x'+own;e.m.textContent=itFx(it);e.b.textContent='Buy \u00b7 '+cs(c);e.b.disabled=!afford(c);
 }
-var msel=['sf','tw1','ct1'],msub=0,mtop=0,asub=1,atab=0,allyInteriorOpen=false,techTab=0,asel=['ao1','as1','ac1'],ainfo='',mt=[],ab2=[],ab3=[],aa=[],am=[],ALCAP=10,rtop=0,rtb=[],ralb=-2,alrows=[],alOrd='',aYou=null,aEmp=[],stab=0,ssl=['ghostmask','pulse','plating'],stb=[],STL={};
+var msel=['sf','tw1','ct1'],msub=0,mtop=0,asub=1,atab=0,allyInteriorOpen=false,techTab=0,asel=['ao1','as1','ac1'],ainfo='',mt=[],ab2=[],ab3=[],aa=[],am=[],ALCAP=10,alOrd='',aYou=null,aEmp=[],stab=0,ssl=['ghostmask','pulse','plating'],stb=[],STL={};
 var UN={
  node:['Zombie recruiter','Faster scanner','Bulletproof hosting','Self-spreading worm','Residential proxies','Load balancer','Polymorphic payload','Peer-to-peer mesh','AI task scheduler','Planet-scale botnet'],
  siphon:['Packet sniffer','SQL injector','Indexed archives','Deduplication','Parallel crawlers','Zero-copy pipes','Dark-web broker','ML classifier','Cold storage vault','Data lake'],
@@ -3563,20 +3561,6 @@ function rankPodiumCard(entry,position,kind){
   var isAlliance=kind==='alliance',rawName=isAlliance?entry.n:entry.name,name=String(rawName||'').replace(/[&<>\"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c]}),sub=isAlliance?(entry.count+' OPERATIVES · '+fmt(entry.pw)+' POWER'):'HQ '+entry.hq+' · '+fmt(entry.pw)+' POWER';
   var extra=isAlliance?('AVG HQ '+(entry.count?Math.round(entry.hq/entry.count*10)/10:0)+' · '+fmt(entry.kl)+' KILLS'):(entry.you?'YOUR COMMAND PROFILE':'GLOBAL OPERATIVE');
   return '<article class="rank-podium-card podium-'+position+'"><div class="podium-crown">'+(position===1?'♛':position===2?'✦':'✧')+'</div><div class="podium-place">'+(position===1?'1ST PLACE':position===2?'2ND PLACE':'3RD PLACE')+'</div><div class="podium-avatar">'+(isAlliance?'⬡':'⌁')+'</div><b class="podium-name">'+name+'</b><span class="podium-sub">'+sub+'</span><small class="podium-extra">'+extra+'</small><div class="podium-base"><span>'+position+'</span></div></article>';
-}
-function renderAlRank(){
-  var L=allyList().filter(function(a){return a.me||a.m.length}),sorted=L.slice().sort(function(a,b){return b.pw-a.pw||b.hq-a.hq});
-  alrows.forEach(function(w,q){w.c.hidden=!L.some(function(a){return a.k===q})});
-  $('alpodium').innerHTML=sorted.slice(0,3).map(function(a,i){var count=a.m.length+(a.me?1:0);return rankPodiumCard({n:a.n+(a.me?' (yours)':''),count:count,pw:a.pw,hq:a.hq,kl:a.kl},i+1,'alliance')}).join('');
-  $('alist').innerHTML='';
-  $('alnote').innerHTML=(S.al.n?'YOUR ALLIANCE IS INCLUDED IN THE GLOBAL TABLE. ':'Create an alliance in the Alliance tab to appear on this board. ')+ '<span class="rank-network-stat">'+L.length+' ALLIANCES · RANKED BY COMBINED MEMBER POWER</span><br>Each alliance profile shows member count, combined power, average HQ progression, total kills and its individual roster.';
-  sorted.forEach(function(a,pos){var w=alrows[a.k],cnt=a.m.length+(a.me?1:0);if(pos<3)return;$('alist').appendChild(w.c);w.c.hidden=false;
-    w.c.className='rk alliance-rank-row'+(a.me?' me':'');w.c.setAttribute('data-global-rank',String(pos+1));w.n.textContent='#'+(pos+1);w.nm.textContent=a.n+(a.me?' (yours)':'');
-    var avg=cnt?a.hq/cnt:0,top=a.m.slice().sort(function(x,y){return rvPow(S.rv[y])-rvPow(S.rv[x])})[0],topName=a.me&&(top===undefined||atkP()>=rvPow(S.rv[top]))?(window.BHQ_USERNAME||'You'):(top!==undefined?S.rv[top].n:'—');topName=String(topName).replace(/[&<>\"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c]});
-    w.s.innerHTML='<b class="alliance-rank-metric">'+cnt+' MEMBERS</b> · '+fmt(a.pw)+' COMBINED POWER<br><small>AVG HQ '+avg.toFixed(1)+' · '+fmt(a.kl)+' TOTAL KILLS · TOP OPERATIVE '+topName+'</small>';
-    w.bi.className='ab inf'+(ralb===a.k?' on':'');w.rx.hidden=ralb!==a.k;
-    if(ralb===a.k){var ls=a.m.map(function(i){var r=S.rv[i];return r.n+' · HQ '+r.hq+' · power '+fmt(rvPow(r))+' · '+fmt(Math.floor(r.k))+' kills'});if(a.me)ls.unshift('You (leader) · HQ '+S.hq+' · power '+fmt(atkP())+' · '+fmt(Math.floor(S.kills))+' kills');w.rx.textContent=ls.join('\\n')}
-  });
 }
 function allyStep(){
   var A=S.al;if(!A||!A.n)return;var n=Date.now();
