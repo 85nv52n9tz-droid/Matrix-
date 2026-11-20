@@ -9198,85 +9198,7 @@ html:has(#t-bot:not([hidden])){height:100%!important;overflow:hidden!important}
 #bhqFreshEvents #t-activity[hidden],#bhqFreshEvents #t-competitions[hidden]{display:none!important}
 #bhqFreshEvents .v2-comp-page{display:block!important}
 </style>
-<script id="bhq-events-fresh-rebuild-script">
-(function(){
- 'use strict';
- var names={activity:['📋','Daily Missions'],daily:['🎯','Daily Competition'],weekly:['⚔️','Weekly Competition'],monthly:['🏆','Monthly Competition'],alliance:['🛡️','Alliance Competition']};
- var hub=document.getElementById('eventHub'),activity=document.getElementById('t-activity'),competition=document.getElementById('t-competitions');
- if(!hub||!activity||!competition)return;
- var originalContent=document.getElementById('competitionContent');
- if(!originalContent)return;
- /* Discard the former Events UI completely, then create fresh page containers. */
- hub.replaceChildren();
- var root=document.createElement('div');root.id='bhqFreshEvents';
- root.innerHTML='<div class="fresh-events-title">EVENTS CENTRE</div><div class="fresh-events-menu"></div><div class="fresh-events-window" hidden><div class="fresh-events-toolbar"><button type="button" class="fresh-events-back">‹ EVENTS</button><span class="fresh-events-heading"></span></div><div class="fresh-events-body"></div></div>';
- hub.appendChild(root);
- var menu=root.querySelector('.fresh-events-menu'),windowEl=root.querySelector('.fresh-events-window'),body=root.querySelector('.fresh-events-body');
- Object.keys(names).forEach(function(key){var b=document.createElement('button');b.type='button';b.className='fresh-events-choice';b.dataset.freshEvent=key;b.innerHTML='<span>'+names[key][0]+'</span>'+names[key][1];menu.appendChild(b)});
- var pageContainers={};
- Object.keys(names).forEach(function(key){var p=document.createElement('div');p.className='fresh-event-page';p.dataset.freshPage=key;p.hidden=true;body.appendChild(p);pageContainers[key]=p});
- pageContainers.activity.appendChild(activity);
- pageContainers.daily.appendChild(competition);
- function closeMail(){var m=document.getElementById('bhqMailModal');if(m)m.hidden=true}
- function menuOpen(){closeMail();menu.hidden=false;windowEl.hidden=true;Object.keys(pageContainers).forEach(function(k){pageContainers[k].hidden=true});activity.hidden=true;competition.hidden=true}
- function open(which){
-  if(!names[which])return;
-  closeMail();
-  if(typeof window.BHQ_SHOW_ACTIVE_PAGE==='function')window.BHQ_SHOW_ACTIVE_PAGE('events');
-  else{
-   document.querySelectorAll('section[id^="t-"]').forEach(function(p){p.hidden=p.id!=='t-events'});
-  }
-  var events=document.getElementById('t-events');if(events)events.hidden=false;
-  menu.hidden=true;windowEl.hidden=false;
-  root.querySelector('.fresh-events-heading').textContent=names[which][1].toUpperCase();
-  Object.keys(pageContainers).forEach(function(k){pageContainers[k].hidden=k!==which});
-  if(which==='activity'){
-   pageContainers.activity.appendChild(activity);activity.hidden=false;competition.hidden=true;
-   if(typeof window.renderDailyMissions==='function')window.renderDailyMissions();
-  }else{
-   pageContainers[which].appendChild(competition);competition.hidden=false;activity.hidden=true;
-   pageContainers[which].appendChild(competition);
-   /* Reuse the actual Daily Missions template, with competition-specific rewards deferred. */
-   try{
-    if(typeof window.renderDailyMissions==='function')window.renderDailyMissions();
-    var source=activity.querySelector('.activity-hub'),clone=source&&source.cloneNode(true);
-    if(!clone)throw Error('Daily template unavailable');
-    clone.id='bhqCompetitionDailyClone';
-    clone.querySelectorAll('[id]').forEach(function(el){el.removeAttribute('id')});
-    var label=which.toUpperCase(),title=clone.querySelector('.ap-title');
-    if(title)title.innerHTML=label+' <span style="color:#79ffad">COMPETITION</span>';
-    var kicker=clone.querySelector('.ap-kicker');if(kicker)kicker.textContent=label+' // COMPETITION NETWORK';
-    var sub=clone.querySelector('.ap-sub');if(sub)sub.textContent='Competition missions and rewards will be configured next.';
-    var score=clone.querySelector('.ap-score');if(score)score.innerHTML='<div><strong>0</strong><small> COMPETITION POINTS</small></div><small>COMING NEXT</small>';
-    var section=clone.querySelector('.ap-section b');if(section)section.textContent=label+' COMPETITION';
-    var tasks=clone.querySelector('.ap-tasks');if(tasks)tasks.innerHTML='<div class="ap-task"><div class="ap-task-icon">🎯</div><div class="ap-task-main"><b>Competition missions</b><p>Individual activities and point values will be added next.</p></div></div>';
-    var complete=clone.querySelector('.ap-complete');if(complete)complete.remove();
-    var fill=clone.querySelector('.ap-track-fill');if(fill)fill.style.width='0%';
-    clone.querySelectorAll('.ap-chest').forEach(function(chest){
-     chest.disabled=false;chest.classList.remove('opened','ready');chest.removeAttribute('data-ap-chest');
-     var icon=chest.querySelector('.ap-chest-icon'),txt=chest.querySelector('.ap-chest-label');
-     if(icon)icon.textContent='';if(txt)txt.textContent='CHEST';
-     chest.onclick=function(){chest.classList.toggle('ready');if(icon)icon.textContent=chest.classList.contains('ready')?'✓':''};
-    });
-    originalContent.replaceChildren(clone);
-   }catch(e){console.error('Competition template error',e);originalContent.textContent='Competition template unavailable: '+String(e.message||e)}
 
-  }
-  body.scrollTop=0;
- }
- menu.addEventListener('click',function(e){var b=e.target.closest('[data-fresh-event]');if(b)open(b.dataset.freshEvent)});
- root.querySelector('.fresh-events-back').addEventListener('click',menuOpen);
- window.BHQ_EVENTS_MENU=menuOpen;window.openEventPage=open;window.openEventDestination=open;window.renderEventHub=menuOpen;
- /* The bottom Events tray uses the same fresh route. Intercept it before old handlers. */
- window.addEventListener('click',function(e){
-  var b=e.target&&e.target.closest&&e.target.closest('#iosDock [data-event-dock-choice]');
-  if(!b)return;
-  var which=b.getAttribute('data-event-dock-choice');if(!names[which])return;
-  e.preventDefault();e.stopImmediatePropagation();open(which);
- },true);
- menuOpen();
-})();
-</script>
 <script id="bhq-daily-style-shared">
 (function(){
  var el=document.createElement('style'),css='';
@@ -9718,5 +9640,49 @@ function bhqRewardPopup(title,reward){
    window.renderCompetition=window.BHQ_RENDER_COMPETITION;
    window.renderAllianceCompetition=function(){return window.BHQ_RENDER_COMPETITION('alliance')};
  }
+})();
+</script>
+
+<style id="bhq-events-authoritative-layout-v12">
+/* The old cloned Events panel was removed: only the original eventPageSlot is used. */
+#t-events:not([hidden]){position:fixed!important;top:calc(var(--bhq-top-clearance,174px) + 14px)!important;bottom:82px!important;left:0!important;right:0!important;width:100vw!important;max-width:100vw!important;height:auto!important;max-height:none!important;min-height:0!important;margin:0!important;padding:0 5px!important;box-sizing:border-box!important;z-index:30!important;overflow:hidden!important}
+#t-events:not([hidden]) #eventHub,#t-events:not([hidden]) .events-shell{width:100%!important;max-width:none!important;height:100%!important;max-height:100%!important;min-height:0!important;overflow:hidden!important;margin:0!important;padding:0!important}
+#t-events:not([hidden]) .events-tabs{display:none!important}
+#t-events:not([hidden]) #eventPageSlot{display:flex!important;flex:1 1 0!important;width:100%!important;min-height:0!important;height:100%!important;max-height:100%!important;overflow:hidden!important}
+#t-events:not([hidden]) #eventPageSlot>#t-activity:not([hidden]),#t-events:not([hidden]) #eventPageSlot>#t-competitions:not([hidden]){display:flex!important;flex-direction:column!important;flex:1 1 0!important;min-height:0!important;height:100%!important;max-height:100%!important;width:100%!important;max-width:none!important;margin:0!important;padding:5px 0 0!important;overflow:hidden!important}
+#t-events:not([hidden]) #eventPageSlot .activity-hub{display:flex!important;flex-direction:column!important;flex:1 1 0!important;min-height:0!important;height:100%!important;max-height:100%!important;width:100%!important;max-width:none!important;box-sizing:border-box!important;margin:0!important;padding:8px 7px 0!important;overflow:hidden!important}
+#t-events:not([hidden]) #eventPageSlot .ap-head,#t-events:not([hidden]) #eventPageSlot .ap-track-wrap,#t-events:not([hidden]) #eventPageSlot .ap-section{flex:0 0 auto!important}
+#t-events:not([hidden]) #eventPageSlot .ap-tasks{display:block!important;flex:1 1 0!important;height:auto!important;min-height:0!important;max-height:none!important;overflow-y:auto!important;overflow-x:hidden!important;-webkit-overflow-scrolling:touch!important;touch-action:pan-y!important;padding:0 3px 95px!important}
+#t-events:not([hidden]) #eventPageSlot #competitionContent{display:block!important;flex:1 1 0!important;height:100%!important;max-height:100%!important;min-height:0!important;width:100%!important;max-width:none!important;overflow-y:auto!important;overflow-x:hidden!important;touch-action:pan-y!important;-webkit-overflow-scrolling:touch!important;padding:5px 6px 90px!important;box-sizing:border-box!important}
+#t-events:not([hidden]) #eventPageSlot .v2-comp-page{width:100%!important;max-width:none!important;margin:0!important;padding:5px 0 80px!important}
+</style>
+<script id="bhq-events-authoritative-routing-v12">
+(function(){
+ function route(which){
+  if(['activity','daily','weekly','monthly','alliance'].indexOf(which)<0)return;
+  if(typeof window.show==='function')window.show('events');
+  var slot=document.getElementById('eventPageSlot');
+  var a=document.getElementById('t-activity'),c=document.getElementById('t-competitions');
+  if(slot){if(a&&a.parentNode!==slot)slot.appendChild(a);if(c&&c.parentNode!==slot)slot.appendChild(c)}
+  if(typeof window.activateEventPage==='function')window.activateEventPage(which);
+  if(a)a.hidden=which!=='activity';
+  if(c)c.hidden=which==='activity';
+  if(which!=='activity'&&typeof window.BHQ_RENDER_COMPETITION==='function')window.BHQ_RENDER_COMPETITION(which);
+  if(which==='activity'&&typeof window.renderDailyMissions==='function')window.renderDailyMissions();
+  var host=document.getElementById('competitionContent');if(host)host.scrollTop=0;
+  var tasks=document.querySelector('#t-activity .ap-tasks');if(tasks)tasks.scrollTop=0;
+ }
+ window.openEventPage=route;
+ window.openEventDestination=route;
+ window.renderCompetition=window.BHQ_RENDER_COMPETITION||window.renderCompetition;
+ window.renderAllianceCompetition=function(){return window.renderCompetition('alliance')};
+ window.BHQ_OPEN_EVENT=route;
+ /* Capture navigation before the older competing click handlers. */
+ window.addEventListener('click',function(e){
+  var b=e.target&&e.target.closest&&e.target.closest('#iosDock [data-event-dock-choice]');
+  if(!b)return;
+  e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
+  route(b.getAttribute('data-event-dock-choice'));
+ },true);
 })();
 </script>
