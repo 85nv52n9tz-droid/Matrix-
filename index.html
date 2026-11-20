@@ -2507,27 +2507,17 @@ section[id^="t-"]:not(#t-hq){
 }
 </style>
 
-<style id="bhq-alliance-animated-pipelines-v1093">
-/* Alliance HQ: curved, layered conduits with a continuous moving energy pulse. */
+
+
+<style id="bhq-alliance-conduit-rebuild-v1098">
+/* Fresh Alliance conduit visual system. White travelling dash intentionally
+   mirrors the exact tPad() perimeter-light animation used on building bases. */
 #t-aln .aln-links{overflow:visible;filter:drop-shadow(0 0 5px #ff263f88)}
-#t-aln .aln-pipe-link{fill:none}
-#t-aln .aln-pipe-link path{fill:none;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
-#t-aln .aln-pipe-outer{stroke:#5b0714;stroke-width:11;opacity:.95}
-#t-aln .aln-pipe-inner{stroke:#ff263f;stroke-width:5;opacity:.8;filter:drop-shadow(0 0 4px #ff173e)}
-#t-aln .aln-pipe-flow{stroke:#ff9ba8;stroke-width:2.4;stroke-dasharray:24 376;stroke-dashoffset:0;opacity:.95;filter:drop-shadow(0 0 5px #ff536e);animation:alnPipeFlow 2.25s linear infinite}
-#t-aln .aln-pipe-glint{stroke:#fff0f3;stroke-width:1.35;stroke-dasharray:7 393;stroke-dashoffset:0;opacity:.85;animation:alnPipeFlow 3.1s linear infinite reverse}
-#t-aln .aln-pipe-node{fill:#ff8294;stroke:#ffe0e5;stroke-width:1.5;filter:drop-shadow(0 0 4px #ff234a);transform-box:fill-box;transform-origin:center;animation:alnPipeNodePulse 1.7s ease-in-out infinite}
-@keyframes alnPipeFlow{from{stroke-dashoffset:400}to{stroke-dashoffset:0}}
-@keyframes alnPipeNodePulse{0%,100%{opacity:.55;transform:scale(.72)}50%{opacity:1;transform:scale(1.35)}}
-@media(prefers-reduced-motion:reduce){#t-aln .aln-pipe-flow,#t-aln .aln-pipe-glint,#t-aln .aln-pipe-node{animation:none!important}}
-</style>
-<style id="bhq-alliance-pipeline-chromatic-white-light-v111">
-/* SVG SMIL drives the Alliance conduit colour, dimming and travelling white pulse.
-   CSS animations are explicitly disabled here to avoid competing animation engines. */
-#t-aln .aln-pipe-inner,#t-aln .aln-pipe-flow,#t-aln .aln-pipe-glint{animation:none!important}
-#t-aln .aln-pipe-glint{stroke:#fff!important;stroke-width:3.2!important;stroke-dasharray:20 380!important;stroke-dashoffset:400!important;opacity:1!important;filter:drop-shadow(0 0 4px #fff) drop-shadow(0 0 10px #dffaff)!important}
-</style>
-</head>
+#t-aln .aln-conduit path{vector-effect:non-scaling-stroke}
+#t-aln .aln-conduit path:nth-child(1){opacity:.96}
+#t-aln .aln-conduit path:nth-child(2){filter:drop-shadow(0 0 4px #ff173e)}
+#t-aln .aln-conduit path:nth-child(3){filter:drop-shadow(0 0 4px #fff) drop-shadow(0 0 8px #dffaff)}
+</style></head>
 <body>
 <div id="authGate">
   <div class="bhq-login-atmosphere" aria-hidden="true">
@@ -4298,9 +4288,9 @@ function renderSettings(){
  });
 }
 function renderChiefProfile(){var h=$('chiefHqLevel'),sh=$('chiefStatHq'),pw=$('chiefStatPower'),ki=$('chiefStatKills'),cr=$('chiefStatCrew');if(h)h.textContent=S.hq;if(sh)sh.textContent=S.hq;if(pw)pw.textContent=fmt(power());if(ki)ki.textContent=fmt(S.kills||0);if(cr)cr.textContent=crewAvailableCount()+' / 7';var nm=$('chiefPlayerName');if(nm)nm.textContent=(window.backdoorPlayerName||'YOUR CHIEF').toString().slice(0,24);var pa=$('openProgressionArchive');if(pa)pa.onclick=function(){show('progression')};document.querySelectorAll('[data-chief-slot]').forEach(function(b){b.onclick=function(){document.querySelectorAll('[data-chief-slot]').forEach(function(x){x.classList.remove('active')});b.classList.add('active');var labels={helmet:'Neural Visor · head protection and signal focus.',chest:'Core Armour · personal defensive plating.',gloves:'Pulse Gloves · precision control and combat handling.',boots:'Vector Boots · mobility and movement systems.',weapon:'Data Blade · personal chief weapon slot.',accessory:'Signal Core · auxiliary chief enhancement module.'};$('chiefSlotInfo').textContent=labels[b.getAttribute('data-chief-slot')]+' Equipment upgrades can be connected here in a later pass.'}});document.querySelectorAll('[data-chief-go]').forEach(function(b){b.onclick=function(){show(b.getAttribute('data-chief-go'))}})}
-var BHQ_UPDATE_VERSION='1.0.97';
+var BHQ_UPDATE_VERSION='1.0.98';
 var BHQ_UPDATE_RELEASES=[
-  {version:'1.0.97',date:'20 NOV 2026',title:'ALLIANCE HQ // MATCHING BUILDING-BASE ENERGY LIGHT',tag:'WHITE LIGHT RUNS ALONG EACH WAVY PIPE',items:['Matched the moving white pipeline highlight to the same dashed white perimeter-light effect used around the bases of Alliance and HQ buildings.','The white highlight now travels continuously along the full curved conduit, while the underlying pipe continues its neon colour cycle and dimming effect.','Preserved Alliance buildings, routes, gameplay and saved progress.']},
+  {version:'1.0.98',date:'20 NOV 2026',title:'ALLIANCE HQ // PIPELINE VISUAL REBUILT',tag:'CLEAN CONDUITS · BUILDING-BASE WHITE LIGHT EFFECT',items:['Removed the previous layered pipeline animation system and rebuilt the Alliance connections with a clean three-layer conduit design.','The white travelling dash now uses the same SVG perimeter-light animation and dash pattern as the moving white light around HQ and Alliance building bases.','Kept the existing curved routes, building positions, Alliance interactions, gameplay and saved progress.']},
   {version:'1.0.94',date:'20 NOV 2026',title:'ALLIANCE HQ // CHROMATIC ENERGY CONDUITS',tag:'TRAVELLING WHITE LIGHT · CYCLING NEON COLOURS · SOFT DIMMING',items:['Added a bright white energy streak that continuously travels through every Alliance HQ pipeline.','Alliance conduits now cycle through red, amber, violet and cyan every six seconds, briefly dimming between colour changes before glowing brightly in the next colour.','Preserved the existing curved pipeline routes, pulsing nodes, Alliance buildings, gameplay and saved progress.']},
   {version:'1.0.93',date:'20 NOV 2026',title:'ALLIANCE HQ // LIVING PIPELINE NETWORK',tag:'CURVED RED CONDUITS · MOVING ENERGY FLOW · PULSING NODES',items:['Reworked the Alliance HQ map connections into smooth, flowing S-curved conduits inspired by the main HQ pipeline design.','Added layered outer glow, illuminated inner channels, continuously moving energy streaks and softly pulsing connection nodes.','Kept the existing Alliance building positions, map interactions, upgrade logic and saved Alliance progress unchanged.']},
   {version:'1.0.92',date:'20 NOV 2026',title:'DAILY LOGIN REWARDS // POST-CONNECTION DELIVERY',tag:'AUTHENTICATE · COMPLETE LOADING · THEN RECEIVE DAILY REWARDS',items:['Moved the daily login reward prompt and reward rail initialisation out of pre-login game startup.','Daily rewards now appear only after the commander has authenticated and the five-second system connection/loading sequence has fully completed.','Applied the same timing to both fresh logins and restored authenticated sessions; daily claim state and reward amounts are unchanged.']},
@@ -4732,10 +4722,12 @@ function tronHq(lv,pal){lv=Math.max(1,Math.min(30,Number(lv)||1));var t=Math.min
  else s+='<path d="M'+cx+' '+top+'V'+(top-12-t*3)+'" stroke="'+c+'" stroke-width="1.6"/><circle cx="'+cx+'" cy="'+(top-12-t*3)+'" r="2.4" fill="#fff">'+tA('opacity','1;.25;1',1.1)+'</circle>';
  for(i=0;i<5;i++){x=54+i*8;s+='<path d="M'+x+' 115.4L'+(x+3.6)+' 118L'+x+' 120.6L'+(x-3.6)+' 118Z" fill="'+(i<=k?c:'#061018')+'" stroke="'+c+'" stroke-width=".7" opacity="'+(i<=k?1:.5)+'"/>'}
  return '<svg viewBox="0 0 140 138" aria-hidden="true">'+s+'</svg>'}
-function tronRoad(cx,cy,x,y,id,i,up,done){
+function alnConduit(cx,cy,x,y,i){
+ /* Fresh conduit system: reuse the exact moving perimeter-light technique
+    used by tPad() on every HQ/Alliance building base. */
  var sx=cx*10,sy=cy*7,ex=x*10,ey=y*7,dx=ex-sx,dy=ey-sy,len=Math.max(1,Math.sqrt(dx*dx+dy*dy)),bend=(i%2?1:-1)*Math.min(46,Math.max(24,len*.105)),px=-dy/len*bend,py=dx/len*bend,mx=sx+dx*.5,my=sy+dy*.5;
  var d='M'+sx+' '+sy+' C'+(sx+dx*.22+px)+' '+(sy+dy*.12+py)+' '+(sx+dx*.42-px)+' '+(sy+dy*.38-py)+' '+mx+' '+my+' C'+(sx+dx*.58+px)+' '+(sy+dy*.62+py)+' '+(sx+dx*.78-px)+' '+(sy+dy*.88-py)+' '+ex+' '+ey;
- return '<g class="aln-pipe-link"><path pathLength="400" d="'+d+'" class="aln-pipe-outer"/><path pathLength="400" d="'+d+'" class="aln-pipe-inner"><animate attributeName="stroke" values="#ff263f;#ff9b35;#bd62ff;#36e8ff;#ff263f" keyTimes="0;.25;.5;.75;1" dur="8s" repeatCount="indefinite"/><animate attributeName="opacity" values=".9;.28;.9;.28;.9" keyTimes="0;.18;.25;.43;1" dur="8s" repeatCount="indefinite"/></path><path pathLength="400" d="'+d+'" class="aln-pipe-flow"><animate attributeName="stroke" values="#ff9ba8;#ffd09a;#e4b8ff;#baf8ff;#ff9ba8" keyTimes="0;.25;.5;.75;1" dur="8s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;.2;1;.2;1" keyTimes="0;.18;.25;.43;1" dur="8s" repeatCount="indefinite"/></path><path pathLength="100" d="'+d+'" class="aln-pipe-base-light" fill="none" stroke="#fff" stroke-width="2.4" stroke-dasharray="9 91" stroke-linecap="round" opacity=".98"><animate attributeName="stroke-dashoffset" values="0;-100" dur="3.2s" repeatCount="indefinite"/></path><circle class="aln-pipe-node" cx="'+ex+'" cy="'+ey+'" r="5" style="animation-delay:-'+(i*.19)+'s"/></g>'
+ return '<g class="aln-conduit"><path d="'+d+'" fill="none" stroke="#570b16" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="'+d+'" fill="none" stroke="#ff263f" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" filter="url(#alnConduitGlow)"/><path d="'+d+'" pathLength="100" fill="none" stroke="#fff" stroke-width="2.2" stroke-dasharray="9 91" stroke-linecap="round" opacity=".98">'+tA('stroke-dashoffset','0;-100',3.2)+'</path></g>';
 }
 
 /* ===== ALLIANCE (from scratch): 8 red Tron buildings around an Alliance HQ that opens a full management centre ===== */
@@ -4791,7 +4783,7 @@ function alnUp(id){var a=alnS(),cur=id==='hq'?a.hq:(a.lv[id]||0),c;if(cur>=30)re
 function alnDone(){save();try{render()}catch(e){}renderAln();alnRender()}
 function renderAln(){var L=$('alnLayer');if(!L)return;var a=alnS(),h='',p='',t=$('alnHqLv');
  ALNB.forEach(function(o,i){var l=a.lv[o.id]||0,x=ALNPOS[i][0],y=ALNPOS[i][1],ready=l<30&&l<a.hq&&afford(alnCost(o.id));
-  p+=tronRoad(50,50,x,y,o.id,i,ready,l>=30);
+  p+=alnConduit(50,50,x,y,i);
   h+='<div class="aln-b'+(ready?' ready':'')+'" style="left:'+x+'%;top:'+y+'%"><div class="aln-art" style="color:'+TRC[o.id]+'">'+tronBld(o.id,l)+'</div><b>'+o.name+'</b><small>LV '+l+' / '+Math.min(30,a.hq)+'</small><button class="aln-tap" data-aln="'+o.id+'" aria-label="Open '+o.name+'"></button></div>'});
  h+='<div class="aln-b aln-hq" style="left:50%;top:50%"><div class="aln-art" style="color:'+ARH[Math.min(5,Math.floor((a.hq-1)/5))]+'">'+tronHq(a.hq,ARH)+'</div><b>ALLIANCE HQ</b><small>HQ LEVEL '+a.hq+' / 30</small><button class="aln-tap" data-aln="hq" aria-label="Open Alliance HQ"></button></div>';
  L.innerHTML='<svg class="aln-links" viewBox="0 0 1000 700" preserveAspectRatio="none" aria-hidden="true"><g fill="none">'+p+'</g></svg>'+h;
