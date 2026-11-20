@@ -6849,7 +6849,7 @@ body:before{content:"";position:fixed;left:0;right:0;top:-120px;height:120px;poi
         btn.setAttribute('aria-label','Open '+item[2]);
         btn.innerHTML='<span aria-hidden="true">'+item[1]+'</span>';
         btn.addEventListener('click',function(e){
-          e.preventDefault();e.stopPropagation();
+          e.preventDefault();
           if(typeof show==='function')show('events');
           if(typeof window.openEventPage==='function')window.openEventPage(item[0]);
           else if(item[0]==='activity')show('activity');
