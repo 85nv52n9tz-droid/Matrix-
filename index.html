@@ -8729,85 +8729,7 @@ activateEventPage(activeEventPage);
 #eventHub .events-tab{cursor:pointer}
 </style>
 
-<script id="bhq-events-menu-repair-v3-script">
-(function(){
- 'use strict';
- var host=document.getElementById('eventHub');
- var activity=document.getElementById('t-activity');
- var competitions=document.getElementById('t-competitions');
- if(!host||!activity||!competitions)return;
- host.innerHTML=
-  '<div class="events-shell">'+
-   '<div class="events-kicker">BACKDOOR HQ // OPERATIONS</div>'+
-   '<div class="events-title">EVENTS CENTRE</div>'+
-   '<div class="events-tabs" role="group" aria-label="Event sections">'+
-    '<button type="button" class="events-tab" data-bhq-event-choice="activity"><span class="events-tab-icon">📋</span><span>DAILY<br>MISSIONS</span></button>'+
-    '<button type="button" class="events-tab" data-bhq-event-choice="daily"><span class="events-tab-icon">🎯</span><span>DAILY<br>COMPETITION</span></button>'+
-    '<button type="button" class="events-tab" data-bhq-event-choice="weekly"><span class="events-tab-icon">⚔️</span><span>WEEKLY<br>COMPETITION</span></button>'+
-    '<button type="button" class="events-tab" data-bhq-event-choice="monthly"><span class="events-tab-icon">🏆</span><span>MONTHLY<br>COMPETITION</span></button>'+
-    '<button type="button" class="events-tab" data-bhq-event-choice="alliance"><span class="events-tab-icon">🛡️</span><span>ALLIANCE<br>COMPETITION</span></button>'+
-   '</div><div id="eventPageSlot"></div>'+
-  '</div>';
- var shell=host.querySelector('.events-shell');
- var tabs=shell.querySelector('.events-tabs');
- var slot=shell.querySelector('#eventPageSlot');
- slot.appendChild(activity);
- slot.appendChild(competitions);
- var an=document.getElementById('activityEventNav'),cn=document.getElementById('competitionEventNav');
- if(an)an.hidden=true;if(cn)cn.hidden=true;
- var current='menu';
- function menu(){
-  current='menu';tabs.classList.remove('events-menu-hidden');
-  activity.hidden=true;competitions.hidden=true;slot.hidden=true;
-  tabs.querySelectorAll('.events-tab').forEach(function(x){x.classList.remove('active');x.setAttribute('aria-pressed','false')});
- }
- function open(which){
-  if(['activity','daily','weekly','monthly','alliance'].indexOf(which)<0)return;
-  /* Always bring the Events destination itself to the foreground before opening
-     its nested page. This prevents the More/mail tray or a previous section
-     from remaining as the visible content behind an empty event slot. */
-  if(tab!=='events')show('events');
-  var eventsRoot=document.getElementById('t-events');
-  if(eventsRoot)eventsRoot.hidden=false;
-  current=which;tabs.classList.add('events-menu-hidden');slot.hidden=false;
-  activity.hidden=which!=='activity';competitions.hidden=which==='activity';
-  if(which!=='activity'){
-   competitions.style.display='block';
-   competitions.style.visibility='visible';
-   competitions.removeAttribute('aria-hidden');
-   var content=document.getElementById('competitionContent');
-   if(content){content.style.display='block';content.style.visibility='visible'}
-  }
-  tabs.querySelectorAll('.events-tab').forEach(function(x){
-   var on=x.getAttribute('data-bhq-event-choice')===which;
-   x.classList.toggle('active',on);x.setAttribute('aria-pressed',on?'true':'false');
-  });
-  if(which==='activity'){
-   if(typeof window.renderDailyMissions==='function')window.renderDailyMissions();
-  }else{
-   try{activeCompetitionPeriod=which}catch(e){}
-   var draw=function(){
-    var renderer=which==='alliance'?(window.BHQ_RENDER_ALLIANCE_COMPETITION||window.renderAllianceCompetition):(window.BHQ_RENDER_COMPETITION||window.renderCompetition);
-    if(typeof renderer==='function')renderer(which);
-   };
-   draw();
-   requestAnimationFrame(draw);
-  }
- }
- tabs.addEventListener('click',function(e){
-  var btn=e.target&&e.target.closest?e.target.closest('[data-bhq-event-choice]'):null;
-  if(!btn)return;e.preventDefault();e.stopPropagation();open(btn.getAttribute('data-bhq-event-choice'));
- });
- window.openEventPage=open;
- window.renderEventHub=menu;
- var priorShow=show;
- show=function(t){
-  priorShow(t);
-  if(t==='events')menu();
- };
- menu();
-})();
-</script>
+
 
 <style id="bhq-events-bottom-tray-v2">
 #iosDock .dk-tray .event-dock-choice{
@@ -9203,6 +9125,80 @@ html:has(#t-bot:not([hidden])){height:100%!important;overflow:hidden!important}
 
 
 
+
+<style id="bhq-events-fresh-rebuild">
+#t-events:not([hidden]) #eventHub{height:100%!important;overflow:hidden!important}
+#bhqFreshEvents{height:100%;display:flex;flex-direction:column;min-height:0;padding:8px 4px 10px}
+#bhqFreshEvents .fresh-events-title{font-size:18px;font-weight:900;color:#d6ffe5;margin:3px 0 10px}
+#bhqFreshEvents .fresh-events-menu{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;overflow:auto;padding:6px 3px 20px}
+#bhqFreshEvents .fresh-events-choice{min-height:90px;padding:14px 8px;border:1px solid #387755;border-radius:13px;background:linear-gradient(145deg,#153322,#07130e);color:#e3ffe9;font-size:11px;font-weight:800;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px}
+#bhqFreshEvents .fresh-events-choice span{font-size:25px}
+#bhqFreshEvents .fresh-events-window{display:flex;flex-direction:column;flex:1;min-height:0;overflow:hidden}
+#bhqFreshEvents .fresh-events-window[hidden],#bhqFreshEvents .fresh-events-menu[hidden]{display:none!important}
+#bhqFreshEvents .fresh-events-toolbar{display:flex;align-items:center;gap:10px;padding:5px 3px 10px;flex:none}
+#bhqFreshEvents .fresh-events-back{border:1px solid #4b966c;background:#10291b;color:#caffdb;border-radius:7px;padding:8px 12px;font-size:10px}
+#bhqFreshEvents .fresh-events-heading{font-weight:900;font-size:12px;color:#c9ffdb}
+#bhqFreshEvents .fresh-events-body{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;touch-action:pan-y;padding:2px 4px 26px}
+#bhqFreshEvents #t-competitions{display:block!important;height:auto!important;max-height:none!important;min-height:0!important;overflow:visible!important;padding:0!important}
+#bhqFreshEvents #competitionContent{display:block!important;visibility:visible!important;min-height:0!important;padding:0!important;margin:0!important}
+#bhqFreshEvents #t-activity{display:block!important;position:relative!important;height:auto!important;max-height:none!important;overflow:visible!important;padding:0!important}
+#bhqFreshEvents #t-activity[hidden],#bhqFreshEvents #t-competitions[hidden]{display:none!important}
+#bhqFreshEvents .v2-comp-page{display:block!important}
+</style>
+<script id="bhq-events-fresh-rebuild-script">
+(function(){
+ 'use strict';
+ var names={activity:['📋','Daily Missions'],daily:['🎯','Daily Competition'],weekly:['⚔️','Weekly Competition'],monthly:['🏆','Monthly Competition'],alliance:['🛡️','Alliance Competition']};
+ var hub=document.getElementById('eventHub'),activity=document.getElementById('t-activity'),competition=document.getElementById('t-competitions');
+ if(!hub||!activity||!competition)return;
+ var originalContent=document.getElementById('competitionContent');
+ if(!originalContent)return;
+ /* Discard the former Events UI completely, then create fresh page containers. */
+ hub.replaceChildren();
+ var root=document.createElement('div');root.id='bhqFreshEvents';
+ root.innerHTML='<div class="fresh-events-title">EVENTS CENTRE</div><div class="fresh-events-menu"></div><div class="fresh-events-window" hidden><div class="fresh-events-toolbar"><button type="button" class="fresh-events-back">‹ EVENTS</button><span class="fresh-events-heading"></span></div><div class="fresh-events-body"></div></div>';
+ hub.appendChild(root);
+ var menu=root.querySelector('.fresh-events-menu'),windowEl=root.querySelector('.fresh-events-window'),body=root.querySelector('.fresh-events-body');
+ Object.keys(names).forEach(function(key){var b=document.createElement('button');b.type='button';b.className='fresh-events-choice';b.dataset.freshEvent=key;b.innerHTML='<span>'+names[key][0]+'</span>'+names[key][1];menu.appendChild(b)});
+ var pageContainers={};
+ Object.keys(names).forEach(function(key){var p=document.createElement('div');p.className='fresh-event-page';p.dataset.freshPage=key;p.hidden=true;body.appendChild(p);pageContainers[key]=p});
+ pageContainers.activity.appendChild(activity);
+ pageContainers.daily.appendChild(competition);
+ function closeMail(){var m=document.getElementById('bhqMailModal');if(m)m.hidden=true}
+ function menuOpen(){closeMail();menu.hidden=false;windowEl.hidden=true;Object.keys(pageContainers).forEach(function(k){pageContainers[k].hidden=true});activity.hidden=true;competition.hidden=true}
+ function open(which){
+  if(!names[which])return;
+  closeMail();
+  if(typeof window.show==='function')window.show('events');
+  var events=document.getElementById('t-events');if(events)events.hidden=false;
+  menu.hidden=true;windowEl.hidden=false;
+  root.querySelector('.fresh-events-heading').textContent=names[which][1].toUpperCase();
+  Object.keys(pageContainers).forEach(function(k){pageContainers[k].hidden=k!==which});
+  if(which==='activity'){
+   pageContainers.activity.appendChild(activity);activity.hidden=false;competition.hidden=true;
+   if(typeof window.renderDailyMissions==='function')window.renderDailyMissions();
+  }else{
+   pageContainers[which].appendChild(competition);competition.hidden=false;activity.hidden=true;
+   pageContainers[which].appendChild(competition);
+   var draw=which==='alliance'?(window.BHQ_RENDER_ALLIANCE_COMPETITION||window.renderAllianceCompetition):(window.BHQ_RENDER_COMPETITION||window.renderCompetition);
+   try{if(typeof draw==='function')draw(which);else originalContent.textContent='Competition is loading. Please reopen this event.'}
+   catch(e){console.error('Fresh competition render error',e);originalContent.textContent='Competition could not load: '+String(e.message||e)}
+  }
+  body.scrollTop=0;
+ }
+ menu.addEventListener('click',function(e){var b=e.target.closest('[data-fresh-event]');if(b)open(b.dataset.freshEvent)});
+ root.querySelector('.fresh-events-back').addEventListener('click',menuOpen);
+ window.openEventPage=open;window.openEventDestination=open;window.renderEventHub=menuOpen;
+ /* The bottom Events tray uses the same fresh route. Intercept it before old handlers. */
+ window.addEventListener('click',function(e){
+  var b=e.target&&e.target.closest&&e.target.closest('#iosDock [data-event-dock-choice]');
+  if(!b)return;
+  var which=b.getAttribute('data-event-dock-choice');if(!names[which])return;
+  e.preventDefault();e.stopImmediatePropagation();open(which);
+ },true);
+ menuOpen();
+})();
+</script>
 </body>
 </html>
 
@@ -9278,59 +9274,7 @@ html:has(#t-bot:not([hidden])){height:100%!important;overflow:hidden!important}
 #eventHub #eventPageSlot>#t-activity:not([hidden]),
 #eventHub #eventPageSlot>#t-competitions:not([hidden]){display:block!important;position:relative!important;width:100%!important;visibility:visible!important;opacity:1!important}
 </style>
-<script id="bhq-events-page-navigation-final-v6">
-(function(){
- 'use strict';
- var allowed=['activity','daily','weekly','monthly','alliance'];
- function openDestination(which){
-  if(allowed.indexOf(which)<0)return;
-  try{
-   /* First switch the outer app page, then use the Events menu's own page opener.
-      That opener also unhides eventPageSlot; bypassing it was why the pages appeared blank. */
-   if(typeof window.show==='function')window.show('events');
-   var hub=document.getElementById('t-events');
-   var menu=document.getElementById('eventHub');
-   var slot=document.getElementById('eventPageSlot');
-   if(hub)hub.hidden=false;
-   if(slot)slot.hidden=false;
-   if(typeof window.openEventPage==='function')window.openEventPage(which);
-   else if(typeof window.activateEventPage==='function')window.activateEventPage(which);
-   var activity=document.getElementById('t-activity');
-   var competitions=document.getElementById('t-competitions');
-   if(activity)activity.hidden=which!=='activity';
-   if(competitions)competitions.hidden=which==='activity';
-   if(which==='activity'&&typeof window.renderDailyMissions==='function')window.renderDailyMissions();
-   if(which!=='activity'&&typeof window.renderCompetition==='function')window.renderCompetition(which);
-   if(menu)menu.querySelectorAll('[data-bhq-event-choice]').forEach(function(tab){
-    var active=tab.getAttribute('data-bhq-event-choice')===which;
-    tab.classList.toggle('active',active);tab.setAttribute('aria-pressed',active?'true':'false');
-   });
-   if(menu)menu.querySelectorAll('[data-event-page]').forEach(function(tab){
-    var active=tab.getAttribute('data-event-page')===which;
-    tab.classList.toggle('active',active);tab.setAttribute('aria-selected',active?'true':'false');
-   });
-  }catch(err){console.error('Events destination failed:',err)}
- }
- window.openEventDestination=openDestination;
- window.addEventListener('click',function(e){
-  var btn=e.target&&e.target.closest?e.target.closest('#iosDock [data-event-dock-choice]'):null;
-  if(!btn)return;
-  e.preventDefault();e.stopPropagation();
-  if(e.stopImmediatePropagation)e.stopImmediatePropagation();
-  openDestination(btn.getAttribute('data-event-dock-choice'));
- },true);
- /* Event choices inside the Events screen use the exact same page-opening path. */
- window.addEventListener('click',function(e){
-  var btn=e.target&&e.target.closest?e.target.closest('#eventHub [data-bhq-event-choice],#eventHub [data-event-page]'):null;
-  if(!btn)return;
-  var which=btn.getAttribute('data-bhq-event-choice')||btn.getAttribute('data-event-page');
-  if(!which)return;
-  e.preventDefault();e.stopPropagation();
-  if(e.stopImmediatePropagation)e.stopImmediatePropagation();
-  openDestination(which);
- },true);
-})();
-</script>
+
 
 <style id="bhq-events-single-screen-routing-v7">
 /* Events are a full app page: never leave the previous destination visible underneath. */
@@ -9637,25 +9581,7 @@ html:has(#t-bot:not([hidden])){height:100%!important;overflow:hidden!important}
  display:none!important;min-height:0!important;padding:0!important;margin:0!important;
 }
 </style>
-<script id="bhq-competition-content-paused-v10">
-(function(){
- 'use strict';
- /* The game-startup scope installs the real renderer after the account save is loaded. */
- function activateRenderer(){
-  if(typeof window.BHQ_RENDER_COMPETITION==='function'){
-   window.renderCompetition=window.BHQ_RENDER_COMPETITION;
-   window.renderAllianceCompetition=window.BHQ_RENDER_ALLIANCE_COMPETITION;
-  }
- }
- activateRenderer();
- document.addEventListener('click',function(e){
-  var tab=e.target&&e.target.closest?e.target.closest('#eventHub [data-bhq-event-choice],#eventHub [data-event-page]'):null;
-  if(!tab)return;
-  var which=tab.getAttribute('data-bhq-event-choice')||tab.getAttribute('data-event-page');
-  if(['daily','weekly','monthly','alliance'].indexOf(which)>=0)setTimeout(activateRenderer,0);
- },true);
-})();
-</script>
+
 
 <style id="bhq-competition-v2-style">
 /* The competition content is now an active, scrollable page inside its selected Events destination. */
