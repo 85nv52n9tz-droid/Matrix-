@@ -9218,3 +9218,122 @@ html:has(#t-bot:not([hidden])){height:100%!important;overflow:hidden!important}
  };
 })();
 </script>
+
+
+<style id="bhq-events-and-dailies-layout-v9">
+/* Restore the Events page height; move the Daily Missions panel down inside its viewport. */
+#t-events:not([hidden]){
+ height:calc(100dvh - 76px)!important;max-height:calc(100dvh - 76px)!important;
+ min-height:0!important;overflow:hidden!important;box-sizing:border-box!important
+}
+#t-events:not([hidden]) #eventHub,
+#t-events:not([hidden]) .events-shell{height:100%!important;max-height:100%!important;min-height:0!important}
+#t-events:not([hidden]) #eventPageSlot{min-height:0!important;overflow:hidden!important}
+#t-events:not([hidden]) #eventPageSlot>#t-activity:not([hidden]){
+ height:100%!important;max-height:100%!important;min-height:0!important;overflow:hidden!important;
+ padding-top:22px!important;box-sizing:border-box!important
+}
+#t-events:not([hidden]) #eventPageSlot .activity-hub{
+ height:calc(100% - 22px)!important;max-height:calc(100% - 22px)!important;
+ min-height:0!important;margin-top:0!important;box-sizing:border-box!important
+}
+#t-events:not([hidden]) #eventPageSlot>#t-competitions:not([hidden]){
+ height:100%!important;max-height:100%!important;min-height:0!important;
+ overflow-y:auto!important;overflow-x:hidden!important;-webkit-overflow-scrolling:touch!important
+}
+#t-events:not([hidden]) #eventPageSlot #competitionContent{min-height:0!important;box-sizing:border-box!important;padding-bottom:24px!important}
+#t-bot:not([hidden]){
+ height:calc(100dvh - var(--bhq-top-clearance,174px) - 76px)!important;
+ max-height:calc(100dvh - var(--bhq-top-clearance,174px) - 76px)!important;
+ min-height:0!important;box-sizing:border-box!important;overflow:hidden!important
+}
+</style>
+<script id="bhq-competition-redesign-v9">
+(function(){
+ 'use strict';
+ var allowed=['daily','weekly','monthly','alliance'];
+ function esc(v){return String(v==null?'':v).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+ function fmtN(v){return typeof window.fmt==='function'?window.fmt(Number(v)||0):(Number(v)||0).toLocaleString('en-GB')}
+ function render(which){
+  which=allowed.indexOf(which)>=0?which:'daily';
+  var host=document.getElementById('competitionContent');
+  if(!host)return false;
+  try{
+   if(typeof compEnsure!=='function')throw new Error('Competition data service is unavailable.');
+   var c=compEnsure(),daily=which==='daily',weekly=which==='weekly',monthly=which==='monthly',alliance=which==='alliance';
+   var season=daily?c.daily:weekly?c.weekly:c.monthly;
+   var score=alliance?(Number(c.monthly.allianceScore)||0):(Number(season.score)||0);
+   var progress=season.progress||{},types=alliance?c.monthly.activeTypes:(season.activeTypes||[]);
+   var title=daily?'DAILY COMPETITION':weekly?'WEEKLY COMPETITION':monthly?'MONTHLY COMPETITION':'ALLIANCE COMPETITION';
+   var intro=daily?'Complete today’s selected activities to earn points and unlock reward chests.':weekly?'Complete this week’s activities, climb the leaderboard and unlock weekly rewards.':monthly?'Earn points from this month’s activity types and compete for the monthly rewards.':'Work together to increase your shared Alliance score and unlock Alliance Bank rewards.';
+   var tiers=daily?compDailyTiers():weekly?[{at:1000,reward:{cr:1800,da:300}},{at:2500,reward:{cr:2600,da:650}},{at:4000,reward:{cr:3000,cy:45}},{at:6000,reward:{cr:4200,ex:35}},{at:8500,reward:{da:1800,cy:80,ex:45}}]:monthly?compMonthlyTiers():compAllianceTiers();
+   var claimed=daily?season.claimedTiers:weekly?season.claimedTiers:monthly?season.claimedTiers:c.monthly.claimedAllianceTiers;
+   if(!Array.isArray(claimed))claimed=[];
+   var taskHtml='';
+   types.forEach(function(type){
+    var meta=(typeof COMP_ACTIVITY_META==='object'&&COMP_ACTIVITY_META[type])||['◆',String(type),'Complete this activity to earn competition points.'];
+    var points=(typeof COMP_POINT_VALUES==='object'&&COMP_POINT_VALUES[type])||0;
+    taskHtml+='<div class="comp-task"><span class="comp-task-icon">'+esc(meta[0])+'</span><span class="comp-task-copy"><b>'+esc(meta[1])+'</b><small>'+esc(meta[2])+' Completed: '+fmtN(progress[type])+'</small></span><span class="comp-task-points">+'+fmtN(points)+'<small>POINTS / ACTION</small></span></div>';
+   });
+   if(!taskHtml)taskHtml='<p class="comp-muted">No activities are assigned to this period yet. Your competition data is still available below.</p>';
+   var tierHtml='';
+   tiers.forEach(function(t,i){
+    var ready=score>=Number(t.at),wasClaimed=claimed.indexOf(i)>=0;
+    var reward='';
+    if(alliance){reward=Object.keys(t.reward||{}).map(function(k){return '+'+fmtN(t.reward[k])+' '+esc(({ac:'Alliance Credits',dc:'Data Credits',cs:'Code Shards',wi:'War Intel',dm:'Dark Matter'})[k]||k)}).join(' · ')}
+    else if(typeof compFmtReward==='function')reward=compFmtReward(t.reward,which);
+    else reward=Object.keys(t.reward||{}).map(function(k){return '+'+fmtN(t.reward[k])+' '+esc(k.toUpperCase())}).join(' · ');
+    tierHtml+='<div class="comp-tier"><span class="comp-tier-icon">🎁</span><span class="comp-tier-copy"><b>'+esc(t.label||('Milestone '+(i+1)))+' · '+fmtN(t.at)+' PTS</b><small>'+reward+'</small></span><button type="button" data-v9-chest="'+i+'" '+(!ready||wasClaimed||(alliance&&!(S.al&&S.al.n))?'disabled':'')+'>'+(wasClaimed?'CLAIMED':ready?'CLAIM CHEST':'LOCKED')+'</button></div>';
+   });
+   var rankRows='';
+   var pool=alliance?COMP_ALLIANCE_RIVALS:COMP_RIVALS;
+   var scale=daily?.17:monthly?4.8:1;
+   var rivals=(Array.isArray(pool)?pool:[]).map(function(r){return {name:r[0],score:Math.round((Number(r[1])||0)*scale)}}).concat([{name:'You',score:score,you:true}]).sort(function(a,b){return b.score-a.score});
+   rankRows=rivals.slice(0,10).map(function(r,i){return '<div class="comp-row '+(r.you?'you':'')+'"><span class="comp-rank">#'+(i+1)+'</span><span class="comp-name"><b>'+esc(r.name)+'</b><small>'+(r.you?'YOUR ACCOUNT':'SIMULATED RIVAL')+'</small></span><span class="comp-points">'+fmtN(r.score)+' PTS</span></div>'}).join('');
+   var hasAlliance=!!(S.al&&S.al.n);
+   var extra=alliance?'<div class="comp-section-title">ALLIANCE BANK</div><div class="comp-panel"><p class="comp-muted">'+(hasAlliance?'Claimed alliance chests are deposited into your shared Alliance Bank.':'Join or create an alliance to take part and claim Alliance Bank rewards.')+'</p></div>':'';
+   var date=daily?(c.daily.key||'TODAY'):weekly?(c.weekly.key||'THIS WEEK'):(c.monthly.key||'THIS MONTH');
+   host.innerHTML='<div class="competition-hub v9-competition"><header class="comp-head"><div><div class="comp-kicker">BACKDOOR HQ // COMPETITION SYSTEM</div><h2>'+title+'</h2><p>'+intro+'</p></div><span class="comp-live">● ACTIVE</span></header><div class="comp-hero"><div class="comp-hero-label">'+esc(date)+'</div><div class="comp-score">'+fmtN(score)+' <small>POINTS</small></div><div class="comp-track"><i style="width:'+Math.min(100,score/Math.max(1,Number(tiers[tiers.length-1]&&tiers[tiers.length-1].at)||1)*100)+'%"></i></div><div class="comp-meta"><span>YOUR PROGRESS</span><span>'+tiers.filter(function(t){return score>=t.at}).length+' / '+tiers.length+' CHESTS UNLOCKED</span></div></div><div class="comp-section-title">ACTIVE TASKS</div><div class="comp-task-list">'+taskHtml+'</div><div class="comp-section-title">REWARD CHESTS</div><div class="comp-muted">Reach each point milestone to unlock its chest. Claimed rewards remain saved.</div>'+tierHtml+'<div class="comp-section-title">LEADERBOARD</div><div class="comp-table">'+rankRows+'</div>'+extra+'<div class="comp-foot">Rival scores are simulated on this device. Your competition points and claimed rewards are stored in your game save.</div></div>';
+   host.querySelectorAll('[data-v9-chest]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+     var n=Number(btn.getAttribute('data-v9-chest'));
+     try{
+      if(daily&&typeof compClaimDailyTier==='function')compClaimDailyTier(n);
+      else if(weekly&&typeof compClaimTier==='function')compClaimTier(n);
+      else if(monthly&&typeof compClaimMonthlyTier==='function')compClaimMonthlyTier(n);
+      else if(alliance&&typeof compClaimAllianceTier==='function')compClaimAllianceTier(n);
+      render(which);
+     }catch(err){console.error('Competition chest claim failed:',err);btn.textContent='TRY AGAIN'}
+    });
+   });
+   return true;
+  }catch(err){
+   console.error('Competition redesign failed:',which,err);
+   host.innerHTML='<div class="competition-hub v9-competition"><header class="comp-head"><div><div class="comp-kicker">BACKDOOR HQ // COMPETITION SYSTEM</div><h2>'+titleSafe(which)+' UNAVAILABLE</h2><p>The competition data could not be loaded. Your saved game data has not been reset.</p><p class="comp-muted">Technical detail: '+esc(err&&err.message||err)+'</p><button type="button" id="v9-comp-retry">RETRY</button></div></header></div>';
+   var retry=document.getElementById('v9-comp-retry');if(retry)retry.addEventListener('click',function(){render(which)});
+   return false;
+  }
+ }
+ function titleSafe(which){return String(which||'competition').toUpperCase()}
+ window.renderCompetition=render;
+ window.renderAllianceCompetition=function(){return render('alliance')};
+ window.openEventDestination=function(which){if(allowed.indexOf(which)>=0){if(typeof window.openEventPage==='function')window.openEventPage(which);else render(which)}};
+})();
+</script>
+<style id="bhq-competition-redesign-style-v9">
+#t-events:not([hidden]) #eventPageSlot .v9-competition{display:block!important;width:100%;box-sizing:border-box;padding:4px 3px 24px}
+#t-events:not([hidden]) #eventPageSlot .v9-competition .comp-head{display:flex;gap:8px;align-items:flex-start;justify-content:space-between;margin:3px 0 12px}
+#t-events:not([hidden]) #eventPageSlot .v9-competition .comp-head h2{font-size:19px;line-height:1.15;margin:4px 0}
+#t-events:not([hidden]) #eventPageSlot .v9-competition .comp-head p{font-size:10px;line-height:1.4;margin:4px 0;color:var(--dim)}
+#t-events:not([hidden]) #eventPageSlot .v9-competition .comp-hero{padding:10px;margin:7px 0;border-radius:10px}
+#t-events:not([hidden]) #eventPageSlot .v9-competition .comp-score{font-size:27px;margin:5px 0}
+#t-events:not([hidden]) #eventPageSlot .v9-competition .comp-section-title{margin:13px 2px 7px;font-size:10px}
+#t-events:not([hidden]) #eventPageSlot .v9-competition .comp-task-list{display:grid;gap:6px}
+#t-events:not([hidden]) #eventPageSlot .v9-competition .comp-task{min-height:52px;padding:7px}
+#t-events:not([hidden]) #eventPageSlot .v9-competition .comp-tier{min-height:54px;padding:7px;margin:6px 0}
+#t-events:not([hidden]) #eventPageSlot .v9-competition .comp-tier button{min-width:82px;min-height:32px;pointer-events:auto}
+#t-events:not([hidden]) #eventPageSlot .v9-competition .comp-table{display:grid;gap:4px}
+#t-events:not([hidden]) #eventPageSlot .v9-competition .comp-row{min-height:43px}
+#t-events:not([hidden]) #eventPageSlot .v9-competition .comp-foot{margin:14px 2px;font-size:8px;line-height:1.4}
+#t-events:not([hidden]) #eventPageSlot #t-competitions{overflow-y:auto!important;touch-action:pan-y!important}
+</style>
