@@ -8865,7 +8865,7 @@ var configs=[
 ];
 var milestones=[25,75,150,250,375,500],glyphs=['◆','⬡','◈','✧','✦','♛','✪','✺','✥','✶','✷','❖','⬢','✸','✹','✵','✻','❂','✳','✴','✣','✤','✱','✲'];
 function chestCount(c){return c.id==='t-dev-monthlycomp'?24:c.id==='t-dev-dailycomp'?6:12}
-function tiers(c){var count=chestCount(c);if(count===6)return milestones;return Array.from({length:count},function(_,i){return Math.round(500*(i+1)/count)})}
+function tiers(c){var count=chestCount(c);if(count===6)return milestones;if(c.id==='t-dev-monthlycomp')return Array.from({length:24},function(_,i){return Math.round(250*(i+1)/6)});return Array.from({length:count},function(_,i){return Math.round(500*(i+1)/count)})}
 var rewards=['STARTER CACHE','SUPPLY VAULT','ENCRYPTED CRATE','REINFORCED CACHE','ELITE SUPPLY VAULT','COMMAND TREASURY'];
 function periodKey(period){var d=new Date(),y=d.getFullYear(),m=d.getMonth()+1;if(period==='monthly')return y+'-'+m;if(period==='weekly'){var x=new Date(d.getFullYear(),d.getMonth(),d.getDate());x.setDate(x.getDate()-((x.getDay()+6)%7));return x.toLocaleDateString('en-CA')}return d.toLocaleDateString('en-CA')}
 function storageKey(c){return 'bhq-dev-competition-v1-'+c.id+'-'+periodKey(c.period)}
