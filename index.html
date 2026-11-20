@@ -5359,6 +5359,26 @@ function toast(t,fn,duration,kind){
  close.onclick=function(e){e.stopPropagation();dismiss()};d.appendChild(ico);d.appendChild(copy);d.appendChild(close);
  if(fn)d.onclick=function(e){if(e.target===close)return;fn();dismiss()};
  host.appendChild(d);while(host.children.length>4)host.removeChild(host.firstChild);
+ if(kind==='incoming'&&document.getElementById('t-hq')&&!document.getElementById('t-hq').hidden){
+  /* The lower two HQ facilities are centred at 18% and 82%, both at 80% of the map. */
+  var viewport=document.getElementById('testViewport');
+  if(viewport){
+   document.body.appendChild(d);
+   d.classList.add('hq-centred-incoming');
+   function placeIncoming(){
+    if(!d.isConnected)return;
+    var rect=viewport.getBoundingClientRect();
+    d.style.left=(rect.left+rect.width*.5)+'px';
+    d.style.top=(rect.top+rect.height*.80)+'px';
+    d.style.width=Math.min(rect.width*.46,280)+'px';
+   }
+   placeIncoming();
+   window.addEventListener('resize',placeIncoming,{passive:true});
+   var oldDismiss=d.querySelector('.toast-close');
+   if(oldDismiss)oldDismiss.addEventListener('click',function(){window.removeEventListener('resize',placeIncoming)},{once:true});
+   setTimeout(function(){window.removeEventListener('resize',placeIncoming)},Math.max(1200,Number(duration)||3600)+350);
+  }
+ }
  setTimeout(dismiss,Math.max(1200,Number(duration)||3600));return d
 }
 function misWatch(){var n=Date.now(),keys=Object.keys(S.mis||{});keys.forEach(function(k){var m=S.mis[k];if(!m||m.end>n)return;var o=M.filter(function(x){return x.id===k})[0],task=autoMissionTaskForTarget(k);if(m.auto&&task&&m.autoHero===task.crew&&o){mission(o)}else if(!m.nt){m.nt=1;toast('Mission ready: '+(o?o.name:k)+'. Tap to open Mission Control and collect.',function(){show('mis')})}});if(S.autoMissionPending)autoMissionTryStart(n)}
@@ -9686,3 +9706,9 @@ function bhqRewardPopup(title,reward){
  },true);
 })();
 </script>
+
+<style id="bhq-incoming-hq-centre-v13">
+.toast.hq-centred-incoming{position:fixed!important;right:auto!important;bottom:auto!important;transform:translate(-50%,-50%)!important;z-index:15000!important;box-sizing:border-box!important;min-height:48px!important;padding:7px 27px 7px 8px!important;gap:6px!important;font-size:10px!important;line-height:1.25!important;animation:none!important}
+.toast.hq-centred-incoming .toast-icon{width:24px;height:24px;font-size:14px}
+.toast.hq-centred-incoming .toast-title{font-size:10px}
+</style>
