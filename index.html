@@ -9160,3 +9160,61 @@ html:has(#t-bot:not([hidden])){height:100%!important;overflow:hidden!important}
  },true);
 })();
 </script>
+
+
+<style id="bhq-top-banner-clearance-v8">
+/* Reserve the full fixed clock/status banner above compact mobile screens. */
+:root{--bhq-top-clearance:174px}
+#t-events:not([hidden]){
+ height:calc(100dvh - var(--bhq-top-clearance) - 76px)!important;
+ max-height:calc(100dvh - var(--bhq-top-clearance) - 76px)!important;
+ min-height:0!important;margin-top:0!important;overflow:hidden!important;
+}
+#t-events:not([hidden]) #eventHub,
+#t-events:not([hidden]) .events-shell{height:100%!important;max-height:100%!important;min-height:0!important}
+#t-events:not([hidden]) #eventPageSlot{min-height:0!important;overflow:hidden!important}
+#t-events:not([hidden]) #eventPageSlot>#t-activity:not([hidden]),
+#t-events:not([hidden]) #eventPageSlot>#t-competitions:not([hidden]){height:100%!important;max-height:100%!important;min-height:0!important}
+#t-events:not([hidden]) #eventPageSlot .activity-hub{
+ height:100%!important;max-height:100%!important;min-height:0!important;
+ padding-top:4px!important;padding-bottom:5px!important;box-sizing:border-box!important
+}
+#t-events:not([hidden]) #eventPageSlot #t-competitions{overflow-y:auto!important}
+#t-bot:not([hidden]){
+ height:calc(100dvh - var(--bhq-top-clearance) - 76px)!important;
+ max-height:calc(100dvh - var(--bhq-top-clearance) - 76px)!important;
+ min-height:0!important;box-sizing:border-box!important;overflow:hidden!important;
+ padding-top:2px!important;padding-bottom:2px!important
+}
+@media(max-height:740px){
+ :root{--bhq-top-clearance:164px}
+ #t-events:not([hidden]),#t-bot:not([hidden]){
+  height:calc(100dvh - var(--bhq-top-clearance) - 70px)!important;
+  max-height:calc(100dvh - var(--bhq-top-clearance) - 70px)!important
+ }
+}
+</style>
+<script id="bhq-competition-render-recovery-v8">
+(function(){
+ 'use strict';
+ var original=window.renderCompetition;
+ if(typeof original!=='function')return;
+ window.renderCompetition=function(which){
+  var host=document.getElementById('competitionContent');
+  try{
+   var result=original.call(this,which);
+   if(host&&(!host.innerHTML.trim()||!host.querySelector('.competition-hub'))){
+    throw new Error('The competition renderer returned an empty page.');
+   }
+   return result;
+  }catch(err){
+   console.error('Competition renderer recovery:',which,err);
+   if(host){
+    var message=String(err&&err.message||err||'Unknown rendering error').slice(0,220);
+    host.innerHTML='<div class="competition-hub"><div class="comp-head"><div><div class="comp-kicker">BACKDOOR HQ // COMPETITION SYSTEM</div><h2>COMPETITION <em>RECOVERY</em></h2><p>The competition screen hit a loading problem. Your saved points and rewards have not been cleared. Return to Events and reopen this competition.</p><p class="comp-muted">Diagnostic: '+message.replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})+'</p><button type="button" onclick="window.renderCompetition(\''+String(which||'daily').replace(/[^a-z]/g,'')+'\')">RETRY COMPETITION</button></div></div></div>';
+   }
+   return false;
+  }
+ };
+})();
+</script>
