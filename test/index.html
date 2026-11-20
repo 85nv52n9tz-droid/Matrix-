@@ -8888,12 +8888,13 @@ modal.querySelector('.dm-modal-x').onclick=function(){modal.hidden=true};
 modal.hidden=false;
 }
 function mount(c){var page=document.getElementById(c.id);if(!page)return;var grid=page.querySelector('.dev-event-grid');if(!grid)return;
-grid.innerHTML='<div class="daily-mission-ui dm-competition-only"><div class="dm-top"><div class="dm-top-title"><span>◈ '+c.title+'</span><span class="dm-total">0 / 500 POINTS</span></div><div class="dm-track"><div class="dm-track-fill"></div></div><div class="dm-competition-scroll"><div class="dm-chests"></div></div><div class="dm-subline"><span>REWARD MILESTONES</span><span class="dm-count">0 / '+chestCount(c)+' OPENED</span></div></div><div class="dm-preview-note">DEVELOPMENT TEMPLATE • REWARDS TO BE CONFIGURED</div></div>';
-var state=load(c),lastPeriod=periodKey(c.period);
+grid.innerHTML='<div class="daily-mission-ui dm-competition-only"><div class="dm-top"><div class="dm-top-title"><span>◈ '+c.title+'</span><span class="dm-total">0 / 500 POINTS</span></div><div class="dm-track"><div class="dm-track-fill"></div></div><div class="dm-competition-scroll"><div class="dm-chests"></div></div><div class="dm-competition-nav"><button type="button" class="dm-page-prev" aria-label="Previous six reward chests">‹</button><span class="dm-page-indicator">1 / 1</span><button type="button" class="dm-page-next" aria-label="Next six reward chests">›</button></div><div class="dm-subline"><span>REWARD MILESTONES</span><span class="dm-count">0 / '+chestCount(c)+' OPENED</span></div></div><div class="dm-preview-note">DEVELOPMENT TEMPLATE • REWARDS TO BE CONFIGURED</div></div>';
+var state=load(c),lastPeriod=periodKey(c.period),chestPage=0;
 function render(){if(lastPeriod!==periodKey(c.period)){lastPeriod=periodKey(c.period);state=load(c)}var p=score(c,state),done=c.tasks.filter(function(t,i){return state.progress[i]>=t[2]}).length;
 grid.querySelector('.dm-total').textContent=p+' / 500 POINTS';grid.querySelector('.dm-track-fill').style.width=p/5+'%';grid.querySelector('.dm-count').textContent=Object.keys(state.claimed).filter(function(k){return state.claimed[k]}).length+' / '+chestCount(c)+' OPENED';
-grid.querySelector('.dm-chests').setAttribute('data-chest-count',chestCount(c));grid.querySelector('.dm-chests').innerHTML=tiers(c).map(function(n,i){var claimed=!!state.claimed[n],ready=p>=n;return '<button type="button" class="dm-chest '+(claimed?'claimed':ready?'ready':'locked')+'" data-chest="'+i+'" aria-label="Inspect reward chest '+(i+1)+'">'+art(i)+'<strong>'+n+'</strong><small>'+(claimed?'OPENED':ready?'CLAIM':'LOCKED')+'</small></button>'}).join('');
+var allTiers=tiers(c),pageCount=Math.ceil(allTiers.length/6);chestPage=Math.max(0,Math.min(chestPage,pageCount-1));grid.querySelector('.dm-page-indicator').textContent=(chestPage+1)+' / '+pageCount;grid.querySelector('.dm-page-prev').disabled=chestPage===0;grid.querySelector('.dm-page-next').disabled=chestPage>=pageCount-1;grid.querySelector('.dm-chests').setAttribute('data-chest-count',chestCount(c));grid.querySelector('.dm-chests').innerHTML=allTiers.map(function(n,i){if(Math.floor(i/6)!==chestPage)return '';var claimed=!!state.claimed[n],ready=p>=n;return '<button type="button" class="dm-chest '+(claimed?'claimed':ready?'ready':'locked')+'" data-chest="'+i+'" aria-label="Inspect reward chest '+(i+1)+'">'+art(i)+'<strong>'+n+'</strong><small>'+(claimed?'OPENED':ready?'CLAIM':'LOCKED')+'</small></button>'}).join('');
 grid.querySelectorAll('[data-chest]').forEach(function(b){b.onclick=function(){openChest(c,state,+b.dataset.chest,render)}});
+grid.querySelector('.dm-page-prev').onclick=function(){if(chestPage>0){chestPage--;render()}};grid.querySelector('.dm-page-next').onclick=function(){if(chestPage<pageCount-1){chestPage++;render()}};
 }
 render();
 }
@@ -8940,4 +8941,18 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 :is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-only .dm-subline{flex:none!important;margin-top:7px!important}
 :is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-only .dm-preview-note{flex:none!important}
 :is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-only .dm-chest{display:flex!important;flex-direction:column!important;align-items:center!important;min-height:79px!important;gap:5px!important}
+</style>
+<style id="dev-competition-paged-rewards-v4">
+/* Compact milestone navigator: six chests visible, remainder paged. */
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-only{justify-content:flex-start!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-only .dm-top{flex:0 0 auto!important;display:block!important;padding:11px 9px 9px!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-scroll{flex:none!important;min-height:0!important;overflow:visible!important;padding:8px 0 0!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-only .dm-chests{display:grid!important;grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:2px!important;min-height:90px!important;align-items:start!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-only .dm-chest{min-height:84px!important;gap:4px!important;padding:4px 0!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-nav{display:flex;align-items:center;justify-content:center;gap:16px;margin:4px auto 8px;min-height:30px}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-nav button{width:38px;height:28px;border:1px solid #c7a456;background:#172329;color:#ffdb8c;border-radius:5px;font-size:22px;line-height:20px;cursor:pointer}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-nav button:disabled{opacity:.28;cursor:default}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-page-indicator{font-size:11px;font-weight:800;color:#ffcf79;min-width:42px;text-align:center;letter-spacing:1px}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-only .dm-subline{margin-top:5px!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-only .dm-preview-note{margin-top:10px!important}
 </style>
