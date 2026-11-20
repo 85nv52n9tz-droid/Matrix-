@@ -4277,8 +4277,9 @@ function renderSettings(){
  });
 }
 function renderChiefProfile(){var h=$('chiefHqLevel'),sh=$('chiefStatHq'),pw=$('chiefStatPower'),ki=$('chiefStatKills'),cr=$('chiefStatCrew');if(h)h.textContent=S.hq;if(sh)sh.textContent=S.hq;if(pw)pw.textContent=fmt(power());if(ki)ki.textContent=fmt(S.kills||0);if(cr)cr.textContent=crewAvailableCount()+' / 7';var nm=$('chiefPlayerName');if(nm)nm.textContent=(window.backdoorPlayerName||'YOUR CHIEF').toString().slice(0,24);var pa=$('openProgressionArchive');if(pa)pa.onclick=function(){show('progression')};document.querySelectorAll('[data-chief-slot]').forEach(function(b){b.onclick=function(){document.querySelectorAll('[data-chief-slot]').forEach(function(x){x.classList.remove('active')});b.classList.add('active');var labels={helmet:'Neural Visor · head protection and signal focus.',chest:'Core Armour · personal defensive plating.',gloves:'Pulse Gloves · precision control and combat handling.',boots:'Vector Boots · mobility and movement systems.',weapon:'Data Blade · personal chief weapon slot.',accessory:'Signal Core · auxiliary chief enhancement module.'};$('chiefSlotInfo').textContent=labels[b.getAttribute('data-chief-slot')]+' Equipment upgrades can be connected here in a later pass.'}});document.querySelectorAll('[data-chief-go]').forEach(function(b){b.onclick=function(){show(b.getAttribute('data-chief-go'))}})}
-var BHQ_UPDATE_VERSION='1.0.91';
+var BHQ_UPDATE_VERSION='1.0.92';
 var BHQ_UPDATE_RELEASES=[
+  {version:'1.0.92',date:'20 NOV 2026',title:'DAILY LOGIN REWARDS // POST-CONNECTION DELIVERY',tag:'AUTHENTICATE · COMPLETE LOADING · THEN RECEIVE DAILY REWARDS',items:['Moved the daily login reward prompt and reward rail initialisation out of pre-login game startup.','Daily rewards now appear only after the commander has authenticated and the five-second system connection/loading sequence has fully completed.','Applied the same timing to both fresh logins and restored authenticated sessions; daily claim state and reward amounts are unchanged.']},
   {version:'1.0.91',date:'19 NOV 2026',title:'MANDATORY SYSTEM DEPLOYMENT // FUTURE UPDATE INTERFACE',tag:'FORCED UPDATE · LIVE INSTALL PROGRESS · SESSION PRESERVATION',items:['Replaced the dismissible update prompt with a mandatory in-game installation window.','Added a futuristic Backdoor HQ deployment interface with staged progress and installation status.','The latest game build is fetched and verified before the final refresh; after installation, the game opens More → Updates automatically.','Saved game progress and the existing authenticated session are preserved during the update.']},
 
   {version:'1.0.73',date:'19 NOV 2026',title:'DIRECT INFILTRATION // BUILDING NAV FIX',tag:'BUILDING PAGE REMOVED · ARROWS ALIGNED BESIDE EXIT',items:['Removed the separate building upgrade page. Tapping a facility on the HQ map now opens its Infiltration interior directly; the dedicated HQ timer controls remain the place to start upgrades.','Removed the Back to Building action from the Infiltration screen.','Repositioned the previous and next building arrows and position counter together immediately to the left of the Infiltration window exit button.']},
@@ -5261,7 +5262,7 @@ function nxBind(){var close=$('nxClose');if(close)close.onclick=nxClose;document
 
 load();
 nxBind();
-dailyRewardsInit();
+window.BHQ_INIT_DAILY_REWARDS=dailyRewardsInit;
 if(!window.BHQ_TEST_MODE&&!nxState().tutorialSeen&&!nxState().tutorialPaused){setTimeout(function(){if(!$('nexusTutorial').hidden)return;nxOpenTutorial(false)},6200)}
 progressionEnsure(true);
 ensureActivity();
@@ -5639,7 +5640,7 @@ show('hq');checkUpdateNotice();checkSystemGiftDelivery();setInterval(tick,1000);
 <script>
 (function(){
   var overlay=document.getElementById('bhqLoading'),fill=document.getElementById('bhqLoadFill'),pct=document.getElementById('bhqLoadPercent'),status=document.getElementById('bhqLoadStatus'),log=document.getElementById('bhqLoadLog'),frame=document.getElementById('bhqLoadFrame');
-  var active=false,runId=0;
+  var active=false,runId=0,completionQueue=[];
   var stages=[
     {at:0,text:'INITIALISING SECURE CONNECTION...',lines:['[SYS] Establishing encrypted tunnel...','[NET] Scanning available relay nodes...']},
     {at:900,text:'BYPASSING FIREWALL // NODE 07',lines:['[FW] Firewall signature detected.','[BYPASS] Injecting spoofed handshake...']},
@@ -5647,12 +5648,13 @@ show('hq');checkUpdateNotice();checkSystemGiftDelivery();setInterval(tick,1000);
     {at:3000,text:'VERIFYING IDENTITY // ACCESS TOKEN',lines:['[AUTH] Identity token accepted.','[TRACE] Trace route diverted successfully.']},
     {at:4100,text:'ACCESS GRANTED // WELCOME BACK',lines:['[SYS] Secure channel established.','[HQ] Backdoor HQ is online.']}
   ];
-  function preview(){
+  function preview(onComplete){
+    if(typeof onComplete==='function')completionQueue.push(onComplete);
     if(active)return;active=true;var id=++runId,start=performance.now();overlay.hidden=false;overlay.style.opacity='1';fill.style.width='0%';pct.textContent='00%';frame.classList.remove('bhq-load-glitch');
     function tick(now){if(id!==runId)return;var elapsed=now-start,progress=Math.min(100,Math.round(elapsed/5000*100));fill.style.width=progress+'%';pct.textContent=String(progress).padStart(2,'0')+'%';
       var stage=stages[0];for(var i=0;i<stages.length;i++)if(elapsed>=stages[i].at)stage=stages[i];
       if(status.textContent!==stage.text){status.textContent=stage.text;log.innerHTML=stage.lines.map(function(x){return '<div><b>'+x.slice(0,x.indexOf(']')+1)+'</b>'+x.slice(x.indexOf(']')+1)+'</div>'}).join('');if(elapsed>1800&&elapsed<4300){frame.classList.remove('bhq-load-glitch');void frame.offsetWidth;frame.classList.add('bhq-load-glitch')}}
-      if(elapsed<5000){requestAnimationFrame(tick)}else{status.textContent='SYSTEM READY // ENTERING HEADQUARTERS';fill.style.width='100%';pct.textContent='100%';setTimeout(function(){if(id!==runId)return;overlay.style.opacity='0';setTimeout(function(){if(id!==runId)return;overlay.hidden=true;overlay.style.opacity='1';active=false},360)},260)}
+      if(elapsed<5000){requestAnimationFrame(tick)}else{status.textContent='SYSTEM READY // ENTERING HEADQUARTERS';fill.style.width='100%';pct.textContent='100%';setTimeout(function(){if(id!==runId)return;overlay.style.opacity='0';setTimeout(function(){if(id!==runId)return;overlay.hidden=true;overlay.style.opacity='1';active=false;var callbacks=completionQueue.splice(0);callbacks.forEach(function(fn){try{fn()}catch(e){console.error('Post-login initialisation failed',e)}})},360)},260)}
     }
     requestAnimationFrame(tick);
   }
@@ -5696,7 +5698,7 @@ show('hq');checkUpdateNotice();checkSystemGiftDelivery();setInterval(tick,1000);
       }
     }
     // Show the same five-second system breach sequence after login and when restoring a session.
-    if(window.BHQ_SHOW_LOADING)window.BHQ_SHOW_LOADING();
+    if(window.BHQ_SHOW_LOADING)window.BHQ_SHOW_LOADING(function(){if(window.BHQ_INIT_DAILY_REWARDS)window.BHQ_INIT_DAILY_REWARDS()});else if(window.BHQ_INIT_DAILY_REWARDS)window.BHQ_INIT_DAILY_REWARDS();
     // After installation, let the commander sign in normally, then offer a clear
     // confirmation before navigating to the real More → Updates → Update Log screen.
     var openReleaseArchive=false,installedReleaseVersion='';
