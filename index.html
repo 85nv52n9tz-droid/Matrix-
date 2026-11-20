@@ -8091,5 +8091,188 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 @keyframes apRedesignRing{to{transform:rotate(360deg)}}
 @keyframes apRedesignChest{0%{transform:scale(.35) translateY(18px);opacity:0}75%{transform:scale(1.12) translateY(-4px);opacity:1}100%{transform:scale(1) translateY(0);opacity:1}}
 </style>
+
+<style id="bhq-events-unified-redesign-v1">
+#t-events{padding:0 8px 18px!important}
+#eventHub .events-shell{max-width:900px;margin:0 auto;padding:8px 2px 14px}
+#eventHub .events-kicker{color:#7fdca0;font-size:8px;font-weight:900;letter-spacing:1.6px;margin:0 2px 7px}
+#eventHub .events-title{font-size:19px;font-weight:1000;letter-spacing:1.4px;color:#e5ffed;margin:0 2px 10px}
+#eventHub .events-tabs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;margin-bottom:8px}
+#eventHub .events-tab{min-width:0;min-height:48px;padding:6px 3px;border:1px solid #244b34;border-radius:8px;background:linear-gradient(145deg,#0b1c12,#07100a);color:#a8c8b2;font:900 7px/1.25 monospace;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
+#eventHub .events-tab .events-tab-icon{font-size:16px;line-height:17px}
+#eventHub .events-tab.active{border-color:#9dceaa;background:linear-gradient(145deg,#17452a,#0b2014);color:#eaffef;box-shadow:0 0 12px #42e9872b,inset 0 0 12px #42e98714}
+#eventPageSlot{min-width:0}
+#eventPageSlot #activityEventNav,#eventPageSlot #competitionEventNav{display:none!important}
+#eventPageSlot #t-activity,#eventPageSlot #t-competitions{padding:0!important;margin:0!important;min-width:0}
+#eventPageSlot #t-activity{height:auto!important;max-height:none!important;overflow:visible!important}
+#eventPageSlot #t-activity .activity-hub{height:calc(100dvh - 210px)!important;max-height:calc(100dvh - 210px)!important;min-height:260px;box-sizing:border-box;display:flex;flex-direction:column;overflow:hidden;padding:7px 2px 8px!important}
+#eventPageSlot #t-activity .ap-tasks,#eventPageSlot #t-activity .ap-complete{min-height:60px}
+#eventPageSlot #t-competitions{height:calc(100dvh - 190px);max-height:calc(100dvh - 190px);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+#eventPageSlot #competitionContent{padding:0 2px 18px}
+.event-comp-chest-rail{position:relative;box-sizing:border-box;width:100%;margin:10px 0 13px;padding:13px 8px 22px;border:1px solid #294d35;border-radius:11px;background:linear-gradient(180deg,#08170e,#040a06);overflow:hidden;min-height:105px}
+.event-comp-track{height:12px;position:relative;margin:25px 12px 27px;border:1px solid #28573b;border-radius:20px;background:#07110b;box-shadow:inset 0 0 8px #000}
+.event-comp-track-fill{position:absolute;left:2px;top:2px;bottom:2px;border-radius:20px;background:linear-gradient(90deg,#16834b,#70ffad);box-shadow:0 0 9px #39ff88aa}
+.event-comp-chest-item{position:absolute!important;top:50%!important;transform:translate(-50%,-50%)!important;width:38px!important;min-width:0!important;display:flex!important;flex-direction:column!important;align-items:center!important;gap:3px!important;padding:0!important;border:0!important;background:transparent!important;box-shadow:none!important;overflow:visible!important}
+.event-comp-chest-item .comp-tier-copy{display:none!important}
+.event-comp-chest-item button{box-sizing:border-box!important;width:34px!important;height:37px!important;min-width:34px!important;padding:0!important;border:1px solid #9b7941!important;border-radius:7px 7px 9px 9px!important;background:linear-gradient(160deg,#425b66,#1c3038 55%,#0b171d)!important;color:#fff4c7!important;font-size:18px!important;font-weight:1000!important;line-height:1!important;box-shadow:inset 0 1px 0 #d7f4ff55,0 3px 0 #05090c,0 0 8px #000b!important}
+.event-comp-chest-item button:not(:disabled){border-color:#ffe18a!important;background:linear-gradient(160deg,#e2bd62,#81501b 42%,#38210d)!important;box-shadow:0 0 0 2px #ffd66b44,0 0 17px #ffc64ccc,0 4px 0 #241507!important;animation:apChestPulseV4 1.35s ease-in-out infinite}
+.event-comp-chest-item button:disabled{opacity:.7!important}
+.event-comp-chest-item .event-comp-chest-label{font:900 7px/9px monospace;color:#d9e8df;white-space:nowrap;text-shadow:0 1px 3px #000}
+.event-comp-chest-item .event-comp-reward{font:7px/1.25 monospace;color:#c4d7c8;text-align:center;max-width:68px;overflow-wrap:anywhere}
+.event-comp-chest-item .event-comp-status{font:700 6px monospace;color:#8ca995}
+@media(max-width:430px){
+ #eventHub .events-tabs{gap:3px}
+ #eventHub .events-tab{font-size:6px;min-height:45px}
+ .event-comp-chest-item button{width:30px!important;min-width:30px!important;height:34px!important}
+ .event-comp-chest-item .event-comp-reward{font-size:6px;max-width:55px}
+}
+</style>
+<script id="bhq-events-unified-redesign-v1-script">
+(function(){
+'use strict';
+var activeEventPage='activity';
+var originalShow=show;
+var originalRenderCompetition=renderCompetition;
+var originalSyncNotifications=syncCommandNotifications;
+function eventNode(id){return document.getElementById(id)}
+function ensureEventsShell(){
+ var host=eventNode('eventHub');if(!host)return null;
+ if(!host.querySelector('.events-shell')){
+  host.innerHTML='<div class="events-shell"><div class="events-kicker">BACKDOOR HQ // OPERATIONS</div><div class="events-title">EVENTS CENTRE</div><div class="events-tabs" role="tablist" aria-label="Events"><button type="button" class="events-tab" data-event-page="activity"><span class="events-tab-icon">📋</span><span>DAILY<br>MISSIONS</span></button><button type="button" class="events-tab" data-event-page="daily"><span class="events-tab-icon">🎯</span><span>DAILY<br>COMPETITION</span></button><button type="button" class="events-tab" data-event-page="weekly"><span class="events-tab-icon">⚔️</span><span>WEEKLY<br>COMPETITION</span></button><button type="button" class="events-tab" data-event-page="monthly"><span class="events-tab-icon">🏆</span><span>MONTHLY<br>COMPETITION</span></button><button type="button" class="events-tab" data-event-page="alliance"><span class="events-tab-icon">🛡️</span><span>ALLIANCE<br>COMPETITION</span></button></div><div id="eventPageSlot"></div></div>';
+ }
+ var slot=eventNode('eventPageSlot'),activity=eventNode('t-activity'),competitions=eventNode('t-competitions');
+ if(slot&&activity&&activity.parentNode!==slot)slot.appendChild(activity);
+ if(slot&&competitions&&competitions.parentNode!==slot)slot.appendChild(competitions);
+ var an=eventNode('activityEventNav'),cn=eventNode('competitionEventNav');if(an)an.hidden=true;if(cn)cn.hidden=true;
+ return host;
+}
+function renderEventHub(){ensureEventsShell();document.querySelectorAll('[data-event-page]').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-event-page')===activeEventPage)})}
+function activateEventPage(which){
+ if(['activity','daily','weekly','monthly','alliance'].indexOf(which)<0)which='activity';
+ activeEventPage=which;renderEventHub();
+ var activity=eventNode('t-activity'),competitions=eventNode('t-competitions');
+ if(activity)activity.hidden=which!=='activity';
+ if(competitions)competitions.hidden=which==='activity';
+ if(which==='activity'){if(typeof window.renderDailyMissions==='function')window.renderDailyMissions()}
+ else{activeCompetitionPeriod=which;renderCompetition(which)}
+ document.querySelectorAll('[data-event-page]').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-event-page')===which);b.setAttribute('aria-selected',b.getAttribute('data-event-page')===which?'true':'false')});
+}
+renderEventHub=renderEventHub;
+renderEventHub();
+openEventPage=function(which){activateEventPage(which)};
+wireEventPageNav=function(){var a=eventNode('activityEventNav'),c=eventNode('competitionEventNav');if(a)a.hidden=true;if(c)c.hidden=true};
+show=function(t){
+ if(t==='events'){originalShow('events');ensureEventsShell();activateEventPage(activeEventPage);return}
+ if(t==='activity'){originalShow('events');ensureEventsShell();activateEventPage('activity');return}
+ if(t==='competitions'){originalShow('events');ensureEventsShell();activateEventPage(activeCompetitionPeriod||'daily');return}
+ originalShow(t);
+};
+document.addEventListener('click',function(e){var b=e.target&&e.target.closest?e.target.closest('[data-event-page]'):null;if(b){e.preventDefault();activateEventPage(b.getAttribute('data-event-page'))}});
+function allianceId(){var a=alnS();return String(a.tag||'ALLY')+'|'+String(a.name||'Alliance')}
+function allianceCompMemberCount(){var a=alnS();return Math.max(1,Array.isArray(a.members)?a.members.length:1)}
+function allianceCompCapacity(){return Math.max(allianceCompMemberCount(),Number(alnCap())||1)}
+function allianceCompScale(){return compTierScale()*(1+0.06*(allianceCompMemberCount()-1))}
+function allianceCompTiers(){
+ var s=allianceCompScale(),reward=function(o){var x={};Object.keys(o).forEach(function(k){x[k]=Math.ceil(o[k]*s)});return x};
+ return [
+  {at:Math.ceil(90*s),label:'NETWORK CONTRIBUTOR',reward:reward({cr:1800,da:350})},
+  {at:Math.ceil(230*s),label:'TACTICAL ALLIANCE',reward:reward({cr:3200,da:700,cy:35})},
+  {at:Math.ceil(460*s),label:'RESEARCH DIVISION',reward:reward({cr:6500,da:1300,cy:90,ex:25})},
+  {at:Math.ceil(820*s),label:'WAR COUNCIL',reward:reward({cr:12000,da:2600,cy:180,ex:65})},
+  {at:Math.ceil(1350*s),label:'ALLIANCE DOMINION',reward:reward({cr:22000,da:5000,cy:350,ex:140})}
+ ];
+}
+function allianceCompEnsure(){
+ var c=compEnsure(),wk=activityWeekKey(),key=wk+'|'+allianceId();
+ c.allianceWeeklyArchive=Array.isArray(c.allianceWeeklyArchive)?c.allianceWeeklyArchive:[];
+ if(!c.allianceWeekly||c.allianceWeekly.key!==key){
+  if(c.allianceWeekly&&Number(c.allianceWeekly.score)>0){c.allianceWeeklyArchive.unshift({key:c.allianceWeekly.key,score:Number(c.allianceWeekly.score)||0,claimed:true,legacyOrPreviousAlliance:true});c.allianceWeeklyArchive=c.allianceWeeklyArchive.slice(0,12)}
+  c.allianceWeekly={key:key,score:0,claimedTiers:[],progress:{},members:{},log:[],allianceId:allianceId()};
+ }
+ var a=c.allianceWeekly;a.claimedTiers=Array.isArray(a.claimedTiers)?a.claimedTiers:[];a.progress=a.progress||{};a.members=a.members||{};a.log=Array.isArray(a.log)?a.log:[];return a;
+}
+function allianceCompAward(type,detail,amount){
+ var base={event:35,gift:22,building:45,technology:55,help:15,deposit:18,mission:28}[type]||0;if(!base)return 0;
+ var a=allianceCompEnsure(),n=Math.max(1,Number(amount)||1),pts=Math.max(1,Math.round(base*allianceCompScale()*n));
+ a.score=(Number(a.score)||0)+pts;a.progress[type]=(Number(a.progress[type])||0)+n;
+ var name=String(window.BHQ_USERNAME||'You'),m=a.members[name]||(a.members[name]={points:0,actions:0});m.points+=pts;m.actions+=n;
+ a.log.unshift({time:Date.now(),type:type,member:name,points:pts,detail:String(detail||type)});a.log=a.log.slice(0,80);save();return pts;
+}
+function allianceCompClaim(index){
+ var a=allianceCompEnsure(),t=allianceCompTiers()[index];if(!t||a.score<t.at||a.claimedTiers.indexOf(index)>=0)return;
+ Object.keys(t.reward).forEach(function(k){if(typeof alnAdd==='function')alnAdd(k,t.reward[k]);else{var bank=alnS().bank;bank[k]=(Number(bank[k])||0)+t.reward[k]}});
+ a.claimedTiers.push(index);save();renderCompetition('alliance');toast('Alliance reward delivered to the new Alliance Bank.');
+}
+allianceCompetitionAward=function(){return 0};
+var oldAlnQp=alnQp;
+alnQp=function(type,n){
+ var result=oldAlnQp.apply(this,arguments);
+ var map={upgrade:'building',help:'help',gift:'gift',deposit:'deposit',mission:'mission',event:'event'};
+ if(map[type])allianceCompAward(map[type],'Alliance '+type+' activity',n||1);
+ return result;
+};
+function renderAllianceCompetition(){
+ var a=allianceCompEnsure(),all=rankAllianceData(),own=alnS(),members=Object.keys(a.members).sort(function(x,y){return (a.members[y].points||0)-(a.members[x].points||0)}),tiers=allianceCompTiers();
+ var rivals=all.filter(function(x){return !x.me}).map(function(x){return {name:x.n,score:Math.round((Number(x.xp)||0)+(Number(x.count)||1)*85+(Number(x.hq)||1)*110),count:Number(x.count)||1}});
+ var rows=rivals.concat([{name:own.name||'Your Alliance',score:Number(a.score)||0,count:allianceCompMemberCount(),you:true}]).sort(function(x,y){return y.score-x.score});
+ var html='<div class="competition-hub"><div class="comp-head"><div><div class="comp-kicker">BACKDOOR HQ // ALLIANCE OPERATIONS</div><h2>ALLIANCE <em>COMPETITION</em></h2><p>Every qualifying action in the new Alliance system contributes to this shared weekly score. Membership and capacity are read from your current Alliance HQ.</p></div><span class="comp-live">WEEKLY EVENT</span></div><div class="comp-hero"><div class="comp-hero-label">'+crewEsc(own.name||'YOUR ALLIANCE').toUpperCase()+' · ALLIANCE SCORE</div><div class="comp-score">'+fmt(a.score)+' <small>PTS</small></div><div class="comp-meta"><span>ALLIANCE HQ '+(Number(own.hq)||1)+'</span><span>'+allianceCompMemberCount()+' / '+allianceCompCapacity()+' MEMBERS</span></div><div class="comp-track"><i style="width:'+Math.min(100,100*(Number(a.score)||0)/Math.max(1,tiers[4].at))+'%"></i></div><div class="comp-muted">Reward targets scale with the current Alliance membership. Capacity grows with Alliance HQ and member-slot upgrades.</div></div><div class="comp-grid"><div class="comp-stat"><b>'+allianceCompMemberCount()+'/'+allianceCompCapacity()+'</b><small>MEMBERS / CAPACITY</small></div><div class="comp-stat"><b>'+fmt(a.score)+'</b><small>WEEKLY ALLIANCE POINTS</small></div></div><div class="comp-section-title">HOW YOUR ALLIANCE EARNS POINTS</div><div class="comp-task-list">'+[['event','⚔️','Alliance events','Successful alliance event actions'],['gift','🎁','Alliance gifts','Gift contributions through the new Alliance HQ'],['building','🏗️','Alliance upgrades','Upgrade Alliance HQ facilities'],['technology','🔬','Alliance technology','Advance Alliance research'],['help','🤝','Member assistance','Complete alliance help requests'],['deposit','📦','Bank contributions','Deposit resources into the Alliance Bank'],['mission','📜','Alliance missions','Complete new Alliance missions']].map(function(x){return '<div class="comp-task"><span class="comp-task-icon">'+x[1]+'</span><span class="comp-task-copy"><b>'+x[2]+'</b><small>'+x[3]+'</small></span><span class="comp-task-points">+'+Math.round(({event:35,gift:22,building:45,technology:55,help:15,deposit:18,mission:28}[x[0]]||0)*allianceCompScale())+'</span></div>'}).join('')+'</div>';
+ html+='<div class="comp-section-title">ALLIANCE REWARD CHESTS</div>';
+ tiers.forEach(function(t,i){var claimed=a.claimedTiers.indexOf(i)>=0,ready=a.score>=t.at;html+='<div class="comp-tier"><span class="comp-tier-icon">🎁</span><span class="comp-tier-copy"><b>'+t.label+' · '+fmt(t.at)+' PTS</b><small>'+Object.keys(t.reward).map(function(k){return '+'+fmt(t.reward[k])+' '+({cr:'Credits',da:'Data',cy:'Crypto',ex:'Exploit'}[k]||k)}).join(' · ')+'</small></span><button type="button" data-ally-comp-claim="'+i+'" '+(!ready||claimed?'disabled':'')+'>'+(claimed?'CLAIMED':ready?'OPEN CHEST':'LOCKED')+'</button></div>'});
+ html+='<div class="comp-section-title">ALLIANCE LEADERBOARD</div><div class="comp-table">'+rows.map(function(r,i){return '<div class="comp-row '+(r.you?'you':'')+'"><span class="comp-rank">#'+(i+1)+'</span><span class="comp-name"><b>'+crewEsc(r.name)+'</b><small>'+(r.you?'YOUR ALLIANCE · '+r.count+' MEMBERS':'SIMULATED FACTION · '+r.count+' MEMBERS')+'</small></span><span class="comp-points">'+fmt(r.score)+' PTS</span></div>'}).join('')+'</div><div class="comp-section-title">MEMBER CONTRIBUTIONS THIS WEEK</div><div class="comp-panel">'+(members.length?members.map(function(n){return '<div class="comp-history"><span>'+crewEsc(n)+' · '+(a.members[n].actions||0)+' actions</span><b>'+fmt(a.members[n].points||0)+' PTS</b></div>'}).join(''):'<div class="comp-muted">Your contributions will appear here as new Alliance actions are completed.</div>')+'</div><div class="comp-foot">Your Alliance membership, capacity, buildings, bank and contribution hooks now come from the new Alliance system. Rival faction scores are simulated in this local game build; they are not live cross-player data.</div></div>';
+ var host=eventNode('competitionContent');if(host)host.innerHTML=html;
+ if(host)host.querySelectorAll('[data-ally-comp-claim]').forEach(function(b){b.onclick=function(){allianceCompClaim(Number(b.getAttribute('data-ally-comp-claim')))}});
+}
+function decorateCompetition(which){
+ var host=eventNode('competitionContent'),hub=host&&host.querySelector('.competition-hub');if(!hub)return;
+ var tiers=Array.prototype.slice.call(hub.querySelectorAll('.comp-tier'));if(!tiers.length)return;
+ var score=0;
+ if(which==='alliance')score=Number(allianceCompEnsure().score)||0;
+ else{var c=compEnsure();score=Number((which==='daily'?c.daily:which==='weekly'?c.weekly:c.monthly).score)||0}
+ var parsed=tiers.map(function(row,i){var title=row.querySelector('.comp-tier-copy b'),match=title&&(title.textContent||'').match(/([\d,]+)\s*PTS/i);return {row:row,at:match?Number(match[1].replace(/,/g,'')):i+1}});
+ var max=Math.max(1,parsed[parsed.length-1].at),rail=document.createElement('div');rail.className='event-comp-chest-rail';rail.innerHTML='<div class="event-comp-track"><div class="event-comp-track-fill" style="width:'+Math.min(100,score/max*100)+'%"></div></div>';
+ parsed.forEach(function(item,i){
+  var row=item.row,button=row.querySelector('button'),copy=row.querySelector('.comp-tier-copy'),reward=copy&&copy.querySelector('small'),title=copy&&copy.querySelector('b');
+  row.className='event-comp-chest-item';row.style.left=Math.max(5,Math.min(95,item.at/max*100))+'%';row.style.top='50%';
+  if(button){var claimed=/CLAIMED/i.test(button.textContent||'');button.className='event-comp-chest-button';button.textContent=claimed?'✓':button.disabled?'🔒':'🎁';button.setAttribute('aria-label',(claimed?'Claimed chest':button.disabled?'Locked reward chest':'Claim reward chest')+' at '+item.at+' points')}
+  var label=document.createElement('span');label.className='event-comp-chest-label';label.textContent=item.at.toLocaleString('en-GB')+' PTS';row.appendChild(label);
+  if(title){var name=document.createElement('span');name.className='event-comp-status';name.textContent=title.textContent.split('·')[0].trim();row.appendChild(name)}
+  if(reward){var rw=document.createElement('span');rw.className='event-comp-reward';rw.textContent=reward.textContent;row.appendChild(rw)}
+  rail.appendChild(row);
+ });
+ var first=tiers[0],prev=first.previousElementSibling;if(prev&&prev.classList.contains('comp-muted')){var before=prev.previousElementSibling;prev.remove();if(before&&before.classList.contains('comp-section-title'))before.remove()}else if(prev&&prev.classList.contains('comp-section-title'))prev.remove();
+ var anchor=hub.querySelector('.comp-grid')||hub.querySelector('.comp-hero')||hub.querySelector('.comp-head');anchor.insertAdjacentElement('afterend',rail);
+}
+renderAllianceCompetition=renderAllianceCompetition;
+renderCompetition=function(which){
+ which=which||activeCompetitionPeriod||'daily';activeCompetitionPeriod=which;
+ originalRenderCompetition(which);
+ if(which!=='alliance'){
+  var host=eventNode('competitionContent'),hub=host&&host.querySelector('.competition-hub');
+  if(hub){
+   var oldTitles=Array.prototype.slice.call(hub.querySelectorAll('.comp-section-title'));
+   oldTitles.forEach(function(t){if(/REWARD CHESTS|REWARD TRACK/i.test(t.textContent||'')){t.setAttribute('data-old-reward-title','1')}});
+  }
+ }
+ decorateCompetition(which);
+};
+allianceCompEnsure();
+var priorAlnRender=renderAln;
+renderAln=function(){priorAlnRender();try{if(activeEventPage==='alliance'&&tab==='events')renderCompetition('alliance')}catch(e){}};
+syncCommandNotifications=function(){
+ if(typeof originalSyncNotifications==='function')originalSyncNotifications();
+ try{
+  var c=compEnsure(),count=0;
+  compDailyTiers().forEach(function(t,i){if(c.daily.score>=t.at&&c.daily.claimedTiers.indexOf(i)<0)count++});
+  [1000,2500,4000,6000,8500].forEach(function(t,i){if(c.weekly.score>=Math.ceil(t*compTierScale())&&c.weekly.claimedTiers.indexOf(i)<0)count++});
+  compMonthlyTiers().forEach(function(t,i){if(c.monthly.score>=t.at&&c.monthly.claimedTiers.indexOf(i)<0)count++});
+  var a=allianceCompEnsure(),at=allianceCompTiers();at.forEach(function(t,i){if(a.score>=t.at&&a.claimedTiers.indexOf(i)<0)count++});
+  var badge=eventNode('competitionNavBadge');if(badge){badge.textContent=count>99?'99+':String(count);badge.hidden=count===0}
+ }catch(e){}
+};
+ensureEventsShell();
+activateEventPage(activeEventPage);
+})();
+</script>
+
 </body>
 </html>
