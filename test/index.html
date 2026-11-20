@@ -9061,6 +9061,57 @@ var specs=[
 ];
 function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 function key(period){var d=new Date();if(period==='MONTHLY')return d.getFullYear()+'-'+(d.getMonth()+1);if(period==='WEEKLY'||period==='ALLIANCE'){d.setDate(d.getDate()-((d.getDay()+6)%7));return d.toLocaleDateString('en-CA')}return d.toLocaleDateString('en-CA')}
+
+var activityPool=[
+{id:'missions',label:'Complete missions',icon:'✦'},
+{id:'scouting',label:'Scout targets',icon:'◎'},
+{id:'training',label:'Train units',icon:'⚙'},
+{id:'attacks',label:'Win PvP attacks',icon:'⚔'},
+{id:'upgrades',label:'Upgrade buildings',icon:'⌂'},
+{id:'operations',label:'Complete operations',icon:'◈'},
+{id:'resources',label:'Collect resources',icon:'⬡'},
+{id:'research',label:'Finish research',icon:'✧'},
+{id:'nexus',label:'Complete Nexus tasks',icon:'◇'},
+{id:'alliancehelp',label:'Help alliance members',icon:'♧'},
+{id:'raids',label:'Win raids',icon:'✪'},
+{id:'nanobots',label:'Deploy nanobots',icon:'⚡'},
+{id:'defence',label:'Defend attacks',icon:'⬟'},
+{id:'donations',label:'Contribute supplies',icon:'❖'},
+{id:'allianceops',label:'Alliance operations',icon:'✣'},
+{id:'alliancebuild',label:'Develop alliance HQ',icon:'⬢'}
+];
+var fixed={
+WEEKLY:['training','upgrades','research','resources','raids','alliancehelp','nanobots'],
+MONTHLY:['missions','operations','nexus','defence','upgrades','resources','research','raids','training'],
+ALLIANCE:['alliancehelp','donations','allianceops','alliancebuild','defence','raids','training','research']
+};
+function hash(str){var h=2166136261;for(var i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
+function seededOrder(items,seed){return items.map(function(x){return {x:x,h:hash(seed+'|'+x.id)}}).sort(function(a,b){return a.h-b.h}).map(function(x){return x.x})}
+function methods(period){
+if(period==='DAILY'){
+ var choices=activityPool.filter(function(a){return !fixed.WEEKLY.includes(a.id)&&!fixed.MONTHLY.includes(a.id)&&!fixed.ALLIANCE.includes(a.id)});
+ // Permit some overlap, but keep at least two daily-only methods whenever possible.
+ var all=seededOrder(activityPool,'daily:'+key('DAILY'));
+ var exclusive=all.filter(function(a){return !fixed.WEEKLY.includes(a.id)&&!fixed.MONTHLY.includes(a.id)&&!fixed.ALLIANCE.includes(a.id)}).slice(0,2);
+ var remaining=all.filter(function(a){return !exclusive.some(function(b){return b.id===a.id})}).slice(0,3);
+ return exclusive.concat(remaining);
+}
+return fixed[period].map(function(id){return activityPool.find(function(a){return a.id===id})}).filter(Boolean);
+}
+function points(period){return period==='DAILY'?25:period==='WEEKLY'?5:period==='MONTHLY'?2:1}
+function earningHtml(period){
+var tasks=methods(period),rate=points(period);
+return '<div class="dm-earn-heading"><strong>⚡ HOW TO EARN POINTS</strong><small>'+(period==='DAILY'?'5 ROTATING DAILY':'EVENT-SPECIFIC TASKS')+'</small></div>'+
+'<div class="dm-earn-grid">'+tasks.map(function(a){return '<div class="dm-earn-task"><span>'+a.icon+' '+esc(a.label)+'</span><b>+'+rate+'</b></div>'}).join('')+'</div>'+
+'<div class="dm-earn-footer">'+(period==='DAILY'?'New selection each day · Highest points per action':period==='WEEKLY'?'Lower points · Progress builds over the full week':period==='MONTHLY'?'Lowest solo points · Designed for sustained monthly play':'All members contribute to the alliance leaderboard · Personal chest points stay separate')+'</div>';
+}
+function drawEarning(page,period){
+var host=page.querySelector('.dm-competition-only');if(!host)return;
+var panel=host.querySelector('.dm-comp-earning');
+if(!panel){panel=document.createElement('div');panel.className='dm-comp-earning';var lb=host.querySelector('.dm-comp-leaderboard');if(lb)host.insertBefore(panel,lb);else host.appendChild(panel)}
+var k=key(period);if(panel.dataset.periodKey!==k){panel.innerHTML=earningHtml(period);panel.dataset.periodKey=k}
+}
+
 function getScore(id,period){try{var x=JSON.parse(sessionStorage.getItem('bhq-dev-competition-v1-'+id+'-'+key(period))||'null');var points=[20,30,40,50,60,70,80,150];return x&&Array.isArray(x.progress)?Math.min(period==='MONTHLY'?1000:500,x.progress.reduce(function(n,v,i){return n+(v>=([period==='DAILY'?1:period==='MONTHLY'?20:period==='ALLIANCE'?10:5,period==='DAILY'?3:period==='MONTHLY'?60:15,period==='DAILY'?3:period==='MONTHLY'?60:15,period==='DAILY'?2:period==='MONTHLY'?30:10,period==='DAILY'?3:period==='MONTHLY'?60:15,period==='DAILY'?5:period==='MONTHLY'?100:25,period==='DAILY'?6:period==='MONTHLY'?120:30,period==='DAILY'?8:period==='MONTHLY'?150:period==='ALLIANCE'?40:35][i])?points[i]:0)},0)):0}catch(e){return 0}}
 function roster(period,id){var state=typeof S!=='undefined'?S:null;var own=period==='ALLIANCE';var rows=[];
 if(own){var data=typeof rankAllianceData==='function'?rankAllianceData():[];rows=data.map(function(a){return {name:(a.tag?'['+a.tag+'] ':'')+a.n,me:!!a.me,score:a.me?getScore(id,period):0}})}
@@ -9074,8 +9125,19 @@ panel.querySelector('.dm-lb-heading small').textContent='AUTO REFRESH · LOCAL P
 function init(){specs.forEach(function(spec){var id=spec[0],period=spec[1],page=document.getElementById(id);if(!page)return;var host=page.querySelector('.dm-competition-only');if(!host)return;
 var info=document.createElement('div');info.className='dm-comp-information';info.innerHTML='<strong>◈ '+period+' COMPETITION</strong><p>'+spec[2]+'. Complete competition tasks to earn points, unlock milestone chests and climb the '+(period==='ALLIANCE'?'alliance':'player')+' leaderboard.</p><p><strong>TOP FIVE REWARDS</strong> — Positions 1–5 each receive a different placement reward at the end of the competition. Reward contents will be configured later.</p>';host.appendChild(info);
 var board=document.createElement('div');board.className='dm-comp-leaderboard';board.innerHTML='<div class="dm-lb-heading"><span>◈ '+(period==='ALLIANCE'?'ALLIANCE':'PLAYER')+' LEADERBOARD</span><small>LOCAL PREVIEW</small></div><div class="dm-lb-rows"></div><div class="dm-lb-note">Uses the game’s current '+(period==='ALLIANCE'?'new-alliance ranking roster':'player ranking roster')+'. Only local test competition points are tracked; other players’ competition scores are not yet available from a shared server. Live cross-player rankings require backend competition score syncing.</div>';host.appendChild(board);
-refresh(page,period,id);setInterval(function(){if(!page.hidden)refresh(page,period,id)},3000);
+drawEarning(page,period);refresh(page,period,id);setInterval(function(){if(!page.hidden){drawEarning(page,period);refresh(page,period,id)}},3000);
 });}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script>
+<style id="dev-competition-earning-methods-v1">
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-comp-earning{margin:8px 1px 0;padding:8px 9px 7px;border:1px solid rgba(var(--event-rgb),.4);border-radius:9px;background:linear-gradient(140deg,rgba(var(--event-rgb),.1),#071721 80%);flex:none}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-earn-heading{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:6px}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-earn-heading strong{font-size:10px;color:rgb(var(--event-rgb));letter-spacing:.4px}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-earn-heading small{font-size:7px;color:#86b3c4;white-space:nowrap}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-earn-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3px 6px}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-earn-task{min-width:0;display:flex;align-items:center;justify-content:space-between;gap:4px;padding:5px 6px;background:#0b2630;border:1px solid #1b3d48;border-radius:5px;color:#d6e7ee;font-size:9px}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-earn-task span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-earn-task b{color:rgb(var(--event-rgb));font-size:10px;flex:none}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-earn-footer{font-size:8px;color:#8baeb9;margin-top:6px;line-height:1.4}
+</style>
