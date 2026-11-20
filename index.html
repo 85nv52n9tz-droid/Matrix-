@@ -8135,12 +8135,13 @@ var originalShow=show;
 var originalRenderCompetition=renderCompetition;
 var originalSyncNotifications=syncCommandNotifications;
 function eventNode(id){return document.getElementById(id)}
+var activitySection=eventNode('t-activity'),competitionSection=eventNode('t-competitions');
 function ensureEventsShell(){
  var host=eventNode('eventHub');if(!host)return null;
  if(!host.querySelector('.events-shell')){
   host.innerHTML='<div class="events-shell"><div class="events-kicker">BACKDOOR HQ // OPERATIONS</div><div class="events-title">EVENTS CENTRE</div><div class="events-tabs" role="tablist" aria-label="Events"><button type="button" class="events-tab" data-event-page="activity"><span class="events-tab-icon">📋</span><span>DAILY<br>MISSIONS</span></button><button type="button" class="events-tab" data-event-page="daily"><span class="events-tab-icon">🎯</span><span>DAILY<br>COMPETITION</span></button><button type="button" class="events-tab" data-event-page="weekly"><span class="events-tab-icon">⚔️</span><span>WEEKLY<br>COMPETITION</span></button><button type="button" class="events-tab" data-event-page="monthly"><span class="events-tab-icon">🏆</span><span>MONTHLY<br>COMPETITION</span></button><button type="button" class="events-tab" data-event-page="alliance"><span class="events-tab-icon">🛡️</span><span>ALLIANCE<br>COMPETITION</span></button></div><div id="eventPageSlot"></div></div>';
  }
- var slot=eventNode('eventPageSlot'),activity=eventNode('t-activity'),competitions=eventNode('t-competitions');
+ var slot=eventNode('eventPageSlot'),activity=activitySection,competitions=competitionSection;
  if(slot&&activity&&activity.parentNode!==slot)slot.appendChild(activity);
  if(slot&&competitions&&competitions.parentNode!==slot)slot.appendChild(competitions);
  var an=eventNode('activityEventNav'),cn=eventNode('competitionEventNav');if(an)an.hidden=true;if(cn)cn.hidden=true;
@@ -8157,7 +8158,7 @@ function activateEventPage(which){
  else{activeCompetitionPeriod=which;renderCompetition(which)}
  document.querySelectorAll('[data-event-page]').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-event-page')===which);b.setAttribute('aria-selected',b.getAttribute('data-event-page')===which?'true':'false')});
 }
-renderEventHub=renderEventHub;
+window.renderEventHub=renderEventHub;
 renderEventHub();
 openEventPage=function(which){activateEventPage(which)};
 wireEventPageNav=function(){var a=eventNode('activityEventNav'),c=eventNode('competitionEventNav');if(a)a.hidden=true;if(c)c.hidden=true};
@@ -8242,7 +8243,13 @@ function decorateCompetition(which){
  var first=tiers[0],prev=first.previousElementSibling;if(prev&&prev.classList.contains('comp-muted')){var before=prev.previousElementSibling;prev.remove();if(before&&before.classList.contains('comp-section-title'))before.remove()}else if(prev&&prev.classList.contains('comp-section-title'))prev.remove();
  var anchor=hub.querySelector('.comp-grid')||hub.querySelector('.comp-hero')||hub.querySelector('.comp-head');anchor.insertAdjacentElement('afterend',rail);
 }
-renderAllianceCompetition=renderAllianceCompetition;
+window.renderAllianceCompetition=renderAllianceCompetition;
+window.allianceCompMemberCount=allianceCompMemberCount;
+window.allianceCompCapacity=allianceCompCapacity;
+window.allianceCompScale=allianceCompScale;
+window.allianceCompTiers=allianceCompTiers;
+window.allianceCompEnsure=allianceCompEnsure;
+window.allianceCompClaim=allianceCompClaim;
 renderCompetition=function(which){
  which=which||activeCompetitionPeriod||'daily';activeCompetitionPeriod=which;
  originalRenderCompetition(which);
