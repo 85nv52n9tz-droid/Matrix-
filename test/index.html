@@ -8974,3 +8974,30 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 :is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-only .dm-page-indicator{font-size:10px!important}
 :is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-only .dm-preview-note{display:none!important}
 </style>
+<style id="dev-competition-color-matched-chest-glow-v6">
+/* Competition-specific glow, inherited from the existing event border palette. */
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-only .dm-chest-art{
+  filter:drop-shadow(0 0 3px rgba(var(--event-rgb),.65)) drop-shadow(0 0 7px rgba(var(--event-rgb),.32))!important;
+  box-shadow:inset 0 0 8px rgba(var(--event-rgb),.35),0 0 8px rgba(var(--event-rgb),.45)!important;
+  border-color:rgb(var(--event-rgb))!important;
+  transition:filter .2s ease,box-shadow .2s ease!important;
+}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-only .dm-chest.ready .dm-chest-art{
+  animation:dm-event-chest-glow 1.7s ease-in-out infinite alternate!important;
+}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-only .dm-chest.claimed .dm-chest-art{
+  color:#65ffad!important;
+  border-color:rgb(var(--event-rgb))!important;
+  filter:drop-shadow(0 0 5px rgba(var(--event-rgb),.72)) drop-shadow(0 0 8px rgba(var(--event-rgb),.4))!important;
+}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-only .dm-chest:active .dm-chest-art{
+  filter:drop-shadow(0 0 7px rgba(var(--event-rgb),.95)) drop-shadow(0 0 12px rgba(var(--event-rgb),.6))!important;
+}
+@keyframes dm-event-chest-glow{
+  from{filter:drop-shadow(0 0 3px rgba(var(--event-rgb),.55)) drop-shadow(0 0 6px rgba(var(--event-rgb),.25))}
+  to{filter:drop-shadow(0 0 7px rgba(var(--event-rgb),.95)) drop-shadow(0 0 13px rgba(var(--event-rgb),.55))}
+}
+@media(prefers-reduced-motion:reduce){
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-only .dm-chest.ready .dm-chest-art{animation:none!important}
+}
+</style>
