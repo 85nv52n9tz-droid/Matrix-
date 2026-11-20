@@ -5423,8 +5423,252 @@ function nxRenderAll(){nxRenderChat();nxRenderNetwork();nxRenderOps();nxRenderSe
 function nxBind(){var close=$('nxClose');if(close)close.onclick=nxClose;document.querySelectorAll('[data-nx-tab]').forEach(function(b){b.onclick=function(){nxShowPane(b.getAttribute('data-nx-tab'))}});$('nxIntroNext').onclick=function(){if(nxTutorialPage<nxTutorialPages.length-1){nxTutorialPage++;nxRenderTutorial()}else nxFinishTutorial()};$('nxIntroSkip').onclick=nxFinishTutorial;$('nxReplayTutorial').onclick=function(){nxClose();nxOpenTutorial(false)};var nxResume=$('nxResumeTutorial');if(!nxResume){nxResume=document.createElement('button');nxResume.type='button';nxResume.id='nxResumeTutorial';nxResume.className='nx-action';nxResume.style.cssText='margin-top:8px;width:100%';nxResume.textContent='▶ RESUME COMMANDER TUTORIAL';$('nxReplayTutorial').insertAdjacentElement('beforebegin',nxResume)}nxResume.hidden=!nxState().tutorialPaused;nxResume.onclick=function(){nxClose();nxOpenTutorial(true)};var nxTut=$('nexusTutorial');if(nxTut&&!nxTut.dataset.idleBound){nxTut.dataset.idleBound='1';['pointerdown','touchstart','keydown'].forEach(function(ev){nxTut.addEventListener(ev,function(){nxTutorialResetIdle()},{passive:true})})}if($('nxCinemaClose'))$('nxCinemaClose').onclick=function(){$('nexusCinema').hidden=true};$('nxSounds').onchange=function(){nxSaveSetting('sounds',this.checked)};$('nxAmbience').onchange=function(){nxSaveSetting('ambience',this.checked)};$('nxAlerts').onchange=function(){nxSaveSetting('alerts',this.checked)};$('nxCinemaSound').onchange=function(){nxSaveSetting('cinemaAudio',this.checked)};$('nxVolume').oninput=function(){nxSaveSetting('volume',Number(this.value))};$('nxCompose').onsubmit=function(ev){ev.preventDefault();var input=$('nxInput'),v=input.value.trim();if(!v)return;var n=nxState();n.chat.push({from:'COMMANDER',text:v,time:Date.now()});if(n.chat.length>60)n.chat.shift();input.value='';var lower=v.toLowerCase(),reply=/world|where|explor|digital|network/.test(lower)?'I am currently charting the sectors beyond my core. The mapped routes are getting stranger, but I will keep sending reports.':/mission|task|challenge|operation/.test(lower)?'Your current tasking is available in Special Ops. I will only assign objectives your account can actually complete.':/hello|hi|hey/.test(lower)?'Hello, Commander. I was just checking a few things in the network. Nothing alarming. Yet.':'Acknowledged. I will add that to my immediate context. I have a few processes running, but I am listening.';nxSay(reply,'chat');nxRenderChat();save()};$('nexusTerminal').addEventListener('click',function(ev){if(ev.target===$('nexusTerminal'))nxClose()});$('nexusTutorial').addEventListener('click',function(ev){if(ev.target===$('nexusTutorial'))nxFinishTutorial()});$('nexusCinema').addEventListener('click',function(ev){if(ev.target===$('nexusCinema'))$('nexusCinema').hidden=true});nxRenderButton()}
 
 
+
+/* COMPETITIONS V2 — independent scoring, milestone chests, local leaderboards and mail delivery. */
+var COMP_V2={
+ daily:{title:'DAILY COMPETITION',period:'24-HOUR EVENT',tasks:[
+  ['missions','🎯','Complete MPC missions',80,4,'Complete and claim an MPC mission reward.'],
+  ['upgrades','⬆️','Upgrade facilities',45,6,'Finish an eligible building or facility upgrade.'],
+  ['launches','🚀','Launch operations',30,6,'Deploy a mission or operation.']
+ ],tiers:[
+  {at:250,label:'FIELD OPERATIVE',reward:{cr:450,da:90}},
+  {at:500,label:'ACTIVE SPECIALIST',reward:{cr:700,da:160,cy:8}},
+  {at:750,label:'DAILY ELITE',reward:{cr:1000,da:250,ex:6}}
+ ],rivals:[['ShadowByte',1350],['ZeroTrace',1190],['GhostProtocol',1040],['NeonViper',910],['DarkCircuit',790],['NullSignal',670],['PacketWraith',540]]},
+ weekly:{title:'WEEKLY COMPETITION',period:'7-DAY EVENT',tasks:[
+  ['attacks','⚔️','Complete rival attacks',130,12,'Win eligible attacks against rival operatives.'],
+  ['scouts','🔎','Complete reconnaissance',65,20,'Finish scouting operations.'],
+  ['training','🤖','Train Nano Bots',30,30,'Complete Nano Bot training actions.'],
+  ['raids','💥','Complete strike raids',180,6,'Finish raids launched from Scout Reports.'],
+  ['dnetAttacks','🛰️','Attack in Data Net',150,10,'Complete attacks in the Data Net.']
+ ],tiers:[
+  {at:900,label:'NETWORK INITIATE',reward:{cr:1400,da:280}},
+  {at:2200,label:'TACTICAL SPECIALIST',reward:{cr:2200,da:500,cy:20}},
+  {at:4000,label:'ELITE OPERATIVE',reward:{cr:3500,da:850,ex:20}},
+  {at:6000,label:'MASTER HACKER',reward:{cr:5200,da:1300,cy:45,ex:30}},
+  {at:8500,label:'WEEKLY CHAMPION',reward:{cr:8000,da:2000,cy:80,ex:50}}
+ ],rivals:[['BlackCipher',14200],['NightVector',12400],['GhostKey',10800],['Redline',9200],['CipherWolf',7900],['NullByte',6600],['HexRunner',5200]]},
+ monthly:{title:'MONTHLY COMPETITION',period:'CALENDAR-MONTH EVENT',tasks:[
+  ['upgrades','🏗️','Complete facility upgrades',110,30,'Finish building upgrades across your HQ.'],
+  ['missions','🎯','Complete MPC missions',95,40,'Complete and claim mission rewards.'],
+  ['launches','🚀','Deploy operations',65,35,'Launch eligible operations and deployments.'],
+  ['dnetSteals','💾','Steal in Data Net',220,15,'Complete successful Data Net steals.'],
+  ['raids','💥','Complete strike raids',250,10,'Finish raids launched from Scout Reports.']
+ ],tiers:[
+  {at:2500,label:'RISING OPERATIVE',reward:{cr:4200,da:650}},
+  {at:5000,label:'ADVANCED SPECIALIST',reward:{cr:8000,da:1400,cy:50}},
+  {at:8000,label:'ELITE OPERATOR',reward:{cr:13000,da:2600,cy:110,ex:45}},
+  {at:12000,label:'MASTER INFILTRATOR',reward:{cr:21000,da:4800,cy:220,ex:100,in:25}},
+  {at:16000,label:'MONTHLY CHAMPION',reward:{cr:34000,da:8500,cy:420,ex:180,in:60}}
+ ],rivals:[['ApexProtocol',105000],['DarkMatter',90000],['ZeroDay',78000],['Ghostline',66000],['IronProxy',55000],['SilentStack',44000],['DeepPacket',33000]]},
+ alliance:{title:'ALLIANCE COMPETITION',period:'ALLIANCE WEEKLY EVENT',tasks:[
+  ['upgrades','🏗️','Alliance development',80,20,'Complete eligible upgrades that support Alliance progression.'],
+  ['missions','🎯','Mission contributions',55,35,'Complete MPC missions and contribute to Alliance activity.'],
+  ['launches','🚀','Operational deployments',35,30,'Launch eligible operations.'],
+  ['training','🤖','Nano force preparation',25,40,'Train Nano Bots for the Alliance effort.'],
+  ['attacks','⚔️','Alliance strike actions',115,15,'Complete eligible rival attacks.'],
+  ['scouts','🔎','Alliance reconnaissance',65,20,'Complete scouting operations.']
+ ],tiers:[
+  {at:1000,label:'ALLIANCE CONTRIBUTOR',reward:{ac:700,dc:55}},
+  {at:2500,label:'TACTICAL DIVISION',reward:{ac:1300,dc:110,cs:5}},
+  {at:4500,label:'NETWORK VANGUARD',reward:{ac:2200,dc:190,cs:12,wi:3}},
+  {at:7000,label:'WAR COUNCIL',reward:{ac:3600,dc:320,cs:22,wi:8}},
+  {at:10000,label:'ALLIANCE DOMINION',reward:{ac:5800,dc:520,cs:38,wi:15,dm:2}}
+ ],rivals:[['Digital Reapers',19000],['Blackout Syndicate',16500],['Zero Day Crew',14200],['Phantom Network',12000],['Redline Collective',9800],['Ghost Division',8200],['Packet Empire',6800]]}
+};
+function compV2Key(which){
+ if(which==='daily')return compDateKey();
+ if(which==='weekly')return activityWeekKey();
+ if(which==='monthly')return compMonthKey();
+ return activityWeekKey()+'|'+String(S.al&&S.al.n?S.al.n:'NO ALLIANCE');
+}
+function compV2Progress(which){
+ var n=new Date();
+ if(which==='daily')return Math.max(.02,Math.min(1,(n.getHours()*3600000+n.getMinutes()*60000+n.getSeconds()*1000)/86400000));
+ if(which==='weekly')return compWeekProgress();
+ if(which==='monthly')return compMonthProgress();
+ return compWeekProgress();
+}
+function compV2New(which,key){
+ var o={key:key,score:0,progress:{},claimed:[]};
+ COMP_V2[which].tasks.forEach(function(t){o.progress[t[0]]=0});
+ return o;
+}
+function compV2Store(){if(!S.competitionsV2||typeof S.competitionsV2!=='object')S.competitionsV2={};return S.competitionsV2}
+function compV2ScaleReward(reward){
+ var scale=1+Math.min(.65,Math.max(0,(Number(S.hq)||1)-1)*.012+Math.max(0,Number(S.pr)||0)*.04),out={};
+ Object.keys(reward||{}).forEach(function(k){out[k]=Math.max(1,Math.round((Number(reward[k])||0)*scale))});
+ return out;
+}
+function compV2RankReward(which,rank){
+ var personal={
+  daily:[{cr:1800,da:450,cy:18},{cr:1300,da:320,cy:12},{cr:950,da:220,ex:8},{cr:650,da:150},{cr:450,da:100}],
+  weekly:[{cr:9000,da:2200,cy:160,ex:60},{cr:6800,da:1600,cy:100},{cr:4800,da:1100,ex:45},{cr:3200,da:750},{cr:2200,da:500}],
+  monthly:[{cr:30000,da:8000,cy:600,ex:240,in:80},{cr:22000,da:5600,cy:400,ex:150},{cr:16000,da:4000,cy:260,ex:100},{cr:11000,da:2700,cy:160},{cr:7500,da:1800,ex:50}]
+ };
+ if(which==='alliance'){
+  var alliance=[
+   {ac:4200,dc:380,cs:45,wi:18,dm:4},{ac:3200,dc:280,cs:32,wi:12,dm:2},
+   {ac:2400,dc:210,cs:22,wi:8},{ac:1700,dc:145,cs:14},{ac:1100,dc:90,cs:8}
+  ][rank-1]||{};
+  var member=[{cr:2200,da:600,cy:30},{cr:1600,da:420,cy:20},{cr:1200,da:300},{cr:800,da:200},{cr:500,da:120}][rank-1]||{};
+  var merged={};Object.keys(alliance).forEach(function(k){merged[k]=alliance[k]});Object.keys(member).forEach(function(k){merged[k]=member[k]});return merged;
+ }
+ return (personal[which]||personal.daily)[rank-1]||personal.daily[4];
+}
+function compV2Leaderboard(which,record,progress){
+ var cfg=COMP_V2[which],scale=.16+.84*(Number(progress)||1);
+ var rows=cfg.rivals.map(function(r,i){return {name:r[0],score:Math.round(r[1]*scale*(1+(i%3)*.012)),rival:true}});
+ rows.push({name:String(window.BHQ_USERNAME||'You'),score:Number(record.score)||0,you:true});
+ rows.sort(function(a,b){return b.score-a.score||(a.name>b.name?1:-1)});
+ rows.forEach(function(r,i){r.rank=i+1});
+ return rows;
+}
+function mailEnsure(){if(!Array.isArray(S.mailInbox))S.mailInbox=[];return S.mailInbox}
+function mailBadge(){
+ var b=document.getElementById('bhqMailOpen');if(!b)return;
+ var count=mailEnsure().filter(function(m){return !m.claimed}).length;
+ var dot=b.querySelector('.bhq-mail-dot');if(dot)dot.hidden=count===0;
+ b.setAttribute('aria-label',count?'Mailbox · '+count+' unclaimed rewards':'Mailbox');
+}
+function mailEscape(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function mailRewardText(reward){
+ var names={cr:'Credits',da:'Data',cy:'Crypto',ex:'Exploits',in:'Intel',qt:'Quantum',ac:'Alliance Credits',dc:'Data Cores',cs:'Crypto Shards',wi:'War Intel',dm:'Dark Matter'};
+ return Object.keys(reward||{}).map(function(k){return '+'+fmt(reward[k])+' '+(names[k]||k.toUpperCase())}).join(' · ');
+}
+function mailRender(){
+ var host=document.getElementById('bhqMailList');if(!host)return;
+ var list=mailEnsure().slice().sort(function(a,b){return Number(b.time||0)-Number(a.time||0)});
+ if(!list.length){host.innerHTML='<div class="bhq-mail-empty">NO MESSAGES // Competition placement rewards and event notices will arrive here.</div>';mailBadge();return}
+ host.innerHTML=list.map(function(m){
+  var reward=mailRewardText(m.reward),claim=m.claimed?'<span class="bhq-mail-claimed">REWARD CLAIMED</span>':'<button type="button" data-mail-claim="'+mailEscape(m.id)+'">CLAIM REWARD</button>';
+  return '<article class="bhq-mail-item '+(m.claimed?'claimed':'')+'"><div class="bhq-mail-item-top"><b>'+mailEscape(m.title)+'</b><small>'+new Date(m.time||Date.now()).toLocaleString('en-GB')+'</small></div><p>'+mailEscape(m.body)+'</p><div class="bhq-mail-reward">'+mailEscape(reward)+'</div>'+claim+'</article>';
+ }).join('');
+ host.querySelectorAll('[data-mail-claim]').forEach(function(btn){btn.onclick=function(){mailClaim(btn.getAttribute('data-mail-claim'))}});
+ mailBadge();
+}
+function mailClaim(id){
+ var item=mailEnsure().filter(function(m){return String(m.id)===String(id)})[0];if(!item||item.claimed)return;
+ var reward=item.reward||{},allianceKeys=['ac','dc','cs','wi','dm'];
+ Object.keys(reward).forEach(function(k){
+  if(allianceKeys.indexOf(k)>=0){ensureAllianceBank();S.al.res[k]=(Number(S.al.res[k])||0)+Number(reward[k]||0)}
+  else if(typeof S.r[k]==='number')S.r[k]+=Number(reward[k]||0);
+ });
+ item.claimed=true;item.claimedAt=Date.now();save();mailRender();render();
+ toast('Competition reward claimed from Mail.');
+}
+function mailOpen(){
+ var modal=document.getElementById('bhqMailModal');if(!modal)return;
+ mailRender();modal.hidden=false;
+}
+function mailInit(){
+ var rail=document.getElementById('featureRail');
+ if(rail&&!document.getElementById('bhqMailOpen')){
+  var btn=document.createElement('button');btn.type='button';btn.id='bhqMailOpen';btn.className='bhq-mail-open';btn.innerHTML='✉<i class="bhq-mail-dot" hidden></i>';btn.title='Mailbox';btn.setAttribute('aria-label','Mailbox');btn.onclick=mailOpen;rail.appendChild(btn);
+ }
+ if(!document.getElementById('bhqMailModal')){
+  var modal=document.createElement('div');modal.id='bhqMailModal';modal.className='bhq-mail-overlay';modal.hidden=true;
+  modal.innerHTML='<section class="bhq-mail-window" role="dialog" aria-modal="true" aria-labelledby="bhqMailTitle"><header><div><small>BACKDOOR HQ // PLAYER COMMUNICATIONS</small><h2 id="bhqMailTitle">MAIL <em>INBOX</em></h2><p>Competition placement rewards and event messages are delivered here.</p></div><button type="button" data-mail-close aria-label="Close mailbox">×</button></header><div id="bhqMailList"></div></section>';
+  modal.addEventListener('click',function(e){if(e.target===modal||e.target.closest('[data-mail-close]'))modal.hidden=true});
+  document.body.appendChild(modal);
+ }
+ mailBadge();
+}
+function compV2Settle(which,record){
+ if(!record||record.settled)return;
+ var rows=compV2Leaderboard(which,record,1),mine=rows.filter(function(r){return r.you})[0],rank=mine?mine.rank:999;
+ record.settled=true;record.finalRank=rank;record.finalScore=Number(record.score)||0;
+ if(rank<=5){
+  var id='competition-'+which+'-'+String(record.key);
+  var inbox=mailEnsure();
+  if(!inbox.some(function(m){return m.id===id})){
+   var reward=compV2ScaleReward(compV2RankReward(which,rank));
+   inbox.push({id:id,type:'competition',time:Date.now(),title:COMP_V2[which].title+' · #'+rank,body:'The '+COMP_V2[which].period.toLowerCase()+' has ended. Your final position was #'+rank+' with '+fmt(record.score)+' points. Your HQ '+(Number(S.hq)||1)+' reward package is ready to claim.',reward:reward,claimed:false});
+  }
+ }
+ mailBadge();
+}
+function compV2Ensure(which){
+ var store=compV2Store(),key=compV2Key(which),rec=store[which];
+ if(rec&&rec.key!==key){compV2Settle(which,rec);rec=store[which]=compV2New(which,key)}
+ if(!rec)rec=store[which]=compV2New(which,key);
+ rec.progress=rec.progress&&typeof rec.progress==='object'?rec.progress:{};
+ rec.claimed=Array.isArray(rec.claimed)?rec.claimed:[];
+ return rec;
+}
+function compV2Track(type,amount){
+ var n=Math.max(1,Number(amount)||1),map={};
+ ['daily','weekly','monthly','alliance'].forEach(function(which){
+  var rec=compV2Ensure(which),task=COMP_V2[which].tasks.filter(function(t){return t[0]===type})[0];
+  if(!task)return;
+  if(which==='alliance'&&!(S.al&&S.al.n))return;
+  rec.score=(Number(rec.score)||0)+task[3]*n;
+  rec.progress[type]=(Number(rec.progress[type])||0)+n;
+ });
+ mailBadge();
+}
+function compV2ClaimChest(which,index){
+ var rec=compV2Ensure(which),tier=COMP_V2[which].tiers[index];if(!tier||rec.score<tier.at||rec.claimed.indexOf(index)>=0)return;
+ if(which==='alliance'&&!(S.al&&S.al.n)){toast('Join or create an Alliance to claim Alliance chests.');return}
+ var reward=compV2ScaleReward(tier.reward),allianceKeys=['ac','dc','cs','wi','dm'];
+ Object.keys(reward).forEach(function(k){
+  if(allianceKeys.indexOf(k)>=0){ensureAllianceBank();S.al.res[k]=(Number(S.al.res[k])||0)+reward[k]}
+  else if(typeof S.r[k]==='number')S.r[k]+=reward[k];
+ });
+ rec.claimed.push(index);save();renderCompetitionV2(which);toast(tier.label+' chest claimed.');
+}
+function compV2TimeLeft(which){
+ var n=new Date(),end;
+ if(which==='daily')end=new Date(n.getFullYear(),n.getMonth(),n.getDate()+1);
+ else if(which==='weekly'){var d=(n.getDay()+6)%7;end=new Date(n.getFullYear(),n.getMonth(),n.getDate()+(7-d));}
+ else if(which==='monthly')end=new Date(n.getFullYear(),n.getMonth()+1,1);
+ else{var d=(n.getDay()+6)%7;end=new Date(n.getFullYear(),n.getMonth(),n.getDate()+(7-d));}
+ return Math.max(0,end.getTime()-Date.now());
+}
+function compV2FmtTime(ms){
+ var total=Math.ceil(ms/1000),days=Math.floor(total/86400);total%=86400;
+ var hours=Math.floor(total/3600);total%=3600;var mins=Math.floor(total/60);
+ return (days?days+'D ':'')+hours+'H '+mins+'M';
+}
+function renderCompetitionV2(which){
+ if(['daily','weekly','monthly','alliance'].indexOf(which)<0)which='daily';
+ var host=document.getElementById('competitionContent');if(!host)return;
+ var cfg=COMP_V2[which],rec=compV2Ensure(which),progress=compV2Progress(which),rows=compV2Leaderboard(which,rec,progress),mine=rows.filter(function(r){return r.you})[0]||{rank:rows.length,score:rec.score};
+ var max=cfg.tiers[cfg.tiers.length-1].at,pct=Math.min(100,Number(rec.score||0)/max*100),next=cfg.tiers.filter(function(t,i){return rec.claimed.indexOf(i)<0&&rec.score<t.at})[0];
+ var html='<div class="v2-comp-page"><div class="v2-comp-head"><div><small>BACKDOOR HQ // LIVE COMPETITION</small><h2>'+cfg.title.replace('COMPETITION','<em>COMPETITION</em>')+'</h2><p>'+(which==='alliance'?'Contribute through Alliance activity. Your Alliance score and Alliance Bank chests are tracked separately from individual competitions.':'Earn points from this event’s own activities, unlock its chests and climb its leaderboard.')+'</p></div><span class="v2-comp-live">● ACTIVE</span></div>';
+ html+='<div class="v2-comp-hero"><div class="v2-comp-period">'+cfg.period+' · ENDS IN '+compV2FmtTime(compV2TimeLeft(which))+'</div><div class="v2-comp-score">'+fmt(rec.score)+' <small>PTS</small></div><div class="v2-comp-rank"><span>YOUR CURRENT POSITION</span><b>#'+mine.rank+'</b></div><div class="v2-comp-progress"><i style="width:'+pct+'%"></i></div><div class="v2-comp-next">'+(next?'Next chest: '+fmt(next.at)+' points':'All milestone chests unlocked')+' <span>'+Math.floor(pct)+'%</span></div></div>';
+ html+='<div class="v2-comp-stats"><div><b>#'+mine.rank+'</b><small>LEADERBOARD POSITION</small></div><div><b>'+fmt(rec.score)+'</b><small>'+which.toUpperCase()+' POINTS</small></div><div><b>'+cfg.tasks.length+'</b><small>EVENT TASK TYPES</small></div></div>';
+ if(which==='alliance'&&!(S.al&&S.al.n))html+='<div class="v2-comp-alert">You are not currently in an Alliance. Join or create one to earn Alliance Competition points and claim Alliance rewards.</div>';
+ html+='<h3 class="v2-comp-section">EVENT ACTIVITIES // UNIQUE POINT VALUES</h3><div class="v2-comp-tasks">';
+ cfg.tasks.forEach(function(t){
+  var value=Number(rec.progress[t[0]])||0,done=Math.min(t[4],value),p=Math.min(100,done/t[4]*100);
+  html+='<article class="v2-comp-task"><div class="v2-comp-task-icon">'+t[1]+'</div><div class="v2-comp-task-body"><div class="v2-comp-task-title"><b>'+t[2]+'</b><strong>+'+t[3]+' PTS</strong></div><p>'+t[5]+'</p><div class="v2-comp-task-bar"><i style="width:'+p+'%"></i></div><small>'+done+' / '+t[4]+' actions</small></div></article>';
+ });
+ html+='</div><h3 class="v2-comp-section">REWARD CHEST TRACK</h3><p class="v2-comp-note">Each chest is unlocked by this event’s points. Rewards are scaled to your current HQ level and can be claimed once.</p><div class="v2-comp-chests">';
+ cfg.tiers.forEach(function(t,i){
+  var claimed=rec.claimed.indexOf(i)>=0,ready=rec.score>=t.at&&!claimed;
+  html+='<article class="v2-comp-chest '+(claimed?'claimed':ready?'ready':'')+'"><div class="v2-comp-chest-icon">'+(claimed?'✓':'🎁')+'</div><div class="v2-comp-chest-copy"><b>'+t.label+'</b><small>'+fmt(t.at)+' POINTS</small><span>'+mailEscape(mailRewardText(compV2ScaleReward(t.reward)))+'</span></div><button type="button" data-v2-chest="'+i+'" '+(!ready?'disabled':'')+'>'+(claimed?'CLAIMED':ready?'OPEN CHEST':'LOCKED')+'</button></article>';
+ });
+ html+='</div><h3 class="v2-comp-section">'+(which==='alliance'?'ALLIANCE':'EVENT')+' LEADERBOARD // TOP FIVE WIN REWARDS</h3><p class="v2-comp-note">The five highest positions receive an end-of-event reward package through Mail. Rival entries are currently simulated in this local game save.</p><div class="v2-comp-board">';
+ rows.slice(0,8).forEach(function(r){
+  html+='<div class="v2-comp-row '+(r.you?'you':'')+'"><span class="v2-comp-place">#'+r.rank+'</span><span class="v2-comp-player"><b>'+mailEscape(r.name)+'</b><small>'+(r.you?'YOUR ACCOUNT':'SIMULATED RIVAL')+'</small></span><strong>'+fmt(r.score)+' PTS</strong>'+(r.rank<=5?'<span class="v2-comp-medal">🏅</span>':'')+'</div>';
+ });
+ html+='</div><div class="v2-comp-foot">PLACEMENT REWARDS ARE DISPATCHED TO MAIL WHEN THE EVENT PERIOD ROLLS OVER. HQ LEVEL IS APPLIED WHEN THE PACKAGE IS GENERATED.</div></div>';
+ host.innerHTML=html;
+ host.querySelectorAll('[data-v2-chest]').forEach(function(btn){btn.onclick=function(){compV2ClaimChest(which,Number(btn.getAttribute('data-v2-chest')))}});
+ mailBadge();
+}
+compTrack=compV2Track;
+renderCompetition=renderCompetitionV2;
+window.BHQ_RENDER_COMPETITION=renderCompetitionV2;
+window.BHQ_RENDER_ALLIANCE_COMPETITION=function(){return renderCompetitionV2('alliance')};
+window.renderCompetition=renderCompetitionV2;
+window.renderAllianceCompetition=window.BHQ_RENDER_ALLIANCE_COMPETITION;
+window.BHQ_OPEN_MAILBOX=mailOpen;
+
 load();
 nxBind();
+mailInit();
 window.BHQ_INIT_DAILY_REWARDS=dailyRewardsInit;
 if(!window.BHQ_TEST_MODE&&!nxState().tutorialSeen&&!nxState().tutorialPaused){setTimeout(function(){if(!$('nexusTutorial').hidden)return;nxOpenTutorial(false)},6200)}
 progressionEnsure(true);
@@ -9382,25 +9626,96 @@ html:has(#t-bot:not([hidden])){height:100%!important;overflow:hidden!important}
 <script id="bhq-competition-content-paused-v10">
 (function(){
  'use strict';
- function clearCompetitionContent(){
-  var host=document.getElementById('competitionContent');
-  if(host)host.replaceChildren();
- }
- window.renderCompetition=function(){clearCompetitionContent();return true};
- window.renderAllianceCompetition=function(){clearCompetitionContent();return true};
- window.openEventDestination=function(which){
-  if(['daily','weekly','monthly','alliance'].indexOf(which)<0)return;
-  if(typeof window.openEventPage==='function')window.openEventPage(which);
-  clearCompetitionContent();
- };
- document.addEventListener('click',function(e){
-  var tab=e.target&&e.target.closest?e.target.closest('#eventHub [data-event-page]'):null;
-  if(!tab)return;
-  var which=tab.getAttribute('data-event-page');
-  if(['daily','weekly','monthly','alliance'].indexOf(which)>=0){
-   setTimeout(clearCompetitionContent,0);
+ /* The game-startup scope installs the real renderer after the account save is loaded. */
+ function activateRenderer(){
+  if(typeof window.BHQ_RENDER_COMPETITION==='function'){
+   window.renderCompetition=window.BHQ_RENDER_COMPETITION;
+   window.renderAllianceCompetition=window.BHQ_RENDER_ALLIANCE_COMPETITION;
   }
+ }
+ activateRenderer();
+ document.addEventListener('click',function(e){
+  var tab=e.target&&e.target.closest?e.target.closest('#eventHub [data-bhq-event-choice],#eventHub [data-event-page]'):null;
+  if(!tab)return;
+  var which=tab.getAttribute('data-bhq-event-choice')||tab.getAttribute('data-event-page');
+  if(['daily','weekly','monthly','alliance'].indexOf(which)>=0)setTimeout(activateRenderer,0);
  },true);
- clearCompetitionContent();
 })();
 </script>
+
+<style id="bhq-competition-v2-style">
+/* The competition content is now an active, scrollable page inside its selected Events destination. */
+#t-events:not([hidden]) #eventPageSlot #competitionContent{display:block!important;min-height:0!important;padding:0 0 22px!important;margin:0!important}
+#t-events:not([hidden]) #eventPageSlot>#t-competitions:not([hidden]){display:block!important;height:100%!important;max-height:100%!important;overflow-y:auto!important;overflow-x:hidden!important;-webkit-overflow-scrolling:touch!important}
+#t-events:not([hidden]) #eventPageSlot .v2-comp-page{display:block;width:100%;padding:5px 3px 25px;color:#e4f7eb;font-family:ui-monospace,monospace}
+.v2-comp-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin:2px 0 10px}
+.v2-comp-head>div{min-width:0}.v2-comp-head small{font-size:7px;letter-spacing:1.3px;color:#7ec99a}
+.v2-comp-head h2{font-size:18px;line-height:1.15;margin:5px 0;color:#f0fff4;letter-spacing:.4px}
+.v2-comp-head h2 em{color:#8dffc0;font-style:normal}
+.v2-comp-head p{font-size:9px;line-height:1.45;color:#9ab6a4;margin:4px 0}
+.v2-comp-live{flex:none;border:1px solid #398b5b;border-radius:6px;padding:5px 6px;font-size:7px;color:#aaffc5;white-space:nowrap}
+.v2-comp-hero{padding:10px;border:1px solid #286b46;border-radius:11px;background:radial-gradient(ellipse at 50% 0%,#173e2a,#07150d 78%);box-shadow:inset 0 0 20px #39ff880b,0 5px 15px #0005;margin:8px 0}
+.v2-comp-period{font-size:7px;letter-spacing:1px;color:#9bc8a8}
+.v2-comp-score{font-size:28px;font-weight:900;color:#d7ffe4;margin:5px 0;text-shadow:0 0 12px #4bff8740}
+.v2-comp-score small{font-size:9px;color:#8fbaa0}
+.v2-comp-rank{display:flex;justify-content:space-between;align-items:center;font-size:8px;color:#a4c4ad}
+.v2-comp-rank b{font-size:16px;color:#ffe29a}
+.v2-comp-progress,.v2-comp-task-bar{height:6px;background:#10251a;border:1px solid #294d36;border-radius:20px;overflow:hidden}
+.v2-comp-progress{margin:8px 0 5px}.v2-comp-progress i,.v2-comp-task-bar i{display:block;height:100%;border-radius:20px;background:linear-gradient(90deg,#36b96d,#a4ffb7);box-shadow:0 0 9px #4cff8a55}
+.v2-comp-next{display:flex;justify-content:space-between;gap:8px;font-size:7px;color:#a6c9b0}
+.v2-comp-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;margin:7px 0 12px}
+.v2-comp-stats>div{padding:7px 4px;text-align:center;border:1px solid #294b38;border-radius:8px;background:linear-gradient(145deg,#10251a,#07110b)}
+.v2-comp-stats b{display:block;font-size:14px;color:#e3ffeb}.v2-comp-stats small{display:block;margin-top:3px;font-size:6px;letter-spacing:.45px;color:#8ba996}
+.v2-comp-alert{margin:8px 0;padding:9px;border:1px solid #8a7139;border-radius:8px;background:#2b210d;color:#ffe4a2;font-size:8px;line-height:1.4}
+.v2-comp-section{margin:13px 2px 7px;font-size:9px;letter-spacing:1px;color:#a9ffbf}
+.v2-comp-tasks{display:grid;gap:6px}
+.v2-comp-task{display:flex;gap:8px;align-items:center;padding:8px;border:1px solid #244c35;border-radius:9px;background:linear-gradient(145deg,#0e2116,#07100b)}
+.v2-comp-task-icon{width:30px;height:30px;flex:none;display:grid;place-items:center;border:1px solid #3a7650;border-radius:8px;background:#10291a;font-size:16px}
+.v2-comp-task-body{flex:1;min-width:0}.v2-comp-task-title{display:flex;justify-content:space-between;gap:5px;align-items:center}
+.v2-comp-task-title b{font-size:8px;color:#e0f9e7}.v2-comp-task-title strong{font-size:7px;color:#a4ffc0;white-space:nowrap}
+.v2-comp-task p{margin:3px 0 5px;font-size:7px;line-height:1.35;color:#89a995}
+.v2-comp-task-bar{height:4px}.v2-comp-task-body>small{display:block;margin-top:3px;text-align:right;font-size:6px;color:#8eb49b}
+.v2-comp-note{margin:0 2px 7px;font-size:7px;line-height:1.4;color:#8eaa98}
+.v2-comp-chests{display:grid;gap:6px}
+.v2-comp-chest{display:flex;align-items:center;gap:8px;min-width:0;padding:7px;border:1px solid #2c4937;border-radius:9px;background:linear-gradient(145deg,#101b13,#070e09)}
+.v2-comp-chest.ready{border-color:#b48c42;box-shadow:inset 0 0 12px #ffc65c13}
+.v2-comp-chest.claimed{opacity:.72;border-color:#357a50}
+.v2-comp-chest-icon{width:32px;height:32px;flex:none;display:grid;place-items:center;border:1px solid #755d30;border-radius:8px;background:#2b210e;font-size:17px}
+.v2-comp-chest-copy{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.v2-comp-chest-copy b{font-size:7px;color:#f1e1b8}.v2-comp-chest-copy small{font-size:6px;color:#a9c1ad}
+.v2-comp-chest-copy span{font-size:6px;line-height:1.3;color:#90b49a;overflow-wrap:anywhere}
+.v2-comp-chest button{flex:none;min-width:68px;padding:7px 5px;border:1px solid #547b5c;border-radius:6px;background:#142a1a;color:#caffd5;font:800 7px monospace}
+.v2-comp-chest.ready button{border-color:#d2a64e;background:linear-gradient(145deg,#4b3715,#211809);color:#ffe8ad}
+.v2-comp-chest button:disabled{opacity:.55}
+.v2-comp-board{display:grid;gap:4px}
+.v2-comp-row{display:grid;grid-template-columns:28px minmax(0,1fr) auto 17px;align-items:center;gap:6px;padding:7px;border:1px solid #203c2b;border-radius:7px;background:#0a160e}
+.v2-comp-row.you{border-color:#7acb91;background:linear-gradient(90deg,#153522,#0a160e);box-shadow:inset 0 0 10px #39ff8810}
+.v2-comp-place{font-size:10px;font-weight:900;color:#ffe09a}
+.v2-comp-player{min-width:0}.v2-comp-player b{display:block;font-size:8px;color:#e4f8e9;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.v2-comp-player small{display:block;margin-top:2px;font-size:6px;color:#81a38d}
+.v2-comp-row>strong{font-size:7px;color:#a9ffc0;white-space:nowrap}.v2-comp-medal{text-align:center;font-size:12px}
+.v2-comp-foot{margin-top:10px;padding:8px;border-top:1px solid #254a33;color:#6f957d;font-size:6px;line-height:1.5;letter-spacing:.5px}
+.bhq-mail-open{position:relative;display:grid;place-items:center;width:36px!important;height:36px!important;min-width:36px!important;min-height:36px!important;margin:0 0 0 5px!important;padding:0!important;border:1px solid #4d8caa!important;border-radius:11px!important;background:linear-gradient(145deg,#102b38,#07131b)!important;color:#b8edff!important;font-size:18px!important;box-shadow:inset 0 0 10px #58d9ff12,0 3px 8px #0008!important}
+#featureRail{display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:center!important;gap:5px!important;width:auto!important}
+.bhq-mail-dot{position:absolute;right:2px;top:2px;width:7px;height:7px;border-radius:50%;background:#ff5368;border:1px solid #07110b;box-shadow:0 0 8px #ff5368}
+.bhq-mail-dot[hidden]{display:none!important}
+.bhq-mail-overlay{position:fixed;inset:0;z-index:220000;display:flex;align-items:center;justify-content:center;padding:12px;background:#020806df;backdrop-filter:blur(9px)}
+.bhq-mail-overlay[hidden]{display:none!important}
+.bhq-mail-window{width:min(560px,100%);max-height:88dvh;overflow:auto;padding:13px;border:1px solid #4387a0;border-radius:14px;background:radial-gradient(ellipse at 50% 0%,#102b38,#07120f 72%);box-shadow:0 0 28px #35c9ff20;color:#e5f7ff;font-family:ui-monospace,monospace}
+.bhq-mail-window>header{display:flex;justify-content:space-between;gap:8px;padding-bottom:10px;border-bottom:1px solid #315b68}
+.bhq-mail-window header small{font-size:7px;letter-spacing:1px;color:#86cbe0}
+.bhq-mail-window h2{margin:5px 0;font-size:21px}.bhq-mail-window h2 em{color:#8ee5ff;font-style:normal}
+.bhq-mail-window header p{margin:3px 0;font-size:8px;color:#91aeb7;line-height:1.4}
+.bhq-mail-window header button{width:31px;height:31px;border:1px solid #456d7b;border-radius:8px;background:#0b1b22;color:#d8f5ff;font-size:20px}
+#bhqMailList{display:grid;gap:7px;margin-top:10px}
+.bhq-mail-item{padding:9px;border:1px solid #315c6b;border-radius:9px;background:#0a1b20}
+.bhq-mail-item.claimed{opacity:.7;border-color:#315642}
+.bhq-mail-item-top{display:flex;justify-content:space-between;gap:7px;align-items:flex-start}
+.bhq-mail-item-top b{font-size:8px;color:#d7f5ff}.bhq-mail-item-top small{font-size:6px;color:#83a6b2;text-align:right}
+.bhq-mail-item p{font-size:7px;line-height:1.45;color:#a8c1c9;margin:6px 0}
+.bhq-mail-reward{font-size:7px;line-height:1.4;color:#a4f1c2;overflow-wrap:anywhere;margin:5px 0}
+.bhq-mail-item button{width:100%;margin-top:4px;padding:8px;border:1px solid #448caa;border-radius:6px;background:#103044;color:#d4f6ff;font:800 8px monospace}
+.bhq-mail-claimed{display:block;margin-top:7px;font-size:7px;color:#8db79a}
+.bhq-mail-empty{padding:22px 10px;text-align:center;font-size:8px;line-height:1.6;color:#8ca9b4}
+@media(max-width:380px){.v2-comp-head h2{font-size:16px}.v2-comp-chest button{min-width:60px;font-size:6px}.v2-comp-row{grid-template-columns:24px minmax(0,1fr) auto 14px;gap:4px}.v2-comp-row>strong{font-size:6px}}
+</style>
