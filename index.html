@@ -8524,5 +8524,55 @@ activateEventPage(activeEventPage);
  menu();
 })();
 </script>
+
+<style id="bhq-single-global-navigation-v1">
+/* One global navigation only: the fixed iOS bottom dock. */
+html body #tabs,
+html body nav#tabs,
+html body .global-rail-wrap,
+html body #globalRail,
+html body #hbtns { display:none!important; }
+#iosDock .dk-tray [data-rail-go]{
+  appearance:none;position:relative;width:62px;min-width:62px;height:62px;padding:0;margin:0;
+  display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  border:1px solid rgba(var(--r,255,190,60),.45);border-radius:14px;
+  background:linear-gradient(145deg,#10251d,#07130f);color:#eafff3;font-size:22px;
+}
+#iosDock .dk-tray [data-rail-go]:after{
+  content:attr(data-lbl);font:800 7.5px/1 ui-monospace,monospace;letter-spacing:.6px;
+  color:#fff;opacity:.85;text-transform:uppercase;
+}
+#iosDock .dk-tray [data-rail-go]:active{transform:scale(.9)}
+</style>
+<script id="bhq-single-global-navigation-v1-script">
+(function(){
+ 'use strict';
+ function consolidate(){
+  var dock=document.getElementById('iosDock');
+  if(!dock)return false;
+  var more=dock.querySelector('.dk-slot:last-child .dk-tray');
+  var utilities=document.getElementById('hbtns');
+  if(more&&utilities){
+   var labels={user:'Profile',settings:'Settings',vip:'VIP',shop:'Shop'};
+   Array.prototype.slice.call(utilities.querySelectorAll('[data-rail-go]')).forEach(function(btn){
+    var key=btn.getAttribute('data-rail-go');
+    btn.setAttribute('data-lbl',labels[key]||key);
+    btn.classList.add('test-side-icon');
+    if(btn.parentNode!==more)more.appendChild(btn);
+   });
+   utilities.hidden=true;
+   utilities.setAttribute('aria-hidden','true');
+  }
+  var topTabs=document.getElementById('tabs');
+  if(topTabs){topTabs.hidden=true;topTabs.setAttribute('aria-hidden','true')}
+  var rail=document.getElementById('globalRail');
+  if(rail){rail.style.display='none';rail.setAttribute('aria-hidden','true')}
+  return true;
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',consolidate);
+ else consolidate();
+})();
+</script>
+
 </body>
 </html>
