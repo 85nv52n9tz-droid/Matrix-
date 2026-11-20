@@ -9103,6 +9103,9 @@ html:has(#t-bot:not([hidden])){height:100%!important;overflow:hidden!important}
    if(section!==events)section.hidden=true;
   });
   events.hidden=false;slot.hidden=false;
+  var categoryTabs=hub.querySelector('.events-tabs'),backButton=hub.querySelector('.events-back');
+  if(categoryTabs)categoryTabs.classList.add('events-menu-hidden');
+  if(backButton)backButton.hidden=true;
   activity.hidden=which!=='activity';
   competitions.hidden=which==='activity';
   var tabs=hub.querySelectorAll('[data-bhq-event-choice],[data-event-page]');
