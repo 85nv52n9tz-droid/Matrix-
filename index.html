@@ -3373,7 +3373,7 @@ $('progressionReportClose').onclick=function(){$('progressionReportModal').hidde
   E.tr=card(cc,'','crew');E.tr.t.textContent='Seasonal Hero Recruitment';E.tr.d.textContent='Recruit three opening heroes across HQ1–5. Further heroes unlock at HQ10, 15, 20 and 30 only after every equipment slot on the previous hero or opening group reaches the required HQ level. Training adds 8% to mission rewards and cuts mission time by 3% per level.';E.tr.b.onclick=train;
   E.hi=card(cc,'','crew');E.hi.t.textContent='Recruit a hacker';E.hi.d.textContent='Every hacker lets you run one more mission at the same time (max 6).';E.hi.b.onclick=hire;
   E.nl=card($('nlab'),'','bot');E.nl.c.className='nano-defence-card nano-defence-compact';E.nl.c.innerHTML='<div class="nano-defence-compact-mark" aria-hidden="true"></div><div class="nano-defence-compact-copy"><small>NANO DEFENCE</small><b>COMMAND</b></div><button type="button" class="buy nano-defence-select" id="nanoSelectDefence">SELECT DEFENCE CREW</button><span class="nano-defence-status" id="nanoDefenceStatus" hidden>No defence crew selected</span><span class="nano-defence-meta" id="nanoDefenceMeta" hidden>Capacity and defence power</span>';E.nl.t=E.nl.c.querySelector('.nano-defence-compact-copy b');E.nl.e=E.nl.c.querySelector('#nanoDefenceStatus');E.nl.d=E.nl.c.querySelector('#nanoDefenceMeta');E.nl.p=document.createElement('div');E.nl.p.className='nano-defence-progress';E.nl.p.hidden=true;E.nl.p.innerHTML='<i></i>';E.nl.c.appendChild(E.nl.p);E.nl.pi=E.nl.p.querySelector('i');E.nl.b=E.nl.c.querySelector('#nanoSelectDefence');
-  E.pf=card($('rprof'),'hq','crew');E.pf.t.textContent=window.BHQ_USERNAME||'You';E.pf.b.parentNode.hidden=true;
+  // Removed obsolete hidden ranking profile card; the active Network Rankings screen renders its own live commander record.
   ['Regions','Towns','Cities','NPC Missions'].forEach(function(t,i){var b=document.createElement('button');b.type='button';b.className='map-subtab';b.textContent=t;if(i===3){b.classList.add('npc-ops-tab');var badge=document.createElement('span');badge.id='npcMissionTabBadge';badge.className='nav-notify';badge.hidden=true;b.appendChild(badge)}b.onclick=function(){msub=i;render()};$('msub').appendChild(b);mb.push(b)});
   ['Solo','Data net'].forEach(function(t,i){var b=document.createElement('button');b.type='button';b.className='map-mode-btn mode-'+(i===0?0:2);b.textContent=t;b.setAttribute('aria-pressed','false');b.onclick=function(){mtop=i===0?0:2;render()};$('mtop').appendChild(b);mt.push(b)});
   var allyTabIcons=['⌂','♙','✉','⚔','▤','▣','♛','✧','⇄','⬡','◉'];
@@ -7432,10 +7432,18 @@ main#gameShell{height:100dvh!important;min-height:100dvh!important;max-height:10
 </style>
 <script id="bhq-v102-independent-update-archive">
 (function(){
-  var VERSION='0.0.6';
+  var VERSION='0.0.7';
   try{window.BHQ_UPDATE_VERSION=VERSION;}catch(e){}
   var RELEASES=[{
     version:VERSION,date:'20 NOV 2026',
+    title:'STARTUP REPAIR // REMOVE OBSOLETE HIDDEN RANK CARD',
+    tag:'STARTUP RESTORED · ACTIVE RANKINGS CLEANUP',
+    items:[
+      'Removed an obsolete hidden ranking profile-card initializer that referenced a container no longer present in the redesigned Rankings screen.',
+      'Restored game startup without changing the active Rankings interface, HQ pipelines, player progression or saved game data.'
+    ]
+  },{
+    version:'0.0.6',date:'20 NOV 2026',
     title:'HQ NETWORK // NEXUS PIPELINE OVERHAUL',
     tag:'UNIFIED WAVY CONDUITS · LIVE RED / GREEN / WHITE STATUS PULSES',
     items:[
