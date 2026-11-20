@@ -5440,8 +5440,8 @@ function compV2Leaderboard(which,record,progress){
 function mailEnsure(){if(!Array.isArray(S.mailInbox))S.mailInbox=[];return S.mailInbox}
 function mailBadge(){
  var b=document.getElementById('bhqMailOpen');if(!b)return;
- var count=mailEnsure().filter(function(m){return !m.claimed}).length;
- var dot=b.querySelector('.bhq-mail-dot');if(dot)dot.hidden=count===0;
+ var count=mailEnsure().filter(function(m){return !m.read}).length;
+ var dot=b.querySelector('.bhq-mail-dot');if(dot)dot.hidden=true;
  b.setAttribute('aria-label',count?'Mailbox · '+count+' unclaimed rewards':'Mailbox');
 }
 function mailEscape(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
@@ -5455,9 +5455,9 @@ function mailRender(){
  var tabs=[['all','ALL'],['competition','COMPETITIONS'],['reward','REWARDS'],['mission','MISSIONS'],['scout','SCOUTING'],['attack','COMBAT'],['system','SYSTEM']];
  var list=mailEnsure().filter(function(m){return active==='all'||(active==='system'?!['competition','reward','mission','scout','attack'].includes(m.type):m.type===active)}).sort(function(a,b){return Number(b.time||0)-Number(a.time||0)});
  var nav=document.getElementById('bhqMailTabs');if(!nav){nav=document.createElement('nav');nav.id='bhqMailTabs';host.parentNode.insertBefore(nav,host)}
- nav.innerHTML=tabs.map(function(t){return '<button type="button" data-mail-tab="'+t[0]+'" class="'+(active===t[0]?'selected':'')+'">'+t[1]+'</button>'}).join('');
- nav.querySelectorAll('button').forEach(function(b){b.onclick=function(){window.BHQ_MAIL_FILTER=b.getAttribute('data-mail-tab');mailRender()}});
- if(!list.length){host.innerHTML='<div class="bhq-mail-empty">NO MESSAGES // Competition placement rewards and event notices will arrive here.</div>';mailBadge();return}
+ nav.innerHTML=tabs.map(function(t){var unread=mailEnsure().filter(function(m){return !m.read&&(t[0]==='all'||(t[0]==='system'?!['competition','reward','mission','scout','attack'].includes(m.type):m.type===t[0]))}).length;return '<button type="button" data-mail-tab="'+t[0]+'" class="'+(active===t[0]?'selected':'')+'">'+t[1]+(unread?'<span class="bhq-mail-count">'+unread+'</span>':'')+'</button>'}).join('');
+ nav.querySelectorAll('button').forEach(function(b){b.onclick=function(){window.BHQ_MAIL_FILTER=b.getAttribute('data-mail-tab');mailEnsure().forEach(function(m){if(window.BHQ_MAIL_FILTER==='all'||m.type===window.BHQ_MAIL_FILTER)m.read=true});save();mailRender()}});
+ if(!list.length){host.innerHTML='<div class="bhq-mail-empty">NO MESSAGES IN THIS CATEGORY</div>';mailBadge();return}
  host.innerHTML=list.map(function(m){
   var reward=mailRewardText(m.reward),claim=m.claimed?'<span class="bhq-mail-claimed">REWARD CLAIMED</span>':'<button type="button" data-mail-claim="'+mailEscape(m.id)+'">CLAIM REWARD</button>';
   return '<article class="bhq-mail-item '+(m.claimed?'claimed':'')+'"><div class="bhq-mail-item-top"><b>'+mailEscape(m.title)+'</b><small>'+new Date(m.time||Date.now()).toLocaleString('en-GB')+'</small></div><p>'+mailEscape(m.body)+'</p><div class="bhq-mail-reward">'+mailEscape(reward)+'</div>'+claim+'</article>';
@@ -5477,19 +5477,22 @@ function mailClaim(id){
 }
 function mailOpen(){
  var modal=document.getElementById('bhqMailModal');if(!modal)return;
- mailRender();modal.hidden=false;
+ document.querySelectorAll('#gameShell>section[id^="t-"]').forEach(function(el){el.hidden=true});
+ var dock=document.getElementById('iosDock');if(dock)dock.querySelectorAll('.dk-slot').forEach(function(el){el.classList.remove('open')});
+ modal.hidden=false;mailRender();
 }
 function mailInit(){
- var rail=document.getElementById('featureRail');
+ var rail=document.getElementById('iosDock .dk-bar');
  if(rail&&!document.getElementById('bhqMailOpen')){
-  var btn=document.createElement('button');btn.type='button';btn.id='bhqMailOpen';btn.className='bhq-mail-open';btn.innerHTML='✉<i class="bhq-mail-dot" hidden></i>';btn.title='Mailbox';btn.setAttribute('aria-label','Mailbox');btn.onclick=mailOpen;rail.appendChild(btn);
+  var btn=document.createElement('button');btn.type='button';btn.id='bhqMailOpen';btn.className='dk-btn bhq-mail-open';btn.innerHTML='<span class="dk-ic">✉</span><span class="dk-tx">MAIL</span>';btn.title='Mailbox';btn.setAttribute('aria-label','Mailbox');btn.onclick=mailOpen;var slot=document.createElement('div');slot.className='dk-slot bhq-mail-slot';slot.appendChild(btn);rail.appendChild(slot);
  }
  if(!document.getElementById('bhqMailModal')){
   var modal=document.createElement('div');modal.id='bhqMailModal';modal.className='bhq-mail-overlay';modal.hidden=true;
   modal.innerHTML='<section class="bhq-mail-window" role="dialog" aria-modal="true" aria-labelledby="bhqMailTitle"><header><div><small>BACKDOOR HQ // PLAYER COMMUNICATIONS</small><h2 id="bhqMailTitle">MAIL <em>INBOX</em></h2><p>Competition placement rewards and event messages are delivered here.</p></div><button type="button" data-mail-close aria-label="Close mailbox">×</button></header><div id="bhqMailList"></div></section>';
-  modal.addEventListener('click',function(e){if(e.target===modal||e.target.closest('[data-mail-close]'))modal.hidden=true});
+  modal.addEventListener('click',function(e){if(e.target.closest('[data-mail-close]')){modal.hidden=true;var home=document.querySelector('#iosDock .dk-home');if(home)home.click()}});
   document.body.appendChild(modal);
  }
+ var old=document.querySelector('#featureRail #bhqMailOpen');if(old)old.remove();
  mailBadge();
 }
 function compV2Settle(which,record){
@@ -8425,4 +8428,22 @@ body:has(#t-bot:not([hidden])){height:100dvh!important;max-height:100dvh!importa
  #t-bot #nlab,#t-bot #nlab>.card,#t-bot .nano-lab-head,#t-bot #nanoIncomingPanel{height:48px!important;min-height:48px!important;max-height:48px!important}
  #t-bot #tiers{gap:4px!important}
 }
+</style>
+
+<style id="bhq-mail-own-page-v1">
+#featureRail #bhqMailOpen{display:none!important}
+#iosDock .bhq-mail-slot{flex:1 1 0!important;min-width:0!important}
+#iosDock .bhq-mail-open{width:100%!important;height:54px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:2px!important;color:#79e8ff!important;padding:0!important;border:0!important;background:transparent!important}
+#iosDock .bhq-mail-open .dk-ic{font-size:25px!important;line-height:1!important;filter:drop-shadow(0 0 6px #43cfff)}
+#iosDock .bhq-mail-open .dk-tx{font-size:9px!important;font-weight:900!important;letter-spacing:1px!important}
+#bhqMailModal[hidden]{display:none!important}
+#bhqMailModal:not([hidden]){position:fixed!important;inset:calc(var(--bhq-top-clearance,174px) + 3px) 5px 83px!important;display:block!important;z-index:100!important;overflow:hidden!important;background:#06100b!important;padding:0!important}
+#bhqMailModal .bhq-mail-window{height:100%!important;max-height:100%!important;width:100%!important;max-width:none!important;display:flex!important;flex-direction:column!important;overflow:hidden!important;border:1px solid #245b48!important;border-radius:16px!important;background:linear-gradient(155deg,#092218,#040d0a)!important;box-sizing:border-box!important}
+#bhqMailModal .bhq-mail-window>header{flex:0 0 auto!important;padding:12px!important}
+#bhqMailTabs{flex:0 0 auto!important;display:flex!important;flex-wrap:wrap!important;gap:5px!important;padding:8px!important;max-height:110px!important;overflow-y:auto!important}
+#bhqMailTabs button{position:relative!important;flex:1 1 auto!important;padding:8px!important;border:1px solid #25674c!important;border-radius:8px!important;background:#071a13!important;color:#a4efc4!important;font:800 10px monospace!important}
+#bhqMailTabs button.selected{border-color:#65ffc0!important;background:#124332!important}
+#bhqMailTabs .bhq-mail-count{margin-left:5px!important;background:#ef425e!important;color:white!important;border-radius:10px!important;padding:1px 5px!important}
+#bhqMailList{flex:1 1 0!important;min-height:0!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch!important;touch-action:pan-y!important;padding:8px 10px 80px!important}
+#iosDock .bhq-mail-dot{display:none!important}
 </style>
