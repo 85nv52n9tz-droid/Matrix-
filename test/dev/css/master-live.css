@@ -1,0 +1,25 @@
+/* Shared development skin based on the actual live HQ screenshot. */
+:root{color-scheme:dark;--gold:#ffcb37;--cyan:#62d9ff;--blue:#46b6ff;--ink:#02080c}
+*{box-sizing:border-box}html,body,#app{margin:0;width:100%;height:100%;overflow:hidden;background:#010805;color:#d7f4f9;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+[hidden]{display:none!important}button{font:inherit;cursor:pointer}
+.game{display:flex;flex-direction:column;height:100dvh;min-height:0;overflow:hidden;padding:calc(env(safe-area-inset-top) + 8px) 0 calc(env(safe-area-inset-bottom) + 7px);background:#010805}
+.top{flex:0 0 57px;margin:0 10px 7px;display:flex;align-items:center;padding:0 13px;border:1px solid #214b69;border-radius:9px;background:radial-gradient(ellipse at 28% 55%,#0a2230,#020708 72%);box-shadow:inset 0 0 12px #14456855}
+.top .eyebrow{font-size:clamp(16px,4.8vw,22px);font-weight:900;letter-spacing:2.6px;color:#79d6ff;text-shadow:0 0 8px #3fb6ff,0 0 17px #3fb6ff,0 0 27px #3fb6ff77}
+.top strong,.top .status,.resources{display:none!important}
+.view{flex:1;min-height:0;display:block;padding:0 10px;overflow:hidden}
+.dev-master-page{--page-accent:var(--gold);height:100%;min-height:0;display:flex;flex-direction:column;overflow:hidden;border:1px solid color-mix(in srgb,var(--page-accent) 75%,#524c19);border-radius:19px;background:#020e1c;box-shadow:inset 0 0 0 3px #dba62915,inset 0 0 18px #000,0 0 12px color-mix(in srgb,var(--page-accent) 16%,transparent)}
+.dev-master-page.theme-blue{--page-accent:#54baff}.dev-master-page.theme-purple{--page-accent:#b58bff}.dev-master-page.theme-cyan{--page-accent:#47e5ed}.dev-master-page.theme-red{--page-accent:#ff526a}
+.dev-master-banner{height:38px;flex:none;display:flex;align-items:center;justify-content:space-between;gap:7px;padding:0 11px;border-bottom:1px solid var(--page-accent);background:linear-gradient(180deg,color-mix(in srgb,var(--page-accent) 19%,#131409),#080e0c);color:var(--page-accent);font-size:clamp(10px,3vw,13px);font-weight:900;letter-spacing:1.25px}
+.dev-master-banner strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.dev-master-meta{font-size:10px;color:#d2f2e3;white-space:nowrap}
+.dev-master-content{position:relative;flex:1;min-height:0;overflow:hidden;background:radial-gradient(ellipse at 50% 56%,#103659,#071e36 65%,#03101e 95%);border:4px solid #05131a}
+.dev-master-content:before{content:'';position:absolute;inset:0;background-image:linear-gradient(#40bfff17 1px,transparent 1px),linear-gradient(90deg,#40bfff17 1px,transparent 1px);background-size:clamp(38px,17vw,85px) clamp(45px,19vw,100px);pointer-events:none}
+.dev-master-content:after{content:'';position:absolute;inset:-15%;background:linear-gradient(113deg,transparent 23%,#17bfff0a 24%,transparent 25%,transparent 63%,#17bfff0d 64%,transparent 65%);pointer-events:none}
+.dev-master-grid{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 4px,#0a304318 5px 6px);pointer-events:none}
+.bottom-nav{flex:0 0 75px;display:flex;align-items:stretch;justify-content:space-around;gap:2px;margin:9px 10px 0;padding:4px 5px;border:2px solid #246257;border-radius:38px;background:linear-gradient(180deg,#0a201d,#020a09);box-shadow:inset 0 0 10px #4cffc011,0 0 13px #18ffd015;overflow:visible}
+.bottom-nav .nav-btn{position:relative;flex:1;min-width:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;padding:3px 0;border:0;border-radius:27px;background:transparent;color:#ffcb37;font-size:10px;font-weight:900;letter-spacing:.7px}
+.bottom-nav .nav-btn .symbol{font-size:32px;line-height:1;color:inherit;text-shadow:0 0 7px currentColor,0 0 16px currentColor}
+.bottom-nav .nav-btn:nth-child(2){color:#b888ff}.bottom-nav .nav-btn:nth-child(3){color:#58baff}.bottom-nav .nav-btn:nth-child(4){color:#ff4b6d}.bottom-nav .nav-btn:nth-child(5){color:#ffbe37}
+.bottom-nav .nav-btn.active{background:radial-gradient(ellipse at 50% 20%,#aa852c50,#30290d40 65%,transparent);box-shadow:inset 0 0 16px #d9b92d25}
+.subnav{position:absolute;z-index:50;bottom:calc(94px + env(safe-area-inset-bottom));left:12px;right:12px;max-height:52dvh;overflow-y:auto;display:flex;flex-wrap:wrap;gap:7px;padding:12px;border:1px solid #409b9b;border-radius:13px;background:#06151cef;box-shadow:0 0 22px #000}
+.subnav button{flex:1 1 90px;min-height:38px;border:1px solid #35788d;border-radius:7px;background:#0b2535;color:#b9e9ff;font-size:11px}
+@media(max-height:650px){.top{flex-basis:46px}.bottom-nav{flex-basis:65px}.bottom-nav .nav-btn .symbol{font-size:25px}}
