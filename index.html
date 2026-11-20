@@ -8281,5 +8281,96 @@ activateEventPage(activeEventPage);
 })();
 </script>
 
+
+<style id="bhq-events-navigation-fix-v2">
+#eventHub .events-tabs.events-menu-hidden{display:none!important}
+#eventHub .events-back{display:flex;align-items:center;gap:8px;width:max-content;margin:0 0 10px;padding:8px 12px;border:1px solid #365c43;border-radius:8px;background:#0b1c12;color:#d9f6e1;font:900 9px monospace;letter-spacing:1px}
+#eventHub .events-back[hidden]{display:none!important}
+#eventPageSlot #activityEventNav,#eventPageSlot #competitionEventNav{display:none!important;height:0!important;margin:0!important;padding:0!important}
+#eventPageSlot #t-activity .activity-hub{height:calc(100dvh - 150px)!important;max-height:calc(100dvh - 150px)!important}
+#eventPageSlot #t-competitions{height:calc(100dvh - 140px)!important;max-height:calc(100dvh - 140px)!important}
+#eventPageSlot #competitionContent .comp-tier{display:none!important}
+#eventPageSlot .event-comp-chest-rail{display:block!important;position:relative!important;min-height:145px!important;padding:12px 8px 22px!important;margin:12px 0 16px!important;overflow:visible!important}
+#eventPageSlot .event-comp-track{display:block!important;margin:44px 16px 42px!important;height:10px!important}
+#eventPageSlot .event-comp-chest-node{position:absolute!important;top:50%!important;transform:translate(-50%,-50%)!important;display:flex!important;flex-direction:column!important;align-items:center!important;gap:4px!important;width:64px!important;text-align:center!important}
+#eventPageSlot .event-comp-chest-node button{width:38px!important;height:38px!important;padding:0!important;border:1px solid #d2a64c!important;border-radius:9px!important;background:linear-gradient(150deg,#d6b15c,#70451b)!important;color:#fff2c9!important;font-size:19px!important;box-shadow:0 0 12px #e8b94b55!important}
+#eventPageSlot .event-comp-chest-node button:disabled{filter:grayscale(.75);opacity:.7}
+#eventPageSlot .event-comp-chest-node button.ready{animation:apChestPulseV4 1.3s ease-in-out infinite;box-shadow:0 0 17px #ffc64cbb!important}
+#eventPageSlot .event-comp-chest-node small{font:8px monospace;color:#d8e8dc;line-height:1.2}
+#eventPageSlot .event-comp-chest-node em{font:7px monospace;color:#9fbea8;font-style:normal}
+#eventPageSlot .event-comp-chest-heading{font:900 9px monospace;letter-spacing:1.2px;color:#d9f6e1;margin:0 0 4px}
+#eventPageSlot #competitionContent .comp-section-title:has(+.comp-muted){display:none!important}
+</style>
+<script id="bhq-events-navigation-fix-v2-script">
+(function(){
+ var host=document.getElementById('eventHub');
+ if(!host)return;
+ var shell=host.querySelector('.events-shell'),tabs=shell&&shell.querySelector('.events-tabs'),slot=document.getElementById('eventPageSlot');
+ if(!shell||!tabs||!slot)return;
+ var back=shell.querySelector('.events-back');
+ if(!back){back=document.createElement('button');back.type='button';back.className='events-back';back.innerHTML='‹ BACK TO EVENTS';back.hidden=true;tabs.insertAdjacentElement('afterend',back)}
+ function setMenu(){
+  tabs.classList.remove('events-menu-hidden');back.hidden=true;
+  var a=document.getElementById('t-activity'),c=document.getElementById('t-competitions');
+  if(a)a.hidden=true;if(c)c.hidden=true;
+  slot.hidden=true;
+ }
+ function setPage(){
+  tabs.classList.add('events-menu-hidden');back.hidden=false;slot.hidden=false;
+  var a=document.getElementById('t-activity'),c=document.getElementById('t-competitions');
+  if(a)a.hidden=!(a.querySelector('.activity-hub')&&a.querySelector('.activity-hub').offsetParent!==null);
+  if(c)c.hidden=!(c.querySelector('#competitionContent')&&c.querySelector('#competitionContent').innerHTML);
+ }
+ back.addEventListener('click',function(){setMenu()});
+ document.addEventListener('click',function(e){
+  var btn=e.target&&e.target.closest?e.target.closest('[data-event-page]'):null;
+  if(btn){setTimeout(setPage,0)}
+ });
+ var previousShow=show;
+ show=function(t){
+  previousShow(t);
+  if(t==='events'){setMenu()}
+ };
+ // Replace the previous chest decoration with a dedicated visible rail that proxies the original claim actions.
+ var previousRenderCompetition=renderCompetition;
+ function buildChestRail(){
+  var content=document.getElementById('competitionContent');
+  if(!content)return;
+  var hub=content.querySelector('.competition-hub');
+  if(!hub)return;
+  var old=hub.querySelector('.event-comp-chest-rail');if(old)old.remove();
+  var rows=Array.prototype.slice.call(hub.querySelectorAll('.comp-tier'));
+  if(!rows.length)return;
+  var scoreEl=hub.querySelector('.comp-score'),score=scoreEl?Number((scoreEl.textContent||'').replace(/[^0-9]/g,''))||0:0;
+  var items=rows.map(function(row,index){
+   var title=row.querySelector('.comp-tier-copy b'),txt=title?title.textContent:'Milestone '+(index+1),match=txt.match(/([\d,]+)\s*PTS/i),at=match?Number(match[1].replace(/,/g,'')):index+1;
+   return {row:row,at:at,title:txt.split('·')[0].trim(),button:row.querySelector('button'),reward:(row.querySelector('.comp-tier-copy small')||{}).textContent||''};
+  });
+  var max=Math.max(1,items[items.length-1].at),pct=Math.min(100,score/max*100);
+  var rail=document.createElement('div');rail.className='event-comp-chest-rail';
+  var heading=document.createElement('div');heading.className='event-comp-chest-heading';heading.textContent='REWARD CHESTS · '+score.toLocaleString('en-GB')+' / '+max.toLocaleString('en-GB')+' POINTS';rail.appendChild(heading);
+  var track=document.createElement('div');track.className='event-comp-track';
+  var fill=document.createElement('div');fill.className='event-comp-track-fill';fill.style.width=pct+'%';track.appendChild(fill);rail.appendChild(track);
+  items.forEach(function(item,index){
+   var node=document.createElement('div');node.className='event-comp-chest-node';node.style.left=(items.length===1?50:4+(index/(items.length-1))*92)+'%';
+   var btn=document.createElement('button');btn.type='button';
+   var claimed=item.button&&/CLAIMED/i.test(item.button.textContent||'');
+   var ready=item.button&&!item.button.disabled&&!claimed;
+   btn.textContent=claimed?'✓':ready?'🎁':'🔒';btn.disabled=!ready; if(ready)btn.classList.add('ready');
+   btn.setAttribute('aria-label',(claimed?'Claimed':ready?'Claim reward':'Locked')+' '+item.title);
+   btn.addEventListener('click',function(){if(item.button&&!item.button.disabled){item.button.click();setTimeout(function(){buildChestRail()},40)}});
+   var label=document.createElement('small');label.textContent=item.at.toLocaleString('en-GB')+' PTS';
+   var status=document.createElement('em');status.textContent=claimed?'CLAIMED':ready?'READY':item.at<=score?'AVAILABLE':'LOCKED';
+   node.appendChild(btn);node.appendChild(label);node.appendChild(status);rail.appendChild(node);
+  });
+  var anchor=hub.querySelector('.comp-grid')||hub.querySelector('.comp-hero');
+  if(anchor)anchor.insertAdjacentElement('afterend',rail);else hub.insertAdjacentElement('afterbegin',rail);
+ }
+ renderCompetition=function(which){previousRenderCompetition(which);buildChestRail()};
+ // Fix initial display: Events opens on the five choices, not on a nested Events landing page.
+ setMenu();
+})();
+</script>
+
 </body>
 </html>
