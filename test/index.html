@@ -8405,6 +8405,37 @@ body.dev-dailies-open #t-hq{visibility:hidden!important}
 @keyframes dm-pulse{from{transform:translateY(0) scale(1)}to{transform:translateY(-3px) scale(1.07)}}
 @media(max-width:375px){#t-dev-dailies .daily-mission-ui{padding:7px;gap:6px}#t-dev-dailies .dm-card{padding:7px;grid-template-columns:28px minmax(0,1fr) 44px;gap:6px}#t-dev-dailies .dm-chest-art{height:32px}}
 </style>
+<div id="dm-reward-modal" hidden role="dialog" aria-modal="true" aria-label="Daily chest reward preview">
+<div class="dm-modal-panel"><button type="button" class="dm-modal-x" aria-label="Close reward window">×</button>
+<div class="dm-modal-kicker">✦ DAILY MILESTONE UNLOCKED ✦</div><div class="dm-modal-art"></div>
+<div class="dm-modal-title">REWARD CHEST</div><div class="dm-modal-tier">25 POINT MILESTONE</div>
+<div class="dm-modal-reward-label">REWARDS PREVIEW</div><div class="dm-modal-rewards"></div>
+<button type="button" class="dm-modal-close">COLLECT &amp; CLOSE</button><div class="dm-modal-note">Development preview • No inventory items added</div>
+</div></div>
+<style id="dm-unique-chests-and-popup">
+#t-dev-dailies .dm-chest-art{height:42px;width:clamp(31px,9vw,49px)}
+#t-dev-dailies .dm-chest-art svg{width:100%;height:100%;stroke-linecap:round;stroke-linejoin:round}
+#t-dev-dailies .dm-chest:nth-child(1) .dm-chest-art svg,#t-dev-dailies .dm-chest:nth-child(4) .dm-chest-art svg{fill:#0d372f;stroke:#61e7b3}
+#t-dev-dailies .dm-chest:nth-child(2) .dm-chest-art svg{fill:#493012;stroke:#f3c467}
+#t-dev-dailies .dm-chest:nth-child(3) .dm-chest-art svg{fill:#52370d;stroke:#ffe286}
+#t-dev-dailies .dm-chest:nth-child(5) .dm-chest-art svg{fill:#614010;stroke:#ffc34e}
+#t-dev-dailies .dm-chest:nth-child(6) .dm-chest-art svg{fill:#704b15;stroke:#fff1a0}
+#dm-reward-modal[hidden]{display:none!important}
+#dm-reward-modal{position:fixed;inset:0;z-index:2147483640;background:#000b;backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:18px;box-sizing:border-box;font-family:ui-monospace,Menlo,monospace}
+#dm-reward-modal .dm-modal-panel{position:relative;width:min(340px,100%);padding:24px 17px 17px;border:2px solid var(--chest-accent,#ffcf69);border-radius:20px;background:radial-gradient(ellipse at 50% 0%,#26404a,#09141e 67%,#040d15);box-shadow:0 0 40px #ffba3844,inset 0 0 24px #ffe68c11;text-align:center;color:#f8e9bc;animation:dm-pop .25s ease-out}
+#dm-reward-modal .dm-modal-x{position:absolute;right:9px;top:7px;border:0;background:none;color:#f5d98c;font-size:25px;padding:4px 8px}
+#dm-reward-modal .dm-modal-kicker{font-size:10px;font-weight:900;letter-spacing:1.2px;color:var(--chest-accent)}
+#dm-reward-modal .dm-modal-art{margin:12px auto 7px;width:115px;height:105px;filter:drop-shadow(0 0 15px var(--chest-accent));animation:dm-float 2s ease-in-out infinite alternate}
+#dm-reward-modal .dm-modal-art svg{width:100%;height:100%;stroke:var(--chest-accent);stroke-width:1.5;fill:#4a3114}
+#dm-reward-modal .dm-modal-title{font-size:19px;font-weight:900;letter-spacing:1px;color:#ffe19b}
+#dm-reward-modal .dm-modal-tier{font-size:10px;color:var(--chest-accent);margin-top:5px}
+#dm-reward-modal .dm-modal-reward-label{margin-top:17px;padding-top:14px;border-top:1px solid #c69c4566;color:#87d5e8;font-size:10px;letter-spacing:1px}
+#dm-reward-modal .dm-modal-rewards{font-size:12px;line-height:1.7;margin:8px auto 17px;color:#e4f6f4;max-width:270px}
+#dm-reward-modal .dm-modal-close{border:1px solid var(--chest-accent);border-radius:9px;padding:12px 18px;background:linear-gradient(120deg,#72501e,#28210e);color:#fff4d5;font:900 12px ui-monospace,monospace;letter-spacing:.8px;box-shadow:0 0 12px #ffd56355}
+#dm-reward-modal .dm-modal-note{font-size:9px;color:#6d9a9e;margin-top:13px}
+@keyframes dm-pop{from{opacity:0;transform:scale(.84) translateY(12px)}to{opacity:1;transform:scale(1)}}
+@keyframes dm-float{from{transform:translateY(0)}to{transform:translateY(-5px)}}
+</style>
 <script id="dev-dailies-missions-preview">
 (function(){
 var tasks=[
@@ -8427,17 +8458,34 @@ var tasks=[
 ['help','♧','Alliance Assistance III','Help 10 alliance members',10,3,50]
 ];
 var milestones=[25,75,150,250,375,500],points=0,claimed={},done={},progress={},active=true;
-var chestSvg='<svg viewBox="0 0 48 44" aria-hidden="true"><path d="M7 18 24 11 41 18 24 26Z"/><path d="M7 18v16l17 8V26Z"/><path d="M41 18v16l-17 8V26Z"/><path d="M24 26v16M14 21l10-5 10 5M24 29v7"/></svg>';
+var chestShapes=[
+'<path d="M7 18 24 11 41 18 24 26Z M7 18v16l17 8V26Z M41 18v16l-17 8V26Z"/><path d="M24 26v16M15 21l9-5 9 5"/>',
+'<path d="M7 15h34v22H7z M4 11h40v7H4z M19 11V5h10v6"/><path d="M24 18v19 M20 24h8v7h-8z"/>',
+'<path d="M24 3 41 12v22L24 43 7 34V12Z M24 3v40 M7 12l17 10 17-10"/><path d="M17 25l7-4 7 4-7 5z"/>',
+'<path d="M5 18 24 7l19 11-19 12z M5 18v14l19 11 19-11V18 M24 30v13"/><path d="M15 15l9-5 9 5-9 5z M18 30h12"/>',
+'<path d="M10 12h28v26H10z M6 8h36v7H6z M17 8V3h14v5"/><path d="M16 22h16 M16 27h16 M24 16v20 M20 33h8"/>',
+'<path d="M24 3 40 13v21L24 43 8 34V13Z M24 3v40 M8 13l16 10 16-10"/><path d="M24 10l5 7-5 6-5-6z M17 30h14 M20 35h8"/>'
+];
+var chestSvg=function(i){return '<svg viewBox="0 0 48 46" aria-hidden="true">'+chestShapes[i]+'</svg>'};
+var chestRewards=[
+['Starter Cache','Energy × 5, Alloy × 500, Speedup × 1'],
+['Supply Vault','Energy × 15, Alloy × 1,500, Speedups × 2'],
+['Encrypted Crate','Data × 1,000, Boosters × 2, Kill Tokens × 10'],
+['Reinforced Cache','Alloy × 5,000, Data × 2,000, Speedups × 3'],
+['Elite Supply Vault','Energy × 75, Data × 5,000, VIP Points × 100'],
+['Commander's Treasury','Resources × 20,000, Boosters × 5, Kill Tokens × 50']
+];
+function showChestPopup(i,m){var modal=document.getElementById('dm-reward-modal');if(!modal)return;modal.querySelector('.dm-modal-art').innerHTML=chestSvg(i);modal.querySelector('.dm-modal-title').textContent=chestRewards[i][0];modal.querySelector('.dm-modal-tier').textContent=m+' POINT MILESTONE';modal.querySelector('.dm-modal-rewards').textContent=chestRewards[i][1];modal.style.setProperty('--chest-accent',i===0||i===3?'#5be5aa':'#ffcf69');modal.hidden=false;modal.querySelector('.dm-modal-close').focus()}
 function render(){var root=document.getElementById('t-dev-dailies');if(!root)return;var cs=root.querySelector('#dm-chests'),ls=root.querySelector('#dm-mission-list');if(!cs||!ls)return;
 root.querySelector('#dm-total').textContent=points+' / 500 POINTS';root.querySelector('#dm-track-fill').style.width=Math.min(100,points/5)+'%';
 cs.innerHTML=milestones.map(function(m,i){var ready=points>=m&&!claimed[m],state=claimed[m]?'claimed':ready?'ready':'locked';return '<button type="button" class="dm-chest '+state+'" data-chest="'+m+'" aria-label="Reward chest at '+m+' points"><span class="dm-chest-art">'+chestSvg+'</span><strong>'+m+'</strong><small>'+(claimed[m]?'OPENED':ready?'CLAIM':'LOCKED')+'</small></button>'}).join('');
-cs.querySelectorAll('button').forEach(function(el){el.onclick=function(){var n=+el.dataset.chest;if(points>=n&&!claimed[n]){claimed[n]=true;render();alert('CHEST OPENED • Preview rewards: resources, boosters and tokens')}}});
+cs.querySelectorAll('button').forEach(function(el){el.onclick=function(){var n=+el.dataset.chest;if(points>=n&&!claimed[n]){claimed[n]=true;render();showChestPopup(milestones.indexOf(n),n)}}});
 var available=tasks.map(function(t,i){return {t:t,i:i}}).filter(function(o){var t=o.t;return !done[o.i]&&(t[5]===1||tasks.slice(0,o.i).filter(function(v){return v[0]===t[0]&&v[5]===t[5]-1}).every(function(v){return done[tasks.indexOf(v)]}))});
 root.querySelector('#dm-count').textContent=Object.keys(done).length+' COMPLETE';root.querySelector('#dm-left').textContent=available.length+' ACTIVE';
 ls.innerHTML=available.length?available.map(function(o){var t=o.t,i=o.i,p=progress[i]||0,complete=p>=t[4];return '<div class="dm-card"><div class="dm-icon">'+t[1]+'</div><div><div class="dm-name">'+t[2]+'</div><div class="dm-description">'+t[3]+'</div><div class="dm-progress"><span style="width:'+Math.min(100,p/t[4]*100)+'%"></span></div><div class="dm-reward">+'+t[6]+' PTS · '+p+'/'+t[4]+'</div></div><button type="button" class="dm-action '+(complete?'done':'')+'" data-mission="'+i+'">'+(complete?'CLAIM':'GO')+'</button></div>'}).join(''):'<div class="dm-finished">✦ ALL DAILY MISSIONS COMPLETE<br><small>Come back tomorrow for new missions.</small></div>';
 ls.querySelectorAll('button').forEach(function(el){el.onclick=function(){var i=+el.dataset.mission,t=tasks[i];if((progress[i]||0)>=t[4]){done[i]=true;points=Math.min(500,points+t[6]);render()}else{progress[i]=(progress[i]||0)+1;render()}}});
 }
-function init(){var p=document.getElementById('t-dev-dailies');if(!p)return;render()}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+function init(){var p=document.getElementById('t-dev-dailies');if(!p)return;render();var modal=document.getElementById('dm-reward-modal');if(modal){modal.querySelectorAll('.dm-modal-close,.dm-modal-x').forEach(function(btn){btn.onclick=function(){modal.hidden=true}});modal.addEventListener('click',function(e){if(e.target===modal)modal.hidden=true});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!modal.hidden)modal.hidden=true})}}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script>
 </body>
