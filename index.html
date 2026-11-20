@@ -8813,5 +8813,77 @@ html:has(#t-bot:not([hidden])){height:100%!important;overflow:hidden!important}
 })();
 </script>
 
+
+<style id="bhq-nano-incoming-and-six-grid-v3">
+/* Restore the incoming enemy status beside Nano Lab; remove only the training-points panel. */
+#t-bot .nano-combat-split{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;grid-template-rows:54px!important}
+#t-bot #nanoIncomingPanel{display:flex!important;height:54px!important;min-height:54px!important;max-height:54px!important;overflow:hidden!important;box-sizing:border-box!important;margin:0!important;padding:4px!important}
+#t-bot #nanoIncomingPanel .nano-incoming-kicker{font-size:6px!important}
+#t-bot #nanoIncomingPanel .nano-incoming-enemy{font-size:8px!important;line-height:1.05!important}
+#t-bot #nanoIncomingPanel .nano-incoming-meta{font-size:6px!important}
+#t-bot #nanoBattleReport{display:none!important}
+#t-bot #nanoCompetitionPoints{display:none!important}
+#t-bot #tiers{flex:1 1 0!important;min-height:0!important;display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;grid-template-rows:repeat(2,minmax(0,1fr))!important;overflow:hidden!important;align-content:stretch!important}
+#t-bot #tiers>.card,#t-bot #tiers>.nano-tier-card{min-width:0!important;min-height:0!important;height:100%!important;max-height:100%!important;overflow:hidden!important}
+@media(max-height:740px){
+ #t-bot:not([hidden]){height:calc(100dvh - 165px)!important;max-height:calc(100dvh - 165px)!important}
+ #t-bot #nanoScoutPanel{flex-basis:120px!important;height:120px!important;min-height:120px!important;max-height:120px!important}
+ #t-bot .nano-combat-split{flex-basis:50px!important;height:50px!important;min-height:50px!important;max-height:50px!important;grid-template-rows:50px!important}
+ #t-bot #nlab,#t-bot #nlab>.card,#t-bot .nano-lab-head,#t-bot #nanoIncomingPanel{height:50px!important;min-height:50px!important;max-height:50px!important}
+}
+</style>
+<script id="bhq-nano-remove-only-competition-points-v3">
+(function(){
+ var prior=renderNano;
+ if(typeof prior==='function'){
+  renderNano=function(){
+   prior();
+   var points=document.getElementById('nanoCompetitionPoints');
+   if(points)points.remove();
+  };
+ }
+})();
+</script>
+<style id="bhq-events-dock-left-shift-v3">
+/* Keep all five event shortcuts visible and shift their popup left on narrow screens. */
+#iosDock .dk-slot:nth-child(5) .dk-tray{left:calc(50% - 34px)!important;right:auto!important}
+#iosDock .dk-slot:nth-child(5).open .dk-tray{transform:translateX(-50%) translateY(0) scale(1)!important}
+#iosDock .dk-slot:nth-child(5) .dk-tray:after{left:calc(50% + 34px)!important}
+@media(max-width:390px){
+ #iosDock .dk-slot:nth-child(5) .dk-tray{left:calc(50% - 40px)!important;gap:4px!important;padding:6px!important}
+ #iosDock .dk-slot:nth-child(5) .dk-tray .event-dock-choice{width:49px!important;min-width:49px!important;height:51px!important}
+}
+#iosDock .dk-slot .dk-caret{display:none!important}
+#iosDock .dk-slot:last-child .dk-caret{display:block!important;position:absolute!important;z-index:5!important;left:50%!important;right:auto!important;top:-9px!important;transform:translateX(-50%)!important;width:0!important;height:0!important;border-left:6px solid transparent!important;border-right:6px solid transparent!important;border-top:7px solid #ffd36b!important;border-radius:0!important;background:none!important;filter:drop-shadow(0 0 4px #ffb84d)}
+</style>
+<script id="bhq-event-dock-routing-and-more-caret-v3">
+(function(){
+ function route(which){
+  if(['activity','daily','weekly','monthly','alliance'].indexOf(which)<0)return;
+  try{
+   if(typeof window.show==='function')window.show('events');
+   if(typeof window.activateEventPage==='function')window.activateEventPage(which);
+   else if(typeof window.openEventPage==='function')window.openEventPage(which);
+  }catch(err){console.error('Events shortcut failed',err)}
+ }
+ document.addEventListener('click',function(e){
+  var button=e.target&&e.target.closest?e.target.closest('#iosDock [data-event-dock-choice]'):null;
+  if(!button)return;
+  e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();
+  route(button.getAttribute('data-event-dock-choice'));
+ },true);
+ function positionCaret(){
+  var dock=document.getElementById('iosDock');if(!dock)return false;
+  var slots=dock.querySelectorAll('.dk-slot');if(!slots.length)return false;
+  slots.forEach(function(slot){slot.querySelectorAll('.dk-caret').forEach(function(c){c.remove()})});
+  var more=slots[slots.length-1],button=more.querySelector('.dk-btn');if(!button)return false;
+  var caret=document.createElement('i');caret.className='dk-caret';caret.setAttribute('aria-hidden','true');button.appendChild(caret);
+  return true;
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',positionCaret);
+ else positionCaret();
+})();
+</script>
+
 </body>
 </html>
