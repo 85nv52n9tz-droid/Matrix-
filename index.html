@@ -2285,6 +2285,44 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 @media(max-width:600px){.bhq-load-holo{min-width:116px;padding:7px 8px;font-size:7px;letter-spacing:.3px}.bhq-load-holo b{font-size:7px;letter-spacing:1px}.holo-left{left:2%;top:18%}.holo-right{right:2%;top:18%}.holo-bottom{bottom:4%}.bhq-load-binary{font-size:8px;letter-spacing:2px}.bhq-load-frame{width:min(88vw,520px);padding:20px 18px}.bhq-load-core{width:78px;height:78px;margin:17px auto}}
 @media(max-width:390px){.bhq-load-holo{min-width:104px;padding:5px 6px}.bhq-load-holo span{font-size:6px}.holo-left{top:13%}.holo-right{top:13%}.holo-bottom{bottom:2%}}
 @media(prefers-reduced-motion:reduce){#bhqLoading:before,#bhqLoading:after,.bhq-load-grid,.bhq-load-data-rail,.bhq-load-holo,.bhq-load-binary,.bhq-load-sweep{animation:none!important}}
+
+/* v0.0.3 — consistent touch scrolling for game dialogs and overlays */
+html{scrollbar-gutter:stable}
+body{overscroll-behavior-y:none}
+[role="dialog"],[aria-modal="true"]{
+  max-height:calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 20px);
+  min-height:0;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
+}
+.test-hq-modal,.nano-tier-open,.nano-report,.crew-picker,.gear-modal,.progression-report-modal,
+#nexusTerminal,#cp2,.ally-territory-modal,.aln-modal,.dr-overlay,.crew-equipment-chooser,
+#crewPicker[data-context="data-net"],#npcRewardModal{
+  box-sizing:border-box;max-height:100dvh;overflow-y:auto!important;overflow-x:hidden!important;
+  overscroll-behavior:contain!important;-webkit-overflow-scrolling:touch!important;
+  touch-action:pan-y!important;padding-top:max(10px,env(safe-area-inset-top))!important;
+  padding-bottom:max(10px,env(safe-area-inset-bottom))!important;
+}
+.test-hq-modal .test-hq-dialog,.test-hq-modal .test-inside-dialog,
+#crewPicker[data-context="data-net"] .crew-picker-box,#npcRewardModal>div,
+.nano-tier-open>div,.nano-report>div,.crew-picker>div,.gear-modal>div,
+.progression-report-modal>div,#nexusTerminal>div,#cp2>div,
+.ally-territory-modal>div,.aln-modal>div,.dr-overlay>div,.crew-equipment-chooser>div{
+  box-sizing:border-box;max-height:calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 20px)!important;
+  min-height:0;overflow-y:auto!important;overflow-x:hidden!important;
+  overscroll-behavior:contain!important;-webkit-overflow-scrolling:touch!important;
+  touch-action:pan-y!important;scrollbar-width:thin;
+}
+#testHqModal .test-modal-scroll,#testBuildingModal .test-modal-scroll,
+#testInsideModal #testInsideBody,#crewPicker[data-context="data-net"] .crew-picker-box{
+  min-height:0!important;overscroll-behavior:contain!important;
+  -webkit-overflow-scrolling:touch!important;touch-action:pan-y!important;
+}
+#npcRewardModal{z-index:2147482500!important}
+@media(max-width:600px){
+  .test-hq-modal,.nano-tier-open,.nano-report,.crew-picker,.gear-modal,.progression-report-modal,
+  #nexusTerminal,#cp2,.ally-territory-modal,.aln-modal,.dr-overlay,.crew-equipment-chooser,
+  #crewPicker[data-context="data-net"],#npcRewardModal{align-items:flex-start!important;place-items:start center!important}
+}
+
 </style>
 </head>
 <body>
