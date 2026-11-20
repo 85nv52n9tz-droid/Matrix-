@@ -4632,6 +4632,11 @@ function openEventPage(which){if(which==='activity'){show('activity');return}act
 function wireEventPageNav(){[['activityEventNav','activity'],['competitionEventNav',activeCompetitionPeriod]].forEach(function(pair){var host=$(pair[0]);if(!host)return;host.innerHTML=eventNavMarkup(pair[1]);host.querySelectorAll('[data-event-open]').forEach(function(b){b.onclick=function(){openEventPage(b.getAttribute('data-event-open'))}});var back=host.querySelector('[data-event-back]');if(back)back.onclick=function(){show('events')}})}
 function compRenderRankCount(score,period,progress){var scale=period==='daily'?.17:period==='monthly'?4.8:1,seasonFactor=.22+.78*(Number(progress)||1),pool=period==='alliance'?COMP_ALLIANCE_RIVALS:COMP_RIVALS;return pool.filter(function(r){return Math.round(r[1]*scale*seasonFactor)>score}).length}
 function show(t){if(t==='ally')t='aln';if(t==='mis'&&Number(S.npcMissionUnread)>0){S.npcMissionUnread=0;save()}var leavingUpdateLog=tab==='updates'&&t!=='updates';if(leavingUpdateLog&&String(S.updateLogSeenVersion||'')===BHQ_UPDATE_VERSION)startSystemGiftDeliveryTimer();var previousTab=tab;tab=t;if(t==='updates'){markUpdateLogRead();renderUpdateLog()}if(t==='map')renderNpcRewardLog();if(t==='activity'&&typeof window.renderDailyMissions==='function')window.renderDailyMissions();if(t==='events')renderEventHub();if(t==='activity'||t==='competitions')wireEventPageNav();if(t==='ally'){atab=0;allyInteriorOpen=false;}if(t==='aln')renderAln();if(t==='settings')renderSettings();if(t==='user')renderChiefProfile();if(t==='progression')renderProgressionArchive();['hq','ally','aln','activity','events','updates','user','progression','settings','mis','map','bot','rank','crew','vip','shop','competitions','net'].forEach(function(k){var el=$('t-'+k);if(el)el.hidden=(k!==t)&&!(crewProfileShopOpen&&k==='crew');if(tb[k])tb[k].classList.toggle('on',k===t);});document.querySelectorAll('[data-test-go]').forEach(function(x){x.classList.toggle('current',x.getAttribute('data-test-go')===t)});document.querySelectorAll('[data-rail-go]').forEach(function(x){x.classList.toggle('current',x.getAttribute('data-rail-go')===t)});if(previousTab!==t){var resetSection=function(){var pane=$('t-'+t);try{window.scrollTo(0,0)}catch(e){}if(document.scrollingElement)document.scrollingElement.scrollTop=0;document.documentElement.scrollTop=0;document.body.scrollTop=0;if(pane){pane.scrollTop=0;pane.querySelectorAll('*').forEach(function(node){if(node.closest('#nexusTerminal'))return;var cs;try{cs=getComputedStyle(node)}catch(e){}if(cs&&(cs.overflowY==='auto'||cs.overflowY==='scroll'))node.scrollTop=0})}};resetSection();requestAnimationFrame(resetSection)}render()}
+/* Single authoritative game navigation for external Events UI.
+   Events content lives inside #t-events, so nested destinations must use show()
+   to hide HQ and all other top-level sections before they render. */
+window.BHQ_SHOW_ACTIVE_PAGE=function(destination){show(destination)};
+renderEventHub=function(){if(typeof window.BHQ_EVENTS_MENU==='function')window.BHQ_EVENTS_MENU()};
 function buy(o){
   if(S.hq<o.u||lvl(o)>=cap(o)||S.up[o.id])return;var c=cost(o);if(!afford(c))return;
   pay(c);
@@ -9169,7 +9174,10 @@ html:has(#t-bot:not([hidden])){height:100%!important;overflow:hidden!important}
  function open(which){
   if(!names[which])return;
   closeMail();
-  if(typeof window.show==='function')window.show('events');
+  if(typeof window.BHQ_SHOW_ACTIVE_PAGE==='function')window.BHQ_SHOW_ACTIVE_PAGE('events');
+  else{
+   document.querySelectorAll('section[id^="t-"]').forEach(function(p){p.hidden=p.id!=='t-events'});
+  }
   var events=document.getElementById('t-events');if(events)events.hidden=false;
   menu.hidden=true;windowEl.hidden=false;
   root.querySelector('.fresh-events-heading').textContent=names[which][1].toUpperCase();
@@ -9188,7 +9196,7 @@ html:has(#t-bot:not([hidden])){height:100%!important;overflow:hidden!important}
  }
  menu.addEventListener('click',function(e){var b=e.target.closest('[data-fresh-event]');if(b)open(b.dataset.freshEvent)});
  root.querySelector('.fresh-events-back').addEventListener('click',menuOpen);
- window.openEventPage=open;window.openEventDestination=open;window.renderEventHub=menuOpen;
+ window.BHQ_EVENTS_MENU=menuOpen;window.openEventPage=open;window.openEventDestination=open;window.renderEventHub=menuOpen;
  /* The bottom Events tray uses the same fresh route. Intercept it before old handlers. */
  window.addEventListener('click',function(e){
   var b=e.target&&e.target.closest&&e.target.closest('#iosDock [data-event-dock-choice]');
