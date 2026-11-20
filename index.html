@@ -7696,32 +7696,32 @@ main#gameShell{height:100dvh!important;min-height:100dvh!important;max-height:10
 (function(){
 'use strict';
 var TASKS=[
-{id:'login',name:'Log in to Backdoor HQ',desc:'Connect to your command network for the day.',type:'login',target:1,points:1,go:'hq'},
-{id:'help',name:'Help an alliance member',desc:'Assist one ally with an active timer or request.',type:'help',target:1,points:6,go:'aln'},
-{id:'help4',name:'Help four alliance members',desc:'Continue supporting your alliance until you have helped four members.',type:'help',target:4,points:12,go:'aln'},
+{id:'login',name:'Log in to Backdoor HQ',desc:'Log in once today. This is the only automatic daily task.',type:'login',target:1,points:1,go:'hq'},
+{id:'help',name:'Help an alliance member',desc:'Open Alliance > Comms Hub > Help and complete one member help request. Simply opening the Help screen does not count.',type:'help',target:1,points:2,go:'aln'},
+{id:'help4',name:'Help four alliance members',desc:'Complete four member help requests in total today. Your first help counts towards this cumulative target.',type:'help',target:4,points:3,go:'aln'},
 
-{id:'deploy1',name:'Deploy an operation',desc:'Launch your first field operation today.',type:'launches',target:1,points:11,go:'mis'},
-{id:'contract1',name:'Complete a contract',desc:'Finish an assignment in Mission Control.',type:'missions',target:1,points:21,go:'mis'},
-{id:'recon',name:'Complete reconnaissance',desc:'Send a scout and review the intelligence report.',type:'scouts',target:1,points:16,go:'map'},
-{id:'upgrade1',name:'Upgrade a facility',desc:'Complete an HQ, building or research upgrade.',type:'upgrades',target:1,points:26,go:'hq'},
-{id:'deploy3',name:'Deploy three operations',desc:'Keep your operative network active.',type:'launches',target:3,points:30,go:'mis'},
-{id:'combat1',name:'Win three engagements',desc:'Build a cumulative record of successful attacks and defences.',type:'attacks',target:3,points:18,go:'bot'},
-{id:'training',name:'Strengthen your Nano force',desc:'Train or promote Nano Bot units.',type:'training',target:1,points:38,go:'bot'},
-{id:'contracts3',name:'Complete three contracts',desc:'Finish three assignments in Mission Control.',type:'missions',target:3,points:42,go:'mis'},
-{id:'raid',name:'Complete a Nano strike',desc:'Use reconnaissance intelligence to complete a strike.',type:'raids',target:1,points:47,go:'bot'},
-{id:'combat6',name:'Win six engagements',desc:'Keep building your cumulative combat record.',type:'attacks',target:6,points:18,go:'bot'},
-{id:'combat9',name:'Win nine engagements',desc:'Reach the highest daily combat milestone.',type:'attacks',target:9,points:46,go:'bot'},
-{id:'upgrades3',name:'Complete three upgrades',desc:'Improve your HQ, facilities or research systems.',type:'upgrades',target:3,points:55,go:'hq'},
-{id:'contracts5',name:'Complete five contracts',desc:'Finish five assignments across Mission Control.',type:'missions',target:5,points:59,go:'mis'},
-{id:'operations8',name:'Deploy eight operations',desc:'Complete a full day of active operations.',type:'launches',target:8,points:54,go:'mis'}
+{id:'deploy1',name:'Deploy two operations',desc:'Launch 2 operations from Mission Control. Starting an operation counts; repeat until the counter reaches 2.',type:'launches',target:2,points:4,go:'mis'},
+{id:'contract1',name:'Complete two contracts',desc:'Finish 2 contracts in Mission Control. Deploying a contract alone is not enough; complete the assignment.',type:'missions',target:2,points:5,go:'mis'},
+{id:'recon',name:'Complete two reconnaissance missions',desc:'Open Nano Bots > Recon, choose a target, crew member and bots, then deploy the scout. Let the timer finish and the scout return. Repeat twice; progress counts when the scout returns.',type:'scouts',target:2,points:5,go:'bot'},
+{id:'upgrade1',name:'Complete two upgrades',desc:'Finish 2 HQ, facility or research upgrades. Starting an upgrade does not count until it completes.',type:'upgrades',target:2,points:6,go:'hq'},
+{id:'deploy3',name:'Deploy five operations',desc:'Reach 5 operations launched today in total. The first 2 operations already count.',type:'launches',target:5,points:6,go:'mis'},
+{id:'combat1',name:'Win five engagements',desc:'Win 5 PvP engagements today. Only successful attacks or defences recorded by the combat system count.',type:'attacks',target:5,points:7,go:'bot'},
+{id:'training',name:'Train or promote Nano Bots twice',desc:'Complete 2 Nano Bot training or promotion actions in the Nano Bots area.',type:'training',target:2,points:7,go:'bot'},
+{id:'contracts3',name:'Complete five contracts',desc:'Complete 5 Mission Control contracts in total today. Your first 2 completed contracts count.',type:'missions',target:5,points:7,go:'mis'},
+{id:'raid',name:'Complete two Nano strikes',desc:'Use Nano Bots to launch and finish 2 strikes. A strike counts only when its operation completes.',type:'raids',target:2,points:8,go:'bot'},
+{id:'combat6',name:'Win ten engagements',desc:'Reach 10 successful PvP engagements in total today. Your first 5 wins count.',type:'attacks',target:10,points:8,go:'bot'},
+{id:'combat9',name:'Win fifteen engagements',desc:'Reach 15 successful PvP engagements in total today. This is the final combat milestone.',type:'attacks',target:15,points:8,go:'bot'},
+{id:'upgrades3',name:'Complete four upgrades',desc:'Finish 4 HQ, facility or research upgrades in total today. Your first 2 upgrades count.',type:'upgrades',target:4,points:8,go:'hq'},
+{id:'contracts5',name:'Complete eight contracts',desc:'Complete 8 contracts in Mission Control in total today. Your first 5 completions count.',type:'missions',target:8,points:8,go:'mis'},
+{id:'operations8',name:'Deploy twelve operations',desc:'Reach 12 operations launched today in total. Your first 5 deployments count.',type:'launches',target:12,points:7,go:'mis'}
 ];
 var CHESTS=[
-{at:25,name:'Supply Cache',items:[['cr',1800,'Credits'],['da',350,'Data']]},
-{at:75,name:'Field Crate',items:[['cr',3200,'Credits'],['cy',35,'Cyber Chips'],['in',12,'Influence']]},
-{at:150,name:'Operative Chest',items:[['da',800,'Data'],['ex',25,'Experience'],['wi',4,'Wisdom'],['vip',3,'VIP Points']]},
-{at:250,name:'Advanced Cache',items:[['cr',6500,'Credits'],['cy',90,'Cyber Chips'],['in',35,'Influence'],['boost',10,'Income Booster · 10 min']]},
-{at:375,name:'Elite Supply Chest',items:[['da',1500,'Data'],['ex',65,'Experience'],['wi',12,'Wisdom'],['cr',9000,'Credits'],['vip',5,'VIP Points'],['kt',2,'Kill Tokens']]},
-{at:500,name:'Grand Commander Chest',items:[['cr',18000,'Credits'],['da',3000,'Data'],['cy',250,'Cyber Chips'],['ex',120,'Experience'],['wi',30,'Wisdom'],['in',100,'Influence'],['vip',8,'VIP Points'],['kt',5,'Kill Tokens'],['boost',20,'Income Booster · 20 min']]}
+{at:10,name:'Supply Cache',items:[['cr',1800,'Credits'],['da',350,'Data']]},
+{at:25,name:'Field Crate',items:[['cr',3200,'Credits'],['cy',35,'Cyber Chips'],['in',12,'Influence']]},
+{at:40,name:'Operative Chest',items:[['da',800,'Data'],['ex',25,'Experience'],['wi',4,'Wisdom'],['vip',3,'VIP Points']]},
+{at:55,name:'Advanced Cache',items:[['cr',6500,'Credits'],['cy',90,'Cyber Chips'],['in',35,'Influence'],['boost',10,'Income Booster · 10 min']]},
+{at:75,name:'Elite Supply Chest',items:[['da',1500,'Data'],['ex',65,'Experience'],['wi',12,'Wisdom'],['cr',9000,'Credits'],['vip',5,'VIP Points'],['kt',2,'Kill Tokens']]},
+{at:100,name:'Grand Commander Chest',items:[['cr',18000,'Credits'],['da',3000,'Data'],['cy',250,'Cyber Chips'],['ex',120,'Experience'],['wi',30,'Wisdom'],['in',100,'Influence'],['vip',8,'VIP Points'],['kt',5,'Kill Tokens'],['boost',20,'Income Booster · 20 min']]}
 ];
 function $id(id){return document.getElementById(id)}
 function dayKey(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
@@ -7729,19 +7729,19 @@ function state(){var api=window.BHQ_API,s=api&&typeof api.S==='function'?api.S()
 function progress(t,a){if(t.type==='login')return Math.min(1,a.pipelineLogin||0);if(t.type==='help')return Math.max(0,a.pipelineHelp||0);var api=window.BHQ_API,s=api&&typeof api.S==='function'?api.S():null,old=s&&s.activity&&s.activity.daily;return Math.max(0,Number(old&&old[t.type])||0)}
 function saveState(){try{var api=window.BHQ_API;if(api&&typeof api.save==='function')api.save()}catch(e){}}
 function taskDone(t,a){return progress(t,a)>=t.target}
-function awardPoints(a){var changed=false;TASKS.forEach(function(t){if(taskDone(t,a)&&!a.pipelineDone[t.id]){a.pipelineDone[t.id]=true;a.pipelinePoints=Math.min(500,(Number(a.pipelinePoints)||0)+t.points);changed=true}});if(TASKS.every(function(t){return a.pipelineDone[t.id]}))a.pipelineComplete=true;else a.pipelineComplete=false;if(changed)saveState();return changed}
+function awardPoints(a){var changed=false;TASKS.forEach(function(t){if(taskDone(t,a)&&!a.pipelineDone[t.id]){a.pipelineDone[t.id]=true;a.pipelinePoints=Math.min(100,(Number(a.pipelinePoints)||0)+t.points);changed=true}});if(TASKS.every(function(t){return a.pipelineDone[t.id]}))a.pipelineComplete=true;else a.pipelineComplete=false;if(changed)saveState();return changed}
 function rewardLabel(item){return item[1].toLocaleString('en-GB')+' '+item[2]}
 function showChestReward(chest){var shade=document.createElement('div');shade.className='ap-modal-shade';var modal=document.createElement('div');modal.className='ap-modal';modal.innerHTML='<div style="font-size:35px">🎁</div><h3>'+chest.name+'</h3><div style="font-size:9px;color:#ffe2a0">CHEST CONTENTS · CLAIM TO TRANSFER</div><div class="ap-reward-list">'+chest.items.map(function(it){return '<div class="ap-reward">'+it[2]+'<b>+'+it[1].toLocaleString('en-GB')+'</b></div>'}).join('')+'</div><div class="ap-modal-note" style="font-size:8px;color:#b6c9a7;margin:8px 0">Rewards are not added until you claim them.</div><div class="ap-modal-actions"><button type="button" class="ap-claim">CLAIM REWARDS</button><button type="button" class="ap-done">DONE</button></div>';shade.appendChild(modal);document.body.appendChild(shade);var claim=modal.querySelector('.ap-claim'),done=modal.querySelector('.ap-done');claim.onclick=function(){if(claim.disabled)return;var api=window.BHQ_API,s=api&&typeof api.S==='function'?api.S():null,a=state();if(!s||!a||a.pipelineClaimed.indexOf(chest.at)>=0){claim.disabled=true;claim.textContent='ALREADY CLAIMED';return}claim.disabled=true;chest.items.forEach(function(it){if(s.r&&typeof s.r[it[0]]==='number')s.r[it[0]]+=it[1];else if(it[0]==='vip')s.vipPoints=(s.vipPoints||0)+it[1];else if(it[0]==='kt')s.killTokens=(s.killTokens||0)+it[1];else if(it[0]==='boost'){s.boosts=s.boosts||{};s.boosts.income=Math.max(Date.now(),Number(s.boosts.income)||0)+it[1]*60000}});a.pipelineClaimed.push(chest.at);saveState();modal.querySelector('.ap-modal-note').textContent='REWARDS ADDED TO YOUR COMMAND INVENTORY';claim.textContent='CLAIMED';render()};done.onclick=function(){shade.remove()};shade.addEventListener('click',function(e){if(e.target===shade)shade.remove()})}
 function grantChest(chest){var a=state();if(!a||a.pipelineClaimed.indexOf(chest.at)>=0)return;showChestReward(chest)}
 function render(){
 var section=$id('t-activity');if(!section)return;var host=section.querySelector('.activity-hub');if(!host)return;var a=state();if(!a)return;awardPoints(a);
-var points=Math.min(500,Number(a.pipelinePoints)||0),opened=a.pipelineClaimed||[];
+var points=Math.min(100,Number(a.pipelinePoints)||0),opened=a.pipelineClaimed||[];
 
 var taskHtml=TASKS.map(function(t,i){var v=progress(t,a),done=!!a.pipelineDone[t.id],blocked=TASKS.slice(0,i).some(function(prev){return prev.type===t.type&&!a.pipelineDone[prev.id]}),pct=Math.min(100,v/t.target*100);if(done||blocked)return '';return '<div class="ap-task"><div class="ap-task-num">'+String(i+1).padStart(2,'0')+'</div><div class="ap-task-main"><b>'+t.name+'</b><p>'+t.desc+'</p><div class="ap-task-meta"><span>'+v+'/'+t.target+'</span><div class="ap-task-bar"><i style="width:'+pct+'%"></i></div></div></div><div class="ap-task-side"><span class="ap-points">+'+t.points+' PTS</span><button class="ap-go" type="button" data-ap-go="'+t.go+'">GO →</button></div></div>'}).join('');
 var chestHtml=CHESTS.map(function(c,i){var claimed=opened.indexOf(c.at)>=0,ready=points>=c.at&&!claimed;var pos=[8,24,40,56,72,88][i];return '<button type="button" class="ap-chest '+(claimed?'opened':ready?'ready':'')+'" data-ap-chest="'+c.at+'" aria-label="'+(claimed?'Chest claimed':ready?'Open '+c.name:'Requires '+c.at+' points')+'" title="'+(claimed?'Claimed':ready?'Open reward chest':c.at+' points required')+'" style="left:'+pos+'%" '+(ready?'':'disabled')+'><span class="ap-chest-icon" aria-hidden="true">'+(claimed?'✓':'')+'</span><span class="ap-chest-label">'+(claimed?'CLAIMED':c.at+' PTS')+'</span></button>'}).join('');
-var fillPct=points/5,waitingIndex=CHESTS.findIndex(function(c){return points>=c.at&&!opened.includes(c.at)});if(waitingIndex>=0)fillPct=[5,15,30,50,75,100][waitingIndex];var next=CHESTS.find(function(c){return points<c.at&&!opened.includes(c.at)})||null;
+var fillPct=points,waitingIndex=CHESTS.findIndex(function(c){return points>=c.at&&!opened.includes(c.at)});if(waitingIndex>=0)fillPct=[10,25,40,55,75,100][waitingIndex];var next=CHESTS.find(function(c){return points<c.at&&!opened.includes(c.at)})||null;
 host.innerHTML='<div class="ap-head"><div class="ap-kicker">DAILIES // DAILY REWARD NETWORK</div><div class="ap-title">DAILY <span style="color:#79ffad">MISSIONS</span></div><div class="ap-sub">Complete your daily missions to charge the reward conduit. Each unlocked chest can be opened once per day.</div><div class="ap-score"><div><strong>'+points+'</strong><small> TOTAL POINTS</small></div><small>'+Object.keys(a.pipelineDone).length+' / '+TASKS.length+' TASKS COMPLETE</small></div></div><div class="ap-track-wrap"><div class="ap-track"><div class="ap-track-base"></div><div class="ap-track-fill" style="width:'+fillPct+'%"></div>'+chestHtml+'</div></div><div class="ap-section"><b>DAILY MISSIONS</b><small>'+TASKS.length+' TASK MILESTONES · CUMULATIVE PROGRESS</small></div><div class="ap-tasks">'+taskHtml+'</div>';
-if(a.pipelineComplete){var taskList=host.querySelector('.ap-tasks');if(taskList)taskList.remove();var complete=document.createElement('div');complete.className='ap-complete';complete.innerHTML='<div class="medal">🏆</div><h2>ALL MISSIONS COMPLETE!</h2><div style="font-size:20px;color:#9cffb8;font-weight:900">'+TASKS.length+' / '+TASKS.length+'</div><p>Outstanding work, Commander. You have completed every daily operation. Your reward pipeline remains available above so you can open any unlocked chests you have not claimed.</p><p>Come back tomorrow for a fresh set of missions and a new 500-point progression.</p>';host.appendChild(complete)}
+if(a.pipelineComplete){var taskList=host.querySelector('.ap-tasks');if(taskList)taskList.remove();var complete=document.createElement('div');complete.className='ap-complete';complete.innerHTML='<div class="medal">🏆</div><h2>ALL MISSIONS COMPLETE!</h2><div style="font-size:20px;color:#9cffb8;font-weight:900">'+TASKS.length+' / '+TASKS.length+'</div><p>Outstanding work, Commander. You have completed every daily operation. Your reward pipeline remains available above so you can open any unlocked chests you have not claimed.</p><p>Come back tomorrow for a fresh set of missions and a new 100-point progression.</p>';host.appendChild(complete)}
 host.querySelectorAll('[data-ap-chest]').forEach(function(btn){btn.onclick=function(){var c=CHESTS.find(function(x){return x.at===Number(btn.getAttribute('data-ap-chest'))});if(c&&points>=c.at&&!opened.includes(c.at))grantChest(c)}});host.querySelectorAll('[data-ap-go]').forEach(function(btn){btn.onclick=function(){var dest=btn.getAttribute('data-ap-go'),nav=document.querySelector('[data-test-go="'+dest+'"]');if(nav)nav.click();if(dest==='aln'){setTimeout(function(){var hub=document.querySelector('#t-aln [data-aln="hub"]');if(hub)hub.click();else{var allianceHelp=document.querySelector('#t-aln [data-aln="hq"]');if(allianceHelp)allianceHelp.click()}},450)}}});
 }
 var api=window.BHQ_API,oldTrack=api&&api.trackActivity;
@@ -7857,6 +7857,16 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 #t-activity .ap-task{min-height:0!important;padding:6px 8px!important}
 #t-activity .ap-task-main p{margin:2px 0 3px!important}
 #t-activity .ap-task-meta{margin-top:2px}
+</style>
+<style id="bhq-daily-missions-scroll-difficulty-v7">
+/* Keep the dashboard and reward track fixed; only the mission rows scroll. */
+#t-activity{height:calc(100dvh - var(--top-spacer-height,150px) - 8px)!important;max-height:calc(100dvh - var(--top-spacer-height,150px) - 8px)!important;min-height:0!important;box-sizing:border-box!important;overflow:hidden!important;overscroll-behavior:none!important;}
+#t-activity .activity-hub{height:100%!important;max-height:100%!important;min-height:0!important;box-sizing:border-box!important;overflow:hidden!important;display:flex!important;flex-direction:column!important;padding:6px 8px 6px!important;}
+#t-activity .ap-head,#t-activity .ap-track-wrap,#t-activity .ap-section{flex:0 0 auto!important;}
+#t-activity .ap-tasks{flex:1 1 0!important;min-height:0!important;height:auto!important;max-height:none!important;overflow-x:hidden!important;overflow-y:auto!important;touch-action:pan-y!important;overscroll-behavior:contain!important;-webkit-overflow-scrolling:touch!important;align-content:start!important;grid-auto-rows:max-content!important;padding:3px 4px 14px!important;}
+#t-activity .ap-task{min-height:0!important;padding:7px 8px!important;}
+#t-activity .ap-task-main p{margin:3px 0 4px!important;line-height:1.4!important;}
+#t-activity .ap-complete{flex:1 1 0!important;min-height:0!important;overflow-y:auto!important;}
 </style>
 </body>
 </html>
