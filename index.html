@@ -2357,7 +2357,32 @@ section[id^="t-"]:not(#t-hq){
   #t-updates,#t-competitions{padding-left:8px;padding-right:8px}
 }
 </style>
-</head>
+<style id="active-nexus-hq-building">
+.nexus-pipeline{position:absolute;inset:0;width:100%;height:100%;z-index:2;overflow:visible;pointer-events:none}
+.nexus-pipe-outer{fill:none;stroke:#07151b;stroke-width:17;stroke-linecap:round;opacity:.95}
+.nexus-pipe-inner{fill:none;stroke:#147b91;stroke-width:10;stroke-linecap:round;filter:url(#nexusPipeGlow);opacity:.9}
+.nexus-pipe-flow{fill:none;stroke:#7df6ff;stroke-width:3.5;stroke-linecap:round;stroke-dasharray:5 15;animation:nexusPipeRun 1.7s linear infinite;filter:url(#nexusPipeGlow)}
+.nexus-pipe-node{fill:#a8fbff;stroke:#1ce8ff;stroke-width:5;filter:url(#nexusPipeGlow);animation:nexusPulse 2s ease-in-out infinite}
+@keyframes nexusPipeRun{to{stroke-dashoffset:-80}}@keyframes nexusPulse{50%{opacity:.42;r:5}}
+.nexus-hq-building{position:absolute;left:50%;top:16%;width:clamp(142px,24vw,190px);height:145px;transform:translate(-50%,-50%);z-index:9;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;filter:drop-shadow(0 12px 11px #000d);cursor:pointer;color:#c9fbff}
+.nexus-building-shell{position:relative;width:112px;height:82px;display:flex;align-items:center;justify-content:center;clip-path:polygon(18% 8%,50% 0,82% 8%,100% 80%,50% 100%,0 80%);background:linear-gradient(145deg,#a5faff,#247d91 17%,#0b2534 49%,#07131f 75%,#40c9db);border:1px solid #9bfbff;box-shadow:0 0 20px #24eaff88,inset 0 0 20px #5cf7ff66}
+.nexus-building-shell:before{content:"";position:absolute;inset:7px 10px 10px;background:linear-gradient(145deg,#173d50,#07121e 65%);clip-path:polygon(18% 0,82% 0,100% 76%,50% 100%,0 76%);border:1px solid #54ddeb}
+.nexus-building-glass{position:absolute;z-index:2;left:50%;top:14px;transform:translateX(-50%);width:42px;height:44px;border:1px solid #8ffaff;background:linear-gradient(145deg,#45eaff55,#071522);box-shadow:0 0 18px #35eaff99,inset 0 0 12px #6ffaff55;display:flex;align-items:center;justify-content:center;gap:3px}
+.nexus-building-glass span{font-size:23px;color:#caffff;text-shadow:0 0 12px #36efff}
+.nexus-building-glass i{position:absolute;bottom:5px;width:3px;height:9px;background:#60f7ff;box-shadow:0 0 8px #5ffaff;animation:nexusScreen 1s ease-in-out infinite alternate}
+.nexus-building-glass i:nth-of-type(1){left:8px}.nexus-building-glass i:nth-of-type(2){left:17px;height:14px;animation-delay:.3s}.nexus-building-glass i:nth-of-type(3){left:26px;height:6px;animation-delay:.6s}
+@keyframes nexusScreen{to{height:3px;opacity:.45}}
+.nexus-building-core{position:absolute;z-index:3;bottom:7px;left:50%;width:16px;height:16px;transform:translateX(-50%);border-radius:50%;background:#baffff;box-shadow:0 0 9px 4px #1ceaff,0 0 24px 8px #1ceaff88}
+.nexus-building-wing{position:absolute;z-index:1;bottom:8px;width:39px;height:29px;background:linear-gradient(145deg,#2d8ca0,#091b2a);border:1px solid #62e9f5;box-shadow:0 0 12px #20d9f755}
+.nexus-building-wing.left{left:-16px;transform:skewY(23deg) rotate(-8deg)}.nexus-building-wing.right{right:-16px;transform:skewY(-23deg) rotate(8deg)}
+.nexus-building-crown{position:absolute;top:7px;width:62px;height:12px;background:linear-gradient(90deg,#124254,#8dfaff,#124254);clip-path:polygon(0 100%,18% 0,82% 0,100% 100%);box-shadow:0 0 15px #4df4ff}
+.nexus-building-beacon{position:absolute;top:0;width:3px;height:19px;background:#a8ffff;box-shadow:0 0 8px 3px #25eaff;animation:nexusPulse 1.8s infinite}
+.nexus-building-name{font:900 11px/1.2 ui-monospace,monospace;letter-spacing:3px;color:#c9fbff;text-shadow:0 0 10px #24eaff;margin-top:5px}
+.nexus-building-sub{font:700 7px/1.3 ui-monospace,monospace;letter-spacing:1px;color:#67dce8;margin-top:2px}
+.nexus-building-tap{position:absolute;inset:0;border:0;background:transparent;cursor:pointer;z-index:10}
+.nexus-hq-building:focus-visible{outline:2px solid #8cfaff;outline-offset:4px;border-radius:12px}
+@media(max-width:600px){.nexus-hq-building{top:15%;width:145px;height:130px}.nexus-building-shell{transform:scale(.88)}}
+</style></head>
 <body>
 <div id="authGate">
   <div class="bhq-login-atmosphere" aria-hidden="true">
@@ -3178,7 +3203,8 @@ function chatPost(channel,kind,sender,message){if(window.BHQ_CHAT&&typeof window
 function build(){
   allyTerritoryMapsEl=$('allyTerritoryMaps');
   if($('testAttack'))$('testAttack').onclick=function(){show('bot')};
-  if($('testBuildingLayer'))$('testBuildingLayer').addEventListener('click',function(ev){var h=ev.target&&ev.target.closest&&ev.target.closest('#testHqTap');if(h){var list=S.pr>0?PB:B;if(testBulkUpgradeState(list).ready){testBulkUpgrade(list)}else{openTestHq()}return}var b=ev.target&&ev.target.closest&&ev.target.closest('[data-test-building]');if(b)openTestInside(b.getAttribute('data-test-building'))});
+  if($('testBuildingLayer'))$('testBuildingLayer').addEventListener('click',function(ev){var nx=ev.target&&ev.target.closest&&ev.target.closest('[data-nexus-building]');if(nx){nxOpen();return}var h=ev.target&&ev.target.closest&&ev.target.closest('#testHqTap');if(h){var list=S.pr>0?PB:B;if(testBulkUpgradeState(list).ready){testBulkUpgrade(list)}else{openTestHq()}return}var b=ev.target&&ev.target.closest&&ev.target.closest('[data-test-building]');if(b)openTestInside(b.getAttribute('data-test-building'))});
+  if($('testBuildingLayer'))$('testBuildingLayer').addEventListener('keydown',function(ev){var nx=ev.target&&ev.target.closest&&ev.target.closest('[data-nexus-building]');if(nx&&(ev.key==='Enter'||ev.key===' ')){ev.preventDefault();nxOpen()}});
   if($('testHqClose'))$('testHqClose').onclick=closeTestHq;
   if($('testHqModal'))$('testHqModal').addEventListener('click',function(ev){if(ev.target===$('testHqModal'))closeTestHq()});
   if($('testHqUpgrade'))$('testHqUpgrade').onclick=function(){upHQ();renderTestHqModal()};
@@ -4687,7 +4713,9 @@ function renderTestArea(){
   var hqStage=Math.min(6,Math.floor((hqLevel-1)/5)+1);
   var hqRise=58+Math.round(hqLevel*1.25),hqWidth=94+Math.round(hqLevel*.8),hqCore=42+Math.round(hqLevel*.45),hqHue=188+(hqLevel-1)*1.9,hqCrown=54+(hqLevel%5)*2+Math.floor((hqLevel-1)/5)*3,hqRing=112+(hqLevel%4)*3,hqSpire=28+Math.round(hqLevel*1.6);
   html+='<div class="test-building hq'+(bulk.ready?' bulk-ready':'')+(prestige?'':' tron-hq')+'" data-hq-level="'+hqLevel+'" data-hq-stage="'+hqStage+'" style="left:'+centreX+'%;top:'+centreY+'%;--hq-rise:'+hqRise+'px;--hq-width:'+hqWidth+'px;--hq-core:'+hqCore+'px;--hq-accent:hsl('+hqHue+',92%,68%);--hq-crown-w:'+hqCrown+'%;--hq-ring-w:'+hqRing+'%;--hq-spire-height:'+hqSpire+'px;transform:translate(-50%,-50%)">'+(prestige?'<div class="structure"><i class="hq-arch-platform"></i><i class="hq-arch-wing wing-left"></i><i class="hq-arch-wing wing-right"></i><i class="hq-arch-core"></i><i class="hq-arch-crown"></i><i class="hq-arch-ring ring-low"></i><i class="hq-arch-ring ring-high"></i><i class="hq-arch-spire"></i><i class="hq-arch-beacon"></i><i class="hq-arch-window"></i><span class="glyph">⌂</span><i class="roof-mark">BD // HQ</i></div>':'<div class="structure tron" style="color:'+tronHqColor(hqLevel)+'">'+tronHq(hqLevel)+'</div>')+'<b class="building-name">'+(prestige?'PRESTIGE HQ':'CENTRAL HQ')+'</b><small class="building-level">'+(bulk.ready?'BATCH AVAILABLE':prestige?'PRESTIGE P'+S.pr:'HQ LEVEL '+S.hq+' / 30')+'</small><button class="test-hq-tap" id="testHqTap" aria-label="'+(bulk.ready?'Batch available: upgrade all buildings one level':'Open HQ requirements and upgrade controls')+'"></button></div>';
-  var nextSceneHtml='<svg class="test-data-links" viewBox="0 0 1000 700" preserveAspectRatio="none" aria-hidden="true"><g fill="none">'+paths+'</g></svg>'+html;if(layer.dataset.renderedScene!==nextSceneHtml){layer.innerHTML=nextSceneHtml;layer.dataset.renderedScene=nextSceneHtml;}
+  html+='<div class="nexus-hq-building" data-nexus-building="true" role="button" tabindex="0" aria-label="Enter NEXUS AI network"><div class="nexus-building-beacon"></div><div class="nexus-building-crown"></div><div class="nexus-building-shell"><div class="nexus-building-glass"><span>⌘</span><i></i><i></i><i></i></div><div class="nexus-building-core"></div><div class="nexus-building-wing left"></div><div class="nexus-building-wing right"></div></div><b class="nexus-building-name">NEXUS</b><small class="nexus-building-sub">AI NETWORK // ONLINE</small><button class="nexus-building-tap" type="button" aria-label="Enter NEXUS AI network"></button></div>';
+  var nexusPipes='<svg class="nexus-pipeline" viewBox="0 0 1000 700" preserveAspectRatio="none" aria-hidden="true"><defs><filter id="nexusPipeGlow"><feGaussianBlur stdDeviation="5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path class="nexus-pipe-outer" d="M500 155 C455 205 555 225 500 270 S455 340 500 395"/><path class="nexus-pipe-inner" d="M500 155 C455 205 555 225 500 270 S455 340 500 395"/><path class="nexus-pipe-flow" d="M500 155 C455 205 555 225 500 270 S455 340 500 395"/><circle class="nexus-pipe-node" cx="500" cy="270" r="8"/></svg>';
+  var nextSceneHtml=nexusPipes+'<svg class="test-data-links" viewBox="0 0 1000 700" preserveAspectRatio="none" aria-hidden="true"><g fill="none">'+paths+'</g></svg>'+html;if(layer.dataset.renderedScene!==nextSceneHtml){layer.innerHTML=nextSceneHtml;layer.dataset.renderedScene=nextSceneHtml;}
   if(testHqModalOpen)renderTestHqModal();
   if(testBuildingModalId)renderTestBuildingModal();
   if(testInsideId)renderTestInside();
