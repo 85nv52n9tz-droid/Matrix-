@@ -2478,6 +2478,16 @@ section[id^="t-"]:not(#t-hq){
 @keyframes hqPipeNodePulse{0%,100%{opacity:.68;r:6}50%{opacity:1;r:9}}
 @media(prefers-reduced-motion:reduce){.hq-pipe-link .nexus-pipe-flow,.hq-pipe-link .nexus-pipe-node{animation:none}}
 </style>
+<style id="bhq-login-no-focus-zoom-v107">
+/* iOS Safari zooms the page when a focused form control uses text smaller than 16px. Keep the login view at its normal scale while typing. */
+#authGate .authbox input,
+#authGate .authbox input:focus{
+  font-size:16px!important;
+  line-height:1.35!important;
+  -webkit-text-size-adjust:100%;
+  touch-action:manipulation;
+}
+</style>
 </head>
 <body>
 <div id="authGate">
@@ -7432,10 +7442,18 @@ main#gameShell{height:100dvh!important;min-height:100dvh!important;max-height:10
 </style>
 <script id="bhq-v102-independent-update-archive">
 (function(){
-  var VERSION='0.0.7';
+  var VERSION='0.0.8';
   try{window.BHQ_UPDATE_VERSION=VERSION;}catch(e){}
   var RELEASES=[{
     version:VERSION,date:'20 NOV 2026',
+    title:'LOGIN VIEWPORT // PREVENT INPUT FOCUS ZOOM',
+    tag:'STATIC LOGIN VIEW · IPHONE INPUT ZOOM FIX',
+    items:[
+      'Set the username and password fields to a 16px minimum text size so iPhone Safari does not automatically zoom the page when either field receives focus.',
+      'Kept normal user pinch-zoom accessibility available; this change only prevents automatic focus zoom on the login fields.'
+    ]
+  },{
+    version:'0.0.7',date:'20 NOV 2026',
     title:'STARTUP REPAIR // REMOVE OBSOLETE HIDDEN RANK CARD',
     tag:'STARTUP RESTORED · ACTIVE RANKINGS CLEANUP',
     items:[
