@@ -5482,7 +5482,7 @@ function mailOpen(){
  modal.hidden=false;mailRender();
 }
 function mailInit(){
- var rail=document.getElementById('iosDock .dk-bar');
+ var rail=document.querySelector('#iosDock .dk-bar');
  if(rail&&!document.getElementById('bhqMailOpen')){
   var btn=document.createElement('button');btn.type='button';btn.id='bhqMailOpen';btn.className='dk-btn bhq-mail-open';btn.innerHTML='<span class="dk-ic">✉</span><span class="dk-tx">MAIL</span>';btn.title='Mailbox';btn.setAttribute('aria-label','Mailbox');btn.onclick=mailOpen;var slot=document.createElement('div');slot.className='dk-slot bhq-mail-slot';slot.appendChild(btn);rail.appendChild(slot);
  }
@@ -8484,5 +8484,28 @@ body:has(#t-bot:not([hidden])){height:100dvh!important;max-height:100dvh!importa
  document.addEventListener('click',function(){setTimeout(layout,30)},true);
  setInterval(layout,900);
  setTimeout(layout,400);
+})();
+</script>
+
+<script id="bhq-mail-dock-mount-fix-v2">
+/* Dock is built after the mail module initialises; mount when the actual dock exists. */
+(function(){
+ function mount(){
+  var bar=document.querySelector('#iosDock .dk-bar');
+  if(!bar)return false;
+  if(!document.getElementById('bhqMailOpen')&&typeof mailInit==='function')mailInit();
+  var mail=document.getElementById('bhqMailOpen');
+  if(!mail)return false;
+  var slot=mail.closest('.dk-slot');
+  if(slot&&slot.parentElement!==bar)bar.appendChild(slot);
+  if(slot)slot.style.display='flex';
+  return true;
+ }
+ if(!mount()){
+  var obs=new MutationObserver(function(){if(mount())obs.disconnect()});
+  obs.observe(document.documentElement,{childList:true,subtree:true});
+ }
+ document.addEventListener('DOMContentLoaded',mount);
+ window.addEventListener('load',mount);
 })();
 </script>
