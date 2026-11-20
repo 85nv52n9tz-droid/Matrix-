@@ -8449,5 +8449,80 @@ activateEventPage(activeEventPage);
 @keyframes bhqSceneDriftMobile{0%{transform:scale(1.18) translateX(-1%)}100%{transform:scale(1.24) translateX(1%)}}
 @media(prefers-reduced-motion:reduce){.bhq-load-scene svg,.bhq-scene-main,.bhq-scene-pulse,.bhq-scene-distant{animation:none!important}}
 </style>
+
+<style id="bhq-events-menu-repair-v3">
+#eventHub .events-back{display:none!important}
+#eventHub .events-tabs{display:grid!important}
+#eventHub .events-tabs.events-menu-hidden{display:none!important}
+#eventPageSlot{min-width:0;width:100%}
+#eventHub .events-shell{width:100%;box-sizing:border-box}
+#eventHub .events-tab{cursor:pointer}
+</style>
+
+<script id="bhq-events-menu-repair-v3-script">
+(function(){
+ 'use strict';
+ var host=document.getElementById('eventHub');
+ var activity=document.getElementById('t-activity');
+ var competitions=document.getElementById('t-competitions');
+ if(!host||!activity||!competitions)return;
+ host.innerHTML=
+  '<div class="events-shell">'+
+   '<div class="events-kicker">BACKDOOR HQ // OPERATIONS</div>'+
+   '<div class="events-title">EVENTS CENTRE</div>'+
+   '<div class="events-tabs" role="group" aria-label="Event sections">'+
+    '<button type="button" class="events-tab" data-bhq-event-choice="activity"><span class="events-tab-icon">📋</span><span>DAILY<br>MISSIONS</span></button>'+
+    '<button type="button" class="events-tab" data-bhq-event-choice="daily"><span class="events-tab-icon">🎯</span><span>DAILY<br>COMPETITION</span></button>'+
+    '<button type="button" class="events-tab" data-bhq-event-choice="weekly"><span class="events-tab-icon">⚔️</span><span>WEEKLY<br>COMPETITION</span></button>'+
+    '<button type="button" class="events-tab" data-bhq-event-choice="monthly"><span class="events-tab-icon">🏆</span><span>MONTHLY<br>COMPETITION</span></button>'+
+    '<button type="button" class="events-tab" data-bhq-event-choice="alliance"><span class="events-tab-icon">🛡️</span><span>ALLIANCE<br>COMPETITION</span></button>'+
+   '</div><div id="eventPageSlot"></div>'+
+  '</div>';
+ var shell=host.querySelector('.events-shell');
+ var tabs=shell.querySelector('.events-tabs');
+ var slot=shell.querySelector('#eventPageSlot');
+ slot.appendChild(activity);
+ slot.appendChild(competitions);
+ var an=document.getElementById('activityEventNav'),cn=document.getElementById('competitionEventNav');
+ if(an)an.hidden=true;if(cn)cn.hidden=true;
+ var current='menu';
+ function menu(){
+  current='menu';tabs.classList.remove('events-menu-hidden');
+  activity.hidden=true;competitions.hidden=true;slot.hidden=true;
+  tabs.querySelectorAll('.events-tab').forEach(function(x){x.classList.remove('active');x.setAttribute('aria-pressed','false')});
+ }
+ function open(which){
+  if(['activity','daily','weekly','monthly','alliance'].indexOf(which)<0)return;
+  current=which;tabs.classList.add('events-menu-hidden');slot.hidden=false;
+  activity.hidden=which!=='activity';competitions.hidden=which==='activity';
+  tabs.querySelectorAll('.events-tab').forEach(function(x){
+   var on=x.getAttribute('data-bhq-event-choice')===which;
+   x.classList.toggle('active',on);x.setAttribute('aria-pressed',on?'true':'false');
+  });
+  if(which==='activity'){
+   if(typeof window.renderDailyMissions==='function')window.renderDailyMissions();
+  }else{
+   try{activeCompetitionPeriod=which}catch(e){}
+   if(which==='alliance'&&typeof window.renderAllianceCompetition==='function'){
+    window.renderAllianceCompetition();
+   }else if(typeof window.renderCompetition==='function'){
+    window.renderCompetition(which);
+   }
+  }
+ }
+ tabs.addEventListener('click',function(e){
+  var btn=e.target&&e.target.closest?e.target.closest('[data-bhq-event-choice]'):null;
+  if(!btn)return;e.preventDefault();e.stopPropagation();open(btn.getAttribute('data-bhq-event-choice'));
+ });
+ window.openEventPage=open;
+ window.renderEventHub=menu;
+ var priorShow=show;
+ show=function(t){
+  priorShow(t);
+  if(t==='events')menu();
+ };
+ menu();
+})();
+</script>
 </body>
 </html>
