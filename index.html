@@ -8447,3 +8447,42 @@ body:has(#t-bot:not([hidden])){height:100dvh!important;max-height:100dvh!importa
 #bhqMailList{flex:1 1 0!important;min-height:0!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch!important;touch-action:pan-y!important;padding:8px 10px 80px!important}
 #iosDock .bhq-mail-dot{display:none!important}
 </style>
+
+<style id="bhq-nano-fill-to-dock-v5">
+/* Nano occupies the full space from its existing header to the dock, without scrolling. */
+#t-bot:not([hidden]){
+ position:fixed!important;
+ top:var(--nano-screen-top,210px)!important;
+ bottom:var(--nano-screen-bottom,95px)!important;
+ left:var(--nano-screen-left,8px)!important;
+ width:var(--nano-screen-width,calc(100% - 16px))!important;
+ height:auto!important;max-height:none!important;min-height:0!important;
+ display:flex!important;flex-direction:column!important;overflow:hidden!important;
+}
+#t-bot #tiers{flex:1 1 0!important;min-height:0!important;grid-template-rows:repeat(2,minmax(0,1fr))!important}
+</style>
+<script id="bhq-nano-fill-to-dock-position-v5">
+(function(){
+ var lastTop=0;
+ function layout(){
+  var nano=document.getElementById('t-bot'),dock=document.getElementById('iosDock');
+  if(!nano||nano.hidden||!dock)return;
+  var header=document.querySelector('#gameShell .game-header')||document.querySelector('#gameShell .brandbar')||document.querySelector('#gameShell .brand')||document.querySelector('#gameShell>header');
+  var dockRect=dock.getBoundingClientRect(),rect=nano.getBoundingClientRect();
+  var top=lastTop||rect.top;
+  if(header){var h=header.getBoundingClientRect();if(h.bottom>80&&h.bottom<window.innerHeight*.45)top=h.bottom+7}
+  if(!lastTop&&top>window.innerHeight*.5)top=Math.min(210,window.innerHeight*.24);
+  if(!lastTop)lastTop=top;
+  var bottom=Math.max(0,window.innerHeight-dockRect.top+9);
+  if(bottom+top>window.innerHeight-260)return;
+  nano.style.setProperty('--nano-screen-top',Math.round(top)+'px');
+  nano.style.setProperty('--nano-screen-bottom',Math.round(bottom)+'px');
+  nano.style.setProperty('--nano-screen-left',Math.round(rect.left||8)+'px');
+  nano.style.setProperty('--nano-screen-width',Math.round(rect.width||window.innerWidth-16)+'px');
+ }
+ window.addEventListener('resize',function(){lastTop=0;layout()},{passive:true});
+ document.addEventListener('click',function(){setTimeout(layout,30)},true);
+ setInterval(layout,900);
+ setTimeout(layout,400);
+})();
+</script>
