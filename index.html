@@ -8942,6 +8942,91 @@ html:has(#t-bot:not([hidden])){height:100%!important;overflow:hidden!important}
 })();
 </script>
 
+
+<style id="bhq-events-single-screen-routing-v7">
+/* Events are a full app page: never leave the previous destination visible underneath. */
+#t-events[hidden],#t-activity[hidden],#t-competitions[hidden],#eventPageSlot[hidden]{display:none!important}
+#t-events:not([hidden]){display:block!important;width:100%;height:calc(100dvh - 76px)!important;max-height:calc(100dvh - 76px)!important;min-height:0!important;overflow:hidden!important;box-sizing:border-box!important}
+#t-events:not([hidden]) #eventHub{display:block!important;width:100%;height:100%;min-height:0;overflow:hidden}
+#t-events:not([hidden]) .events-shell{height:100%;min-height:0;display:flex;flex-direction:column;overflow:hidden}
+#t-events:not([hidden]) #eventPageSlot:not([hidden]){display:block!important;flex:1 1 auto;min-height:0;height:100%;overflow:hidden}
+#t-events:not([hidden]) #eventPageSlot>#t-activity:not([hidden]){display:block!important;position:relative!important;height:100%!important;max-height:100%!important;min-height:0!important;overflow:hidden!important}
+#t-events:not([hidden]) #eventPageSlot>#t-competitions:not([hidden]){display:block!important;position:relative!important;height:100%!important;max-height:100%!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important}
+#t-events:not([hidden]) #eventPageSlot #competitionContent{min-height:100%;box-sizing:border-box}
+#t-events:not([hidden]) #eventPageSlot .activity-hub{height:100%!important;max-height:100%!important;min-height:0!important}
+</style>
+<script id="bhq-events-single-screen-routing-v7">
+(function(){
+ 'use strict';
+ var allowed=['activity','daily','weekly','monthly','alliance'];
+ var baseShow=window.show;
+ function byId(id){return document.getElementById(id)}
+ function setOnlyEventsPage(which){
+  var events=byId('t-events'),hub=byId('eventHub'),slot=byId('eventPageSlot');
+  var activity=byId('t-activity'),competitions=byId('t-competitions');
+  if(!events||!hub||!slot||!activity||!competitions)return false;
+  /* The activity and competition sections live inside Events, not beside the previous page. */
+  if(activity.parentNode!==slot)slot.appendChild(activity);
+  if(competitions.parentNode!==slot)slot.appendChild(competitions);
+  document.querySelectorAll('body > section[id^="t-"],main > section[id^="t-"]').forEach(function(section){
+   if(section!==events)section.hidden=true;
+  });
+  events.hidden=false;slot.hidden=false;
+  activity.hidden=which!=='activity';
+  competitions.hidden=which==='activity';
+  var tabs=hub.querySelectorAll('[data-bhq-event-choice],[data-event-page]');
+  tabs.forEach(function(tab){
+   var key=tab.getAttribute('data-bhq-event-choice')||tab.getAttribute('data-event-page');
+   var active=key===which;
+   tab.classList.toggle('active',active);
+   tab.setAttribute('aria-pressed',active?'true':'false');
+   tab.setAttribute('aria-selected',active?'true':'false');
+  });
+  document.documentElement.scrollTop=0;
+  document.body.scrollTop=0;
+  if(document.scrollingElement)document.scrollingElement.scrollTop=0;
+  return true;
+ }
+ function openDestination(which){
+  if(allowed.indexOf(which)<0)return;
+  try{
+   /* Let the game's normal page switch update dock state, then keep only Events visible. */
+   if(typeof baseShow==='function')baseShow('events');
+   setOnlyEventsPage(which);
+   if(which==='activity'){
+    if(typeof window.renderDailyMissions==='function')window.renderDailyMissions();
+   }else{
+    if(typeof window.renderCompetition==='function')window.renderCompetition(which);
+   }
+   /* Re-assert page visibility after renderers have rebuilt their inner content. */
+   setOnlyEventsPage(which);
+   var content=byId('competitionContent');
+   if(which!=='activity'&&content&&!content.querySelector('.competition-hub')){
+    content.innerHTML='<div class="competition-hub"><div class="comp-head"><div><div class="comp-kicker">BACKDOOR HQ // COMPETITION FEED</div><h2>COMPETITION <em>UNAVAILABLE</em></h2><p>The competition view did not finish loading. Reopen this event from the Events dock.</p></div></div></div>';
+   }
+  }catch(err){
+   console.error('Events page failed to open:',err);
+   setOnlyEventsPage(which);
+   var content=byId('competitionContent');
+   if(which!=='activity'&&content)content.innerHTML='<div class="competition-hub"><div class="comp-head"><div><div class="comp-kicker">BACKDOOR HQ // COMPETITION FEED</div><h2>COMPETITION <em>ERROR</em></h2><p>The competition could not be rendered. Please reopen this event.</p></div></div></div>';
+  }
+ }
+ window.openEventDestination=openDestination;
+ window.openEventPage=openDestination;
+ window.activateEventPage=openDestination;
+ /* One capture-phase router handles Events shortcuts no matter which game area is open. */
+ window.addEventListener('click',function(e){
+  var btn=e.target&&e.target.closest?e.target.closest('#iosDock [data-event-dock-choice],#eventHub [data-bhq-event-choice],#eventHub [data-event-page],#eventHub [data-event-open]'):null;
+  if(!btn)return;
+  var which=btn.getAttribute('data-event-dock-choice')||btn.getAttribute('data-bhq-event-choice')||btn.getAttribute('data-event-page')||btn.getAttribute('data-event-open');
+  if(allowed.indexOf(which)<0)return;
+  e.preventDefault();e.stopPropagation();
+  if(e.stopImmediatePropagation)e.stopImmediatePropagation();
+  openDestination(which);
+ },true);
+})();
+</script>
+
 </body>
 </html>
 
