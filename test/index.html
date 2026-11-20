@@ -9001,3 +9001,36 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 :is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-only .dm-chest.ready .dm-chest-art{animation:none!important}
 }
 </style>
+<script id="dev-event-navigation-close-fix-v1">
+(function(){
+'use strict';
+var eventIds=['t-dev-dailies','t-dev-dailycomp','t-dev-weeklycomp','t-dev-monthlycomp','t-dev-alliancecomp'];
+function closeEventPages(){
+ eventIds.forEach(function(id){var p=document.getElementById(id);if(p)p.hidden=true});
+ document.body.classList.remove('dev-dailies-open');
+ var m=document.getElementById('dm-reward-modal');if(m)m.hidden=true;
+}
+window.BHQ_CLOSE_DEV_EVENT_PAGES=closeEventPages;
+document.addEventListener('click',function(e){
+ var target=e.target;
+ if(!target||!target.closest)return;
+ var dock=target.closest('#iosDock');
+ if(dock){
+  // Opening a different dock destination must close the currently displayed event.
+  var option=target.closest('.dev-event-option,.dev-event-dailies');
+  if(option)return;
+  var group=target.closest('.dk-slot');
+  if(group){
+   var slots=Array.from(dock.querySelectorAll('.dk-slot'));
+   var idx=slots.indexOf(group);
+   // Slot 4 is Event: let its menu open without losing the current event page.
+   if(idx===4)return;
+   closeEventPages();
+  }
+  return;
+ }
+ // Covers navigation outside the dock, including legacy game navigation.
+ if(target.closest('[data-test-go],[data-rail-go],#updateLogTab'))closeEventPages();
+},true);
+})();
+</script>
