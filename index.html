@@ -4519,7 +4519,7 @@ function renderCompetition(which){which=which||activeCompetitionPeriod||'daily';
  host.querySelectorAll('[data-comp-period]').forEach(function(b){b.onclick=function(){renderCompetition(b.getAttribute('data-comp-period'))}});host.querySelectorAll('[data-comp-daily-tier]').forEach(function(b){b.onclick=function(){compClaimDailyTier(Number(b.getAttribute('data-comp-daily-tier')))}});host.querySelectorAll('[data-comp-tier]').forEach(function(b){b.onclick=function(){compClaimTier(Number(b.getAttribute('data-comp-tier')))}});host.querySelectorAll('[data-comp-alliance-tier]').forEach(function(b){b.onclick=function(){compClaimAllianceTier(Number(b.getAttribute('data-comp-alliance-tier')))}});host.querySelectorAll('[data-comp-monthly-tier]').forEach(function(b){b.onclick=function(){compClaimMonthlyTier(Number(b.getAttribute('data-comp-monthly-tier')))}});host.querySelectorAll('[data-comp-final]').forEach(function(b){b.onclick=function(){compClaimFinal(b.getAttribute('data-comp-final'),Number(b.getAttribute('data-comp-index')))}});
 }
 var activeEventPage='home';
-function eventNavMarkup(active){var items=[['activity','DAILY MISSIONS'],['daily','DAILY COMPETITION'],['weekly','WEEKLY COMPETITION'],['monthly','MONTHLY COMPETITION'],['alliance','ALLIANCE COMPETITION']];return '<div class="event-subnav"><button type="button" data-event-back="1">‹ EVENTS</button>'+items.map(function(x){return '<button type="button" data-event-open="'+x[0]+'" class="'+(active===x[0]?'active':'')+'">'+x[1]+'</button>'}).join('')+'</div>'}
+function eventNavMarkup(active){var items=[['activity','▤','DAILY MISSIONS'],['daily','◉','DAILY COMPETITION'],['weekly','⚔','WEEKLY COMPETITION'],['monthly','♛','MONTHLY COMPETITION'],['alliance','⚑','ALLIANCE COMPETITION']];return '<div class="event-subnav"><button type="button" data-event-back="1">‹ EVENTS</button>'+items.map(function(x){return '<button type="button" data-event-open="'+x[0]+'" class="'+(active===x[0]?'active':'')+'"><span class="event-subnav-icon">'+x[1]+'</span><span>'+x[2]+'</span></button>'}).join('')+'</div>'}
 function renderEventHub(){var host=$('eventHub');if(!host)return;var cards=[['activity','📋','DAILY MISSIONS','Your daily objectives, progress and reward chests','DAILY'],['daily','🎯','DAILY COMPETITION','Three rotating tasks, points and daily reward chests','24 HOUR'],['weekly','⚔️','WEEKLY COMPETITION','Five weekly task types, leaderboard and milestone chests','7 DAY'],['monthly','🏆','MONTHLY COMPETITION','Monthly activity points and individual leaderboard','MONTH'],['alliance','🛡️','ALLIANCE COMPETITION','Shared alliance progress and Alliance Bank reward chests','ALLIANCE']];host.innerHTML='<div class="event-hub"><div class="event-hub-head"><div class="event-kicker">BACKDOOR HQ // OPERATIONS CALENDAR</div><h2>EVENT <em>CENTRE</em></h2><p>Choose an event to open its own dedicated page. Daily missions and each competition are kept separate.</p></div><div class="event-card-grid">'+cards.map(function(c){return '<button type="button" class="event-card" data-event-open="'+c[0]+'"><span class="event-card-icon">'+c[1]+'</span><span class="event-card-copy"><b>'+c[2]+'</b><small>'+c[3]+'</small></span><span class="event-card-tag">'+c[4]+'</span><span class="event-card-arrow">›</span></button>'}).join('')+'</div></div>';host.querySelectorAll('[data-event-open]').forEach(function(b){b.onclick=function(){openEventPage(b.getAttribute('data-event-open'))}})}
 function openEventPage(which){if(which==='activity'){show('activity');return}activeCompetitionPeriod=which;show('competitions');renderCompetition(which)}
 function wireEventPageNav(){[['activityEventNav','activity'],['competitionEventNav',activeCompetitionPeriod]].forEach(function(pair){var host=$(pair[0]);if(!host)return;host.innerHTML=eventNavMarkup(pair[1]);host.querySelectorAll('[data-event-open]').forEach(function(b){b.onclick=function(){openEventPage(b.getAttribute('data-event-open'))}});var back=host.querySelector('[data-event-back]');if(back)back.onclick=function(){show('events')}})}
@@ -6681,7 +6681,7 @@ body:before{content:"";position:fixed;left:0;right:0;top:-120px;height:120px;poi
     var rail=document.getElementById('globalRail');
     if(!rail||document.getElementById('iosDock'))return;
     function g(k){return rail.querySelector('[data-test-go="'+k+'"]')}
-    var lbls={mis:'Missions',map:'Map',bot:'Nano',crew:'Crew',rank:'Ranks',aln:'Alliance',activity:'Dailies',net:'Network',competitions:'Events'};
+    var lbls={mis:'Missions',map:'Map',bot:'Nano',crew:'Crew',rank:'Ranks',aln:'Alliance',activity:'Dailies',net:'Network',events:'Events'};
     Object.keys(lbls).forEach(function(k){var b=g(k);if(b)b.setAttribute('data-lbl',lbls[k])});
     var upd=document.getElementById('updateLogTab');if(upd)upd.setAttribute('data-lbl','Updates');
     var home=g('hq');
@@ -6689,7 +6689,8 @@ body:before{content:"";position:fixed;left:0;right:0;top:-120px;height:120px;poi
     var groups=[
       {id:'ops',ic:'✦',tx:'OPS',r:'176,124,255',items:[g('mis'),g('map'),g('activity')]},
       {id:'squad',ic:'♟',tx:'SQUAD',r:'90,184,255',items:[g('crew'),g('bot'),g('rank')]},
-      {id:'net',ic:'⚑',tx:'NETWORK',r:'255,59,78',items:[g('aln'),g('net'),g('competitions')]},
+      {id:'net',ic:'⚑',tx:'NETWORK',r:'255,59,78',items:[g('aln'),g('net')]},
+      {id:'events',ic:'▦',tx:'EVENTS',r:'255,145,80',items:[g('events')]},
       {id:'more',ic:'⋯',tx:'MORE',r:'255,190,60',items:[daily,upd]}
     ];
     var dock=document.createElement('div');dock.id='iosDock';
@@ -6716,6 +6717,7 @@ body:before{content:"";position:fixed;left:0;right:0;top:-120px;height:120px;poi
     document.addEventListener('pointerdown',function(e){if(!dock.contains(e.target))closeAll()});
     document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAll()});
     rail.parentNode.insertBefore(dock,rail);
+    rail.style.display='none';rail.setAttribute('aria-hidden','true');
     function sync(){
       if(home)hb.classList.toggle('on',home.classList.contains('current'));
       gs.forEach(function(o){
