@@ -8332,6 +8332,27 @@ body.dev-dailies-open #t-hq{visibility:hidden!important}
 :is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dev-dailies-version{color:#58e9a2}
 :is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dev-dailies-status i{width:7px;height:7px;flex:none;border-radius:50%;background:#ffc83e;box-shadow:0 0 8px #ffc83e}
 :is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dev-event-grid{position:absolute;inset:30px 0 0;background-image:linear-gradient(#3fbaff13 1px,transparent 1px),linear-gradient(90deg,#3fbaff13 1px,transparent 1px);background-size:32px 32px}
+
+/* Development Event menu: five uniform buttons in one horizontal row. */
+#iosDock .dk-slot:has(.dev-event-dailies) .dk-tray{display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:center!important;justify-content:center!important;gap:8px!important;width:max-content!important;max-width:calc(100vw - 16px)!important;padding:10px!important;left:calc(50% - 80px)!important;overflow:visible!important}
+#iosDock .dk-slot:has(.dev-event-dailies) .dev-event-dailies{box-sizing:border-box!important;display:flex!important;flex:0 0 62px!important;width:62px!important;min-width:62px!important;max-width:62px!important;height:62px!important;min-height:62px!important;max-height:62px!important;gap:3px!important;padding:0!important;margin:0!important;border-radius:16px!important;white-space:nowrap!important}
+#iosDock .dk-slot:has(.dev-event-dailies) .dev-event-dailies svg{flex:none!important;width:24px!important;height:24px!important}
+#iosDock .dk-slot:has(.dev-event-dailies) .dev-event-dailies:after{font:800 7px/1 ui-monospace,Menlo,monospace!important;letter-spacing:0!important;opacity:.92!important;color:#f6f6f6!important}
+#iosDock .dev-event-dailies{--r:255,186,56}
+#iosDock .dev-event-option[data-label="DAILY COMP"]{--r:48,211,245}
+#iosDock .dev-event-option[data-label="WEEKLY COMP"]{--r:170,120,255}
+#iosDock .dev-event-option[data-label="MONTHLY COMP"]{--r:255,91,158}
+#iosDock .dev-event-option[data-label="ALLIANCE COMP"]{--r:78,231,159}
+/* Page colours are independent; geometry remains the Dailies master template. */
+#t-dev-dailies{--event-rgb:255,186,56}
+#t-dev-dailycomp{--event-rgb:48,211,245}
+#t-dev-weeklycomp{--event-rgb:170,120,255}
+#t-dev-monthlycomp{--event-rgb:255,91,158}
+#t-dev-alliancecomp{--event-rgb:78,231,159}
+:is(#t-dev-dailies,#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp){border-color:rgb(var(--event-rgb))!important;box-shadow:inset 0 0 0 3px rgba(var(--event-rgb),.09),0 0 15px rgba(var(--event-rgb),.19)!important}
+:is(#t-dev-dailies,#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dev-event-title{color:rgb(var(--event-rgb))!important;border-bottom-color:rgb(var(--event-rgb))!important;background:linear-gradient(180deg,rgba(var(--event-rgb),.21),#090d0c)!important}
+:is(#t-dev-dailies,#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dev-dailies-status{color:#e7f3ed!important}
+@media(max-width:380px){#iosDock .dk-slot:has(.dev-event-dailies) .dk-tray{gap:5px!important;padding:7px!important}#iosDock .dk-slot:has(.dev-event-dailies) .dev-event-dailies{flex-basis:58px!important;width:58px!important;min-width:58px!important;max-width:58px!important;height:58px!important;min-height:58px!important;max-height:58px!important}}
 </style>
 <section id="t-dev-dailies" hidden aria-label="Dailies page"><div class="dev-event-title"><span>▣ DAILIES // COMMAND CORE</span><span class="dev-dailies-status"><span class="dev-dailies-clock">--:--:--</span><span class="dev-dailies-version">V 0.0.3</span><i></i></span></div><div class="dev-event-grid"></div></section>
 <section id="t-dev-dailycomp" hidden aria-label="DAILY COMPETITION page"><div class="dev-event-title"><span>▣ DAILY COMPETITION // COMMAND CORE</span><span class="dev-dailies-status"><span class="dev-dailies-clock">--:--:--</span><span class="dev-dailies-version">V 0.0.3</span><i></i></span></div><div class="dev-event-grid"></div></section>
