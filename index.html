@@ -9135,14 +9135,12 @@ html:has(#t-bot:not([hidden])){height:100%!important;overflow:hidden!important}
    /* Re-assert page visibility after renderers have rebuilt their inner content. */
    setOnlyEventsPage(which);
    var content=byId('competitionContent');
-   if(which!=='activity'&&content&&!content.querySelector('.competition-hub')){
-    content.innerHTML='<div class="competition-hub"><div class="comp-head"><div><div class="comp-kicker">BACKDOOR HQ // COMPETITION FEED</div><h2>COMPETITION <em>UNAVAILABLE</em></h2><p>The competition view did not finish loading. Reopen this event from the Events dock.</p></div></div></div>';
-   }
+   if(which!=='activity'&&content)content.innerHTML='';
   }catch(err){
    console.error('Events page failed to open:',err);
    setOnlyEventsPage(which);
    var content=byId('competitionContent');
-   if(which!=='activity'&&content)content.innerHTML='<div class="competition-hub"><div class="comp-head"><div><div class="comp-kicker">BACKDOOR HQ // COMPETITION FEED</div><h2>COMPETITION <em>ERROR</em></h2><p>The competition could not be rendered. Please reopen this event.</p></div></div></div>';
+   if(which!=='activity'&&content)content.innerHTML='';
   }
  }
  window.openEventDestination=openDestination;
@@ -9337,3 +9335,72 @@ html:has(#t-bot:not([hidden])){height:100%!important;overflow:hidden!important}
 #t-events:not([hidden]) #eventPageSlot .v9-competition .comp-foot{margin:14px 2px;font-size:8px;line-height:1.4}
 #t-events:not([hidden]) #eventPageSlot #t-competitions{overflow-y:auto!important;touch-action:pan-y!important}
 </style>
+
+
+<style id="bhq-events-nano-layout-v10">
+/* Give Daily Missions a little more breathing room below the fixed clock banner. */
+#t-events:not([hidden]) #eventPageSlot>#t-activity:not([hidden]){
+ padding-top:30px!important;
+}
+#t-events:not([hidden]) #eventPageSlot .activity-hub{
+ height:calc(100% - 30px)!important;
+ max-height:calc(100% - 30px)!important;
+}
+/* Nano uses the full space between the clock banner and bottom dock.
+   Its top stats panel now starts below the clock; the six upgrade tiles fill down to the dock. */
+#t-bot:not([hidden]){
+ display:flex!important;flex-direction:column!important;
+ height:calc(100dvh - 76px)!important;
+ max-height:calc(100dvh - 76px)!important;
+ min-height:0!important;
+ box-sizing:border-box!important;
+ overflow:hidden!important;
+ padding:calc(var(--bhq-top-clearance,174px) + 10px) 5px 3px!important;
+ gap:3px!important;
+}
+#t-bot #tiers{
+ flex:1 1 0!important;min-height:0!important;
+ margin:1px 0 0!important;
+ padding:12px 4px 3px!important;
+}
+@media(max-height:740px){
+ #t-bot:not([hidden]){
+  height:calc(100dvh - 70px)!important;
+  max-height:calc(100dvh - 70px)!important;
+  padding:calc(var(--bhq-top-clearance,164px) + 10px) 5px 3px!important;
+ }
+}
+/* Competition destinations remain selectable in the Events navigation, but their old
+   tasks, scores, leaderboards and rewards are intentionally cleared for the overhaul. */
+#t-events:not([hidden]) #eventPageSlot>#t-competitions:not([hidden]){
+ display:block!important;min-height:0!important;overflow:hidden!important;
+}
+#t-events:not([hidden]) #eventPageSlot #competitionContent{
+ display:none!important;min-height:0!important;padding:0!important;margin:0!important;
+}
+</style>
+<script id="bhq-competition-content-paused-v10">
+(function(){
+ 'use strict';
+ function clearCompetitionContent(){
+  var host=document.getElementById('competitionContent');
+  if(host)host.replaceChildren();
+ }
+ window.renderCompetition=function(){clearCompetitionContent();return true};
+ window.renderAllianceCompetition=function(){clearCompetitionContent();return true};
+ window.openEventDestination=function(which){
+  if(['daily','weekly','monthly','alliance'].indexOf(which)<0)return;
+  if(typeof window.openEventPage==='function')window.openEventPage(which);
+  clearCompetitionContent();
+ };
+ document.addEventListener('click',function(e){
+  var tab=e.target&&e.target.closest?e.target.closest('#eventHub [data-event-page]'):null;
+  if(!tab)return;
+  var which=tab.getAttribute('data-event-page');
+  if(['daily','weekly','monthly','alliance'].indexOf(which)>=0){
+   setTimeout(clearCompetitionContent,0);
+  }
+ },true);
+ clearCompetitionContent();
+})();
+</script>
