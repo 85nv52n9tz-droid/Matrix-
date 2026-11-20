@@ -8774,3 +8774,129 @@ body:has(#t-bot:not([hidden])){height:100dvh!important;max-height:100dvh!importa
 #dm-reward-modal .dm-modal-note{font-size:8px!important;margin-top:10px!important}
 @media(max-width:375px){#t-dev-dailies .dm-chest-art{width:29px!important;height:34px!important}#t-dev-dailies .dm-chest-glyph{font-size:16px!important}}
 </style>
+
+<style id="dev-competition-template-base-v1">
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dev-event-grid{overflow:hidden}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .daily-mission-ui{position:absolute;inset:0;display:flex;flex-direction:column;padding:10px 10px 8px;gap:8px;color:#c8e9f2;font:700 10px/1.4 ui-monospace,Menlo,monospace;box-sizing:border-box}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-top{border:1px solid #ffc25388;border-radius:12px;background:linear-gradient(160deg,#2c2316f2,#071724f5);padding:9px 7px 8px;box-shadow:inset 0 0 14px #ffbc2722}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-top-title,:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-subline,:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-mission-head{display:flex;align-items:center;justify-content:space-between;gap:6px}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-top-title{color:#ffcc62;font-size:10px;letter-spacing:.7px}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) #dm-total{color:#fff2bd;font-size:9px}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-track{height:9px;margin:13px 7px 4px;border-radius:12px;background:#0a1821;border:1px solid #d99a4066;overflow:hidden}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) #dm-track-fill{width:0;height:100%;background:linear-gradient(90deg,#ffa838,#f9ee78);box-shadow:0 0 10px #ffd84b;transition:width .3s}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-chests{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:2px}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-chest{appearance:none;border:0;background:transparent;color:#c2a57a;min-width:0;padding:3px 0;display:flex;align-items:center;flex-direction:column;gap:2px;font:800 8px/1 ui-monospace,monospace}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-chest-art{width:clamp(28px,8vw,47px);height:37px;display:grid;place-items:center;position:relative;filter:drop-shadow(0 0 5px #e99b4266)}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-chest-art svg{width:100%;height:100%;fill:#372413;stroke:#e5a044;stroke-width:1.6;stroke-linejoin:round}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-chest.ready .dm-chest-art{animation:dm-pulse 1.7s infinite alternate;filter:drop-shadow(0 0 9px #f9d65e)}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-chest.ready svg{fill:#7b4b13;stroke:#ffe47b}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-chest.claimed{opacity:.65;color:#6ed6aa}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-chest.claimed svg{stroke:#68e9b1}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-chest strong{font-size:9px;color:#ffcc6c}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-subline{font-size:8px;opacity:.75;margin-top:6px}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-mission-head{padding:6px 5px 3px;border-bottom:1px solid #3fb5e777;color:#68d9ff;font-size:10px;letter-spacing:.8px;flex:none}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-scroll{min-height:0;flex:1;overflow-y:auto;overscroll-behavior:contain;display:flex;flex-direction:column;gap:7px;padding:3px 2px 12px;scrollbar-width:thin}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-card{flex:none;border:1px solid #235b78;border-radius:10px;background:linear-gradient(130deg,#0c2a3c,#07121d);padding:9px;display:grid;grid-template-columns:33px minmax(0,1fr) 49px;gap:8px;align-items:center}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-icon{height:33px;border:1px solid #3bb5d588;border-radius:9px;display:grid;place-items:center;font-size:19px;background:#0c3442}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-name{font-size:10px;color:#d5f6ff;letter-spacing:.3px}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-description{font-size:9px;color:#8ba9b7;font-weight:500;margin-top:3px}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-progress{margin-top:5px;height:4px;background:#091720;border-radius:9px;overflow:hidden}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-progress>span{display:block;height:100%;background:#5dd8e8}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-reward{font-size:9px;color:#f5c35d;margin-top:4px}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-action{font:900 9px ui-monospace,monospace;border-radius:7px;padding:9px 0;background:#122d3b;border:1px solid #46b4d1;color:#76e5ff}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-action.done{background:#1a4b38;border-color:#50e1a3;color:#b5ffe0}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-preview-note{text-align:center;color:#5c8e9d;font-size:8px;letter-spacing:.5px;flex:none}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-finished{text-align:center;border:1px solid #6adba4;border-radius:12px;padding:28px 12px;background:#103c31;color:#b3ffe0}
+@keyframes dm-pulse{from{transform:translateY(0) scale(1)}to{transform:translateY(-3px) scale(1.07)}}
+@media(max-width:375px){:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .daily-mission-ui{padding:7px;gap:6px}:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-card{padding:7px;grid-template-columns:28px minmax(0,1fr) 44px;gap:6px}:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-chest-art{height:32px}}
+</style>
+<style id="dev-competition-template-futuristic-v1">
+/* Isolated to the real development Dailies page. The game shell and other pages are unchanged. */
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .daily-mission-ui{padding:10px 10px 8px!important;gap:9px!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-top{flex:none;border:1px solid #c99b3e!important;border-radius:12px!important;background:linear-gradient(145deg,#24291e,#071722 75%)!important;box-shadow:inset 0 0 24px #f3b83b16,0 0 15px #eab54310!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-top-title{color:#ffd777!important;font-size:10px!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-track{height:10px!important;background:#061722!important;margin:12px 6px 9px!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) #dm-track-fill{background:linear-gradient(90deg,#c18321,#ffd05d,#fff0b5)!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-chests{grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:2px!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-chest{min-width:0!important;gap:4px!important;padding:4px 0!important;cursor:pointer}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-chest-art{position:relative!important;display:grid!important;place-items:center!important;width:clamp(30px,8.3vw,48px)!important;height:40px!important;border:2px solid currentColor!important;background:linear-gradient(145deg,#775323,#2b210e 60%,#58411c)!important;color:#f5c56c!important;box-shadow:inset 0 0 9px #ffd47833,0 0 7px #ffd47820!important;clip-path:polygon(13% 0,87% 0,100% 20%,100% 82%,82% 100%,18% 100%,0 82%,0 20%)!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-unique-1{clip-path:polygon(50% 0,95% 18%,95% 85%,50% 100%,5% 85%,5% 18%)!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-unique-2{clip-path:polygon(15% 0,85% 0,100% 30%,87% 100%,13% 100%,0 30%)!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-unique-3{clip-path:polygon(50% 0,100% 23%,85% 100%,15% 100%,0 23%)!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-unique-4{clip-path:polygon(0 15%,20% 0,80% 0,100% 15%,100% 100%,0 100%)!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-unique-5{clip-path:polygon(25% 0,75% 0,100% 25%,100% 75%,75% 100%,25% 100%,0 75%,0 25%)!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-chest-lid{position:absolute;top:5px;left:3px;right:3px;border-top:2px solid currentColor}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-chest-glyph{font-size:19px;line-height:1;font-weight:900;text-shadow:0 0 8px currentColor}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-chest-seal{position:absolute;bottom:1px;font-size:7px}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-chest.claimed .dm-chest-art{color:#65ffad!important;background:linear-gradient(145deg,#1e6c47,#082719 65%,#124d34)!important;box-shadow:0 0 10px #45ff9a55!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-chest.ready .dm-chest-art{color:#ffe28d!important;animation:dm-pulse 1.7s ease-in-out infinite alternate}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-chest.locked{opacity:.65}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-chest strong{color:#ffe2a1!important;font-size:10px!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-chest small{font-size:7px}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-mission-head{color:#7edfff!important;border-bottom-color:#4ca8c277!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-scroll{min-height:0!important;overflow-y:auto!important;overscroll-behavior:contain!important;-webkit-overflow-scrolling:touch!important;padding-bottom:24px!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-card{background:linear-gradient(130deg,#0e2b3a,#081722)!important;border:1px solid #316c88!important;box-shadow:inset 3px 0 #51d7f088!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-action{font-size:8px!important;padding:9px 2px!important}
+#dm-reward-modal .dm-modal-panel{width:min(340px,100%)!important;padding:20px 18px!important;border:1px solid #d5ae5a!important;border-radius:12px!important;background:linear-gradient(160deg,#142c31,#08151e 75%)!important;box-shadow:0 0 30px #e3b65433,inset 0 0 20px #8ac9d810!important}
+#dm-reward-modal .dm-modal-kicker{font-size:9px!important;color:#7be9e2!important;letter-spacing:1px!important}
+#dm-reward-modal .dm-modal-art{height:86px!important;width:96px!important;margin:14px auto 8px!important;display:grid!important;place-items:center!important;animation:none!important;filter:drop-shadow(0 0 12px #e6bd59)!important}
+#dm-reward-modal .dm-modal-art .dm-chest-art{transform:scale(2)!important;display:grid!important;place-items:center!important;position:relative!important;width:44px!important;height:40px!important;border:2px solid #ffd377!important;background:linear-gradient(140deg,#70511e,#241d10)!important;clip-path:polygon(12% 0,88% 0,100% 20%,100% 82%,82% 100%,18% 100%,0 82%,0 20%)!important}
+#dm-reward-modal .dm-modal-art .dm-chest-lid{position:absolute;top:5px;left:3px;right:3px;border-top:2px solid #ffd377}
+#dm-reward-modal .dm-modal-art .dm-chest-glyph{font-size:19px;color:#ffdd83}
+#dm-reward-modal .dm-modal-art .dm-chest-seal{position:absolute;bottom:0;font-size:7px;color:#ffdd83}
+#dm-reward-modal .dm-modal-title{font-size:16px!important;color:#ffdf96!important}
+#dm-reward-modal .dm-modal-tier{color:#8de8d0!important}
+#dm-reward-modal .dm-modal-reward-label{margin-top:14px!important;padding-top:12px!important;color:#7ad7e8!important}
+#dm-reward-modal .dm-modal-rewards{font-size:11px!important;line-height:1.6!important;margin:9px 0 14px!important}
+#dm-reward-modal .dm-modal-close{width:100%!important;border-radius:7px!important;background:#173e31!important;border:1px solid #65e5aa!important;color:#c3ffe3!important;padding:12px!important;font-size:11px!important;box-shadow:none!important}
+#dm-reward-modal .dm-modal-close:disabled{opacity:.55!important}
+#dm-reward-modal .dm-modal-note{font-size:8px!important;margin-top:10px!important}
+@media(max-width:375px){:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-chest-art{width:29px!important;height:34px!important}:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-chest-glyph{font-size:16px!important}}
+</style><style id="dev-competition-layout-v1">:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dev-event-grid{overflow:hidden!important}:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .daily-mission-ui{position:absolute!important;inset:0!important;display:flex!important;flex-direction:column!important}:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-scroll{flex:1 1 auto!important;min-height:0!important;overflow-y:auto!important}:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-top{flex:0 0 auto!important}</style>
+<script id="dev-competition-chest-template-v1">
+(function(){
+'use strict';
+var configs=[
+{id:'t-dev-dailycomp',title:'DAILY COMPETITION',period:'daily',tasks:[['☀','Complete daily operations',1,20],['⚡','Collect energy supplies',3,30],['◎','Scout enemy targets',3,40],['⌂','Upgrade a building',2,50],['⚔','Win combat engagements',3,60],['✦','Complete operations',5,70],['♧','Help alliance members',6,80],['◈','Complete elite directives',8,150]]},
+{id:'t-dev-weeklycomp',title:'WEEKLY COMPETITION',period:'weekly',tasks:[['☀','Complete daily operations',5,20],['⚡','Collect energy supplies',15,30],['◎','Scout enemy targets',15,40],['⌂','Upgrade buildings',8,50],['⚔','Win combat engagements',15,60],['✦','Complete operations',25,70],['♧','Help alliance members',30,80],['◈','Complete elite directives',35,150]]},
+{id:'t-dev-monthlycomp',title:'MONTHLY COMPETITION',period:'monthly',tasks:[['☀','Complete daily operations',20,20],['⚡','Collect energy supplies',60,30],['◎','Scout enemy targets',60,40],['⌂','Upgrade buildings',30,50],['⚔','Win combat engagements',60,60],['✦','Complete operations',100,70],['♧','Help alliance members',120,80],['◈','Complete elite directives',150,150]]},
+{id:'t-dev-alliancecomp',title:'ALLIANCE COMPETITION',period:'weekly',tasks:[['♧','Help alliance members',10,20],['⚡','Contribute alliance supplies',15,30],['◎','Scout alliance targets',15,40],['⌂','Support alliance development',10,50],['⚔','Win alliance engagements',15,60],['✦','Complete alliance operations',25,70],['♧','Assist alliance members',30,80],['◈','Complete alliance directives',40,150]]}
+];
+var milestones=[25,75,150,250,375,500],glyphs=['◆','⬡','◈','✧','✦','♛'];
+var rewards=['STARTER CACHE','SUPPLY VAULT','ENCRYPTED CRATE','REINFORCED CACHE','ELITE SUPPLY VAULT','COMMAND TREASURY'];
+function periodKey(period){var d=new Date(),y=d.getFullYear(),m=d.getMonth()+1;if(period==='monthly')return y+'-'+m;if(period==='weekly'){var x=new Date(d.getFullYear(),d.getMonth(),d.getDate());x.setDate(x.getDate()-((x.getDay()+6)%7));return x.toLocaleDateString('en-CA')}return d.toLocaleDateString('en-CA')}
+function storageKey(c){return 'bhq-dev-competition-v1-'+c.id+'-'+periodKey(c.period)}
+function load(c){try{var x=JSON.parse(sessionStorage.getItem(storageKey(c))||'null');if(x&&Array.isArray(x.progress)&&x.progress.length===c.tasks.length)return x}catch(e){}return {progress:c.tasks.map(function(){return 0}),claimed:{}}}
+function save(c,state){try{sessionStorage.setItem(storageKey(c),JSON.stringify(state))}catch(e){}}
+function art(i){return '<span class="dm-chest-art dm-unique-'+i+'"><span class="dm-chest-lid"></span><span class="dm-chest-glyph">'+glyphs[i]+'</span><span class="dm-chest-seal">◆</span></span>'}
+function score(c,state){return Math.min(500,c.tasks.reduce(function(n,t,i){return n+(state.progress[i]>=t[2]?t[3]:0)},0))}
+function openChest(c,state,i,refresh){var modal=document.getElementById('dm-reward-modal');if(!modal)return;var p=score(c,state),n=milestones[i],claimed=!!state.claimed[n],ready=p>=n;
+modal.querySelector('.dm-modal-art').innerHTML=art(i);
+modal.querySelector('.dm-modal-kicker').textContent=c.title+' // REWARD VAULT';
+modal.querySelector('.dm-modal-title').textContent=rewards[i];
+modal.querySelector('.dm-modal-tier').textContent=n+' POINT MILESTONE';
+modal.querySelector('.dm-modal-reward-label').textContent='COMPETITION REWARD PREVIEW';
+modal.querySelector('.dm-modal-rewards').textContent='Development template · Rewards to be configured';
+modal.querySelector('.dm-modal-note').textContent='Development preview • No inventory items added';
+modal.style.setProperty('--chest-accent',claimed?'#66ffac':'#ffce65');
+var b=modal.querySelector('.dm-modal-close');b.disabled=claimed||!ready;b.textContent=claimed?'ALREADY OPENED':ready?'OPEN CHEST':'LOCKED · '+(n-p)+' POINTS TO GO';
+b.onclick=function(){if(!ready||claimed)return;state.claimed[n]=true;save(c,state);modal.hidden=true;refresh()};
+modal.querySelector('.dm-modal-x').onclick=function(){modal.hidden=true};
+modal.hidden=false;
+}
+function mount(c){var page=document.getElementById(c.id);if(!page)return;var grid=page.querySelector('.dev-event-grid');if(!grid)return;
+grid.innerHTML='<div class="daily-mission-ui"><div class="dm-top"><div class="dm-top-title"><span>◈ '+c.title+'</span><span class="dm-total">0 / 500 POINTS</span></div><div class="dm-track"><div class="dm-track-fill"></div></div><div class="dm-chests"></div><div class="dm-subline"><span>COMPLETE DIRECTIVES TO UNLOCK REWARDS</span><span class="dm-count">0 COMPLETE</span></div></div><div class="dm-mission-head"><span>◈ COMPETITION DIRECTIVES</span><span class="dm-left">MISSIONS</span></div><div class="dm-scroll"></div><div class="dm-preview-note">DEVELOPMENT TEMPLATE • TEST PROGRESS ONLY</div></div>';
+var state=load(c),lastPeriod=periodKey(c.period);
+function render(){if(lastPeriod!==periodKey(c.period)){lastPeriod=periodKey(c.period);state=load(c)}var p=score(c,state),done=c.tasks.filter(function(t,i){return state.progress[i]>=t[2]}).length;
+grid.querySelector('.dm-total').textContent=p+' / 500 POINTS';grid.querySelector('.dm-track-fill').style.width=p/5+'%';grid.querySelector('.dm-count').textContent=done+' COMPLETE';grid.querySelector('.dm-left').textContent=(c.tasks.length-done)+' ACTIVE';
+grid.querySelector('.dm-chests').innerHTML=milestones.map(function(n,i){var claimed=!!state.claimed[n],ready=p>=n;return '<button type="button" class="dm-chest '+(claimed?'claimed':ready?'ready':'locked')+'" data-chest="'+i+'">'+art(i)+'<strong>'+n+'</strong><small>'+(claimed?'OPENED':ready?'CLAIM':'LOCKED')+'</small></button>'}).join('');
+grid.querySelectorAll('[data-chest]').forEach(function(b){b.onclick=function(){openChest(c,state,+b.dataset.chest,render)}});
+grid.querySelector('.dm-scroll').innerHTML=done===c.tasks.length?'<div class="dm-finished"><strong>✓ ALL COMPETITION DIRECTIVES COMPLETE</strong><p>Return when the next competition begins.</p></div>':c.tasks.map(function(t,i){var v=state.progress[i],complete=v>=t[2];if(complete)return '';return '<div class="dm-card"><div class="dm-icon">'+t[0]+'</div><div><div class="dm-name">'+t[1]+'</div><div class="dm-description">Development task · '+c.period+' competition</div><div class="dm-progress"><span style="width:'+Math.min(100,100*v/t[2])+'%"></span></div><div class="dm-reward">+'+t[3]+' PTS · '+v+'/'+t[2]+'</div></div><button type="button" class="dm-action" data-task="'+i+'">TEST +1</button></div>'}).join('');
+grid.querySelectorAll('[data-task]').forEach(function(b){b.onclick=function(){var i=+b.dataset.task;state.progress[i]=Math.min(c.tasks[i][2],state.progress[i]+1);save(c,state);render()}});
+}
+render();
+}
+function init(){configs.forEach(mount);var modal=document.getElementById('dm-reward-modal');if(modal)modal.addEventListener('click',function(e){if(e.target===modal)modal.hidden=true})}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
