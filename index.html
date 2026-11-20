@@ -2971,6 +2971,27 @@ function startNpcMission(id,crew){var n=Date.now(),cfg=NPC_OPS.filter(function(x
 function requestNpcMissionConfirmation(id,crew){var cfg=NPC_OPS.filter(function(x){return x.id===id})[0];if(!cfg||operationBlocked())return;pendingNpcLaunch={id:id,crew:crew.slice(0,3)};$('mpcConfirmTitle').textContent='START '+cfg.name.toUpperCase()+'?';$('mpcConfirmCrew').textContent='CREW COMMITTED: '+crew.map(function(i){return CM[i]}).join(' · ');$('mpcConfirmModal').hidden=false}
 function closeNpcMissionConfirmation(){ $('mpcConfirmModal').hidden=true;pendingNpcLaunch=null}
 function acceptNpcMissionConfirmation(){var launch=pendingNpcLaunch;closeNpcMissionConfirmation();if(launch)startNpcMission(launch.id,launch.crew)}
+function showNpcRewardModal(entry){
+  if(!entry)return;
+  var old=$('npcRewardModal');if(old)old.remove();
+  var shade=document.createElement('div');shade.id='npcRewardModal';shade.style.cssText='position:fixed;inset:0;z-index:2147482500;display:flex;align-items:center;justify-content:center;padding:14px;background:rgba(0,5,9,.88);backdrop-filter:blur(8px);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#e2fff0';
+  var card=document.createElement('div');card.style.cssText='width:min(100%,430px);max-height:86dvh;overflow:auto;padding:17px;border:1px solid #42f5a0;border-radius:14px;background:radial-gradient(ellipse at 50% 0%,#123c2c,#06130e 72%);box-shadow:0 0 34px #24ff9a35,inset 0 0 22px #24ff9a12';
+  var kicker=document.createElement('div');kicker.textContent='MPC // OPERATION COMPLETE';kicker.style.cssText='font-size:9px;letter-spacing:2px;color:#75ffc0';
+  var title=document.createElement('h2');title.textContent=entry.mission||'NPC MISSION';title.style.cssText='margin:8px 0 4px;font-size:21px;color:#effff6';
+  var sub=document.createElement('div');sub.textContent='REWARD TRANSFER CONFIRMED';sub.style.cssText='font-size:9px;letter-spacing:1px;color:#8bbba2;margin-bottom:13px';
+  var list=document.createElement('div');list.style.cssText='display:flex;flex-direction:column;gap:6px';
+  (entry.rewards||[]).forEach(function(reward){var row=document.createElement('div');row.textContent='✓  '+reward;row.style.cssText='padding:8px 9px;border:1px solid #245b3d;border-radius:7px;background:#071b11;color:#caffdc;font-size:10px;line-height:1.35';list.appendChild(row)});
+  if(entry.contributionPoints){var cp=document.createElement('div');cp.textContent='ALLIANCE CONTRIBUTION  +'+entry.contributionPoints+' CP';cp.style.cssText='margin-top:7px;padding:8px;border:1px solid #6b5524;border-radius:7px;background:#211b0b;color:#ffdf86;font-size:10px;font-weight:900';list.appendChild(cp)}
+  var crewHead=document.createElement('div');crewHead.textContent='NEXT OPERATION // SELECT YOUR HEROES';crewHead.style.cssText='margin:15px 0 6px;color:#83ffc0;font-size:10px;font-weight:900;letter-spacing:1px';
+  var crewNow=document.createElement('div');crewNow.style.cssText='font-size:10px;color:#b8d9c6;line-height:1.5;margin-bottom:8px';
+  function updateCrewText(){crewNow.textContent=(S.npcCrew||[]).length?(S.npcCrew||[]).map(function(i){return CM[i]}).join(' · '):'No heroes selected yet. Choose up to 3 operatives for your next NPC mission.'}
+  updateCrewText();
+  var choose=document.createElement('button');choose.type='button';choose.textContent='SELECT HEROES';choose.style.cssText='width:100%;padding:11px;border:1px solid #42f5a0;border-radius:8px;background:linear-gradient(100deg,#123c29,#092016);color:#baffd3;font-weight:900;font-size:10px;letter-spacing:1px';
+  choose.onclick=function(){openCrewPicker('npc:reward','NEXT NPC MISSION TEAM',3,S.npcCrew||[],function(a){S.npcCrew=a.slice(0,3);save();updateCrewText();})};
+  var close=document.createElement('button');close.type='button';close.textContent='CLOSE MISSION REPORT';close.style.cssText='width:100%;margin-top:8px;padding:10px;border:1px solid #355b48;border-radius:8px;background:#07130e;color:#b8d9c6;font-weight:800;font-size:9px;letter-spacing:1px';
+  close.onclick=function(){shade.remove()};
+  card.appendChild(kicker);card.appendChild(title);card.appendChild(sub);card.appendChild(list);card.appendChild(crewHead);card.appendChild(crewNow);card.appendChild(choose);card.appendChild(close);shade.appendChild(card);document.body.appendChild(shade);
+}
 function claimNpcMission(id){
   var run=S.npcRuns&&S.npcRuns[id],cfg=NPC_OPS.filter(function(x){return x.id===id})[0];
   if(!run||!cfg||run.end>Date.now()||run.claimed)return;
@@ -2990,7 +3011,7 @@ function claimNpcMission(id){
   if(S.al&&S.al.n&&Math.random()<0.42){ensureAllianceBank();var points=2+Math.floor(Math.random()*3);S.al.techPts=(S.al.techPts||0)+points;rewards.push('FREE ALLIANCE TECH · +'+points+' Research Points');}
   var npcContributionPoints=awardAllianceContribution('MPC / NPC mission '+cfg.name,1,5,'mission',rewards.join(' · ')||'No additional rewards');S.npcRewardLog=S.npcRewardLog||[];S.npcRewardLog.unshift({time:Date.now(),mission:cfg.name,rewards:rewards,contributionPoints:npcContributionPoints});if(S.npcRewardLog.length>60)S.npcRewardLog.length=60;
   log('NPC mission completed: '+cfg.name+'. '+rewards.join(' · '));chatPost('GC','mission','MPC MISSION COMPLETE',cfg.name+' — MISSION COMPLETED SUCCESSFULLY.');save();
-  render(); // Personal mission collection is silent; rewards and War Log entries are still recorded.
+  render();showNpcRewardModal(S.npcRewardLog[0]); // Show a clear receipt and next-mission hero selector.
 }
 function npcMissionWatch(){var n=Date.now();Object.keys(S.npcRuns||{}).forEach(function(id){var run=S.npcRuns[id];if(run&&run.end<=n&&!run.claimed)claimNpcMission(id)})}
 var NPC_OPS=[{id:'npc1',name:'Ghost Relay',desc:'Infiltrate a lightly guarded relay station.',time:90,x:35,y:40},{id:'npc2',name:'Blacksite Server',desc:'Breach a hidden server facility.',time:180,x:100,y:24},{id:'npc3',name:'Dead Signal',desc:'Trace and disable an encrypted signal hub.',time:300,x:157,y:57},{id:'npc4',name:'Iron Vault',desc:'Penetrate a hardened data vault.',time:480,x:80,y:78}];
@@ -3095,7 +3116,7 @@ function build(){
   if($('testInsideClose'))$('testInsideClose').onclick=closeTestInside;
   if($('testInsideModal'))$('testInsideModal').addEventListener('click',function(ev){if(ev.target===$('testInsideModal'))closeTestInside()});
   if($('testInsideBody'))$('testInsideBody').addEventListener('click',testInsideClick);
-  document.querySelectorAll('[data-test-go]').forEach(function(b){b.onclick=function(){show(b.getAttribute('data-test-go'))}});
+  document.querySelectorAll('[data-test-go]').forEach(function(b){b.onclick=function(){var target=b.getAttribute('data-test-go');if(target==='hq'){try{closeTestInside()}catch(e){}try{closeTestBuilding()}catch(e){}var inside=$('testInsideModal'),building=$('testBuildingModal'),hqModal=$('testHqModal');if(inside)inside.hidden=true;if(building)building.hidden=true;if(hqModal)hqModal.hidden=true;}show(target)}});
 $('progressionReportClose').onclick=function(){$('progressionReportModal').hidden=true};$('progressionReportModal').addEventListener('click',function(ev){if(ev.target===$('progressionReportModal'))$('progressionReportModal').hidden=true});document.addEventListener('keydown',function(ev){if(ev.key==='Escape'&&!$('progressionReportModal').hidden)$('progressionReportModal').hidden=true});
   initTestChat();
 
@@ -7064,16 +7085,16 @@ if(Array.isArray(BHQ_UPDATE_RELEASES)){
 <script id="bhq-player-controlled-update-check-v1092">
 (function(){
   if(Array.isArray(window.BHQ_UPDATE_RELEASES))window.BHQ_UPDATE_RELEASES.unshift({version:'1.0.100',date:'19 NOV 2026',title:'DEPLOYMENT CONFIRMATION // UPDATE LOG HANDOFF',tag:'POST-LOGIN CONFIRMATION · MANUAL UPDATE LOG ACCESS',items:['After installation, the game now allows the commander to sign in normally before showing a deployment confirmation.','The VIEW UPDATE LOG action opens the actual More → Updates → Update Log screen, rather than navigating away before the commander has confirmed.','The installed build and update-log handoff marker are stored persistently until the release archive has opened successfully.','The release archive now includes this deployment confirmation workflow.']});
-  var BHQ_UPDATE_VERSION='1.0.100';window.BHQ_UPDATE_VERSION=BHQ_UPDATE_VERSION;
+  var BHQ_UPDATE_VERSION='0.0.2';window.BHQ_UPDATE_VERSION=BHQ_UPDATE_VERSION;
   var version=BHQ_UPDATE_VERSION,checking=false,prompted=false,lastCheck=0;
   if(Array.isArray(window.BHQ_UPDATE_RELEASES))window.BHQ_UPDATE_RELEASES.unshift({version:'1.0.98',date:'19 NOV 2026',title:'HQ COMMAND CORE // LIVE BUILD INDICATOR',tag:'FORCED UPDATE · VERSION BESIDE CLOCK',items:['Added the live installed build number beside the clock in the HQ Command Core header.','Published a fresh build so the in-game updater can force the new HQ version indicator onto the Home Screen app.','Retained existing game systems, account data and the update installation flow.']});
   if(Array.isArray(window.BHQ_UPDATE_RELEASES))window.BHQ_UPDATE_RELEASES.unshift({version:'1.0.97',date:'19 NOV 2026',title:'LIVE ACCOUNT UPDATE // CONTROLLED REDEPLOYMENT',tag:'SIGNED-IN INSTALLATION TEST',items:['Reissued the current deployment as a fresh update so the installation flow can be tested while signed in with a normal commander account rather than the test area.','This deployment is a controlled update-cycle test; it does not claim the underlying iPhone Home Screen session-restoration issue is fixed.','Existing commander account data and game save data are retained.']});
   if(Array.isArray(window.BHQ_UPDATE_RELEASES))window.BHQ_UPDATE_RELEASES.unshift({version:'1.0.96',date:'19 NOV 2026',title:'NEXUS DEPLOYMENT // SESSION & UPDATE ARCHIVE REPAIR',tag:'SINGLE INSTALL · SESSION PRESERVED · RELEASE NOTES HANDOFF',items:['Removed the pre-reload Supabase token rotation that could interrupt the saved commander session on mobile browsers. The existing persisted session is now verified without forcing a refresh-token change.','Added a persistent installed-build checkpoint so a completed deployment is not offered repeatedly after the page reloads.','Reworked the post-install destination to open the actual More → Updates → Update Log screen and retain the handoff until the release archive is visible.','Enhanced the update and interface banners with animated neon cyan/green lighting, scan sweeps, pulsing edge glows and moving data accents.']});
   try{window.BHQ_UPDATE_VERSION=version;}catch(e){}
   /* Literal final version is also read by the installer when it verifies the downloaded HTML. */
-  try{window.BHQ_UPDATE_VERSION='1.0.102';}catch(e){}
+  try{window.BHQ_UPDATE_VERSION='0.0.2';}catch(e){}
   if(Array.isArray(window.BHQ_UPDATE_RELEASES))window.BHQ_UPDATE_RELEASES.unshift({version:'1.0.94',date:'19 NOV 2026',title:'UPDATE HANDOFF // SESSION & RELEASE ARCHIVE REPAIR',tag:'SESSION REFRESH · AUTOMATIC UPDATE LOG',items:['The installer now refreshes and verifies the active commander authentication session before restarting, reducing unexpected sign-outs during deployment.','After restart, Backdoor HQ reliably waits for the game interface to become ready, then opens More → Updates directly on the Update Log and renders the latest patch notes.','The update-log handoff marker is retained until the archive is successfully opened, so a delayed login restoration does not lose the destination.']});
-  function newer(a,b){var x=String(a||'').split('.').map(Number),y=String(b||'').split('.').map(Number);for(var i=0;i<Math.max(x.length,y.length);i++){var d=(x[i]||0)-(y[i]||0);if(d)return d>0;}return false;}
+  function newer(a,b){var as=String(a||''),bs=String(b||'');if(/^0\.0\./.test(as)&&/^1\./.test(bs))return true;if(/^1\./.test(as)&&/^0\.0\./.test(bs))return false;var x=as.split('.').map(Number),y=bs.split('.').map(Number);for(var i=0;i<Math.max(x.length,y.length);i++){var d=(x[i]||0)-(y[i]||0);if(d)return d>0;}return false;}
   function wait(ms){return new Promise(function(resolve){setTimeout(resolve,ms);});}
   function buildNumber(html){var matches=Array.from(html.matchAll(/(?:window\.)?BHQ_UPDATE_VERSION\s*=\s*['"]([0-9]+(?:\.[0-9]+)+)['"]/g));return matches.length?matches[matches.length-1][1]:'';}
   function panel(remote){
@@ -7122,7 +7143,7 @@ if(Array.isArray(BHQ_UPDATE_RELEASES)){
     async function startDownload(){
       if(busy)return;busy=true;button.disabled=true;button.hidden=true;title.textContent='DEPLOYMENT IN PROGRESS';message.textContent='Establishing an encrypted route to the NEXUS deployment servers. No gameplay is active during this sequence.';core.textContent='◎';
       mark('download');status.textContent='SCANNING DEPLOYMENT CHANNEL';
-      var began=Date.now(),duration=4200;
+      var began=Date.now(),duration=1100;
       await new Promise(function(resolve){var timer=setInterval(function(){var p=Math.min(100,Math.floor((Date.now()-began)/duration*100));progress(p,p<35?'LOCATING UPDATE PACKETS':p<72?'DOWNLOADING SYSTEM MODULES':p<94?'SYNCHRONISING DATA':'DOWNLOAD COMPLETE');if(p>=100){clearInterval(timer);resolve();}},40);});
       status.textContent='PACKAGE READY // AWAITING INSTALL COMMAND';message.textContent='Deployment package received. The build is ready for integrity verification and installation.';core.textContent='✓';mark('verify');busy=false;setButton('INSTALL UPDATE',install);
     }
@@ -7135,9 +7156,19 @@ if(Array.isArray(BHQ_UPDATE_RELEASES)){
         await wait(350);
         mark('download');progress(28,'FETCHING PUBLISHED BUILD');status.textContent='CONNECTING TO LIVE DEPLOYMENT';
         var u=new URL('index.html',location.href);u.searchParams.set('_bhq_install',String(Date.now()));
-        var response=await fetch(u.toString(),{cache:'no-store',credentials:'same-origin'});
+        var controller=typeof AbortController!=='undefined'?new AbortController():null,fetchTimer=0,connectStarted=Date.now(),connectPulse=setInterval(function(){var p=Math.min(35,28+Math.floor((Date.now()-connectStarted)/900));progress(p,'CONNECTING TO LIVE DEPLOYMENT');},180);
+        try{fetchTimer=setTimeout(function(){if(controller)controller.abort();},45000);
+        var response=await fetch(u.toString(),{cache:'no-store',credentials:'same-origin',signal:controller?controller.signal:undefined});
+        clearTimeout(fetchTimer);clearInterval(connectPulse);
         if(!response.ok)throw new Error('Deployment server returned '+response.status+'.');
-        var html=await response.text();progress(72,'VERIFYING PACKAGE');status.textContent='CHECKING BUILD SIGNATURE';
+        var html='',loaded=0,total=Number(response.headers.get('content-length'))||0;
+        if(response.body&&response.body.getReader&&typeof TextDecoder!=='undefined'){
+          var reader=response.body.getReader(),decoder=new TextDecoder();
+          while(true){var part=await reader.read();if(part.done)break;loaded+=part.value.length;html+=decoder.decode(part.value,{stream:true});var transfer=total?Math.min(70,36+Math.floor(loaded/total*34)):Math.min(68,36+Math.floor(loaded/180000));progress(transfer,'DOWNLOADING BUILD · '+Math.round(loaded/1024)+' KB');}
+          html+=decoder.decode();
+        }else{html=await response.text();progress(68,'DOWNLOAD COMPLETE');}
+        progress(72,'VERIFYING PACKAGE');status.textContent='CHECKING BUILD SIGNATURE';
+        }finally{clearTimeout(fetchTimer);clearInterval(connectPulse);}
         var downloaded=buildNumber(html);
         if(!downloaded||newer(remote,downloaded)||newer(version,downloaded))throw new Error('The published build has not fully reached the deployment server yet. Please retry shortly.');
         mark('verify');progress(88,'BUILD INTEGRITY CONFIRMED');status.textContent='DEPLOYMENT '+downloaded+' VERIFIED';
@@ -7182,6 +7213,7 @@ main#gameShell{height:100dvh!important;min-height:100dvh!important;max-height:10
 #t-hq{height:calc(100dvh - var(--top-spacer-height,150px) - 10px)!important;min-height:0!important;max-height:calc(100dvh - var(--top-spacer-height,150px) - 10px)!important;overflow:hidden!important;overscroll-behavior:none!important;margin:0!important}
 #t-hq>.test-shell{height:100%!important;min-height:0!important;max-height:100%!important;overflow:hidden!important;display:flex!important;flex-direction:column!important}
 #t-hq .test-viewport{height:100%!important;min-height:0!important;max-height:100%!important;flex:1 1 auto!important;overscroll-behavior:contain!important}
+#globalRail{z-index:2147482600!important}
 </style>
 <script id="bhq-v101-deployment-and-release-archive">
 /* v1.0.102: bind the external update scripts to the game engine's live release array/version. */
@@ -7193,7 +7225,7 @@ main#gameShell{height:100dvh!important;min-height:100dvh!important;max-height:10
     if(Array.isArray(releases)){
       releases=releases.filter(function(r){return String(r&&r.version||'')!=='1.0.102';});
       releases.unshift({version:version,date:'19 NOV 2026',title:'HQ VIEWPORT LOCK // LIVE UPDATE ARCHIVE REPAIR',tag:'FORCED REDEPLOYMENT · FIXED HQ SCREEN · VERIFIED RELEASE NOTES',items:[
-        'Published a fresh build (1.0.102) so devices still running the previous deployment are prompted to install the new version.',
+        'Published a fresh build (0.0.2) so devices still running the previous deployment are prompted to install the new version.',
         'Connected the live release archive to the same version and release list used by the game renderer. The current build number and newest patch notes now update together.',
         'Repaired the release-note handoff so the latest deployment entry is available in More → Updates → Update Log after installation and login.',
         'Locked the HQ page to the available device viewport and removed the extra page-level vertical movement that left the HQ screen sitting slightly off-centre after login.',
@@ -7232,7 +7264,7 @@ main#gameShell{height:100dvh!important;min-height:100dvh!important;max-height:10
 </style>
 <script id="bhq-v102-independent-update-archive">
 (function(){
-  var VERSION='1.0.102';
+  var VERSION='0.0.2';
   var RELEASES=[{
     version:VERSION,date:'20 NOV 2026',
     title:'UPDATE ARCHIVE REBUILD // DIRECT DEPLOYMENT NOTES',
