@@ -7752,5 +7752,33 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 
+
+<style id="bhq-daily-nano-notification-fix-v1">
+@keyframes bhqDailyOpsPulse{0%,100%{filter:brightness(1);box-shadow:0 3px 10px #0008}50%{filter:brightness(1.3);box-shadow:0 0 0 2px #9cffbd,0 0 18px #55ff9a99}}
+.test-shortcut-missions.daily-mission-alert{animation:bhqDailyOpsPulse 1.5s ease-in-out infinite!important}
+.feature-activity{position:relative}
+.feature-activity .daily-mission-count{position:absolute;top:-5px;right:-5px;z-index:7;min-width:16px;height:16px;padding:0 4px;border:1px solid #fff;border-radius:10px;background:#e33b42;color:#fff;font:900 9px/14px ui-monospace,monospace;text-align:center;box-shadow:0 0 9px #ff394c88}
+.feature-activity .daily-mission-count[hidden]{display:none!important}
+#nanoUnifiedScoutReports .nano-unread{background:#20c96b!important;color:#04150a!important;box-shadow:0 0 9px #20e87899!important;border:1px solid #aaffc7}
+#nanoUnifiedAttackReports .nano-unread{background:#e33b42!important;color:#fff!important;box-shadow:0 0 9px #ff394c99!important;border:1px solid #ffb2b2}
+@media(prefers-reduced-motion:reduce){.test-shortcut-missions.daily-mission-alert{animation:none!important;outline:2px solid #9cffbd;box-shadow:0 0 14px #55ff9a99!important}}
+</style>
+<script id="bhq-daily-nano-notification-fix-v1">
+(function(){
+'use strict';
+function $(id){return document.getElementById(id)}
+function dailyProgressState(){try{var api=window.BHQ_API,s=api&&typeof api.S==='function'?api.S():null,a=s&&s.activity;if(!a||!a.pipelineDone)return null;var d=new Date(),key=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');if(a.pipelineDay!==key)return null;if(a.pipelineNoticeDay!==key){a.pipelineNoticeDay=key;a.pipelineSeenCount=0}return a}catch(e){return null}}
+function syncDailyMissionAlert(){var a=dailyProgressState(),done=a?Object.keys(a.pipelineDone).filter(function(k){return !!a.pipelineDone[k]}).length:0,pending=a?Math.max(0,done-(Number(a.pipelineSeenCount)||0)):0,ops=document.querySelector('.test-shortcut-missions'),daily=document.querySelector('.feature-activity');if(ops)ops.classList.toggle('daily-mission-alert',pending>0);if(daily){var badge=daily.querySelector('.daily-mission-count');if(!badge){badge=document.createElement('span');badge.className='daily-mission-count';badge.setAttribute('aria-hidden','true');daily.appendChild(badge)}badge.textContent=pending>99?'99+':String(pending);badge.hidden=pending===0;daily.setAttribute('aria-label',pending?'Open Dailies · '+pending+' completed missions':'Open Dailies')}}
+function markDailyMissionsSeen(){var a=dailyProgressState();if(a){a.pipelineSeenCount=Object.keys(a.pipelineDone||{}).filter(function(k){return !!a.pipelineDone[k]}).length;try{var api=window.BHQ_API;if(api&&typeof api.save==='function')api.save()}catch(e){}}syncDailyMissionAlert()}
+function syncNanoReports(){var badge=$('nanoNavBadge'),btn=document.querySelector('.test-shortcut-nano');if(!badge)return;var scout=0,attack=0;try{scout=typeof window.nanoUnreadCount==='function'?window.nanoUnreadCount('scout'):0;attack=typeof window.nanoUnreadCount==='function'?window.nanoUnreadCount('attack'):0}catch(e){}var total=scout+attack;badge.textContent=total>99?'99+':String(total);badge.hidden=total===0;if(btn)btn.setAttribute('aria-label',total?'Open Nano Bots · '+scout+' unread scout reports · '+attack+' unread attack reports':'Open Nano Bots')}
+document.addEventListener('click',function(e){var daily=e.target&&e.target.closest?e.target.closest('[data-test-go="activity"]'):null;if(daily)setTimeout(markDailyMissionsSeen,0);var report=e.target&&e.target.closest?e.target.closest('#nanoUnifiedScoutReports,#nanoUnifiedAttackReports'):null;if(report)setTimeout(syncNanoReports,0)});
+try{var api=window.BHQ_API,old=api&&api.trackActivity;if(api&&typeof old==='function'&&!old.__dailyNoticeWrapped){var wrapped=function(){var result=old.apply(this,arguments);try{if(typeof window.renderDailyMissions==='function')window.renderDailyMissions()}catch(e){}syncDailyMissionAlert();return result};wrapped.__dailyNoticeWrapped=true;api.trackActivity=wrapped}}catch(e){}
+var priorRender=window.renderDailyMissions;if(typeof priorRender==='function'&&!priorRender.__dailyNoticeWrapped){var renderWrapped=function(){var result=priorRender.apply(this,arguments);syncDailyMissionAlert();return result};renderWrapped.__dailyNoticeWrapped=true;window.renderDailyMissions=renderWrapped}
+var priorSync=window.syncCommandNotifications;if(typeof priorSync==='function'&&!priorSync.__nanoNoticeWrapped){var syncWrapped=function(){var result=priorSync.apply(this,arguments);syncNanoReports();return result};syncWrapped.__nanoNoticeWrapped=true;window.syncCommandNotifications=syncWrapped}
+document.addEventListener('visibilitychange',function(){if(!document.hidden){syncDailyMissionAlert();syncNanoReports()}});
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){syncDailyMissionAlert();syncNanoReports()},{once:true});else{syncDailyMissionAlert();syncNanoReports()}
+})();
+</script>
+
 </body>
 </html>
