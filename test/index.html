@@ -6080,6 +6080,8 @@ if(typeof _evHit_1051==='function')evHit=function(j){return _evHit_1051(j)};
   const toggle=document.getElementById('authToggle'), message=document.getElementById('authMessage');
   const skip=document.getElementById('authSkip');
   let isSignup=false, started=false, client=null;
+  // Reversible development-only fast-entry switch.
+  const DEV_FAST_ENTRY=true;
   function say(t){message.textContent=t||''}
   function validName(v){return /^[a-zA-Z0-9_]{3,20}$/.test(v)}
   function setBusy(v){submit.disabled=v;toggle.disabled=v;submit.style.opacity=v?'.55':''}
@@ -6103,7 +6105,7 @@ if(typeof _evHit_1051==='function')evHit=function(j){return _evHit_1051(j)};
       }
     }
     // Show the same five-second system breach sequence after login and when restoring a session.
-    if(window.BHQ_SHOW_LOADING)window.BHQ_SHOW_LOADING(function(){if(window.BHQ_INIT_DAILY_REWARDS)window.BHQ_INIT_DAILY_REWARDS()});else if(window.BHQ_INIT_DAILY_REWARDS)window.BHQ_INIT_DAILY_REWARDS();
+    if(!DEV_FAST_ENTRY&&window.BHQ_SHOW_LOADING)window.BHQ_SHOW_LOADING(function(){if(window.BHQ_INIT_DAILY_REWARDS)window.BHQ_INIT_DAILY_REWARDS()});else if(window.BHQ_INIT_DAILY_REWARDS)window.BHQ_INIT_DAILY_REWARDS();
     // After installation, let the commander sign in normally, then offer a clear
     // confirmation before navigating to the real More → Updates → Update Log screen.
     var openReleaseArchive=false,installedReleaseVersion='';
@@ -6179,6 +6181,7 @@ if(typeof _evHit_1051==='function')evHit=function(j){return _evHit_1051(j)};
     }finally{setBusy(false)}
   });
   function init(){
+    if(DEV_FAST_ENTRY){window.BHQ_TEST_MODE=true;showGame({email:'test-player@local.test',user_metadata:{username:'TEST PLAYER'}},true);return;}
     if(!window.supabase||!window.supabase.createClient){say('Could not load the Supabase library. Check your internet connection and refresh.');return}
     if(SUPABASE_URL.indexOf('PASTE_')===0||SUPABASE_ANON_KEY.indexOf('PASTE_')===0){say('Add your Supabase project URL and publishable/anon key in the script at the bottom of this file.');return}
     var bhqAuthStorage={
