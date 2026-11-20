@@ -8763,8 +8763,21 @@ activateEventPage(activeEventPage);
  }
  function open(which){
   if(['activity','daily','weekly','monthly','alliance'].indexOf(which)<0)return;
+  /* Always bring the Events destination itself to the foreground before opening
+     its nested page. This prevents the More/mail tray or a previous section
+     from remaining as the visible content behind an empty event slot. */
+  if(tab!=='events')show('events');
+  var eventsRoot=document.getElementById('t-events');
+  if(eventsRoot)eventsRoot.hidden=false;
   current=which;tabs.classList.add('events-menu-hidden');slot.hidden=false;
   activity.hidden=which!=='activity';competitions.hidden=which==='activity';
+  if(which!=='activity'){
+   competitions.style.display='block';
+   competitions.style.visibility='visible';
+   competitions.removeAttribute('aria-hidden');
+   var content=document.getElementById('competitionContent');
+   if(content){content.style.display='block';content.style.visibility='visible'}
+  }
   tabs.querySelectorAll('.events-tab').forEach(function(x){
    var on=x.getAttribute('data-bhq-event-choice')===which;
    x.classList.toggle('active',on);x.setAttribute('aria-pressed',on?'true':'false');
@@ -8773,11 +8786,12 @@ activateEventPage(activeEventPage);
    if(typeof window.renderDailyMissions==='function')window.renderDailyMissions();
   }else{
    try{activeCompetitionPeriod=which}catch(e){}
-   if(which==='alliance'&&typeof window.renderAllianceCompetition==='function'){
-    window.renderAllianceCompetition();
-   }else if(typeof window.renderCompetition==='function'){
-    window.renderCompetition(which);
-   }
+   var draw=function(){
+    var renderer=which==='alliance'?(window.BHQ_RENDER_ALLIANCE_COMPETITION||window.renderAllianceCompetition):(window.BHQ_RENDER_COMPETITION||window.renderCompetition);
+    if(typeof renderer==='function')renderer(which);
+   };
+   draw();
+   requestAnimationFrame(draw);
   }
  }
  tabs.addEventListener('click',function(e){
