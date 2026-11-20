@@ -7036,7 +7036,7 @@ body:before{content:"";position:fixed;left:0;right:0;top:-120px;height:120px;poi
     var home=g('hq');
     var daily=document.getElementById('featureRail');
     var devDailies=document.createElement('button');devDailies.type='button';devDailies.className='dev-event-dailies';devDailies.setAttribute('aria-label','Dailies');devDailies.innerHTML='<svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="7" width="22" height="21" rx="3"/><path d="M10 4v7M22 4v7M5 14h22m-16 7 3 3 7-7"/></svg>';
-    devDailies.onclick=function(){var page=document.getElementById('t-dev-dailies');if(!page)return;document.querySelectorAll('section[id^="t-"]').forEach(function(x){x.hidden=true});page.hidden=false;closeAll()};
+    devDailies.onclick=function(){var page=document.getElementById('t-dev-dailies');if(!page)return;document.querySelectorAll('section[id^="t-"]').forEach(function(x){x.hidden=true});page.hidden=false;document.body.classList.add('dev-dailies-open');closeAll();var clock=page.querySelector('.dev-dailies-clock'),version=page.querySelector('.dev-dailies-version');if(clock)clock.textContent=new Date().toTimeString().slice(0,8);if(version)version.textContent='V '+String(window.BHQ_UPDATE_VERSION||'0.0.3')};
     var groups=[
       {id:'ops',ic:'<svg viewBox="0 0 32 32"><path d="M16 3 19.2 11.2 28 12l-6.7 5.8 2 8.7L16 22l-7.3 4.5 2-8.7L4 12l8.8-.8L16 3Z"/><path d="m13 16 2 2 4-5"/></svg>',tx:'OPS',r:'176,124,255',items:[g('mis'),g('map')]},
       {id:'squad',ic:'<svg viewBox="0 0 32 32"><path d="M16 4a5 5 0 1 0 0 10 5 5 0 0 0 0-10ZM9 16h14l3 11H6l3-11Z"/><path d="M11 20h10M10 24h12"/></svg>',tx:'SQUAD',r:'90,184,255',items:[g('crew'),g('bot'),g('rank')]},
@@ -8298,18 +8298,27 @@ body:has(#t-bot:not([hidden])){position:fixed!important;inset:0!important;width:
 /* The original dock is the only active bottom navigation. */
 #tabs,#globalRail,.global-rail-wrap,.test-side-rail,#featureRail{display:none!important}
 #t-ally{display:none!important}
-#t-dev-dailies{--acc:255,153,54;position:fixed;z-index:110;top:calc(env(safe-area-inset-top) + 112px);bottom:calc(env(safe-area-inset-bottom) + 90px);left:9px;right:9px;min-height:0;margin:0;border:1px solid #ff9a39;border-radius:14px;overflow:hidden;background:radial-gradient(ellipse at center,#10243a,#03111e 75%);box-shadow:0 0 15px #ff9a3925}
+#t-dev-dailies{--acc:255,153,54;position:fixed;z-index:110;top:calc(env(safe-area-inset-top) + 54px);bottom:calc(env(safe-area-inset-bottom) + 88px);left:10px;right:10px;min-height:0;margin:0;border:1px solid #ff9a39;border-radius:18px;overflow:hidden;background:radial-gradient(ellipse at center,#10243a,#03111e 75%);box-shadow:inset 0 0 0 3px #ff9a3915,0 0 15px #ff9a3925}
 #t-dev-dailies[hidden]{display:none!important}
-#t-dev-dailies .dev-event-title{height:37px;padding:10px 13px;border-bottom:1px solid #ff9a39;color:#ffb85a;background:linear-gradient(#33200b,#080f12);font:900 12px ui-monospace,monospace;letter-spacing:1.5px}
-#t-dev-dailies .dev-event-grid{position:absolute;inset:37px 0 0;background-image:linear-gradient(#3fbaff13 1px,transparent 1px),linear-gradient(90deg,#3fbaff13 1px,transparent 1px);background-size:32px 32px}
+#t-dev-dailies .dev-event-title{height:30px;padding:0 10px;display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:1px solid #ff9a39;color:#ffbf4e;background:linear-gradient(180deg,#362608,#090d0c);font:900 9px/1 ui-monospace,Menlo,monospace;letter-spacing:1.3px;white-space:nowrap}
+#t-dev-dailies .dev-event-title>span:first-child{overflow:hidden;text-overflow:ellipsis}
+#t-dev-dailies .dev-dailies-status{display:flex;align-items:center;gap:8px;color:#f1f3e6;letter-spacing:.7px;font-size:9px}
+#t-dev-dailies .dev-dailies-version{color:#58e9a2}
+#t-dev-dailies .dev-dailies-status i{width:7px;height:7px;flex:none;border-radius:50%;background:#ffc83e;box-shadow:0 0 8px #ffc83e}
+#t-dev-dailies .dev-event-grid{position:absolute;inset:30px 0 0;background-image:linear-gradient(#3fbaff13 1px,transparent 1px),linear-gradient(90deg,#3fbaff13 1px,transparent 1px);background-size:32px 32px}
 #iosDock .dk-slot:has(.dk-btn[aria-label="EVENT"]) .dk-btn{--r:255,153,54}
 #iosDock .dev-event-dailies{appearance:none;position:relative;width:62px!important;min-width:62px!important;height:62px!important;margin:0!important;padding:0!important;display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:3px;border-radius:16px!important;font-size:24px;line-height:1;color:rgb(var(--r,255,153,54))!important;border:1px solid rgba(var(--r,255,153,54),.55)!important;background:linear-gradient(160deg,rgba(var(--r,255,153,54),.22),rgba(0,0,0,.6))!important;box-shadow:0 0 12px rgba(var(--r,255,153,54),.3),inset 0 0 10px rgba(var(--r,255,153,54),.12)!important;transform:none;transition:transform .15s}
-#iosDock .dev-event-dailies svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:2;filter:drop-shadow(0 0 5px currentColor)}
+#iosDock .dev-event-dailies svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;filter:drop-shadow(0 0 5px currentColor)}
 #iosDock .dev-event-dailies:after{content:'DAILIES';font:800 7.5px/1 ui-monospace,monospace;letter-spacing:.6px;color:#fff;opacity:.85;text-transform:uppercase}
 #iosDock .dev-event-dailies:active{transform:scale(.9)}
+body.dev-dailies-open #t-hq{visibility:hidden!important}
+#iosDock .dk-slot:has(.dev-event-dailies){--r:255,153,54}
+#iosDock .dev-event-dailies{width:62px!important;height:62px!important;min-width:62px!important;max-width:62px!important;flex:0 0 62px!important}
 </style>
-<section id="t-dev-dailies" hidden aria-label="Dailies page"><div class="dev-event-title">▣ DAILIES // COMMAND CORE</div><div class="dev-event-grid"></div></section>
-
+<section id="t-dev-dailies" hidden aria-label="Dailies page"><div class="dev-event-title"><span>▣ DAILIES // COMMAND CORE</span><span class="dev-dailies-status"><span class="dev-dailies-clock">--:--:--</span><span class="dev-dailies-version">V 0.0.3</span><i></i></span></div><div class="dev-event-grid"></div></section>
+<script id="dev-dailies-state">
+(function(){function sync(){var p=document.getElementById('t-dev-dailies');if(!p)return;var open=!p.hidden;document.body.classList.toggle('dev-dailies-open',open);if(open){var c=p.querySelector('.dev-dailies-clock');if(c)c.textContent=new Date().toTimeString().slice(0,8);var v=p.querySelector('.dev-dailies-version');if(v)v.textContent='V '+String(window.BHQ_UPDATE_VERSION||'0.0.3')}}setInterval(sync,1000)})();
+</script>
 </body>
 </html>
 
