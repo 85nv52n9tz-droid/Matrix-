@@ -7717,11 +7717,11 @@ var TASKS=[
 ];
 var CHESTS=[
 {at:10,name:'Supply Cache',items:[['cr',1800,'Credits'],['da',350,'Data']]},
-{at:25,name:'Field Crate',items:[['cr',3200,'Credits'],['cy',35,'Cyber Chips'],['in',12,'Influence']]},
-{at:40,name:'Operative Chest',items:[['da',800,'Data'],['ex',25,'Experience'],['wi',4,'Wisdom'],['vip',3,'VIP Points']]},
-{at:55,name:'Advanced Cache',items:[['cr',6500,'Credits'],['cy',90,'Cyber Chips'],['in',35,'Influence'],['boost',10,'Income Booster · 10 min']]},
-{at:75,name:'Elite Supply Chest',items:[['da',1500,'Data'],['ex',65,'Experience'],['wi',12,'Wisdom'],['cr',9000,'Credits'],['vip',5,'VIP Points'],['kt',2,'Kill Tokens']]},
-{at:100,name:'Grand Commander Chest',items:[['cr',18000,'Credits'],['da',3000,'Data'],['cy',250,'Cyber Chips'],['ex',120,'Experience'],['wi',30,'Wisdom'],['in',100,'Influence'],['vip',8,'VIP Points'],['kt',5,'Kill Tokens'],['boost',20,'Income Booster · 20 min']]}
+{at:25,name:'Field Crate',items:[['cr',3200,'Credits'],['cy',35,'Crypto'],['qt',12,'Influence']]},
+{at:40,name:'Operative Chest',items:[['da',800,'Data'],['ex',25,'Exploit'],['cy',4,'Crypto']]},
+{at:55,name:'Advanced Cache',items:[['cr',6500,'Credits'],['cy',90,'Crypto'],['in',35,'Intel'],['qt',20,'Influence']]},
+{at:75,name:'Elite Supply Chest',items:[['da',1500,'Data'],['ex',65,'Exploit'],['cr',9000,'Credits'],['qt',45,'Influence'],['cy',60,'Crypto']]},
+{at:100,name:'Grand Commander Chest',items:[['cr',18000,'Credits'],['da',3000,'Data'],['cy',250,'Crypto'],['ex',120,'Exploit'],['in',100,'Intel'],['qt',100,'Influence']]}
 ];
 function $id(id){return document.getElementById(id)}
 function dayKey(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
@@ -7737,7 +7737,8 @@ function render(){
 var section=$id('t-activity');if(!section)return;var host=section.querySelector('.activity-hub');if(!host)return;var a=state();if(!a)return;awardPoints(a);
 var points=Math.min(100,Number(a.pipelinePoints)||0),opened=a.pipelineClaimed||[];
 
-var taskHtml=TASKS.map(function(t,i){var v=progress(t,a),done=!!a.pipelineDone[t.id],blocked=TASKS.slice(0,i).some(function(prev){return prev.type===t.type&&!a.pipelineDone[prev.id]}),pct=Math.min(100,v/t.target*100);if(done||blocked)return '';return '<div class="ap-task"><div class="ap-task-num">'+String(i+1).padStart(2,'0')+'</div><div class="ap-task-main"><b>'+t.name+'</b><p>'+t.desc+'</p><div class="ap-task-meta"><span>'+v+'/'+t.target+'</span><div class="ap-task-bar"><i style="width:'+pct+'%"></i></div></div></div><div class="ap-task-side"><span class="ap-points">+'+t.points+' PTS</span><button class="ap-go" type="button" data-ap-go="'+t.go+'">GO →</button></div></div>'}).join('');
+var taskIcons={login:'👤',help:'🤝',launches:'🚀',missions:'📜',scouts:'🔭',upgrades:'🔧',attacks:'⚔️',training:'🤖',raids:'💥'};
+var taskHtml=TASKS.map(function(t,i){var v=progress(t,a),done=!!a.pipelineDone[t.id],blocked=TASKS.slice(0,i).some(function(prev){return prev.type===t.type&&!a.pipelineDone[prev.id]}),pct=Math.min(100,v/t.target*100);if(done||blocked)return '';return '<div class="ap-task"><div class="ap-task-icon" aria-label="Mission type">'+(taskIcons[t.type]||'🎯')+'</div><div class="ap-task-main"><b>'+t.name+'</b><p>'+t.desc+'</p><div class="ap-task-meta"><span>'+v+'/'+t.target+'</span><div class="ap-task-bar"><i style="width:'+pct+'%"></i></div></div></div><div class="ap-task-side"><span class="ap-points">+'+t.points+' PTS</span><button class="ap-go" type="button" data-ap-go="'+t.go+'">GO →</button></div></div>'}).join('');
 var chestHtml=CHESTS.map(function(c,i){var claimed=opened.indexOf(c.at)>=0,ready=points>=c.at&&!claimed;var pos=[8,24,40,56,72,88][i];return '<button type="button" class="ap-chest '+(claimed?'opened':ready?'ready':'')+'" data-ap-chest="'+c.at+'" aria-label="'+(claimed?'Chest claimed':ready?'Open '+c.name:'Requires '+c.at+' points')+'" title="'+(claimed?'Claimed':ready?'Open reward chest':c.at+' points required')+'" style="left:'+pos+'%" '+(ready?'':'disabled')+'><span class="ap-chest-icon" aria-hidden="true">'+(claimed?'✓':'')+'</span><span class="ap-chest-label">'+(claimed?'CLAIMED':c.at+' PTS')+'</span></button>'}).join('');
 var fillPct=points,waitingIndex=CHESTS.findIndex(function(c){return points>=c.at&&!opened.includes(c.at)});if(waitingIndex>=0)fillPct=[10,25,40,55,75,100][waitingIndex];var next=CHESTS.find(function(c){return points<c.at&&!opened.includes(c.at)})||null;
 host.innerHTML='<div class="ap-head"><div class="ap-kicker">DAILIES // DAILY REWARD NETWORK</div><div class="ap-title">DAILY <span style="color:#79ffad">MISSIONS</span></div><div class="ap-sub">Complete your daily missions to charge the reward conduit. Each unlocked chest can be opened once per day.</div><div class="ap-score"><div><strong>'+points+'</strong><small> TOTAL POINTS</small></div><small>'+Object.keys(a.pipelineDone).length+' / '+TASKS.length+' TASKS COMPLETE</small></div></div><div class="ap-track-wrap"><div class="ap-track"><div class="ap-track-base"></div><div class="ap-track-fill" style="width:'+fillPct+'%"></div>'+chestHtml+'</div></div><div class="ap-section"><b>DAILY MISSIONS</b><small>'+TASKS.length+' TASK MILESTONES · CUMULATIVE PROGRESS</small></div><div class="ap-tasks">'+taskHtml+'</div>';
@@ -7867,6 +7868,20 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 #t-activity .ap-task{min-height:0!important;padding:7px 8px!important;}
 #t-activity .ap-task-main p{margin:3px 0 4px!important;line-height:1.4!important;}
 #t-activity .ap-complete{flex:1 1 0!important;min-height:0!important;overflow-y:auto!important;}
+</style>
+
+<style id="bhq-daily-mission-icons-scroll-rewards-v8">
+/* Replace ordinal mission numbers with clear quest-type symbols. */
+#t-activity .ap-task{grid-template-columns:34px minmax(0,1fr) auto!important}
+#t-activity .ap-task-icon{width:32px;height:32px;display:grid;place-items:center;border:1px solid #315d40;border-radius:8px;background:linear-gradient(145deg,#102b1a,#07140c);font-size:19px;line-height:1;box-shadow:inset 0 0 9px #39ff8818}
+#t-activity .ap-task:nth-child(3n+1) .ap-task-icon{border-color:#438c67}
+#t-activity .ap-task:nth-child(3n+2) .ap-task-icon{border-color:#426f91}
+#t-activity .ap-task:nth-child(3n) .ap-task-icon{border-color:#80649c}
+@media(max-width:430px){#t-activity .ap-task{grid-template-columns:30px minmax(0,1fr) 54px!important;gap:6px!important}#t-activity .ap-task-icon{width:28px;height:28px;font-size:17px}}
+/* Keep the entire mission scroller above the fixed bottom navigation, including on long lists. */
+#t-activity{height:calc(100dvh - var(--top-spacer-height,150px) - 84px)!important;max-height:calc(100dvh - var(--top-spacer-height,150px) - 84px)!important}
+#t-activity .activity-hub{height:100%!important;max-height:100%!important;padding-bottom:10px!important}
+#t-activity .ap-tasks{padding-bottom:22px!important;scroll-padding-bottom:22px}
 </style>
 </body>
 </html>
