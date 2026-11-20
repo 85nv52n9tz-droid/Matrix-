@@ -2589,6 +2589,14 @@ body:has(#t-events:not([hidden])) section[id^="t-"]:not(#t-events):not(#t-activi
 #bhqFreshEvents .v2-comp-chest-copy span{font-size:7px!important}
 #bhqFreshEvents .v2-comp-chest button{width:100%!important;min-height:30px!important;font-size:7px!important}
 #bhqFreshEvents .v2-comp-task{background:linear-gradient(180deg,#0b2519,#06140e)!important;border:1px solid #2c7650!important;border-radius:12px!important;margin:6px 0!important}
+</style><style id="bhq-events-exact-daily-layout-v1">
+#bhqFreshEvents:has(.fresh-events-window:not([hidden]))>.fresh-events-title{display:none!important}
+#bhqFreshEvents .fresh-events-toolbar{display:none!important}
+#bhqFreshEvents .fresh-events-body{padding:8px 10px 40px!important}
+#bhqFreshEvents #t-activity,#bhqFreshEvents #t-competitions{margin:0!important;padding:0!important;width:100%!important;max-width:100%!important}
+#bhqFreshEvents #competitionContent{padding:0!important;margin:0!important}
+#bhqCompetitionDailyClone{max-width:900px;margin:0 auto;padding:10px 8px 24px}
+#bhqCompetitionDailyClone .ap-chest.ready{filter:brightness(1.4)}
 </style></head>
 <style id="bhq-events-centre-v1">
 /* Events centre navigation and dedicated competition pages */
@@ -9212,9 +9220,31 @@ html:has(#t-bot:not([hidden])){height:100%!important;overflow:hidden!important}
   }else{
    pageContainers[which].appendChild(competition);competition.hidden=false;activity.hidden=true;
    pageContainers[which].appendChild(competition);
-   var draw=which==='alliance'?(window.BHQ_RENDER_ALLIANCE_COMPETITION||window.renderAllianceCompetition):(window.BHQ_RENDER_COMPETITION||window.renderCompetition);
-   try{if(typeof draw==='function')draw(which);else originalContent.textContent='Competition is loading. Please reopen this event.'}
-   catch(e){console.error('Fresh competition render error',e);originalContent.textContent='Competition could not load: '+String(e.message||e)}
+   /* Reuse the actual Daily Missions template, with competition-specific rewards deferred. */
+   try{
+    if(typeof window.renderDailyMissions==='function')window.renderDailyMissions();
+    var source=activity.querySelector('.activity-hub'),clone=source&&source.cloneNode(true);
+    if(!clone)throw Error('Daily template unavailable');
+    clone.id='bhqCompetitionDailyClone';
+    clone.querySelectorAll('[id]').forEach(function(el){el.removeAttribute('id')});
+    var label=which.toUpperCase(),title=clone.querySelector('.ap-title');
+    if(title)title.innerHTML=label+' <span style="color:#79ffad">COMPETITION</span>';
+    var kicker=clone.querySelector('.ap-kicker');if(kicker)kicker.textContent=label+' // COMPETITION NETWORK';
+    var sub=clone.querySelector('.ap-sub');if(sub)sub.textContent='Competition missions and rewards will be configured next.';
+    var score=clone.querySelector('.ap-score');if(score)score.innerHTML='<div><strong>0</strong><small> COMPETITION POINTS</small></div><small>COMING NEXT</small>';
+    var section=clone.querySelector('.ap-section b');if(section)section.textContent=label+' COMPETITION';
+    var tasks=clone.querySelector('.ap-tasks');if(tasks)tasks.innerHTML='<div class="ap-task"><div class="ap-task-icon">🎯</div><div class="ap-task-main"><b>Competition missions</b><p>Individual activities and point values will be added next.</p></div></div>';
+    var complete=clone.querySelector('.ap-complete');if(complete)complete.remove();
+    var fill=clone.querySelector('.ap-track-fill');if(fill)fill.style.width='0%';
+    clone.querySelectorAll('.ap-chest').forEach(function(chest){
+     chest.disabled=false;chest.classList.remove('opened','ready');chest.removeAttribute('data-ap-chest');
+     var icon=chest.querySelector('.ap-chest-icon'),txt=chest.querySelector('.ap-chest-label');
+     if(icon)icon.textContent='';if(txt)txt.textContent='CHEST';
+     chest.onclick=function(){chest.classList.toggle('ready');if(icon)icon.textContent=chest.classList.contains('ready')?'✓':''};
+    });
+    originalContent.replaceChildren(clone);
+   }catch(e){console.error('Competition template error',e);originalContent.textContent='Competition template unavailable: '+String(e.message||e)}
+
   }
   body.scrollTop=0;
  }
@@ -9231,7 +9261,16 @@ html:has(#t-bot:not([hidden])){height:100%!important;overflow:hidden!important}
  menuOpen();
 })();
 </script>
-</body>
+<script id="bhq-daily-style-shared">
+(function(){
+ var el=document.createElement('style'),css='';
+ document.querySelectorAll('style').forEach(function(node){
+  var raw=node.textContent||'';
+  if(raw.indexOf('#t-activity')>=0&&raw.indexOf('.ap-')>=0)css+='\n'+raw.replace(/#t-activity/g,'#bhqCompetitionDailyClone');
+ });
+ el.textContent=css;document.head.appendChild(el);
+})();
+</script></body>
 </html>
 
 <style id="bhq-events-tray-fit-v5">
