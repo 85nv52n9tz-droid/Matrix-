@@ -2506,6 +2506,21 @@ section[id^="t-"]:not(#t-hq){
   transform:translate(-50%,-50%) scale(1.12)!important;
 }
 </style>
+
+<style id="bhq-alliance-animated-pipelines-v1093">
+/* Alliance HQ: curved, layered conduits with a continuous moving energy pulse. */
+#t-aln .aln-links{overflow:visible;filter:drop-shadow(0 0 5px #ff263f88)}
+#t-aln .aln-pipe-link{fill:none}
+#t-aln .aln-pipe-link path{fill:none;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+#t-aln .aln-pipe-outer{stroke:#5b0714;stroke-width:11;opacity:.95}
+#t-aln .aln-pipe-inner{stroke:#ff263f;stroke-width:5;opacity:.8;filter:drop-shadow(0 0 4px #ff173e)}
+#t-aln .aln-pipe-flow{stroke:#ff9ba8;stroke-width:2.4;stroke-dasharray:24 376;stroke-dashoffset:0;opacity:.95;filter:drop-shadow(0 0 5px #ff536e);animation:alnPipeFlow 2.25s linear infinite}
+#t-aln .aln-pipe-glint{stroke:#fff0f3;stroke-width:1.35;stroke-dasharray:7 393;stroke-dashoffset:0;opacity:.85;animation:alnPipeFlow 3.1s linear infinite reverse}
+#t-aln .aln-pipe-node{fill:#ff8294;stroke:#ffe0e5;stroke-width:1.5;filter:drop-shadow(0 0 4px #ff234a);transform-box:fill-box;transform-origin:center;animation:alnPipeNodePulse 1.7s ease-in-out infinite}
+@keyframes alnPipeFlow{from{stroke-dashoffset:400}to{stroke-dashoffset:0}}
+@keyframes alnPipeNodePulse{0%,100%{opacity:.55;transform:scale(.72)}50%{opacity:1;transform:scale(1.35)}}
+@media(prefers-reduced-motion:reduce){#t-aln .aln-pipe-flow,#t-aln .aln-pipe-glint,#t-aln .aln-pipe-node{animation:none!important}}
+</style>
 </head>
 <body>
 <div id="authGate">
@@ -4277,8 +4292,9 @@ function renderSettings(){
  });
 }
 function renderChiefProfile(){var h=$('chiefHqLevel'),sh=$('chiefStatHq'),pw=$('chiefStatPower'),ki=$('chiefStatKills'),cr=$('chiefStatCrew');if(h)h.textContent=S.hq;if(sh)sh.textContent=S.hq;if(pw)pw.textContent=fmt(power());if(ki)ki.textContent=fmt(S.kills||0);if(cr)cr.textContent=crewAvailableCount()+' / 7';var nm=$('chiefPlayerName');if(nm)nm.textContent=(window.backdoorPlayerName||'YOUR CHIEF').toString().slice(0,24);var pa=$('openProgressionArchive');if(pa)pa.onclick=function(){show('progression')};document.querySelectorAll('[data-chief-slot]').forEach(function(b){b.onclick=function(){document.querySelectorAll('[data-chief-slot]').forEach(function(x){x.classList.remove('active')});b.classList.add('active');var labels={helmet:'Neural Visor · head protection and signal focus.',chest:'Core Armour · personal defensive plating.',gloves:'Pulse Gloves · precision control and combat handling.',boots:'Vector Boots · mobility and movement systems.',weapon:'Data Blade · personal chief weapon slot.',accessory:'Signal Core · auxiliary chief enhancement module.'};$('chiefSlotInfo').textContent=labels[b.getAttribute('data-chief-slot')]+' Equipment upgrades can be connected here in a later pass.'}});document.querySelectorAll('[data-chief-go]').forEach(function(b){b.onclick=function(){show(b.getAttribute('data-chief-go'))}})}
-var BHQ_UPDATE_VERSION='1.0.92';
+var BHQ_UPDATE_VERSION='1.0.93';
 var BHQ_UPDATE_RELEASES=[
+  {version:'1.0.93',date:'20 NOV 2026',title:'ALLIANCE HQ // LIVING PIPELINE NETWORK',tag:'CURVED RED CONDUITS · MOVING ENERGY FLOW · PULSING NODES',items:['Reworked the Alliance HQ map connections into smooth, flowing S-curved conduits inspired by the main HQ pipeline design.','Added layered outer glow, illuminated inner channels, continuously moving energy streaks and softly pulsing connection nodes.','Kept the existing Alliance building positions, map interactions, upgrade logic and saved Alliance progress unchanged.']},
   {version:'1.0.92',date:'20 NOV 2026',title:'DAILY LOGIN REWARDS // POST-CONNECTION DELIVERY',tag:'AUTHENTICATE · COMPLETE LOADING · THEN RECEIVE DAILY REWARDS',items:['Moved the daily login reward prompt and reward rail initialisation out of pre-login game startup.','Daily rewards now appear only after the commander has authenticated and the five-second system connection/loading sequence has fully completed.','Applied the same timing to both fresh logins and restored authenticated sessions; daily claim state and reward amounts are unchanged.']},
   {version:'1.0.91',date:'19 NOV 2026',title:'MANDATORY SYSTEM DEPLOYMENT // FUTURE UPDATE INTERFACE',tag:'FORCED UPDATE · LIVE INSTALL PROGRESS · SESSION PRESERVATION',items:['Replaced the dismissible update prompt with a mandatory in-game installation window.','Added a futuristic Backdoor HQ deployment interface with staged progress and installation status.','The latest game build is fetched and verified before the final refresh; after installation, the game opens More → Updates automatically.','Saved game progress and the existing authenticated session are preserved during the update.']},
 
@@ -4708,8 +4724,11 @@ function tronHq(lv,pal){lv=Math.max(1,Math.min(30,Number(lv)||1));var t=Math.min
  else s+='<path d="M'+cx+' '+top+'V'+(top-12-t*3)+'" stroke="'+c+'" stroke-width="1.6"/><circle cx="'+cx+'" cy="'+(top-12-t*3)+'" r="2.4" fill="#fff">'+tA('opacity','1;.25;1',1.1)+'</circle>';
  for(i=0;i<5;i++){x=54+i*8;s+='<path d="M'+x+' 115.4L'+(x+3.6)+' 118L'+x+' 120.6L'+(x-3.6)+' 118Z" fill="'+(i<=k?c:'#061018')+'" stroke="'+c+'" stroke-width=".7" opacity="'+(i<=k?1:.5)+'"/>'}
  return '<svg viewBox="0 0 140 138" aria-hidden="true">'+s+'</svg>'}
-function tronRoad(cx,cy,x,y,id,i,up,done){var c=TRC[id]||'#28e6ff',d='M'+(cx*10)+' '+(cy*7)+' H'+(x*10)+' V'+(y*7);
- return '<path d="'+d+'" class="tron-road" stroke="'+c+'" pathLength="400" opacity="'+(done||up?.8:.42)+'"/><path d="'+d+'" class="tron-run" stroke="'+(up?'#fff':c)+'" pathLength="400" style="animation-delay:-'+(i*.65)+'s"/><path d="'+d+'" class="tron-run rev" stroke="#fff" pathLength="400" style="animation-delay:-'+(i*.9+1)+'s"/>'}
+function tronRoad(cx,cy,x,y,id,i,up,done){
+ var sx=cx*10,sy=cy*7,ex=x*10,ey=y*7,dx=ex-sx,dy=ey-sy,len=Math.max(1,Math.sqrt(dx*dx+dy*dy)),bend=(i%2?1:-1)*Math.min(46,Math.max(24,len*.105)),px=-dy/len*bend,py=dx/len*bend,mx=sx+dx*.5,my=sy+dy*.5;
+ var d='M'+sx+' '+sy+' C'+(sx+dx*.22+px)+' '+(sy+dy*.12+py)+' '+(sx+dx*.42-px)+' '+(sy+dy*.38-py)+' '+mx+' '+my+' C'+(sx+dx*.58+px)+' '+(sy+dy*.62+py)+' '+(sx+dx*.78-px)+' '+(sy+dy*.88-py)+' '+ex+' '+ey;
+ return '<g class="aln-pipe-link" style="animation-delay:-'+(i*.23)+'s"><path d="'+d+'" class="aln-pipe-outer"/><path d="'+d+'" class="aln-pipe-inner"/><path d="'+d+'" class="aln-pipe-flow"/><path d="'+d+'" class="aln-pipe-glint" style="animation-delay:-'+(i*.41)+'s"/><circle class="aln-pipe-node" cx="'+ex+'" cy="'+ey+'" r="5" style="animation-delay:-'+(i*.19)+'s"/></g>'
+}
 
 /* ===== ALLIANCE (from scratch): 8 red Tron buildings around an Alliance HQ that opens a full management centre ===== */
 var ALNB=[{id:'war',name:'War Room',base:{cr:300,da:60}},{id:'shield',name:'Shield Grid',base:{cr:300,cy:20}},{id:'depot',name:'Supply Depot',base:{da:200,cy:20}},{id:'spire',name:'Signal Spire',base:{cy:30,ex:10}},{id:'tech',name:'Research Lab',base:{cr:500,da:150}},{id:'vault',name:'Alliance Vault',base:{cr:600,cy:40}},{id:'arena',name:'War Academy',base:{da:300,ex:20}},{id:'hub',name:'Comms Hub',base:{cr:400,da:100,cy:15}}];
