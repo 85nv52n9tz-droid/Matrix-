@@ -1,0 +1,2 @@
+// Missions uses the same shared full-screen frame as HQ, with a blue theme.
+export function mountMissions(el){el.innerHTML='<section class="dev-command-page dev-missions"><div class="dev-command-banner"><span>✧ &nbsp; MISSIONS // COMMAND CORE</span><span class="dev-command-version">DEVELOPMENT</span></div><div class="dev-command-field"><div class="dev-command-grid"></div><div class="dev-empty-caption">MISSIONS // READY FOR CONTENT</div></div></section>'}
