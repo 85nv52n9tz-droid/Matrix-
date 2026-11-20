@@ -8888,10 +8888,10 @@ modal.querySelector('.dm-modal-x').onclick=function(){modal.hidden=true};
 modal.hidden=false;
 }
 function mount(c){var page=document.getElementById(c.id);if(!page)return;var grid=page.querySelector('.dev-event-grid');if(!grid)return;
-grid.innerHTML='<div class="daily-mission-ui dm-competition-only"><div class="dm-top"><div class="dm-top-title"><span>◈ '+c.title+'</span><span class="dm-total">0 / 500 POINTS</span></div><div class="dm-track"><div class="dm-track-fill"></div></div><div class="dm-competition-scroll"><div class="dm-chests"></div></div><div class="dm-competition-nav"><button type="button" class="dm-page-prev" aria-label="Previous six reward chests">‹</button><span class="dm-page-indicator">1 / 1</span><button type="button" class="dm-page-next" aria-label="Next six reward chests">›</button></div><div class="dm-subline"><span>REWARD MILESTONES</span><span class="dm-count">0 / '+chestCount(c)+' OPENED</span></div></div><div class="dm-preview-note">DEVELOPMENT TEMPLATE • REWARDS TO BE CONFIGURED</div></div>';
+grid.innerHTML='<div class="daily-mission-ui dm-competition-only"><div class="dm-top"><div class="dm-top-title"><span>◈ '+c.title+'</span><span class="dm-total">0 / 500 POINTS</span></div><div class="dm-track"><div class="dm-track-fill"></div></div><div class="dm-competition-scroll"><div class="dm-chests"></div></div><div class="dm-competition-nav"><button type="button" class="dm-page-prev" aria-label="Previous six reward chests">‹</button><span class="dm-page-indicator">1 / 1</span><button type="button" class="dm-page-next" aria-label="Next six reward chests">›</button></div></div><div class="dm-preview-note">DEVELOPMENT TEMPLATE • REWARDS TO BE CONFIGURED</div></div>';
 var state=load(c),lastPeriod=periodKey(c.period),chestPage=0;
 function render(){if(lastPeriod!==periodKey(c.period)){lastPeriod=periodKey(c.period);state=load(c)}var p=score(c,state),done=c.tasks.filter(function(t,i){return state.progress[i]>=t[2]}).length;
-grid.querySelector('.dm-total').textContent=p+' / 500 POINTS';grid.querySelector('.dm-track-fill').style.width=p/5+'%';grid.querySelector('.dm-count').textContent=Object.keys(state.claimed).filter(function(k){return state.claimed[k]}).length+' / '+chestCount(c)+' OPENED';
+grid.querySelector('.dm-total').textContent=p+' / 500 POINTS';grid.querySelector('.dm-track-fill').style.width=p/5+'%';
 var allTiers=tiers(c),pageCount=Math.ceil(allTiers.length/6);chestPage=Math.max(0,Math.min(chestPage,pageCount-1));grid.querySelector('.dm-page-indicator').textContent=(chestPage+1)+' / '+pageCount;grid.querySelector('.dm-page-prev').disabled=chestPage===0;grid.querySelector('.dm-page-next').disabled=chestPage>=pageCount-1;grid.querySelector('.dm-chests').setAttribute('data-chest-count',chestCount(c));grid.querySelector('.dm-chests').innerHTML=allTiers.map(function(n,i){if(Math.floor(i/6)!==chestPage)return '';var claimed=!!state.claimed[n],ready=p>=n;return '<button type="button" class="dm-chest '+(claimed?'claimed':ready?'ready':'locked')+'" data-chest="'+i+'" aria-label="Inspect reward chest '+(i+1)+'">'+art(i)+'<strong>'+n+'</strong><small>'+(claimed?'OPENED':ready?'CLAIM':'LOCKED')+'</small></button>'}).join('');
 grid.querySelectorAll('[data-chest]').forEach(function(b){b.onclick=function(){openChest(c,state,+b.dataset.chest,render)}});
 grid.querySelector('.dm-page-prev').onclick=function(){if(chestPage>0){chestPage--;render()}};grid.querySelector('.dm-page-next').onclick=function(){if(chestPage<pageCount-1){chestPage++;render()}};
@@ -8955,4 +8955,22 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 :is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-page-indicator{font-size:11px;font-weight:800;color:#ffcf79;min-width:42px;text-align:center;letter-spacing:1px}
 :is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-only .dm-subline{margin-top:5px!important}
 :is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-only .dm-preview-note{margin-top:10px!important}
+</style>
+<style id="dev-competition-ultra-compact-v5">
+/* Compact competition reward strip, leaving the rest of the page available. */
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-only{padding:7px 10px 0!important;gap:0!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-only .dm-top{padding:8px 9px 4px!important;border-radius:11px!important;flex:none!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-only .dm-top-title{margin:0 0 5px!important;padding:0!important;line-height:1.2!important;font-size:10px!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-only .dm-track{height:5px!important;margin:5px 2px 3px!important;padding:0!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-only .dm-competition-scroll{padding:4px 0 0!important;margin:0!important;overflow:visible!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-only .dm-chests{min-height:0!important;gap:1px!important;padding:0!important;margin:0!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-only .dm-chest{min-height:0!important;padding:2px 0!important;gap:2px!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-only .dm-chest-art{width:clamp(25px,7vw,37px)!important;height:clamp(26px,7.5vw,34px)!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-only .dm-chest-glyph{font-size:15px!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-only .dm-chest strong{font-size:9px!important;line-height:1.1!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-only .dm-chest small{font-size:7px!important;line-height:1.1!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-only .dm-competition-nav{min-height:0!important;margin:2px auto 0!important;gap:12px!important;height:25px!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-only .dm-competition-nav button{width:30px!important;height:22px!important;font-size:17px!important;line-height:17px!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-only .dm-page-indicator{font-size:10px!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-only .dm-preview-note{display:none!important}
 </style>
