@@ -6859,11 +6859,11 @@ body:before{content:"";position:fixed;left:0;right:0;top:-120px;height:120px;poi
       });
     }
     var groups=[
-      {id:'ops',ic:'✦',tx:'OPS',r:'176,124,255',items:[g('mis'),g('map'),g('activity')]},
-      {id:'squad',ic:'♟',tx:'SQUAD',r:'90,184,255',items:[g('crew'),g('bot'),g('rank')]},
-      {id:'net',ic:'⚑',tx:'NETWORK',r:'255,59,78',items:[g('aln'),g('net')]},
-      {id:'events',ic:'▦',tx:'EVENTS',r:'255,145,80',items:eventDockItems()},
-      {id:'more',ic:'⋯',tx:'MORE',r:'255,190,60',items:[daily,upd]}
+      {id:'ops',ic:'<svg viewBox="0 0 32 32"><path d="M16 3 19.2 11.2 28 12l-6.7 5.8 2 8.7L16 22l-7.3 4.5 2-8.7L4 12l8.8-.8L16 3Z"/><path d="m13 16 2 2 4-5"/></svg>',tx:'OPS',r:'176,124,255',items:[g('mis'),g('map'),g('activity')]},
+      {id:'squad',ic:'<svg viewBox="0 0 32 32"><path d="M16 4a5 5 0 1 0 0 10 5 5 0 0 0 0-10ZM9 16h14l3 11H6l3-11Z"/><path d="M11 20h10M10 24h12"/></svg>',tx:'SQUAD',r:'90,184,255',items:[g('crew'),g('bot'),g('rank')]},
+      {id:'net',ic:'<svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="3"/><circle cx="6" cy="8" r="2.5"/><circle cx="26" cy="8" r="2.5"/><circle cx="6" cy="25" r="2.5"/><circle cx="26" cy="25" r="2.5"/><path d="m8 9.5 6 5m10-5-6 5M8 23.5l6-5m10 5-6-5"/></svg>',tx:'NETWORK',r:'255,59,78',items:[g('aln'),g('net')]},
+      {id:'events',ic:'<svg viewBox="0 0 32 32"><rect x="5" y="6" width="22" height="21" rx="3"/><path d="M10 3v6m12-6v6M5 12h22M10 17h4m4 0h4m-12 5h4"/></svg>',tx:'EVENTS',r:'255,145,80',items:eventDockItems()},
+      {id:'more',ic:'<svg viewBox="0 0 32 32"><circle cx="7" cy="16" r="2.5"/><circle cx="16" cy="16" r="2.5"/><circle cx="25" cy="16" r="2.5"/><path d="M7 23h18"/></svg>',tx:'MORE',r:'255,190,60',items:[daily,upd]}
     ];
     var dock=document.createElement('div');dock.id='iosDock';
     var bar=document.createElement('div');bar.className='dk-bar';dock.appendChild(bar);
@@ -6872,12 +6872,12 @@ body:before{content:"";position:fixed;left:0;right:0;top:-120px;height:120px;poi
     var hs=slot();
     if(home){home.classList.add('dk-home-src');home.style.display='none'}
     var hb=document.createElement('button');hb.type='button';hb.className='dk-btn dk-home';hb.setAttribute('aria-label','Headquarters');
-    hb.innerHTML='<span class="dk-ic">⌂</span><span class="dk-tx">HQ</span>';
+    hb.innerHTML='<span class="dk-ic" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M4 15.5 16 5l12 10.5V28H5V15.5Z"/><path d="M12 28V18h8v10M9 13l7-6 7 6"/></svg></span><span class="dk-tx">HQ</span>';
     hb.onclick=function(){closeAll();if(home)home.click()};hs.appendChild(hb);
     var gs=[];
     groups.forEach(function(gr){
       var s=slot();var b=document.createElement('button');b.type='button';b.className='dk-btn';b.style.setProperty('--r',gr.r);
-      b.setAttribute('aria-label',gr.tx);b.innerHTML='<span class="dk-ic">'+gr.ic+'</span><span class="dk-tx">'+gr.tx+'</span><i class="dk-dot"></i>';
+      b.setAttribute('aria-label',gr.tx);b.innerHTML='<span class="dk-ic" aria-hidden="true">'+gr.ic+'</span><span class="dk-tx">'+gr.tx+'</span><i class="dk-dot"></i>';
       var t=document.createElement('div');t.className='dk-tray';t.style.setProperty('--r',gr.r);
       gr.items.forEach(function(el){if(el)t.appendChild(el)});
       s.appendChild(b);s.appendChild(t);
@@ -8615,5 +8615,22 @@ html body #hbtns { display:none!important; }
 })();
 </script>
 
+
+<style id="bhq-dock-compact-unique-icons-v1">
+/* Slightly tighter dock and tray controls, with clearer, larger category marks. */
+#iosDock .dk-bar{height:54px;padding:0 5px}
+#iosDock .dk-btn{height:50px;border-radius:15px;gap:1px}
+#iosDock .dk-btn .dk-ic{width:27px;height:27px;display:flex;align-items:center;justify-content:center;font-size:25px}
+#iosDock .dk-btn .dk-ic svg{display:block;width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 5px rgba(var(--r,150,255,225),.7))}
+#iosDock .dk-home .dk-ic{width:30px;height:30px;font-size:29px}
+#iosDock .dk-home .dk-ic svg{width:29px;height:29px}
+#iosDock .dk-btn .dk-tx{font-size:7.5px;letter-spacing:.8px}
+#iosDock .dk-tray{gap:6px;padding:8px;border-radius:19px}
+#iosDock .dk-tray [data-test-go],#iosDock .dk-tray #updateLogTab,#iosDock .dk-tray [data-rail-go]{width:54px;min-width:54px;height:54px;border-radius:13px;font-size:22px}
+#iosDock .dk-tray .event-dock-choice{width:60px;min-width:60px;height:58px;padding:4px 3px;gap:3px;font-size:23px}
+#iosDock .dk-tray .event-dock-choice:after{max-width:56px;font-size:6.5px;letter-spacing:.2px}
+#iosDock .dk-tray [data-test-go]:after,#iosDock .dk-tray #updateLogTab:after,#iosDock .dk-tray [data-rail-go]:after{font-size:7px;letter-spacing:.35px}
+@media(max-width:380px){#iosDock .dk-tray{gap:5px;padding:7px}#iosDock .dk-tray [data-test-go],#iosDock .dk-tray #updateLogTab,#iosDock .dk-tray [data-rail-go]{width:50px;min-width:50px;height:52px}}
+</style>
 </body>
 </html>
