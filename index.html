@@ -6833,11 +6833,36 @@ body:before{content:"";position:fixed;left:0;right:0;top:-120px;height:120px;poi
     var upd=document.getElementById('updateLogTab');if(upd)upd.setAttribute('data-lbl','Updates');
     var home=g('hq');
     var daily=document.getElementById('featureRail');
+    function eventDockItems(){
+      var choices=[
+        ['activity','📋','Dailies'],
+        ['daily','🎯','Daily Competition'],
+        ['weekly','⚔️','Weekly Competition'],
+        ['monthly','🏆','Monthly Competition'],
+        ['alliance','🛡️','Alliance Competition']
+      ];
+      return choices.map(function(item){
+        var btn=document.createElement('button');
+        btn.type='button';btn.className='test-side-icon event-dock-choice';
+        btn.setAttribute('data-event-dock-choice',item[0]);
+        btn.setAttribute('data-lbl',item[2]);
+        btn.setAttribute('aria-label','Open '+item[2]);
+        btn.innerHTML='<span aria-hidden="true">'+item[1]+'</span>';
+        btn.addEventListener('click',function(e){
+          e.preventDefault();e.stopPropagation();
+          if(typeof show==='function')show('events');
+          if(typeof window.openEventPage==='function')window.openEventPage(item[0]);
+          else if(item[0]==='activity')show('activity');
+          else {activeCompetitionPeriod=item[0];show('competitions');if(typeof renderCompetition==='function')renderCompetition(item[0]);}
+        });
+        return btn;
+      });
+    }
     var groups=[
       {id:'ops',ic:'✦',tx:'OPS',r:'176,124,255',items:[g('mis'),g('map'),g('activity')]},
       {id:'squad',ic:'♟',tx:'SQUAD',r:'90,184,255',items:[g('crew'),g('bot'),g('rank')]},
       {id:'net',ic:'⚑',tx:'NETWORK',r:'255,59,78',items:[g('aln'),g('net')]},
-      {id:'events',ic:'▦',tx:'EVENTS',r:'255,145,80',items:[g('events')]},
+      {id:'events',ic:'▦',tx:'EVENTS',r:'255,145,80',items:eventDockItems()},
       {id:'more',ic:'⋯',tx:'MORE',r:'255,190,60',items:[daily,upd]}
     ];
     var dock=document.createElement('div');dock.id='iosDock';
@@ -8525,6 +8550,22 @@ activateEventPage(activeEventPage);
 })();
 </script>
 
+<style id="bhq-events-bottom-tray-v2">
+#iosDock .dk-tray .event-dock-choice{
+  appearance:none;position:relative;display:flex!important;align-items:center;justify-content:center;
+  flex-direction:column;gap:4px;width:72px;min-width:72px;height:66px;padding:6px 4px;
+  border:1px solid rgba(255,166,91,.42);border-radius:13px;
+  background:linear-gradient(145deg,#24180f,#0b1110);color:#fff1df;font-size:21px;
+  white-space:normal;line-height:1.1;
+}
+#iosDock .dk-tray .event-dock-choice:after{
+  content:attr(data-lbl);display:block;max-width:66px;text-align:center;
+  font:800 7px/1.15 ui-monospace,monospace;letter-spacing:.35px;color:#ffe5ca;
+  text-transform:uppercase;white-space:normal;
+}
+#iosDock .dk-tray .event-dock-choice:active{transform:scale(.93)}
+#iosDock .dk-tray .event-dock-choice.current{border-color:#ffb45f;box-shadow:0 0 12px #ff9c4244}
+</style>
 <style id="bhq-single-global-navigation-v1">
 /* One global navigation only: the fixed iOS bottom dock. */
 html body #tabs,
