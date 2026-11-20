@@ -1,0 +1,25 @@
+/* Independent loading-screen module — based on live game's cinematic cyber HQ sequence. */
+#loading{background:#020910;color:#d9fff6;isolation:isolate}
+#loading .load-scene{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+#loading .load-scene svg{height:100%;width:100%;object-fit:cover;animation:devSceneDrift 20s ease-in-out infinite alternate}
+#loading .load-vignette{position:absolute;inset:0;background:linear-gradient(180deg,#01070d55,#01070d11 35%,#01060ddd 100%),linear-gradient(90deg,#01070da8,transparent 30%,transparent 70%,#01070da8)}
+#loading .load-data{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:.48}
+#loading .load-data:before{content:'';position:absolute;inset:-30%;background:repeating-linear-gradient(0deg,transparent 0 25px,#39ffca1c 26px,transparent 27px);animation:devScan 7s linear infinite}
+#loading .load-data:after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,#2fffd42e,transparent);width:40%;animation:devSweep 3s linear infinite}
+#loading .load-shell{position:relative;z-index:3;width:min(90vw,460px);border:1px solid #6fffe38c;background:linear-gradient(145deg,#01111ce9,#020912e9);box-shadow:0 0 65px #00ffd43b,inset 0 0 35px #00ffd412;padding:23px 20px;text-align:center;backdrop-filter:blur(6px)}
+#loading .load-warning{font-size:10px;letter-spacing:2.2px;color:#59ffdf;margin-bottom:15px}
+#loading .load-mark{height:94px;width:94px;border:2px solid #6cffe0;border-radius:50%;display:grid;place-items:center;font-size:50px;color:#aaffeb;margin:0 auto 16px;box-shadow:0 0 36px #0affd755,inset 0 0 24px #0affd733;animation:devCore 2s ease-in-out infinite alternate}
+#loading .load-brand{font-size:26px;font-weight:900;letter-spacing:5px;text-shadow:0 0 22px #0affd799}
+#loading .load-kicker{font-size:9px;letter-spacing:2px;color:#8dffec;margin:9px 0 22px}
+#loading .load-status{min-height:32px;font-size:11px;letter-spacing:1px;color:#9affea}
+#loading .load-track{border:1px solid #3bcbb0;height:13px;padding:2px;background:#02121b;box-shadow:0 0 12px #12ffb433}
+#loading .load-track>i{display:block;width:0;height:100%;background:linear-gradient(90deg,#18a9ba,#65ffe0);box-shadow:0 0 18px #5cffe2;transition:width .08s linear}
+#loading .load-row{display:flex;justify-content:space-between;font-size:10px;color:#91ffea;margin:10px 0 16px}
+#loading .load-log{min-height:43px;text-align:left;border-top:1px solid #225c60;padding-top:11px;font-size:9px;line-height:1.9;color:#a5d7d0}
+#loading .load-log b{color:#5dffe3}
+#loading .load-caption{position:absolute;bottom:calc(18px + env(safe-area-inset-bottom));font-size:9px;letter-spacing:1.5px;color:#7fd7d2;z-index:4}
+@keyframes devSceneDrift{to{transform:scale(1.08) translateX(1%)}}
+@keyframes devScan{to{transform:translateY(60px)}}
+@keyframes devSweep{from{transform:translateX(-160%)}to{transform:translateX(400%)}}
+@keyframes devCore{to{box-shadow:0 0 65px #0affd7aa,inset 0 0 32px #0affd755}}
+@media(prefers-reduced-motion:reduce){#loading .load-scene svg,#loading .load-data:before,#loading .load-data:after,#loading .load-mark{animation:none}}
