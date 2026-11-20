@@ -8354,13 +8354,91 @@ body.dev-dailies-open #t-hq{visibility:hidden!important}
 :is(#t-dev-dailies,#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dev-dailies-status{color:#e7f3ed!important}
 @media(max-width:380px){#iosDock .dk-slot:has(.dev-event-dailies) .dk-tray{gap:5px!important;padding:7px!important}#iosDock .dk-slot:has(.dev-event-dailies) .dev-event-dailies{flex-basis:58px!important;width:58px!important;min-width:58px!important;max-width:58px!important;height:58px!important;min-height:58px!important;max-height:58px!important}}
 </style>
-<section id="t-dev-dailies" hidden aria-label="Dailies page"><div class="dev-event-title"><span>▣ DAILIES // COMMAND CORE</span><span class="dev-dailies-status"><span class="dev-dailies-clock">--:--:--</span><span class="dev-dailies-version">V 0.0.3</span><i></i></span></div><div class="dev-event-grid"></div></section>
+<section id="t-dev-dailies" hidden aria-label="Dailies page"><div class="dev-event-title"><span>▣ DAILIES // COMMAND CORE</span><span class="dev-dailies-status"><span class="dev-dailies-clock">--:--:--</span><span class="dev-dailies-version">V 0.0.3</span><i></i></span></div><div class="dev-event-grid"><div class="daily-mission-ui">
+<div class="dm-top"><div class="dm-top-title"><span>◈ DAILY OPERATIONS</span><span id="dm-total">0 / 500 POINTS</span></div>
+<div class="dm-track"><div id="dm-track-fill"></div></div>
+<div class="dm-chests" id="dm-chests"></div>
+<div class="dm-subline"><span>COMPLETE MISSIONS TO UNLOCK REWARDS</span><span id="dm-count">0 COMPLETE</span></div></div>
+<div class="dm-mission-head"><span>◈ ACTIVE MISSIONS</span><span id="dm-left">MISSIONS</span></div>
+<div class="dm-scroll" id="dm-mission-list"></div>
+<div class="dm-preview-note">DEVELOPMENT PREVIEW • TEST PROGRESS ONLY</div>
+</div></div></section>
 <section id="t-dev-dailycomp" hidden aria-label="DAILY COMPETITION page"><div class="dev-event-title"><span>▣ DAILY COMPETITION // COMMAND CORE</span><span class="dev-dailies-status"><span class="dev-dailies-clock">--:--:--</span><span class="dev-dailies-version">V 0.0.3</span><i></i></span></div><div class="dev-event-grid"></div></section>
 <section id="t-dev-weeklycomp" hidden aria-label="WEEKLY COMPETITION page"><div class="dev-event-title"><span>▣ WEEKLY COMPETITION // COMMAND CORE</span><span class="dev-dailies-status"><span class="dev-dailies-clock">--:--:--</span><span class="dev-dailies-version">V 0.0.3</span><i></i></span></div><div class="dev-event-grid"></div></section>
 <section id="t-dev-monthlycomp" hidden aria-label="MONTHLY COMPETITION page"><div class="dev-event-title"><span>▣ MONTHLY COMPETITION // COMMAND CORE</span><span class="dev-dailies-status"><span class="dev-dailies-clock">--:--:--</span><span class="dev-dailies-version">V 0.0.3</span><i></i></span></div><div class="dev-event-grid"></div></section>
 <section id="t-dev-alliancecomp" hidden aria-label="ALLIANCE COMPETITION page"><div class="dev-event-title"><span>▣ ALLIANCE COMPETITION // COMMAND CORE</span><span class="dev-dailies-status"><span class="dev-dailies-clock">--:--:--</span><span class="dev-dailies-version">V 0.0.3</span><i></i></span></div><div class="dev-event-grid"></div></section>
 <script id="dev-dailies-state">
 (function(){function sync(){var pages=['t-dev-dailies','t-dev-dailycomp','t-dev-weeklycomp','t-dev-monthlycomp','t-dev-alliancecomp'].map(function(id){return document.getElementById(id)}).filter(Boolean);var open=pages.some(function(p){return !p.hidden});document.body.classList.toggle('dev-dailies-open',open);pages.forEach(function(p){if(p.hidden)return;var c=p.querySelector('.dev-dailies-clock');if(c)c.textContent=new Date().toTimeString().slice(0,8);var v=p.querySelector('.dev-dailies-version');if(v)v.textContent='V '+String(window.BHQ_UPDATE_VERSION||'0.0.3')})}setInterval(sync,1000)})();
+</script>
+<style id="dev-dailies-missions-design">
+#t-dev-dailies .dev-event-grid{overflow:hidden}
+#t-dev-dailies .daily-mission-ui{position:absolute;inset:0;display:flex;flex-direction:column;padding:10px 10px 8px;gap:8px;color:#c8e9f2;font:700 10px/1.4 ui-monospace,Menlo,monospace;box-sizing:border-box}
+#t-dev-dailies .dm-top{border:1px solid #ffc25388;border-radius:12px;background:linear-gradient(160deg,#2c2316f2,#071724f5);padding:9px 7px 8px;box-shadow:inset 0 0 14px #ffbc2722}
+#t-dev-dailies .dm-top-title,#t-dev-dailies .dm-subline,#t-dev-dailies .dm-mission-head{display:flex;align-items:center;justify-content:space-between;gap:6px}
+#t-dev-dailies .dm-top-title{color:#ffcc62;font-size:10px;letter-spacing:.7px}
+#t-dev-dailies #dm-total{color:#fff2bd;font-size:9px}
+#t-dev-dailies .dm-track{height:9px;margin:13px 7px 4px;border-radius:12px;background:#0a1821;border:1px solid #d99a4066;overflow:hidden}
+#t-dev-dailies #dm-track-fill{width:0;height:100%;background:linear-gradient(90deg,#ffa838,#f9ee78);box-shadow:0 0 10px #ffd84b;transition:width .3s}
+#t-dev-dailies .dm-chests{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:2px}
+#t-dev-dailies .dm-chest{appearance:none;border:0;background:transparent;color:#c2a57a;min-width:0;padding:3px 0;display:flex;align-items:center;flex-direction:column;gap:2px;font:800 8px/1 ui-monospace,monospace}
+#t-dev-dailies .dm-chest-art{width:clamp(28px,8vw,47px);height:37px;display:grid;place-items:center;position:relative;filter:drop-shadow(0 0 5px #e99b4266)}
+#t-dev-dailies .dm-chest-art svg{width:100%;height:100%;fill:#372413;stroke:#e5a044;stroke-width:1.6;stroke-linejoin:round}
+#t-dev-dailies .dm-chest.ready .dm-chest-art{animation:dm-pulse 1.7s infinite alternate;filter:drop-shadow(0 0 9px #f9d65e)}
+#t-dev-dailies .dm-chest.ready svg{fill:#7b4b13;stroke:#ffe47b}
+#t-dev-dailies .dm-chest.claimed{opacity:.65;color:#6ed6aa}
+#t-dev-dailies .dm-chest.claimed svg{stroke:#68e9b1}
+#t-dev-dailies .dm-chest strong{font-size:9px;color:#ffcc6c}
+#t-dev-dailies .dm-subline{font-size:8px;opacity:.75;margin-top:6px}
+#t-dev-dailies .dm-mission-head{padding:6px 5px 3px;border-bottom:1px solid #3fb5e777;color:#68d9ff;font-size:10px;letter-spacing:.8px;flex:none}
+#t-dev-dailies .dm-scroll{min-height:0;flex:1;overflow-y:auto;overscroll-behavior:contain;display:flex;flex-direction:column;gap:7px;padding:3px 2px 12px;scrollbar-width:thin}
+#t-dev-dailies .dm-card{flex:none;border:1px solid #235b78;border-radius:10px;background:linear-gradient(130deg,#0c2a3c,#07121d);padding:9px;display:grid;grid-template-columns:33px minmax(0,1fr) 49px;gap:8px;align-items:center}
+#t-dev-dailies .dm-icon{height:33px;border:1px solid #3bb5d588;border-radius:9px;display:grid;place-items:center;font-size:19px;background:#0c3442}
+#t-dev-dailies .dm-name{font-size:10px;color:#d5f6ff;letter-spacing:.3px}
+#t-dev-dailies .dm-description{font-size:9px;color:#8ba9b7;font-weight:500;margin-top:3px}
+#t-dev-dailies .dm-progress{margin-top:5px;height:4px;background:#091720;border-radius:9px;overflow:hidden}
+#t-dev-dailies .dm-progress>span{display:block;height:100%;background:#5dd8e8}
+#t-dev-dailies .dm-reward{font-size:9px;color:#f5c35d;margin-top:4px}
+#t-dev-dailies .dm-action{font:900 9px ui-monospace,monospace;border-radius:7px;padding:9px 0;background:#122d3b;border:1px solid #46b4d1;color:#76e5ff}
+#t-dev-dailies .dm-action.done{background:#1a4b38;border-color:#50e1a3;color:#b5ffe0}
+#t-dev-dailies .dm-preview-note{text-align:center;color:#5c8e9d;font-size:8px;letter-spacing:.5px;flex:none}
+#t-dev-dailies .dm-finished{text-align:center;border:1px solid #6adba4;border-radius:12px;padding:28px 12px;background:#103c31;color:#b3ffe0}
+@keyframes dm-pulse{from{transform:translateY(0) scale(1)}to{transform:translateY(-3px) scale(1.07)}}
+@media(max-width:375px){#t-dev-dailies .daily-mission-ui{padding:7px;gap:6px}#t-dev-dailies .dm-card{padding:7px;grid-template-columns:28px minmax(0,1fr) 44px;gap:6px}#t-dev-dailies .dm-chest-art{height:32px}}
+</style>
+<script id="dev-dailies-missions-preview">
+(function(){
+var tasks=[
+['login','☀','Daily Login','Log in to the game',1,1,5],
+['collect','⚡','Collect Energy','Collect 3 energy deliveries',3,1,12],
+['alloy','⬡','Collect Alloy','Collect alloy from your facilities',3,1,12],
+['upgrade','⌂','Upgrade Buildings','Complete a building upgrade',1,1,20],
+['scout','◎','Scout Targets','Scout 3 enemy targets',3,1,20],
+['help','♧','Alliance Assistance','Help 1 alliance member',1,1,15],
+['missions','✦','Complete Operations','Complete 3 operations',3,1,20],
+['train','♙','Train Crew','Train 5 crew members',5,1,25],
+['pvp','⚔','Win Engagements','Win 2 PvP engagements',2,1,30],
+['boost','⏩','Use Boosters','Activate 2 boosters',2,1,25],
+['help','♧','Alliance Assistance II','Help 4 alliance members',4,2,30],
+['scout','◎','Scout Targets II','Scout 8 enemy targets',8,2,35],
+['pvp','⚔','Win Engagements II','Win 6 PvP engagements',6,2,45],
+['upgrade','⌂','Upgrade Buildings II','Complete 3 building upgrades',3,2,45],
+['missions','✦','Complete Operations II','Complete 8 operations',8,2,55],
+['pvp','⚔','Win Engagements III','Win 12 PvP engagements',12,3,70],
+['help','♧','Alliance Assistance III','Help 10 alliance members',10,3,50]
+];
+var milestones=[25,75,150,250,375,500],points=0,claimed={},done={},progress={},active=true;
+var chestSvg='<svg viewBox="0 0 48 44" aria-hidden="true"><path d="M7 18 24 11 41 18 24 26Z"/><path d="M7 18v16l17 8V26Z"/><path d="M41 18v16l-17 8V26Z"/><path d="M24 26v16M14 21l10-5 10 5M24 29v7"/></svg>';
+function render(){var root=document.getElementById('t-dev-dailies');if(!root)return;var cs=root.querySelector('#dm-chests'),ls=root.querySelector('#dm-mission-list');if(!cs||!ls)return;
+root.querySelector('#dm-total').textContent=points+' / 500 POINTS';root.querySelector('#dm-track-fill').style.width=Math.min(100,points/5)+'%';
+cs.innerHTML=milestones.map(function(m,i){var ready=points>=m&&!claimed[m],state=claimed[m]?'claimed':ready?'ready':'locked';return '<button type="button" class="dm-chest '+state+'" data-chest="'+m+'" aria-label="Reward chest at '+m+' points"><span class="dm-chest-art">'+chestSvg+'</span><strong>'+m+'</strong><small>'+(claimed[m]?'OPENED':ready?'CLAIM':'LOCKED')+'</small></button>'}).join('');
+cs.querySelectorAll('button').forEach(function(el){el.onclick=function(){var n=+el.dataset.chest;if(points>=n&&!claimed[n]){claimed[n]=true;render();alert('CHEST OPENED • Preview rewards: resources, boosters and tokens')}}});
+var available=tasks.map(function(t,i){return {t:t,i:i}}).filter(function(o){var t=o.t;return !done[o.i]&&(t[5]===1||tasks.slice(0,o.i).filter(function(v){return v[0]===t[0]&&v[5]===t[5]-1}).every(function(v){return done[tasks.indexOf(v)]}))});
+root.querySelector('#dm-count').textContent=Object.keys(done).length+' COMPLETE';root.querySelector('#dm-left').textContent=available.length+' ACTIVE';
+ls.innerHTML=available.length?available.map(function(o){var t=o.t,i=o.i,p=progress[i]||0,complete=p>=t[4];return '<div class="dm-card"><div class="dm-icon">'+t[1]+'</div><div><div class="dm-name">'+t[2]+'</div><div class="dm-description">'+t[3]+'</div><div class="dm-progress"><span style="width:'+Math.min(100,p/t[4]*100)+'%"></span></div><div class="dm-reward">+'+t[6]+' PTS · '+p+'/'+t[4]+'</div></div><button type="button" class="dm-action '+(complete?'done':'')+'" data-mission="'+i+'">'+(complete?'CLAIM':'GO')+'</button></div>'}).join(''):'<div class="dm-finished">✦ ALL DAILY MISSIONS COMPLETE<br><small>Come back tomorrow for new missions.</small></div>';
+ls.querySelectorAll('button').forEach(function(el){el.onclick=function(){var i=+el.dataset.mission,t=tasks[i];if((progress[i]||0)>=t[4]){done[i]=true;points=Math.min(500,points+t[6]);render()}else{progress[i]=(progress[i]||0)+1;render()}}});
+}
+function init(){var p=document.getElementById('t-dev-dailies');if(!p)return;render()}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
 </script>
 </body>
 </html>
