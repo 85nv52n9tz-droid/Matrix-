@@ -2443,19 +2443,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 <div id="nanoTierModal" class="nano-tier-open" hidden><div class="nano-tier-box"><button id="nanoTierClose" class="nano-tier-close" aria-label="Close">×</button><div id="nanoTierModalContent"></div></div></div><div id="shopItemModal" class="nano-tier-open" hidden><div class="nano-tier-box"><button id="shopItemClose" class="nano-tier-close" aria-label="Close">×</button><div id="shopItemModalContent"></div></div></div><div id="nanoReportModal" class="nano-report" hidden><div class="nano-report-box"><button class="nano-report-close" id="nanoReportModalClose" aria-label="Close report">×</button><div id="nanoReportModalContent"></div></div></div><div id="nanoScoutReportModal" class="nano-report" hidden><div class="nano-report-box nano-scout-report-box"><button class="nano-report-close" id="nanoScoutReportModalClose" aria-label="Close scout reports">×</button><div id="nanoScoutReportModalContent"></div></div></div><div id="crewPicker" class="crew-picker" hidden><div class="crew-picker-box" role="dialog" aria-modal="true" aria-labelledby="crewPickerTitle"><button class="crew-x" id="crewPickerClose" aria-label="Close">×</button><div class="sub" id="crewPickerTitle">SELECT CREW</div><div class="desc" id="crewPickerHint"></div><div id="crewPickerList" class="crew-picker-list"></div><button class="buy" id="crewPickerConfirm">Confirm selection</button></div></div><div id="mpcConfirmModal" class="mpc-confirm" hidden><div class="mpc-confirm-box" role="dialog" aria-modal="true" aria-labelledby="mpcConfirmTitle"><div class="mpc-confirm-mark">⚠</div><div class="sub" id="mpcConfirmTitle">MPC MISSION DEPLOYMENT</div><p>Starting this mission will commit your selected crew members to the operation. While the mission is running, they cannot be used in the Nano Bot area or assigned to buildings.</p><b id="mpcConfirmCrew" class="mpc-confirm-crew"></b><div class="mpc-confirm-actions"><button type="button" class="buy mpc-cancel" id="mpcConfirmNo">NO · CANCEL</button><button type="button" class="buy mpc-yes" id="mpcConfirmYes">YES · CONTINUE MISSION</button></div></div></div>
 <section id="t-updates" hidden>
   <div class="update-inner-tabs" role="tablist" aria-label="Updates and development"><button type="button" class="active" data-update-pane="releases" aria-selected="true">✦ UPDATE LOG</button><button type="button" data-update-pane="roadmap" aria-selected="false">⌁ DEVELOPMENT ROADMAP</button></div>
-  <div id="updateReleasesPane">
-  <div class="update-hub">
-    <div class="update-hub-top">
-      <div class="update-orbit"><span>BHQ</span><i></i><b></b></div>
-      <div class="update-hub-heading"><div class="update-kicker">BACKDOOR HQ // TRANSMISSION ARCHIVE</div><h2>UPDATE <em>LOG</em></h2><p>Fresh intel from the development network. Review the latest changes and archived releases.</p></div>
-      <div class="update-live"><i></i> LIVE FEED</div>
-    </div>
-    <div class="update-current-strip"><span class="update-current-icon">✦</span><div><small>CURRENT BUILD</small><b id="updateCurrentVersion">VERSION 1.0.0</b></div><span class="update-current-status">DEPLOYED</span></div>
-    <div class="update-section-label"><span>SECURE TRANSMISSIONS // RELEASE ARCHIVE</span><i></i><small>NEWEST FIRST</small></div>
-    <div id="updateLogEntries" class="update-log-entries"></div>
-    <div class="update-archive-foot"><span>▰ SECURE ARCHIVE</span><span>END OF TRANSMISSION</span></div>
-  </div>
-</div>
+  <div id="updateReleasesPane"><div id="bhqReleaseArchiveV2"></div></div>
 <div id="updateRoadmapPane" hidden>
   <div class="update-hub roadmap-hub">
     <div class="update-hub-top">
@@ -5490,26 +5478,8 @@ show('hq');checkUpdateNotice();checkSystemGiftDelivery();setInterval(tick,1000);
         var button=document.createElement('button');button.type='button';button.textContent='VIEW UPDATE LOG';button.style.cssText='width:100%;min-height:49px;border:1px solid #8bffd0;border-radius:7px;background:linear-gradient(90deg,#087447,#075b3b);color:#effff7;font:900 12px ui-monospace,monospace;letter-spacing:2px;box-shadow:0 0 22px #39ff9a66;cursor:pointer';
         var foot=document.createElement('div');foot.textContent='MORE // UPDATES // UPDATE LOG';foot.style.cssText='margin-top:13px;color:#69a98a;font-size:9px;letter-spacing:1.4px';
         button.addEventListener('click',function(){
-          button.disabled=true;button.textContent='OPENING SECURE ARCHIVE…';
-          var attempts=0;
-          function openArchive(){
-            attempts++;
-            var ready=typeof window.show==='function'&&document.getElementById('t-updates')&&document.getElementById('updateLogEntries');
-            if(!ready&&attempts<30){setTimeout(openArchive,300);return;}
-            if(!ready){button.disabled=false;button.textContent='RETRY VIEW UPDATE LOG';return;}
-            try{window.show('updates');}catch(e){}
-            var releaseTab=document.querySelector('[data-update-pane="releases"]');
-            if(releaseTab&&releaseTab.getAttribute('aria-selected')!=='true')releaseTab.click();
-            if(typeof window.renderUpdateLog==='function')window.renderUpdateLog();
-            var pane=document.getElementById('t-updates');
-            if(pane&&!pane.hidden){
-              try{sessionStorage.removeItem('bhq_open_update_log_after_refresh');sessionStorage.removeItem('bhq_update_pending_version');}catch(e){}
-              try{localStorage.removeItem('bhq_open_update_log_after_refresh');localStorage.removeItem('bhq_update_pending_version');}catch(e){}
-              shade.remove();
-            }else{button.disabled=false;button.textContent='RETRY VIEW UPDATE LOG';}
-          }
-          openArchive();
-        });
+          if(typeof window.BHQ_SHOW_DEPLOYMENT_NOTES==='function')window.BHQ_SHOW_DEPLOYMENT_NOTES(card,installedReleaseVersion,shade);
+        });;
         card.appendChild(kicker);card.appendChild(title);card.appendChild(detail);card.appendChild(button);card.appendChild(foot);shade.appendChild(card);document.body.appendChild(shade);
       },6200);
     }else if(window.BHQ_SHOW_LOGIN_UPDATE_NOTICE)setTimeout(window.BHQ_SHOW_LOGIN_UPDATE_NOTICE,5700);
@@ -7101,7 +7071,7 @@ if(Array.isArray(BHQ_UPDATE_RELEASES)){
   if(Array.isArray(window.BHQ_UPDATE_RELEASES))window.BHQ_UPDATE_RELEASES.unshift({version:'1.0.96',date:'19 NOV 2026',title:'NEXUS DEPLOYMENT // SESSION & UPDATE ARCHIVE REPAIR',tag:'SINGLE INSTALL · SESSION PRESERVED · RELEASE NOTES HANDOFF',items:['Removed the pre-reload Supabase token rotation that could interrupt the saved commander session on mobile browsers. The existing persisted session is now verified without forcing a refresh-token change.','Added a persistent installed-build checkpoint so a completed deployment is not offered repeatedly after the page reloads.','Reworked the post-install destination to open the actual More → Updates → Update Log screen and retain the handoff until the release archive is visible.','Enhanced the update and interface banners with animated neon cyan/green lighting, scan sweeps, pulsing edge glows and moving data accents.']});
   try{window.BHQ_UPDATE_VERSION=version;}catch(e){}
   /* Literal final version is also read by the installer when it verifies the downloaded HTML. */
-  try{window.BHQ_UPDATE_VERSION='1.0.101';}catch(e){}
+  try{window.BHQ_UPDATE_VERSION='1.0.102';}catch(e){}
   if(Array.isArray(window.BHQ_UPDATE_RELEASES))window.BHQ_UPDATE_RELEASES.unshift({version:'1.0.94',date:'19 NOV 2026',title:'UPDATE HANDOFF // SESSION & RELEASE ARCHIVE REPAIR',tag:'SESSION REFRESH · AUTOMATIC UPDATE LOG',items:['The installer now refreshes and verifies the active commander authentication session before restarting, reducing unexpected sign-outs during deployment.','After restart, Backdoor HQ reliably waits for the game interface to become ready, then opens More → Updates directly on the Update Log and renders the latest patch notes.','The update-log handoff marker is retained until the archive is successfully opened, so a delayed login restoration does not lose the destination.']});
   function newer(a,b){var x=String(a||'').split('.').map(Number),y=String(b||'').split('.').map(Number);for(var i=0;i<Math.max(x.length,y.length);i++){var d=(x[i]||0)-(y[i]||0);if(d)return d>0;}return false;}
   function wait(ms){return new Promise(function(resolve){setTimeout(resolve,ms);});}
@@ -7214,16 +7184,16 @@ main#gameShell{height:100dvh!important;min-height:100dvh!important;max-height:10
 #t-hq .test-viewport{height:100%!important;min-height:0!important;max-height:100%!important;flex:1 1 auto!important;overscroll-behavior:contain!important}
 </style>
 <script id="bhq-v101-deployment-and-release-archive">
-/* v1.0.101: bind the external update scripts to the game engine's live release array/version. */
+/* v1.0.102: bind the external update scripts to the game engine's live release array/version. */
 (function(){
-  var version='1.0.101';
+  var version='1.0.102';
   try{window.BHQ_UPDATE_VERSION=version;}catch(e){}
   try{
     var releases=window.BHQ_UPDATE_RELEASES;
     if(Array.isArray(releases)){
-      releases=releases.filter(function(r){return String(r&&r.version||'')!=='1.0.101';});
+      releases=releases.filter(function(r){return String(r&&r.version||'')!=='1.0.102';});
       releases.unshift({version:version,date:'19 NOV 2026',title:'HQ VIEWPORT LOCK // LIVE UPDATE ARCHIVE REPAIR',tag:'FORCED REDEPLOYMENT · FIXED HQ SCREEN · VERIFIED RELEASE NOTES',items:[
-        'Published a fresh build (1.0.101) so devices still running the previous deployment are prompted to install the new version.',
+        'Published a fresh build (1.0.102) so devices still running the previous deployment are prompted to install the new version.',
         'Connected the live release archive to the same version and release list used by the game renderer. The current build number and newest patch notes now update together.',
         'Repaired the release-note handoff so the latest deployment entry is available in More → Updates → Update Log after installation and login.',
         'Locked the HQ page to the available device viewport and removed the extra page-level vertical movement that left the HQ screen sitting slightly off-centre after login.',
@@ -7232,5 +7202,95 @@ main#gameShell{height:100dvh!important;min-height:100dvh!important;max-height:10
       window.BHQ_UPDATE_RELEASES=releases;
     }
   }catch(e){}
+})();
+</script>
+
+<style id="bhq-v102-independent-update-archive-styles">
+#bhqReleaseArchiveV2{padding:10px 0 22px;color:#d8f5e6}
+#bhqReleaseArchiveV2 .bhr2-head{position:relative;overflow:hidden;padding:20px 16px;border:1px solid #247a58;border-radius:14px;background:radial-gradient(ellipse at 80% 0%,#12634388,transparent 55%),linear-gradient(145deg,#071c17,#06100e);box-shadow:0 0 22px #00ff9915,inset 0 0 24px #00ff9910}
+#bhqReleaseArchiveV2 .bhr2-kicker{font:800 9px ui-monospace,monospace;letter-spacing:2px;color:#65f5ad}
+#bhqReleaseArchiveV2 h2{margin:10px 0 5px;font:900 25px ui-monospace,monospace;letter-spacing:1px;color:#effff6}
+#bhqReleaseArchiveV2 h2 em{font-style:normal;color:#4dffae;text-shadow:0 0 16px #22ff9a66}
+#bhqReleaseArchiveV2 .bhr2-sub{font-size:11px;color:#91b9a5;line-height:1.5}
+#bhqReleaseArchiveV2 .bhr2-build{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:12px 0;padding:12px 14px;border:1px solid #25664d;border-radius:10px;background:#071a14}
+#bhqReleaseArchiveV2 .bhr2-build small{display:block;color:#75b99a;font:800 8px ui-monospace,monospace;letter-spacing:1.5px}
+#bhqReleaseArchiveV2 .bhr2-build strong{display:block;margin-top:4px;color:#e9fff2;font:900 16px ui-monospace,monospace}
+#bhqReleaseArchiveV2 .bhr2-live{color:#72ffb7;font:900 9px ui-monospace,monospace;white-space:nowrap}
+#bhqReleaseArchiveV2 .bhr2-release{margin-top:12px;padding:16px;border:1px solid #245b46;border-radius:12px;background:linear-gradient(155deg,#0b2019,#07110e);box-shadow:inset 0 0 20px #1aff8b08}
+#bhqReleaseArchiveV2 .bhr2-release-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+#bhqReleaseArchiveV2 .bhr2-release h3{margin:0;color:#e8fff1;font:900 14px/1.4 ui-monospace,monospace}
+#bhqReleaseArchiveV2 .bhr2-date{margin-top:5px;color:#7ba891;font:800 9px ui-monospace,monospace}
+#bhqReleaseArchiveV2 .bhr2-version{padding:6px 8px;border:1px solid #39d98b;border-radius:6px;color:#7dffba;font:900 10px ui-monospace,monospace;white-space:nowrap}
+#bhqReleaseArchiveV2 ul{padding-left:18px;margin:14px 0 0}
+#bhqReleaseArchiveV2 li{padding:0 0 10px 2px;color:#b5d4c3;font-size:11px;line-height:1.55}
+#bhqReleaseArchiveV2 li::marker{color:#3cff9e}
+#bhqReleaseArchiveV2 .bhr2-tag{margin-top:8px;padding-top:10px;border-top:1px solid #1c4435;color:#58d99b;font:800 8px/1.5 ui-monospace,monospace;letter-spacing:1px}
+#bhqReleaseArchiveV2 .bhr2-empty{padding:18px;border:1px dashed #28634a;border-radius:10px;color:#8cb9a0;font:10px ui-monospace,monospace;text-align:center}
+#bhqInstalledUpdateNotice .bhr2-note-list{margin:15px 0 0;padding:14px 14px 4px;text-align:left;border:1px solid #28684b;border-radius:10px;background:#03130d}
+#bhqInstalledUpdateNotice .bhr2-note-list li{margin:0 0 10px;padding-left:2px;color:#bce5cc;font-size:11px;line-height:1.55}
+#bhqInstalledUpdateNotice .bhr2-close{width:100%;min-height:43px;margin-top:14px;border:1px solid #4beaa0;border-radius:7px;background:#092c1d;color:#caffdf;font:900 11px ui-monospace,monospace;letter-spacing:1.5px}
+</style>
+<script id="bhq-v102-independent-update-archive">
+(function(){
+  var VERSION='1.0.102';
+  var RELEASES=[{
+    version:VERSION,date:'20 NOV 2026',
+    title:'UPDATE ARCHIVE REBUILD // DIRECT DEPLOYMENT NOTES',
+    tag:'NEW INDEPENDENT LOG SYSTEM · NO LEGACY RELEASE FEED',
+    items:[
+      'Rebuilt the Update Log as a new, independent archive inside More → Updates. It no longer displays or reads the conflicting historical release list.',
+      'Started a clean release history from this deployment. Older version entries have been removed from the visible Update Log; future releases will be added to this new archive only.',
+      'Changed VIEW UPDATE LOG on the post-install confirmation so it displays the installed version and its patch notes directly in the same window. It no longer tries to navigate to another screen.',
+      'Kept the Development Roadmap available alongside the rebuilt Update Log.',
+      'Preserved the existing game systems, commander saves and account data.'
+    ]
+  }];
+  window.BHQ_RELEASE_ARCHIVE_V2=RELEASES;
+  try{window.BHQ_UPDATE_VERSION=VERSION;BHQ_UPDATE_VERSION=VERSION;}catch(e){}
+  function el(tag,cls,txt){var n=document.createElement(tag);if(cls)n.className=cls;if(txt!==undefined)n.textContent=txt;return n;}
+  function render(){
+    var host=document.getElementById('bhqReleaseArchiveV2');if(!host)return;
+    host.innerHTML='';
+    var head=el('header','bhr2-head');
+    head.appendChild(el('div','bhr2-kicker','BACKDOOR HQ // SECURE TRANSMISSION NETWORK'));
+    var h=el('h2');h.appendChild(document.createTextNode('UPDATE '));h.appendChild(el('em','', 'LOG'));head.appendChild(h);
+    head.appendChild(el('p','bhr2-sub','A clean deployment archive. Every release published from this rebuild is recorded here.'));
+    host.appendChild(head);
+    var build=el('div','bhr2-build'),left=el('div');
+    left.appendChild(el('small','','CURRENT INSTALLED BUILD'));left.appendChild(el('strong','','VERSION '+VERSION));
+    build.appendChild(left);build.appendChild(el('span','bhr2-live','● ARCHIVE ONLINE'));host.appendChild(build);
+    RELEASES.forEach(function(r){
+      var card=el('article','bhr2-release'),top=el('div','bhr2-release-top'),copy=el('div');
+      copy.appendChild(el('h3','',r.title));copy.appendChild(el('div','bhr2-date',r.date));
+      top.appendChild(copy);top.appendChild(el('span','bhr2-version','V '+r.version));card.appendChild(top);
+      var list=el('ul');r.items.forEach(function(item){list.appendChild(el('li','',item));});card.appendChild(list);
+      card.appendChild(el('div','bhr2-tag','// '+r.tag));host.appendChild(card);
+    });
+  }
+  window.renderUpdateLog=render;
+  try{renderUpdateLog=render;}catch(e){}
+  window.BHQ_SHOW_DEPLOYMENT_NOTES=function(card,installedVersion,shade){
+    var r=RELEASES.find(function(x){return x.version===String(installedVersion||'');})||RELEASES[0];
+    card.innerHTML='';
+    var kicker=el('div','bhr2-kicker','BACKDOOR HQ // DEPLOYMENT TRANSMISSION');
+    var title=el('h2','', 'UPDATE INSTALLED');
+    title.style.cssText='margin:14px 0 6px;color:#eafff4;font-size:22px;line-height:1.2;text-shadow:0 0 15px #39ff9a88';
+    var detail=el('p','', 'VERSION '+r.version+' // '+r.title);
+    detail.style.cssText='margin:0;color:#8fe6b6;font:900 10px/1.6 ui-monospace,monospace';
+    var list=el('ul','bhr2-note-list');r.items.forEach(function(item){list.appendChild(el('li','',item));});
+    var close=el('button','bhr2-close','CLOSE UPDATE NOTES');
+    close.type='button';close.addEventListener('click',function(){
+      if(shade&&shade.parentNode)shade.remove();
+      try{sessionStorage.removeItem('bhq_open_update_log_after_refresh');sessionStorage.removeItem('bhq_update_pending_version');}catch(e){}
+      try{localStorage.removeItem('bhq_open_update_log_after_refresh');localStorage.removeItem('bhq_update_pending_version');}catch(e){}
+      try{if(typeof markUpdateLogRead==='function')markUpdateLogRead();}catch(e){}
+    });
+    card.appendChild(kicker);card.appendChild(title);card.appendChild(detail);card.appendChild(list);card.appendChild(close);
+  };
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',render,{once:true});else render();
+  document.addEventListener('click',function(ev){
+    var tab=ev.target&&ev.target.closest?ev.target.closest('[data-update-pane="releases"]'):null;
+    if(tab)setTimeout(render,0);
+  });
 })();
 </script>
