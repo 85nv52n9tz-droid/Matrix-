@@ -8885,5 +8885,62 @@ html:has(#t-bot:not([hidden])){height:100%!important;overflow:hidden!important}
 })();
 </script>
 
+
+<style id="bhq-dock-active-caret-v4">
+/* The navigation pointer belongs to the currently opened dock category only. */
+#iosDock .dk-btn:before{content:none!important;display:none!important}
+#iosDock .dk-slot.open .dk-btn:before{
+ content:""!important;display:block!important;position:absolute!important;left:50%!important;top:-8px!important;
+ transform:translateX(-50%)!important;width:0!important;height:0!important;
+ border-left:6px solid transparent!important;border-right:6px solid transparent!important;
+ border-bottom:7px solid #ffd36b!important;filter:drop-shadow(0 0 4px #ffb84d);z-index:6!important
+}
+#iosDock .dk-slot:not(.open) .dk-caret{display:none!important}
+#iosDock .dk-slot.open .dk-caret{display:none!important}
+</style>
+<script id="bhq-event-pages-hard-route-v4">
+(function(){
+ 'use strict';
+ function openPage(which){
+  if(['activity','daily','weekly','monthly','alliance'].indexOf(which)<0)return;
+  var hub=document.getElementById('t-events');
+  if(typeof window.show==='function')window.show('events');
+  if(hub)hub.hidden=false;
+  var activity=document.getElementById('t-activity');
+  var competitions=document.getElementById('t-competitions');
+  if(activity&&activity.parentNode!==document.getElementById('eventPageSlot')){
+   var slot=document.getElementById('eventPageSlot');if(slot)slot.appendChild(activity);
+  }
+  if(competitions&&competitions.parentNode!==document.getElementById('eventPageSlot')){
+   var slot2=document.getElementById('eventPageSlot');if(slot2)slot2.appendChild(competitions);
+  }
+  var isActivity=which==='activity';
+  if(activity)activity.hidden=!isActivity;
+  if(competitions)competitions.hidden=isActivity;
+  if(typeof window.activateEventPage==='function')window.activateEventPage(which);
+  else if(!isActivity&&typeof window.renderCompetition==='function')window.renderCompetition(which);
+  if(isActivity&&typeof window.renderDailyMissions==='function')window.renderDailyMissions();
+  document.querySelectorAll('[data-event-page]').forEach(function(el){
+   var active=el.getAttribute('data-event-page')===which;
+   el.classList.toggle('active',active);el.setAttribute('aria-selected',active?'true':'false');
+  });
+  if(hub)hub.hidden=false;
+ }
+ window.openEventDestination=openPage;
+ document.addEventListener('click',function(e){
+  var btn=e.target&&e.target.closest?e.target.closest('#iosDock [data-event-dock-choice]'):null;
+  if(!btn)return;
+  e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();
+  openPage(btn.getAttribute('data-event-dock-choice'));
+ },true);
+ document.addEventListener('click',function(e){
+  var tab=e.target&&e.target.closest?e.target.closest('#eventHub [data-event-page]'):null;
+  if(!tab)return;
+  e.preventDefault();e.stopPropagation();
+  openPage(tab.getAttribute('data-event-page'));
+ },true);
+})();
+</script>
+
 </body>
 </html>
