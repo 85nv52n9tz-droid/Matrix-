@@ -8944,3 +8944,63 @@ html:has(#t-bot:not([hidden])){height:100%!important;overflow:hidden!important}
 
 </body>
 </html>
+
+<style id="bhq-events-tray-fit-v5">
+/* Keep the full five-choice Events tray inside the screen. */
+#iosDock .dk-slot:nth-child(5) .dk-tray{
+ left:calc(50% - 58px)!important;right:auto!important;
+ gap:4px!important;padding:6px!important;
+}
+#iosDock .dk-slot:nth-child(5).open .dk-tray{
+ transform:translateX(-50%) translateY(0) scale(1)!important;
+}
+#iosDock .dk-slot:nth-child(5) .dk-tray:after{
+ left:calc(50% + 58px)!important;
+}
+#iosDock .dk-slot:nth-child(5) .dk-tray .event-dock-choice{
+ width:48px!important;min-width:48px!important;height:52px!important;
+ padding:3px 1px!important;gap:3px!important;flex:0 0 48px!important;
+}
+#iosDock .dk-slot:nth-child(5) .dk-tray .event-dock-choice:after{
+ max-width:45px!important;font-size:5.5px!important;line-height:1.05!important;
+ letter-spacing:0!important;overflow-wrap:anywhere!important;
+}
+@media(max-width:390px){
+ #iosDock .dk-slot:nth-child(5) .dk-tray{left:calc(50% - 62px)!important;gap:3px!important;padding:5px!important}
+ #iosDock .dk-slot:nth-child(5) .dk-tray:after{left:calc(50% + 62px)!important}
+ #iosDock .dk-slot:nth-child(5) .dk-tray .event-dock-choice{width:46px!important;min-width:46px!important;flex-basis:46px!important;height:50px!important}
+ #iosDock .dk-slot:nth-child(5) .dk-tray .event-dock-choice:after{max-width:43px!important;font-size:5px!important}
+}
+</style>
+<script id="bhq-events-direct-navigation-v5">
+(function(){
+ 'use strict';
+ var allowed=['activity','daily','weekly','monthly','alliance'];
+ function navigate(which){
+  if(allowed.indexOf(which)<0)return;
+  try{
+   /* Match OPS > Missions: switch the main page, then open the selected destination. */
+   if(typeof window.show==='function')window.show('events');
+   var hub=document.getElementById('t-events');
+   if(hub)hub.hidden=false;
+   if(typeof window.activateEventPage==='function')window.activateEventPage(which);
+   else if(typeof window.openEventPage==='function')window.openEventPage(which);
+   document.querySelectorAll('#eventHub [data-event-page]').forEach(function(tab){
+    var active=tab.getAttribute('data-event-page')===which;
+    tab.classList.toggle('active',active);
+    tab.setAttribute('aria-selected',active?'true':'false');
+   });
+  }catch(err){console.error('Events navigation failed:',err)}
+ }
+ window.openEventDestination=navigate;
+ /* Capture at window level so older competing document/button handlers cannot hijack the tap. */
+ window.addEventListener('click',function(e){
+  var button=e.target&&e.target.closest?e.target.closest('#iosDock [data-event-dock-choice]'):null;
+  if(!button)return;
+  e.preventDefault();
+  e.stopPropagation();
+  if(e.stopImmediatePropagation)e.stopImmediatePropagation();
+  navigate(button.getAttribute('data-event-dock-choice'));
+ },true);
+})();
+</script>
