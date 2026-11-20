@@ -8237,6 +8237,7 @@ function activateEventPage(which){
  document.querySelectorAll('[data-event-page]').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-event-page')===which);b.setAttribute('aria-selected',b.getAttribute('data-event-page')===which?'true':'false')});
 }
 window.renderEventHub=renderEventHub;
+window.activateEventPage=activateEventPage;
 renderEventHub();
 openEventPage=function(which){activateEventPage(which)};
 wireEventPageNav=function(){var a=eventNode('activityEventNav'),c=eventNode('competitionEventNav');if(a)a.hidden=true;if(c)c.hidden=true};
@@ -8632,5 +8633,45 @@ html body #hbtns { display:none!important; }
 #iosDock .dk-tray [data-test-go]:after,#iosDock .dk-tray #updateLogTab:after,#iosDock .dk-tray [data-rail-go]:after{font-size:7px;letter-spacing:.35px}
 @media(max-width:380px){#iosDock .dk-tray{gap:5px;padding:7px}#iosDock .dk-tray [data-test-go],#iosDock .dk-tray #updateLogTab,#iosDock .dk-tray [data-rail-go]{width:50px;min-width:50px;height:52px}}
 </style>
+
+<style id="bhq-nav-fit-and-event-tabs-v2">
+/* Compact the bottom categories and keep their icon marks prominent. */
+#iosDock .dk-bar{height:52px;padding:0 4px}
+#iosDock .dk-btn{height:48px;gap:0}
+#iosDock .dk-btn .dk-ic{width:30px;height:30px}
+#iosDock .dk-btn .dk-ic svg{width:29px;height:29px;stroke-width:2.1}
+#iosDock .dk-home .dk-ic,#iosDock .dk-home .dk-ic svg{width:32px;height:32px}
+#iosDock .dk-tray{gap:5px;padding:7px}
+#iosDock .dk-tray [data-test-go],#iosDock .dk-tray #updateLogTab,#iosDock .dk-tray [data-rail-go]{width:49px;min-width:49px;height:51px;font-size:20px}
+#iosDock .dk-tray .event-dock-choice{width:54px;min-width:54px;height:54px;padding:3px 2px;font-size:20px}
+#iosDock .dk-tray .event-dock-choice:after{max-width:50px;font-size:6px;line-height:1.1;letter-spacing:0}
+#iosDock .dk-tray [data-test-go]:after,#iosDock .dk-tray #updateLogTab:after,#iosDock .dk-tray [data-rail-go]:after{font-size:6.5px;letter-spacing:.2px}
+@media(max-width:390px){
+ #iosDock{width:calc(100% - 12px)}
+ #iosDock .dk-tray{gap:4px;padding:6px}
+ #iosDock .dk-tray .event-dock-choice{width:51px;min-width:51px;height:52px}
+}
+/* Slightly narrower, left-shifted event page category row so it stays inside phone edges. */
+#eventHub .events-shell{width:calc(100% - 8px);max-width:900px;margin-left:0;margin-right:auto;padding-left:0;padding-right:0;box-sizing:border-box}
+#eventHub .events-tabs{width:100%;grid-template-columns:repeat(5,minmax(0,1fr));gap:3px;margin-left:0;box-sizing:border-box}
+#eventHub .events-tab{min-width:0;width:100%;padding:5px 1px;font-size:6px;overflow:hidden;overflow-wrap:anywhere}
+#eventHub .events-tab .events-tab-icon{font-size:15px}
+#eventPageSlot,#eventPageSlot #t-competitions,#eventPageSlot #t-activity{min-width:0;max-width:100%;box-sizing:border-box}
+#eventPageSlot .competition-hub,#eventPageSlot .activity-hub{max-width:100%;box-sizing:border-box}
+</style>
+<script id="bhq-event-dock-click-repair-v1">
+(function(){
+ 'use strict';
+ document.addEventListener('click',function(e){
+  var btn=e.target&&e.target.closest?e.target.closest('#iosDock [data-event-dock-choice]'):null;
+  if(!btn)return;
+  e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();
+  var which=btn.getAttribute('data-event-dock-choice');
+  if(typeof window.show==='function')window.show('events');
+  if(typeof window.activateEventPage==='function')window.activateEventPage(which);
+  else if(typeof window.openEventPage==='function')window.openEventPage(which);
+ },true);
+})();
+</script>
 </body>
 </html>
