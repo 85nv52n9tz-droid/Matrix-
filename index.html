@@ -2488,6 +2488,16 @@ section[id^="t-"]:not(#t-hq){
   touch-action:manipulation;
 }
 </style>
+<style id="bhq-global-player-portraits-v109">
+/* Deterministic generated portraits: one stable identity-based cyber avatar per operative. */
+#t-rank .rank-player-avatar{width:38px;height:38px;min-width:38px;display:grid;place-items:center;overflow:hidden;border:1px solid #3d9c9c;border-radius:50%;background:#07131c;box-shadow:0 0 11px #35d5c533}
+#t-rank .rank-player-avatar svg{display:block;width:100%;height:100%}
+#t-rank .rank-row-avatar{width:36px;height:36px;min-width:36px;display:grid;place-items:center;overflow:hidden;border:1px solid #286c77;border-radius:50%;background:#07131c;box-shadow:0 0 9px #35d5c522}
+#t-rank .rank-row-avatar svg{display:block;width:100%;height:100%}
+#t-rank .rk{gap:8px}
+#t-rank .rb{flex:1;min-width:0}
+@media(max-width:390px){#t-rank .rank-row-avatar{width:32px;height:32px;min-width:32px}#t-rank .rank-player-avatar{width:34px;height:34px;min-width:34px}}
+</style>
 </head>
 <body>
 <div id="authGate">
@@ -3064,9 +3074,9 @@ function renderRank(){
   var cmp={hq:function(a,b){return(b.hq-a.hq)||(b.pw-a.pw)},pw:function(a,b){return(b.pw-a.pw)||(b.hq-a.hq)}};
   var sorted=list.slice().sort(cmp[rsort]),ord=sorted.map(function(x){return x.i}).join(',');
   if(ord!==lastOrd)lastOrd=ord;
-  $('rpodium').innerHTML=sorted.slice(0,3).map(function(x,i){return rankPodiumCard({name:x.name,hq:x.hq,pw:x.pw,you:x.you},i+1,'player')}).join('');
+  $('rpodium').innerHTML=sorted.slice(0,3).map(function(x,i){return rankPodiumCard({name:x.name,hq:x.hq,pw:x.pw,you:x.you,avatarKey:x.you?'account:'+String(window.BHQ_USER_ID||window.BHQ_USERNAME||'player'):'operative:'+String(x.r&&x.r.n||x.name)},i+1,'player')}).join('');
   $('rlist').innerHTML='';
-  sorted.slice(3).forEach(function(x,index){var pos=index+3,w=rows[x.you?S.rv.length:x.i];$('rlist').appendChild(w.c);w.c.hidden=false;w.c.className='rk'+(x.you?' me':'');w.c.setAttribute('data-global-rank',String(pos+1));w.n.textContent='#'+(pos+1);w.s.innerHTML='HQ <span class="lv">'+x.hq+'</span> · power '+fmt(x.pw);w.nm.textContent=x.name;
+  sorted.slice(3).forEach(function(x,index){var pos=index+3,w=rows[x.you?S.rv.length:x.i];$('rlist').appendChild(w.c);w.c.hidden=false;w.c.className='rk'+(x.you?' me':'');w.c.setAttribute('data-global-rank',String(pos+1));w.n.textContent='#'+(pos+1);w.s.innerHTML='HQ <span class="lv">'+x.hq+'</span> · power '+fmt(x.pw);w.nm.textContent=x.name;w.av.innerHTML=rankAvatarSvg(x.you?'account:'+String(window.BHQ_USER_ID||window.BHQ_USERNAME||'player'):'operative:'+String(x.r&&x.r.n||x.name),x.name);
     if(x.you){w.c.querySelector('.ra').hidden=false;w.pc.textContent='YOU';w.pc.style.color='var(--ok)';w.bi.hidden=true;w.rx.hidden=true;return}
     var pc=Math.round(chance(P,x.pw)*100),v=S.vs[x.i]||{};w.pc.textContent=pc+'%';w.pc.style.color=pc>=60?'var(--ok)':pc>=40?'var(--rw)':'#ff6b5a';w.bi.hidden=false;w.bi.className='ab inf'+(rinfo===x.i?' on':'');w.rx.hidden=rinfo!==x.i;
     if(rinfo===x.i){var r=x.r,avg=(r.bl[0]+r.bl[1]+r.bl[2]+r.bl[3])/4,vt=['cr','da','cy','ex'].map(function(k){return fmt(r.res[k]||0)+' '+NM[k]}).join(', ');w.rx.textContent='Lifetime: '+fmt(r.stolen)+' resources taken · '+fmt(r.k)+' kills · '+fmt(r.wn)+'W/'+fmt(r.lo)+'L battles\nBuildings avg lv '+avg.toFixed(1)+' · nanobots '+fmt(foeCount(r))+'\nVault: '+vt+'\nYou vs them: attacks '+(v.aw||0)+'W/'+(v.al||0)+'L · steals '+(v.sw||0)+'W/'+(v.sl||0)+'L · you took '+fmt(v.tk||0)+' · your kills '+fmt(v.kl||0)+' · raids on you '+(v.dw||0)+'W/'+(v.dl||0)+'L'}
@@ -3433,7 +3443,7 @@ $('progressionReportClose').onclick=function(){$('progressionReportModal').hidde
   [['hq','HQ LEVEL'],['pw','TOTAL POWER']].forEach(function(a){var b=document.createElement('button');b.type='button';b.textContent=a[1];b.onclick=function(){rsort=a[0];lastOrd='';render()};$('rsort').appendChild(b);rb.push(b);rbv.push(a[0])});
   document.querySelectorAll('[data-rank-tab]').forEach(function(b){b.addEventListener('click',function(){rankMode=b.getAttribute('data-rank-tab');renderRank()})});
   document.querySelectorAll('[data-rank-alliance-sort]').forEach(function(b){b.addEventListener('click',function(){rankAllianceSort=b.getAttribute('data-rank-alliance-sort');renderRank()})});
-  for(var j=0;j<=S.rv.length;j++)(function(j){var c=document.createElement('div'),me=j===S.rv.length;c.className='rk'+(me?' me':'');c.innerHTML='<div class="rn"></div><div class="rb"><b></b><small></small></div><div class="ra"><span></span><div class="rbt"><button class="ab inf">Info</button></div></div><div class="rx" hidden></div>';var bs=c.querySelectorAll('button'),o={c:c,n:c.querySelector('.rn'),nm:c.querySelector('b'),s:c.querySelector('small'),pc:c.querySelector('.ra span'),bi:bs[0],rx:c.querySelector('.rx')};if(me)c.querySelector('.ra').hidden=true;else{o.bi.onclick=function(){rinfo=rinfo===j?-1:j;render()}}rows.push(o);if(!me)$('rlist').appendChild(c)})(j);
+  for(var j=0;j<=S.rv.length;j++)(function(j){var c=document.createElement('div'),me=j===S.rv.length;c.className='rk'+(me?' me':'');c.innerHTML='<div class="rn"></div><div class="rank-row-avatar"></div><div class="rb"><b></b><small></small></div><div class="ra"><span></span><div class="rbt"><button class="ab inf">Info</button></div></div><div class="rx" hidden></div>';var bs=c.querySelectorAll('button'),o={c:c,n:c.querySelector('.rn'),av:c.querySelector('.rank-row-avatar'),nm:c.querySelector('b'),s:c.querySelector('small'),pc:c.querySelector('.ra span'),bi:bs[0],rx:c.querySelector('.rx')};if(me)c.querySelector('.ra').hidden=true;else{o.bi.onclick=function(){rinfo=rinfo===j?-1:j;render()}}rows.push(o);if(!me)$('rlist').appendChild(c)})(j);
   [[1,'x1'],[10,'x10'],['max','Max']].forEach(function(a){var b=document.createElement('button');b.textContent=a[1];b.onclick=function(){qty=a[0];render()};$('qty').appendChild(b);qb.push(b);qv.push(a[0])});
   TR.forEach(function(t,i){var e=E['t'+i]=card($('tiers'),'','bot');e.c.classList.add('nano-tier-card','nano-tier-'+(i+1));e.t.textContent=t.name;e.e.textContent='';e.d.textContent='';e.m.textContent='';e.i.style.color=TC[i];e.i.className+=' bot';e.i.innerHTML=sprite(i);e.pr=document.createElement('button');e.pr.className='buy pro';e.pr.hidden=i===0;e.b.parentNode.insertBefore(e.pr,e.f);e.pr.onclick=function(){nbPromote(i)};e.b.onclick=function(){nbTrain(i)};e.f.onclick=function(){nbFinish(i)};e.c.setAttribute('role','button');e.c.setAttribute('tabindex','0');e.c.setAttribute('aria-label','Open '+t.name+' controls');e.c.onclick=function(){openNanoTier(i)};e.c.onkeydown=function(ev){if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();openNanoTier(i)}}});
   E.dn=card($('dnd'),'','rank');E.dn.f.hidden=true;E.dn.b.classList.add('atkb');E.dn.s=document.createElement('button');E.dn.s.className='buy stlb';E.dn.b.parentNode.insertBefore(E.dn.s,E.dn.f);
@@ -3706,10 +3716,31 @@ function allyList(){
   RANK_ALLIANCES.forEach(function(a,k){var m=a.m.filter(function(i){return A.mem.indexOf(i)<0}),pw=0,hq=0,kl=0;m.forEach(function(i){pw+=rvPow(S.rv[i]);hq+=S.rv[i].hq;kl+=Math.floor(S.rv[i].k)});out.push({k:k,n:a.n,m:m,pw:pw,hq:hq,kl:kl,me:false})});
   if(A.n){var pw=atkP(),hq=S.hq,kl=Math.floor(S.kills);A.mem.forEach(function(i){pw+=rvPow(S.rv[i]);hq+=S.rv[i].hq;kl+=Math.floor(S.rv[i].k)});out.push({k:RANK_ALLIANCES.length,n:A.n,m:A.mem,pw:pw,hq:hq,kl:kl,me:true})}
   return out}
+function rankAvatarSvg(key,label){
+  var seed=2166136261,str=String(key||label||'operator');
+  for(var i=0;i<str.length;i++){seed^=str.charCodeAt(i);seed=Math.imul(seed,16777619)}
+  seed=seed>>>0;
+  var hue=seed%360,variant=(seed>>>8)%5,eye=(seed>>>13)%4,facePaths=[
+    'M19 27 Q19 15 32 15 Q45 15 45 27 L43 42 Q40 51 32 52 Q24 51 21 42Z',
+    'M20 26 Q21 14 32 14 Q44 14 44 27 L42 43 Q37 52 31 51 Q23 49 21 40Z',
+    'M18 28 Q20 16 32 16 Q44 16 46 28 L42 44 Q37 51 32 52 Q25 50 21 43Z'
+  ],hairPaths=[
+    'M17 29 Q14 8 32 8 Q51 8 48 30 L43 25 Q40 17 32 18 Q23 17 20 29Z',
+    'M16 27 L18 14 27 17 31 7 37 17 47 12 49 29 43 25 39 20 24 21Z',
+    'M18 29 Q15 13 28 10 Q44 6 48 24 L44 31 40 21 23 23 20 34Z',
+    'M17 25 Q19 7 35 10 Q49 12 47 28 L42 20 37 17 24 20 20 31Z',
+    'M16 30 Q13 11 30 8 Q49 5 49 27 L44 24 42 14 35 19 24 17 20 32Z'
+  ];
+  var face=facePaths[variant%facePaths.length],hair=hairPaths[variant],accent='hsl('+hue+' 82% 68%)',deep='hsl('+hue+' 48% 17%)',light='hsl('+hue+' 36% 82%)';
+  var eyeMarkup=eye===0?'<path d="M24 33h5m6 0h5" stroke="#eaffff" stroke-width="2.4" stroke-linecap="round"/>':eye===1?'<path d="M24 32q3-3 6 0m5 0q3-3 6 0" stroke="#eaffff" stroke-width="2" fill="none"/>':eye===2?'<circle cx="27" cy="33" r="2" fill="#eaffff"/><circle cx="39" cy="33" r="2" fill="#eaffff"/>':'<path d="M23 33h7m4 0h7" stroke="'+accent+'" stroke-width="3" stroke-linecap="round"/>';
+  var accessory=(seed&1)?'<path d="M15 30h7m20 0h7" stroke="'+accent+'" stroke-width="2"/><circle cx="15" cy="30" r="2" fill="'+accent+'"/>':'<path d="M20 39q12 7 24 0" fill="none" stroke="'+accent+'" stroke-width="1.5"/>';
+  return '<svg viewBox="0 0 64 64" role="img" aria-label="'+rankEsc(label)+' profile portrait" data-avatar-seed="'+seed+'" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="avbg'+seed+'" x1="0" y1="0" x2="1" y2="1"><stop stop-color="'+deep+'"/><stop offset="1" stop-color="#07121d"/></linearGradient></defs><circle cx="32" cy="32" r="31" fill="url(#avbg'+seed+')"/><circle cx="32" cy="32" r="27" fill="none" stroke="'+accent+'" stroke-opacity=".5" stroke-width="1"/><path d="M8 64q2-18 24-19 22 1 24 19" fill="'+deep+'" stroke="'+accent+'" stroke-width="1.5"/><path d="M27 44h10v10H27z" fill="'+light+'"/><path d="'+face+'" fill="'+light+'" stroke="#08151b" stroke-width="1.2"/><path d="'+hair+'" fill="'+deep+'" stroke="'+accent+'" stroke-width="1.5"/>'+eyeMarkup+'<path d="M29 40q3 2 6 0" stroke="#33444b" stroke-width="1.5" fill="none" stroke-linecap="round"/>'+accessory+'<path d="M5 17h8M51 47h8M8 50h5" stroke="'+accent+'" stroke-opacity=".8" stroke-width="1.2"/><circle cx="48" cy="13" r="2" fill="'+accent+'"/></svg>';
+}
 function rankPodiumCard(entry,position,kind){
-  var isAlliance=kind==='alliance',rawName=isAlliance?entry.n:entry.name,name=String(rawName||'').replace(/[&<>\"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c]}),sub=isAlliance?(entry.count+' OPERATIVES · '+fmt(entry.pw)+' POWER'):'HQ '+entry.hq+' · '+fmt(entry.pw)+' POWER';
+  var isAlliance=kind==='alliance',rawName=isAlliance?entry.n:entry.name,name=String(rawName||'').replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]}),sub=isAlliance?(entry.count+' OPERATIVES · '+fmt(entry.pw)+' POWER'):'HQ '+entry.hq+' · '+fmt(entry.pw)+' POWER';
   var extra=isAlliance?('AVG HQ '+(entry.count?Math.round(entry.hq/entry.count*10)/10:0)+' · '+fmt(entry.kl)+' KILLS'):(entry.you?'YOUR COMMAND PROFILE':'GLOBAL OPERATIVE');
-  return '<article class="rank-podium-card podium-'+position+'"><div class="podium-crown">'+(position===1?'♛':position===2?'✦':'✧')+'</div><div class="podium-place">'+(position===1?'1ST PLACE':position===2?'2ND PLACE':'3RD PLACE')+'</div><div class="podium-avatar">'+(isAlliance?'⬡':'⌁')+'</div><b class="podium-name">'+name+'</b><span class="podium-sub">'+sub+'</span><small class="podium-extra">'+extra+'</small><div class="podium-base"><span>'+position+'</span></div></article>';
+  var avatar=isAlliance?'<div class="podium-avatar">⬡</div>':'<div class="podium-avatar rank-player-avatar">'+rankAvatarSvg(entry.avatarKey||rawName,rawName)+'</div>';
+  return '<article class="rank-podium-card podium-'+position+'"><div class="podium-crown">'+(position===1?'♛':position===2?'✦':'✧')+'</div><div class="podium-place">'+(position===1?'1ST PLACE':position===2?'2ND PLACE':'3RD PLACE')+'</div>'+avatar+'<b class="podium-name">'+name+'</b><span class="podium-sub">'+sub+'</span><small class="podium-extra">'+extra+'</small><div class="podium-base"><span>'+position+'</span></div></article>';
 }
 function allyStep(){
   var A=S.al;if(!A||!A.n)return;var n=Date.now();
@@ -7442,10 +7473,19 @@ main#gameShell{height:100dvh!important;min-height:100dvh!important;max-height:10
 </style>
 <script id="bhq-v102-independent-update-archive">
 (function(){
-  var VERSION='0.0.8';
+  var VERSION='0.0.9';
   try{window.BHQ_UPDATE_VERSION=VERSION;}catch(e){}
   var RELEASES=[{
     version:VERSION,date:'20 NOV 2026',
+    title:'GLOBAL OPERATIVE PORTRAITS // UNIQUE PLAYER IDENTITIES',
+    tag:'INDIVIDUAL GENERATED PROFILE PICTURES · STABLE IDENTITY AVATARS',
+    items:[
+      'Every operative in the global player ranking now has an individual cyber portrait, shown beside their name in the directory and on the top-three podium.',
+      'Portraits are generated deterministically from the player identity, so each operative keeps the same distinctive picture when rankings are resorted or refreshed. The signed-in commander uses their own account identity.',
+      'No existing game progress or saved player data is reset.'
+    ]
+  },{
+    version:'0.0.8',date:'20 NOV 2026',
     title:'LOGIN VIEWPORT // PREVENT INPUT FOCUS ZOOM',
     tag:'STATIC LOGIN VIEW · IPHONE INPUT ZOOM FIX',
     items:[
