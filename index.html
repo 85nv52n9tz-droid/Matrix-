@@ -8246,78 +8246,11 @@ body:has(#t-bot:not([hidden])){position:fixed!important;inset:0!important;width:
 </style>
 
 
-<style id="bhq-nano-fixed-layout-v2">
-/* Keep Nano as a fixed viewport; no page scroll and no resizing when recon state changes. */
-#t-bot[hidden]{display:none!important}
-#t-bot:not([hidden]){
- display:flex!important;flex-direction:column!important;gap:3px!important;
- height:calc(100dvh - 178px)!important;min-height:0!important;max-height:calc(100dvh - 178px)!important;
- overflow:hidden!important;box-sizing:border-box!important;padding:3px 5px 2px!important;
-}
-body:has(#t-bot:not([hidden])){height:100dvh!important;min-height:100dvh!important;max-height:100dvh!important;overflow:hidden!important;overscroll-behavior:none!important}
-html:has(#t-bot:not([hidden])){height:100%!important;overflow:hidden!important}
-#t-bot .nbx-stats{flex:0 0 auto!important;margin:0 0 2px!important;padding:4px!important;gap:4px!important}
-#t-bot .nano-combat-split{flex:0 0 54px!important;height:54px!important;min-height:54px!important;max-height:54px!important;grid-template-columns:minmax(0,1fr)!important;grid-template-rows:54px!important;margin:0!important;overflow:hidden!important}
-#t-bot #nlab,#t-bot #nlab>.card,#t-bot .nano-lab-head{height:54px!important;min-height:54px!important;max-height:54px!important;overflow:hidden!important;box-sizing:border-box!important;margin:0!important;padding:4px!important}
-#t-bot .nano-lab-head{display:flex!important;align-items:center!important;gap:5px!important}
-#t-bot .nano-lab-head>.ico{width:24px!important;min-width:24px!important;height:24px!important}
-#t-bot .nano-lab-head .name{font-size:9px!important;line-height:1.1!important}
-#t-bot .nano-lab-head .desc{font-size:6px!important;line-height:1.1!important;margin:1px 0!important}
-#t-bot .nano-lab-head .nano-defence-inline{font-size:6px!important;min-height:16px!important;padding:2px!important;margin-top:2px!important}
-#t-bot #nanoIncomingPanel{display:none!important}
-#t-bot #nanoBattleReport{display:none!important}
-#t-bot #nanoScoutPanel{flex:0 0 132px!important;height:132px!important;min-height:132px!important;max-height:132px!important;overflow:hidden!important;box-sizing:border-box!important;margin:2px 0!important;padding:4px!important}
-#t-bot #nanoScoutPanel .nano-ops-head{padding:0 0 2px!important;margin:0 0 2px!important}
-#t-bot #nanoScoutPanel .nano-ops-title b{font-size:8px!important}
-#t-bot #nanoScoutPanel .nano-ops-route{padding:1px 0!important;font-size:5px!important}
-#t-bot #nanoScoutPanel .nano-scout-actions{gap:3px!important;margin:2px 0!important}
-#t-bot #nanoScoutPanel .nano-scout-actions button{min-height:21px!important;padding:3px 2px!important;font-size:6px!important}
-#t-bot #nanoScoutPanel .nano-scout-grid{gap:3px!important}
-#t-bot #nanoScoutPanel .nano-scout-grid label{padding:2px!important;font-size:6px!important}
-#t-bot #nanoScoutPanel .nano-scout-grid select,#t-bot #nanoScoutPanel .nano-scout-grid input{height:21px!important;margin-top:1px!important;font-size:7px!important}
-#t-bot #nanoScoutPanel .nano-scout-status{max-height:23px!important;overflow:hidden!important;margin:2px 0!important;padding:3px!important;font-size:6px!important;line-height:1.1!important}
-#t-bot #nanoScoutPanel .nano-scout-status small{font-size:6px!important}
-#t-bot #nanoScoutPanel .nano-scout-footnote{display:none!important}
-#t-bot #qty{flex:0 0 auto!important;max-height:22px!important;overflow:hidden!important;margin:1px 0!important;padding:0!important}
-#t-bot #tiers{
- flex:1 1 0!important;min-height:0!important;height:auto!important;max-height:none!important;
- display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
- grid-template-rows:repeat(2,minmax(0,1fr))!important;grid-auto-rows:minmax(0,1fr)!important;
- gap:4px!important;align-content:stretch!important;overflow:hidden!important;
- padding:12px 4px 3px!important;margin:1px 0 0!important;box-sizing:border-box!important;
-}
-#t-bot #tiers .nano-tier-card,#t-bot #tiers .card{min-width:0!important;min-height:0!important;height:100%!important;max-height:100%!important;padding:3px!important;gap:1px!important;overflow:hidden!important;box-sizing:border-box!important}
-#t-bot #tiers .ico{width:24px!important;min-width:24px!important;height:24px!important;margin:0 auto!important}
-#t-bot #tiers .ico svg{width:20px!important;height:20px!important}
-#t-bot #tiers .name,#t-bot #tiers .title{font-size:7px!important;line-height:1.05!important}
-#t-bot #tiers .desc,#t-bot #tiers small{font-size:5.5px!important;line-height:1.05!important}
-#t-bot #tiers button{min-height:18px!important;padding:2px 3px!important;font-size:6px!important}
-@media(max-height:740px){
- #t-bot:not([hidden]){height:calc(100dvh - 165px)!important;max-height:calc(100dvh - 165px)!important}
- #t-bot #nanoScoutPanel{flex-basis:120px!important;height:120px!important;min-height:120px!important;max-height:120px!important}
-}
-</style>
 
 
 
-<style id="bhq-nano-incoming-and-six-grid-v3">
-/* Restore the incoming enemy status beside Nano Lab; remove only the training-points panel. */
-#t-bot .nano-combat-split{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;grid-template-rows:54px!important}
-#t-bot #nanoIncomingPanel{display:flex!important;height:54px!important;min-height:54px!important;max-height:54px!important;overflow:hidden!important;box-sizing:border-box!important;margin:0!important;padding:4px!important}
-#t-bot #nanoIncomingPanel .nano-incoming-kicker{font-size:6px!important}
-#t-bot #nanoIncomingPanel .nano-incoming-enemy{font-size:8px!important;line-height:1.05!important}
-#t-bot #nanoIncomingPanel .nano-incoming-meta{font-size:6px!important}
-#t-bot #nanoBattleReport{display:none!important}
-#t-bot #nanoCompetitionPoints{display:none!important}
-#t-bot #tiers{flex:1 1 0!important;min-height:0!important;display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;grid-template-rows:repeat(2,minmax(0,1fr))!important;overflow:hidden!important;align-content:stretch!important}
-#t-bot #tiers>.card,#t-bot #tiers>.nano-tier-card{min-width:0!important;min-height:0!important;height:100%!important;max-height:100%!important;overflow:hidden!important}
-@media(max-height:740px){
- #t-bot:not([hidden]){height:calc(100dvh - 165px)!important;max-height:calc(100dvh - 165px)!important}
- #t-bot #nanoScoutPanel{flex-basis:120px!important;height:120px!important;min-height:120px!important;max-height:120px!important}
- #t-bot .nano-combat-split{flex-basis:50px!important;height:50px!important;min-height:50px!important;max-height:50px!important;grid-template-rows:50px!important}
- #t-bot #nlab,#t-bot #nlab>.card,#t-bot .nano-lab-head,#t-bot #nanoIncomingPanel{height:50px!important;min-height:50px!important;max-height:50px!important}
-}
-</style>
+
+
 <script id="bhq-nano-remove-only-competition-points-v3">
 (function(){
  var prior=renderNano;
@@ -8441,3 +8374,55 @@ html:has(#t-bot:not([hidden])){height:100%!important;overflow:hidden!important}
  window.BHQ_RENDER_COMPETITION=function(){};
 })();
 </script>
+
+<style id="bhq-nano-stable-six-bay-v4">
+/* Single authoritative Nano layout: preserve six fixed positions during scouting. */
+#t-bot[hidden]{display:none!important}
+#t-bot:not([hidden]){
+ display:flex!important;flex-direction:column!important;
+ box-sizing:border-box!important;width:100%!important;
+ height:calc(100dvh - 145px)!important;max-height:calc(100dvh - 145px)!important;
+ min-height:0!important;overflow:hidden!important;gap:5px!important;
+ padding:4px 5px 5px!important;
+}
+body:has(#t-bot:not([hidden])){height:100dvh!important;max-height:100dvh!important;overflow:hidden!important}
+#t-bot .nbx-stats{flex:0 0 auto!important;margin:0!important;padding:4px!important}
+#t-bot .nano-combat-split{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-template-rows:54px!important;flex:0 0 54px!important;height:54px!important;min-height:54px!important;max-height:54px!important;margin:0!important;gap:5px!important;overflow:hidden!important}
+#t-bot #nlab,#t-bot #nlab>.card,#t-bot .nano-lab-head,#t-bot #nanoIncomingPanel{height:54px!important;min-height:54px!important;max-height:54px!important;box-sizing:border-box!important;overflow:hidden!important;margin:0!important;padding:4px!important}
+#t-bot #nanoIncomingPanel{display:flex!important}
+#t-bot #nanoBattleReport,#t-bot #nanoCompetitionPoints{display:none!important}
+#t-bot #nanoScoutPanel{
+ flex:0 0 166px!important;height:166px!important;min-height:166px!important;max-height:166px!important;
+ box-sizing:border-box!important;overflow:hidden!important;margin:0!important;padding:6px!important;
+}
+#t-bot #nanoScoutPanel .nano-ops-head{padding-bottom:3px!important}
+#t-bot #nanoScoutPanel .nano-scout-actions{margin:3px 0 5px!important}
+#t-bot #nanoScoutPanel .nano-scout-actions button{min-height:28px!important}
+#t-bot #nanoScoutPanel .nano-scout-grid select,#t-bot #nanoScoutPanel .nano-scout-grid input{height:27px!important}
+#t-bot #nanoScoutPanel .nano-scout-status{min-height:0!important;max-height:29px!important;overflow:hidden!important}
+#t-bot #qty{flex:0 0 auto!important;max-height:24px!important;margin:0!important;overflow:hidden!important}
+#t-bot #tiers{
+ flex:1 1 0!important;min-height:0!important;max-height:none!important;height:auto!important;
+ display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
+ grid-template-rows:repeat(2,minmax(0,1fr))!important;grid-auto-rows:minmax(0,1fr)!important;
+ gap:6px!important;align-content:stretch!important;box-sizing:border-box!important;
+ overflow:hidden!important;padding:14px 5px 5px!important;margin:0!important;
+}
+#t-bot #tiers>.card,#t-bot #tiers>.nano-tier-card{
+ box-sizing:border-box!important;min-width:0!important;min-height:0!important;
+ width:100%!important;height:100%!important;max-height:100%!important;
+ padding:6px 3px!important;overflow:hidden!important;display:flex!important;
+ flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:4px!important;
+}
+#t-bot #tiers .ico{width:38px!important;min-width:38px!important;height:38px!important;margin:0 auto!important}
+#t-bot #tiers .ico svg{width:31px!important;height:31px!important}
+#t-bot #tiers .name,#t-bot #tiers .title{font-size:10px!important;line-height:1.2!important;text-align:center!important}
+#t-bot #tiers .desc,#t-bot #tiers small{font-size:8px!important;line-height:1.2!important;text-align:center!important}
+@media(max-height:740px){
+ #t-bot:not([hidden]){height:calc(100dvh - 133px)!important;max-height:calc(100dvh - 133px)!important}
+ #t-bot #nanoScoutPanel{flex-basis:138px!important;height:138px!important;min-height:138px!important;max-height:138px!important}
+ #t-bot .nano-combat-split{flex-basis:48px!important;height:48px!important;min-height:48px!important;max-height:48px!important;grid-template-rows:48px!important}
+ #t-bot #nlab,#t-bot #nlab>.card,#t-bot .nano-lab-head,#t-bot #nanoIncomingPanel{height:48px!important;min-height:48px!important;max-height:48px!important}
+ #t-bot #tiers{gap:4px!important}
+}
+</style>
