@@ -9034,3 +9034,48 @@ document.addEventListener('click',function(e){
 },true);
 })();
 </script>
+<style id="dev-competition-leaderboards-v1">
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-competition-only{overflow-y:auto!important;overscroll-behavior:contain!important;padding-bottom:18px!important}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-comp-information{padding:9px 10px 7px;margin:9px 1px 0;border:1px solid rgba(var(--event-rgb),.4);border-radius:9px;background:linear-gradient(140deg,rgba(var(--event-rgb),.11),#081822 70%);font-size:10px;color:#d6e8ee;line-height:1.45}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-comp-information strong{color:rgb(var(--event-rgb));letter-spacing:.5px;font-size:10px}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-comp-information p{margin:4px 0}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-comp-leaderboard{margin:9px 1px 0;border:1px solid rgba(var(--event-rgb),.35);border-radius:9px;background:#081922;overflow:hidden;flex:none}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-lb-heading{display:flex;align-items:center;justify-content:space-between;padding:10px 11px;border-bottom:1px solid #29444e;color:#f0f7fb;font-size:11px;font-weight:800;letter-spacing:.6px}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-lb-heading small{color:#7cb8c7;font-size:8px;font-weight:500}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-lb-row{display:grid;grid-template-columns:27px minmax(0,1fr) 58px;gap:7px;align-items:center;padding:7px 11px;border-bottom:1px solid #18333e;font-size:10px}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-lb-row:last-child{border-bottom:0}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-lb-row.me{background:rgba(var(--event-rgb),.12)}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-lb-position{color:#ffdc8e;font-weight:800}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-lb-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#d9f1f4}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-lb-score{text-align:right;color:#a9f3d1;font-variant-numeric:tabular-nums}
+:is(#t-dev-dailycomp,#t-dev-weeklycomp,#t-dev-monthlycomp,#t-dev-alliancecomp) .dm-lb-note{font-size:9px;color:#8aaab6;padding:9px 11px;line-height:1.45}
+</style>
+<script id="dev-competition-leaderboards-v1">
+(function(){
+'use strict';
+var specs=[
+['t-dev-dailycomp','DAILY','Resets every day'],
+['t-dev-weeklycomp','WEEKLY','Resets every Monday'],
+['t-dev-monthlycomp','MONTHLY','Resets on the first of each month'],
+['t-dev-alliancecomp','ALLIANCE','Resets every Monday']
+];
+function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function key(period){var d=new Date();if(period==='MONTHLY')return d.getFullYear()+'-'+(d.getMonth()+1);if(period==='WEEKLY'||period==='ALLIANCE'){d.setDate(d.getDate()-((d.getDay()+6)%7));return d.toLocaleDateString('en-CA')}return d.toLocaleDateString('en-CA')}
+function getScore(id,period){try{var x=JSON.parse(sessionStorage.getItem('bhq-dev-competition-v1-'+id+'-'+key(period))||'null');var points=[20,30,40,50,60,70,80,150];return x&&Array.isArray(x.progress)?Math.min(period==='MONTHLY'?1000:500,x.progress.reduce(function(n,v,i){return n+(v>=([period==='DAILY'?1:period==='MONTHLY'?20:period==='ALLIANCE'?10:5,period==='DAILY'?3:period==='MONTHLY'?60:15,period==='DAILY'?3:period==='MONTHLY'?60:15,period==='DAILY'?2:period==='MONTHLY'?30:10,period==='DAILY'?3:period==='MONTHLY'?60:15,period==='DAILY'?5:period==='MONTHLY'?100:25,period==='DAILY'?6:period==='MONTHLY'?120:30,period==='DAILY'?8:period==='MONTHLY'?150:period==='ALLIANCE'?40:35][i])?points[i]:0)},0)):0}catch(e){return 0}}
+function roster(period,id){var state=typeof S!=='undefined'?S:null;var own=period==='ALLIANCE';var rows=[];
+if(own){var data=typeof rankAllianceData==='function'?rankAllianceData():[];rows=data.map(function(a){return {name:(a.tag?'['+a.tag+'] ':'')+a.n,me:!!a.me,score:a.me?getScore(id,period):0}})}
+else{var rivals=state&&Array.isArray(state.rv)?state.rv:[];rows=rivals.slice(0,49).map(function(r){return {name:r.n,me:false,score:0}});rows.push({name:String(window.BHQ_USERNAME||'TEST PLAYER'),me:true,score:getScore(id,period)})}
+rows.sort(function(a,b){return b.score-a.score||Number(b.me)-Number(a.me)||a.name.localeCompare(b.name)});return rows}
+function refresh(page,period,id){var panel=page.querySelector('.dm-comp-leaderboard');if(!panel)return;var rows=roster(period,id),top=rows.slice(0,10);var html=top.map(function(r,i){return '<div class="dm-lb-row'+(r.me?' me':'')+'"><span class="dm-lb-position">#'+(i+1)+'</span><span class="dm-lb-name">'+esc(r.name)+(r.me?' · YOU':'')+'</span><span class="dm-lb-score">'+r.score+' PTS</span></div>'}).join('');
+var own=rows.findIndex(function(r){return r.me});if(own>=10){var me=rows[own];html+='<div class="dm-lb-row me"><span class="dm-lb-position">#'+(own+1)+'</span><span class="dm-lb-name">'+esc(me.name)+' · YOU</span><span class="dm-lb-score">'+me.score+' PTS</span></div>'}
+panel.querySelector('.dm-lb-rows').innerHTML=html||'<div class="dm-lb-note">No competitors registered yet.</div>';
+panel.querySelector('.dm-lb-heading small').textContent='AUTO REFRESH · LOCAL PREVIEW';
+}
+function init(){specs.forEach(function(spec){var id=spec[0],period=spec[1],page=document.getElementById(id);if(!page)return;var host=page.querySelector('.dm-competition-only');if(!host)return;
+var info=document.createElement('div');info.className='dm-comp-information';info.innerHTML='<strong>◈ '+period+' COMPETITION</strong><p>'+spec[2]+'. Complete competition tasks to earn points, unlock milestone chests and climb the '+(period==='ALLIANCE'?'alliance':'player')+' leaderboard.</p><p><strong>TOP FIVE REWARDS</strong> — Positions 1–5 each receive a different placement reward at the end of the competition. Reward contents will be configured later.</p>';host.appendChild(info);
+var board=document.createElement('div');board.className='dm-comp-leaderboard';board.innerHTML='<div class="dm-lb-heading"><span>◈ '+(period==='ALLIANCE'?'ALLIANCE':'PLAYER')+' LEADERBOARD</span><small>LOCAL PREVIEW</small></div><div class="dm-lb-rows"></div><div class="dm-lb-note">Uses the game’s current '+(period==='ALLIANCE'?'new-alliance ranking roster':'player ranking roster')+'. Only local test competition points are tracked; other players’ competition scores are not yet available from a shared server. Live cross-player rankings require backend competition score syncing.</div>';host.appendChild(board);
+refresh(page,period,id);setInterval(function(){if(!page.hidden)refresh(page,period,id)},3000);
+});}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
