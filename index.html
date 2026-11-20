@@ -9004,3 +9004,69 @@ html:has(#t-bot:not([hidden])){height:100%!important;overflow:hidden!important}
  },true);
 })();
 </script>
+
+<style id="bhq-events-page-header-cleanup-v6">
+/* Remove the redundant Events Centre masthead so the selected page starts higher. */
+#eventHub .events-kicker,
+#eventHub .events-title{display:none!important}
+#eventHub .events-shell{padding-top:2px!important}
+#eventHub .events-tabs{margin-top:0!important}
+#eventHub #eventPageSlot{margin-top:0!important;padding-top:0!important}
+#eventHub #eventPageSlot[hidden]{display:none!important}
+#eventHub #eventPageSlot:not([hidden]){display:block!important}
+#eventHub #eventPageSlot>#t-activity:not([hidden]),
+#eventHub #eventPageSlot>#t-competitions:not([hidden]){display:block!important;position:relative!important;width:100%!important;visibility:visible!important;opacity:1!important}
+</style>
+<script id="bhq-events-page-navigation-final-v6">
+(function(){
+ 'use strict';
+ var allowed=['activity','daily','weekly','monthly','alliance'];
+ function openDestination(which){
+  if(allowed.indexOf(which)<0)return;
+  try{
+   /* First switch the outer app page, then use the Events menu's own page opener.
+      That opener also unhides eventPageSlot; bypassing it was why the pages appeared blank. */
+   if(typeof window.show==='function')window.show('events');
+   var hub=document.getElementById('t-events');
+   var menu=document.getElementById('eventHub');
+   var slot=document.getElementById('eventPageSlot');
+   if(hub)hub.hidden=false;
+   if(slot)slot.hidden=false;
+   if(typeof window.openEventPage==='function')window.openEventPage(which);
+   else if(typeof window.activateEventPage==='function')window.activateEventPage(which);
+   var activity=document.getElementById('t-activity');
+   var competitions=document.getElementById('t-competitions');
+   if(activity)activity.hidden=which!=='activity';
+   if(competitions)competitions.hidden=which==='activity';
+   if(which==='activity'&&typeof window.renderDailyMissions==='function')window.renderDailyMissions();
+   if(which!=='activity'&&typeof window.renderCompetition==='function')window.renderCompetition(which);
+   if(menu)menu.querySelectorAll('[data-bhq-event-choice]').forEach(function(tab){
+    var active=tab.getAttribute('data-bhq-event-choice')===which;
+    tab.classList.toggle('active',active);tab.setAttribute('aria-pressed',active?'true':'false');
+   });
+   if(menu)menu.querySelectorAll('[data-event-page]').forEach(function(tab){
+    var active=tab.getAttribute('data-event-page')===which;
+    tab.classList.toggle('active',active);tab.setAttribute('aria-selected',active?'true':'false');
+   });
+  }catch(err){console.error('Events destination failed:',err)}
+ }
+ window.openEventDestination=openDestination;
+ window.addEventListener('click',function(e){
+  var btn=e.target&&e.target.closest?e.target.closest('#iosDock [data-event-dock-choice]'):null;
+  if(!btn)return;
+  e.preventDefault();e.stopPropagation();
+  if(e.stopImmediatePropagation)e.stopImmediatePropagation();
+  openDestination(btn.getAttribute('data-event-dock-choice'));
+ },true);
+ /* Event choices inside the Events screen use the exact same page-opening path. */
+ window.addEventListener('click',function(e){
+  var btn=e.target&&e.target.closest?e.target.closest('#eventHub [data-bhq-event-choice],#eventHub [data-event-page]'):null;
+  if(!btn)return;
+  var which=btn.getAttribute('data-bhq-event-choice')||btn.getAttribute('data-event-page');
+  if(!which)return;
+  e.preventDefault();e.stopPropagation();
+  if(e.stopImmediatePropagation)e.stopImmediatePropagation();
+  openDestination(which);
+ },true);
+})();
+</script>
