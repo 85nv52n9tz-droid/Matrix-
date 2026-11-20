@@ -2521,6 +2521,46 @@ section[id^="t-"]:not(#t-hq){
 @keyframes alnPipeNodePulse{0%,100%{opacity:.55;transform:scale(.72)}50%{opacity:1;transform:scale(1.35)}}
 @media(prefers-reduced-motion:reduce){#t-aln .aln-pipe-flow,#t-aln .aln-pipe-glint,#t-aln .aln-pipe-node{animation:none!important}}
 </style>
+<style id="bhq-alliance-pipeline-chromatic-white-light-v110">
+/* Bright white energy packets travel along each Alliance conduit while the
+   conduit colour cycles through neon tones with a brief, deliberate dimming. */
+#t-aln .aln-pipe-inner{
+  animation:alnPipeChromaticCycle 6s ease-in-out infinite;
+}
+#t-aln .aln-pipe-flow{
+  animation:alnPipeFlow 2.25s linear infinite,alnPipeChromaticCycle 6s ease-in-out infinite;
+}
+#t-aln .aln-pipe-glint{
+  stroke:#fff!important;
+  stroke-width:2.7;
+  stroke-dasharray:20 380;
+  opacity:1;
+  filter:drop-shadow(0 0 3px #fff) drop-shadow(0 0 8px #dffaff);
+  animation:alnPipeWhiteTravel 2.6s linear infinite;
+}
+@keyframes alnPipeWhiteTravel{
+  from{stroke-dashoffset:400;opacity:.25}
+  12%{opacity:1}
+  82%{opacity:1}
+  to{stroke-dashoffset:0;opacity:.25}
+}
+@keyframes alnPipeChromaticCycle{
+  0%,100%{stroke:#ff263f;opacity:.78;filter:drop-shadow(0 0 4px #ff173e)}
+  12%{stroke:#ff263f;opacity:.3;filter:drop-shadow(0 0 1px #ff173e)}
+  25%{stroke:#ff9b35;opacity:.9;filter:drop-shadow(0 0 7px #ff9b35)}
+  37%{stroke:#ff9b35;opacity:.32;filter:drop-shadow(0 0 1px #ff9b35)}
+  50%{stroke:#bd62ff;opacity:.9;filter:drop-shadow(0 0 7px #bd62ff)}
+  62%{stroke:#bd62ff;opacity:.32;filter:drop-shadow(0 0 1px #bd62ff)}
+  75%{stroke:#36e8ff;opacity:.9;filter:drop-shadow(0 0 7px #36e8ff)}
+  87%{stroke:#36e8ff;opacity:.32;filter:drop-shadow(0 0 1px #36e8ff)}
+}
+@media(prefers-reduced-motion:reduce){
+  #t-aln .aln-pipe-inner,#t-aln .aln-pipe-flow,#t-aln .aln-pipe-glint{animation:none!important}
+  #t-aln .aln-pipe-inner{stroke:#ff263f;opacity:.8}
+  #t-aln .aln-pipe-flow{stroke:#ff9ba8;opacity:.95}
+  #t-aln .aln-pipe-glint{stroke:#fff;opacity:.9}
+}
+</style>
 </head>
 <body>
 <div id="authGate">
@@ -4292,8 +4332,9 @@ function renderSettings(){
  });
 }
 function renderChiefProfile(){var h=$('chiefHqLevel'),sh=$('chiefStatHq'),pw=$('chiefStatPower'),ki=$('chiefStatKills'),cr=$('chiefStatCrew');if(h)h.textContent=S.hq;if(sh)sh.textContent=S.hq;if(pw)pw.textContent=fmt(power());if(ki)ki.textContent=fmt(S.kills||0);if(cr)cr.textContent=crewAvailableCount()+' / 7';var nm=$('chiefPlayerName');if(nm)nm.textContent=(window.backdoorPlayerName||'YOUR CHIEF').toString().slice(0,24);var pa=$('openProgressionArchive');if(pa)pa.onclick=function(){show('progression')};document.querySelectorAll('[data-chief-slot]').forEach(function(b){b.onclick=function(){document.querySelectorAll('[data-chief-slot]').forEach(function(x){x.classList.remove('active')});b.classList.add('active');var labels={helmet:'Neural Visor · head protection and signal focus.',chest:'Core Armour · personal defensive plating.',gloves:'Pulse Gloves · precision control and combat handling.',boots:'Vector Boots · mobility and movement systems.',weapon:'Data Blade · personal chief weapon slot.',accessory:'Signal Core · auxiliary chief enhancement module.'};$('chiefSlotInfo').textContent=labels[b.getAttribute('data-chief-slot')]+' Equipment upgrades can be connected here in a later pass.'}});document.querySelectorAll('[data-chief-go]').forEach(function(b){b.onclick=function(){show(b.getAttribute('data-chief-go'))}})}
-var BHQ_UPDATE_VERSION='1.0.93';
+var BHQ_UPDATE_VERSION='1.0.94';
 var BHQ_UPDATE_RELEASES=[
+  {version:'1.0.94',date:'20 NOV 2026',title:'ALLIANCE HQ // CHROMATIC ENERGY CONDUITS',tag:'TRAVELLING WHITE LIGHT · CYCLING NEON COLOURS · SOFT DIMMING',items:['Added a bright white energy streak that continuously travels through every Alliance HQ pipeline.','Alliance conduits now cycle through red, amber, violet and cyan every six seconds, briefly dimming between colour changes before glowing brightly in the next colour.','Preserved the existing curved pipeline routes, pulsing nodes, Alliance buildings, gameplay and saved progress.']},
   {version:'1.0.93',date:'20 NOV 2026',title:'ALLIANCE HQ // LIVING PIPELINE NETWORK',tag:'CURVED RED CONDUITS · MOVING ENERGY FLOW · PULSING NODES',items:['Reworked the Alliance HQ map connections into smooth, flowing S-curved conduits inspired by the main HQ pipeline design.','Added layered outer glow, illuminated inner channels, continuously moving energy streaks and softly pulsing connection nodes.','Kept the existing Alliance building positions, map interactions, upgrade logic and saved Alliance progress unchanged.']},
   {version:'1.0.92',date:'20 NOV 2026',title:'DAILY LOGIN REWARDS // POST-CONNECTION DELIVERY',tag:'AUTHENTICATE · COMPLETE LOADING · THEN RECEIVE DAILY REWARDS',items:['Moved the daily login reward prompt and reward rail initialisation out of pre-login game startup.','Daily rewards now appear only after the commander has authenticated and the five-second system connection/loading sequence has fully completed.','Applied the same timing to both fresh logins and restored authenticated sessions; daily claim state and reward amounts are unchanged.']},
   {version:'1.0.91',date:'19 NOV 2026',title:'MANDATORY SYSTEM DEPLOYMENT // FUTURE UPDATE INTERFACE',tag:'FORCED UPDATE · LIVE INSTALL PROGRESS · SESSION PRESERVATION',items:['Replaced the dismissible update prompt with a mandatory in-game installation window.','Added a futuristic Backdoor HQ deployment interface with staged progress and installation status.','The latest game build is fetched and verified before the final refresh; after installation, the game opens More → Updates automatically.','Saved game progress and the existing authenticated session are preserved during the update.']},
