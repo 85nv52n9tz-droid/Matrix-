@@ -5720,6 +5720,32 @@ function renderCompetitionV2(which){
  });
  html+='</div><h3 class="v2-comp-section">TOP FIVE // END-OF-EVENT PRIZES</h3><div class="bhq-prize-grid">'+[1,2,3,4,5].map(function(rank){return '<div><b>#'+rank+'</b><span>'+mailEscape(mailRewardText(compV2ScaleReward(compV2RankReward(which,rank))))+'</span></div>'}).join('')+'</div><div class="v2-comp-foot">PLACEMENT REWARDS ARE DISPATCHED TO MAIL WHEN THE EVENT PERIOD ROLLS OVER. HQ LEVEL IS APPLIED WHEN THE PACKAGE IS GENERATED.</div></div>';
  host.innerHTML=html;
+ /* Rebuild the visual presentation using the same header, chest conduit and task cards as Dailies.
+    The underlying competition scoring, reward claiming and leaderboard remain untouched. */
+ (function(){
+  var page=host.querySelector('.v2-comp-page'),head=host.querySelector('.v2-comp-head'),hero=host.querySelector('.v2-comp-hero');
+  if(!page||!head||!hero)return;
+  var title=which.toUpperCase()+' COMPETITION';
+  var intro=which==='alliance'?'Compete with other alliances each week. Earn alliance points, unlock milestone chests and climb the alliance leaderboard.':'Complete competition activities to earn points, open milestone chests and climb the leaderboard.';
+  var score=document.createElement('div');score.className='ap-head bhq-comp-daily-head';
+  score.innerHTML='<div class="ap-kicker">'+which.toUpperCase()+' // COMPETITION NETWORK</div><div class="ap-title">'+which.toUpperCase()+' <span style="color:#79ffad">COMPETITION</span></div><div class="ap-sub">'+intro+'</div><div class="ap-score"><div><strong>'+fmt(rec.score)+'</strong><small> TOTAL POINTS</small></div><small>RANK #'+mine.rank+' · '+cfg.period+'</small></div>';
+  page.insertBefore(score,head);head.remove();
+  var rail=document.createElement('div');rail.className='ap-track-wrap bhq-comp-daily-track';
+  var positions=cfg.tiers.map(function(_,i){return (8+(i+.5)*84/cfg.tiers.length)});
+  rail.innerHTML='<div class="ap-track"><div class="ap-track-base"></div><div class="ap-track-fill" style="width:'+pct+'%"></div>'+cfg.tiers.map(function(t,i){var claimed=rec.claimed.indexOf(i)>=0,ready=rec.score>=t.at&&!claimed;return '<button type="button" class="ap-chest '+(claimed?'opened':ready?'ready':'')+'" data-v2-chest="'+i+'" style="left:'+positions[i]+'%" '+(!ready?'disabled':'')+' aria-label="'+t.label+' '+fmt(t.at)+' points"><span class="ap-chest-icon">'+(claimed?'✓':'')+'</span><span class="ap-chest-label">'+(claimed?'CLAIMED':fmt(t.at)+' PTS')+'</span></button>'}).join('')+'</div>';
+  score.insertAdjacentElement('afterend',rail);
+  var oldChests=page.querySelector('.v2-comp-chests');
+  if(oldChests){var oldNote=oldChests.previousElementSibling,oldTitle=oldNote&&oldNote.previousElementSibling;oldChests.remove();if(oldNote&&oldNote.classList.contains('v2-comp-note'))oldNote.remove();if(oldTitle&&oldTitle.classList.contains('v2-comp-section'))oldTitle.remove()}
+  var activities=page.querySelector('.v2-comp-tasks');
+  if(activities){
+   activities.classList.add('bhq-comp-activities');
+   var label=activities.previousElementSibling;
+   if(label)label.textContent='HOW TO EARN POINTS // '+cfg.tasks.length+' ACTIVITIES';
+   activities.querySelectorAll('.v2-comp-task').forEach(function(task){task.classList.add('ap-task')});
+  }
+  hero.remove();
+  var stats=page.querySelector('.v2-comp-stats');if(stats)stats.remove();
+ })();
  /* Match Daily Missions: chest milestones directly after the score header. */
  var page=host.querySelector('.v2-comp-page'),hero=host.querySelector('.v2-comp-hero'),chests=host.querySelector('.v2-comp-chests');
  if(page&&hero&&chests){
@@ -9711,4 +9737,35 @@ function bhqRewardPopup(title,reward){
 .toast.hq-centred-incoming{position:fixed!important;right:auto!important;bottom:auto!important;transform:translate(-50%,-50%)!important;z-index:15000!important;box-sizing:border-box!important;min-height:48px!important;padding:7px 27px 7px 8px!important;gap:6px!important;font-size:10px!important;line-height:1.25!important;animation:none!important}
 .toast.hq-centred-incoming .toast-icon{width:24px;height:24px;font-size:14px}
 .toast.hq-centred-incoming .toast-title{font-size:10px}
+</style>
+
+<style id="bhq-event-layout-scroll-v14">
+/* The outer panel fills the screen; its contents, not the clipped parent, scroll on iOS. */
+#t-events:not([hidden]){top:calc(var(--bhq-top-clearance,174px) + 2px)!important;bottom:80px!important}
+#t-events:not([hidden]) #eventPageSlot>#t-activity:not([hidden]),
+#t-events:not([hidden]) #eventPageSlot>#t-competitions:not([hidden]){overflow:hidden!important;min-height:0!important}
+#t-events:not([hidden]) #eventPageSlot .activity-hub{
+ display:block!important;flex:1 1 auto!important;height:100%!important;max-height:100%!important;
+ min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;
+ -webkit-overflow-scrolling:touch!important;touch-action:pan-y!important;
+ overscroll-behavior:contain!important;padding:4px 8px 125px!important;scrollbar-width:thin!important
+}
+#t-events:not([hidden]) #eventPageSlot .ap-tasks{
+ display:block!important;flex:none!important;height:auto!important;max-height:none!important;
+ min-height:0!important;overflow:visible!important;padding:0 2px 60px!important
+}
+#t-events:not([hidden]) #eventPageSlot #competitionContent{
+ display:block!important;flex:1 1 auto!important;height:100%!important;max-height:100%!important;
+ min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;
+ -webkit-overflow-scrolling:touch!important;touch-action:pan-y!important;
+ overscroll-behavior:contain!important;padding:4px 8px 125px!important;scrollbar-width:thin!important
+}
+#t-events:not([hidden]) #eventPageSlot .v2-comp-page{padding:0 0 120px!important;overflow:visible!important}
+#t-events:not([hidden]) #eventPageSlot .bhq-comp-daily-head{margin:0 0 8px!important;padding:12px 10px!important}
+#t-events:not([hidden]) #eventPageSlot .bhq-comp-daily-track{margin:0 0 16px!important}
+#t-events:not([hidden]) #eventPageSlot .bhq-comp-daily-track .ap-track{min-height:126px}
+#t-events:not([hidden]) #eventPageSlot .bhq-comp-daily-track .ap-chest{cursor:pointer}
+#t-events:not([hidden]) #eventPageSlot .bhq-comp-activities{display:grid;gap:8px;margin:8px 0 18px}
+#t-events:not([hidden]) #eventPageSlot .bhq-comp-activities .ap-task{display:flex!important;min-height:72px!important;box-sizing:border-box!important}
+#t-events:not([hidden]) #eventPageSlot .v2-comp-board{margin-bottom:12px}
 </style>
