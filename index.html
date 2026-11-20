@@ -5700,6 +5700,14 @@ function renderCompetitionV2(which){
  });
  html+='</div><h3 class="v2-comp-section">TOP FIVE // END-OF-EVENT PRIZES</h3><div class="bhq-prize-grid">'+[1,2,3,4,5].map(function(rank){return '<div><b>#'+rank+'</b><span>'+mailEscape(mailRewardText(compV2ScaleReward(compV2RankReward(which,rank))))+'</span></div>'}).join('')+'</div><div class="v2-comp-foot">PLACEMENT REWARDS ARE DISPATCHED TO MAIL WHEN THE EVENT PERIOD ROLLS OVER. HQ LEVEL IS APPLIED WHEN THE PACKAGE IS GENERATED.</div></div>';
  host.innerHTML=html;
+ /* Match Daily Missions: chest milestones directly after the score header. */
+ var page=host.querySelector('.v2-comp-page'),hero=host.querySelector('.v2-comp-hero'),chests=host.querySelector('.v2-comp-chests');
+ if(page&&hero&&chests){
+  var chestTitle=chests.previousElementSibling&&chests.previousElementSibling.previousElementSibling;
+  var chestNote=chests.previousElementSibling;
+  var after=hero;
+  [chestTitle,chestNote,chests].forEach(function(el){if(el){after.insertAdjacentElement('afterend',el);after=el}});
+ }
  host.querySelectorAll('[data-v2-chest]').forEach(function(btn){btn.onclick=function(){compV2ClaimChest(which,Number(btn.getAttribute('data-v2-chest')))}});
  mailBadge();
 }
