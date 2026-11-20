@@ -7635,5 +7635,127 @@ main#gameShell{height:100dvh!important;min-height:100dvh!important;max-height:10
 })();
 </script>
 
+
+<style id="bhq-activity-pipeline-v1">
+#t-activity .activity-hub{max-width:900px;padding:10px 8px 24px}
+#t-activity .ap-head{padding:13px;border:1px solid #286b48;border-radius:12px;background:radial-gradient(ellipse at 15% 0,#1b5936aa,transparent 60%),linear-gradient(145deg,#0b2116,#050d09);box-shadow:inset 0 0 22px #39ff8810}
+#t-activity .ap-kicker{font-size:8px;letter-spacing:1.5px;color:#82dba4;font-weight:900}
+#t-activity .ap-title{font-size:20px;letter-spacing:1.3px;margin:5px 0;color:#e2ffec}
+#t-activity .ap-sub{font-size:9px;color:#8db69b;line-height:1.45}
+#t-activity .ap-score{display:flex;align-items:end;justify-content:space-between;margin-top:10px;gap:8px}
+#t-activity .ap-score strong{font-size:25px;color:#8dffb1;text-shadow:0 0 12px #39ff8866}
+#t-activity .ap-score small{font-size:8px;color:#9bc9a9;letter-spacing:1px}
+#t-activity .ap-track-wrap{margin:12px 2px 10px;padding:12px 7px 7px;border:1px solid #214d35;border-radius:11px;background:linear-gradient(180deg,#08170e,#040a06);overflow:hidden}
+#t-activity .ap-track{height:13px;position:relative;margin:25px 9px 30px;border:1px solid #28573b;border-radius:20px;background:#07110b;box-shadow:inset 0 0 8px #000;overflow:visible}
+#t-activity .ap-track-base{position:absolute;inset:2px;border-radius:20px;background:repeating-linear-gradient(90deg,#152b1d 0 12px,#0b1a11 12px 16px)}
+#t-activity .ap-track-fill{position:absolute;left:2px;top:2px;bottom:2px;width:0%;border-radius:20px;background:linear-gradient(90deg,#16834b,#70ffad);box-shadow:0 0 9px #39ff88aa;transition:width .85s cubic-bezier(.2,.8,.2,1)}
+#t-activity .ap-track-fill:after{content:"";position:absolute;right:0;top:-3px;width:8px;height:15px;border-radius:8px;background:#d9ffe6;box-shadow:0 0 10px #8dffb1}
+#t-activity .ap-chest{position:absolute;top:50%;transform:translate(-50%,-50%);width:34px;height:38px;padding:0;border:1px solid #8a6934;border-radius:7px;background:linear-gradient(145deg,#5a411c,#20180c);color:#ffd982;display:flex;align-items:center;justify-content:center;flex-direction:column;z-index:2;box-shadow:0 3px 0 #120d06,0 0 7px #000}
+#t-activity .ap-chest .ap-chest-icon{font-size:18px;line-height:19px;filter:drop-shadow(0 0 3px #ffc95c)}
+#t-activity .ap-chest small{font-size:7px;line-height:9px;color:#ffe8ae}
+#t-activity .ap-chest.ready{border-color:#ffe28a;background:linear-gradient(145deg,#98702b,#3a260d);box-shadow:0 0 13px #ffc64c99,0 3px 0 #201406;animation:apChestPulse 1.4s ease-in-out infinite}
+#t-activity .ap-chest.opened{filter:grayscale(.75);opacity:.72;background:linear-gradient(145deg,#294633,#101c14);border-color:#42684d;color:#9bb8a3}
+#t-activity .ap-chest:disabled{cursor:default}
+#t-activity .ap-chest-label{position:absolute;top:43px;left:50%;transform:translateX(-50%);font-size:7px;white-space:nowrap;color:#9fc6aa}
+#t-activity .ap-chest:first-of-type{left:5%}
+#t-activity .ap-chest:nth-of-type(2){left:15%}
+#t-activity .ap-chest:nth-of-type(3){left:30%}
+#t-activity .ap-chest:nth-of-type(4){left:50%}
+#t-activity .ap-chest:nth-of-type(5){left:75%}
+#t-activity .ap-chest:nth-of-type(6){left:100%}
+#t-activity .ap-track-caption{display:flex;justify-content:space-between;color:#71977e;font-size:7px;letter-spacing:.7px}
+#t-activity .ap-section{margin:10px 0 6px;display:flex;align-items:center;justify-content:space-between;color:#a9e8bd;font-size:9px;letter-spacing:1px}
+#t-activity .ap-section small{font-size:8px;color:#789c84;letter-spacing:0}
+#t-activity .ap-tasks{display:grid;grid-template-columns:1fr;gap:6px}
+#t-activity .ap-task{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:8px;align-items:center;padding:9px;border:1px solid #1e4931;border-radius:8px;background:linear-gradient(110deg,#0b1b11,#07100a);min-width:0}
+#t-activity .ap-task.done{border-color:#3b9561;background:linear-gradient(110deg,#102a19,#08130c)}
+#t-activity .ap-task-num{width:27px;height:27px;display:grid;place-items:center;border:1px solid #315d40;border-radius:7px;color:#9beab2;background:#07140c;font-size:10px;font-weight:900}
+#t-activity .ap-task.done .ap-task-num{color:#07130b;background:#80ffad;border-color:#80ffad}
+#t-activity .ap-task-main{min-width:0}
+#t-activity .ap-task-main b{display:block;font-size:10px;color:#ddf5e4}
+#t-activity .ap-task-main p{margin:3px 0 5px;color:#789b84;font-size:8px;line-height:1.35}
+#t-activity .ap-task-meta{display:flex;align-items:center;gap:7px;color:#85b496;font-size:8px}
+#t-activity .ap-task-bar{height:4px;border-radius:4px;background:#14291b;overflow:hidden;flex:1}
+#t-activity .ap-task-bar i{display:block;height:100%;background:linear-gradient(90deg,#248c50,#79ffab);border-radius:4px}
+#t-activity .ap-task-side{text-align:right;min-width:54px}
+#t-activity .ap-points{display:block;color:#ffd77c;font-size:9px;font-weight:900}
+#t-activity .ap-go{margin-top:5px;padding:5px 9px;border:1px solid #47986a;border-radius:5px;background:#0d2b1b;color:#aaffc7;font-size:8px;font-weight:900}
+#t-activity .ap-go:disabled{opacity:.55}
+#t-activity .ap-complete{padding:24px 14px;margin-top:12px;text-align:center;border:1px solid #438a5a;border-radius:13px;background:radial-gradient(ellipse at 50% 0,#1a5936aa,transparent 65%),linear-gradient(145deg,#0c2115,#050d08)}
+#t-activity .ap-complete .medal{font-size:43px;filter:drop-shadow(0 0 12px #ffd56c)}
+#t-activity .ap-complete h2{font-size:20px;color:#b8ffcc;letter-spacing:1px}
+#t-activity .ap-complete p{font-size:10px;color:#a0c5aa;line-height:1.6}
+#t-activity .ap-modal-shade{position:fixed;inset:0;z-index:2147483600;background:#000c;display:grid;place-items:center;padding:18px}
+#t-activity .ap-modal{width:min(100%,370px);padding:17px;border:1px solid #b88b43;border-radius:13px;background:radial-gradient(ellipse at 50% 0,#493514,#10170f 65%);box-shadow:0 0 30px #ffc65c33;text-align:center}
+#t-activity .ap-modal h3{margin:5px 0 8px;color:#ffe3a0;font-size:16px}
+#t-activity .ap-reward-list{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin:12px 0}
+#t-activity .ap-reward{padding:10px 5px;border:1px solid #67512d;border-radius:7px;background:#171b10;color:#ffe4a7;font-size:9px}
+#t-activity .ap-reward b{display:block;font-size:13px;margin-top:3px}
+#t-activity .ap-modal button{width:100%;padding:10px;border:1px solid #d4a951;border-radius:7px;background:linear-gradient(90deg,#634719,#32240e);color:#fff0c4;font-weight:900;font-size:10px}
+@keyframes apChestPulse{50%{filter:brightness(1.35);transform:translate(-50%,-50%) scale(1.07)}}
+@media(max-width:430px){#t-activity .ap-task{grid-template-columns:27px minmax(0,1fr) 54px;gap:6px;padding:7px}#t-activity .ap-chest{width:29px;height:34px}#t-activity .ap-chest .ap-chest-icon{font-size:15px}}
+</style>
+<script id="bhq-activity-pipeline-v1-script">
+(function(){
+'use strict';
+var TASKS=[
+{id:'login',name:'Log in to Backdoor HQ',desc:'Connect to your command network for the day.',type:'login',target:1,points:1,go:'hq'},
+{id:'help',name:'Help an alliance member',desc:'Assist an ally with an active timer or request.',type:'help',target:1,points:4,go:'aln'},
+{id:'deploy1',name:'Deploy an operation',desc:'Launch your first field operation today.',type:'launches',target:1,points:8,go:'mis'},
+{id:'contract1',name:'Complete a contract',desc:'Finish an assignment in Mission Control.',type:'missions',target:1,points:12,go:'mis'},
+{id:'recon',name:'Complete reconnaissance',desc:'Send a scout and review the intelligence report.',type:'scouts',target:1,points:16,go:'map'},
+{id:'upgrade1',name:'Upgrade a facility',desc:'Complete an HQ, building or research upgrade.',type:'upgrades',target:1,points:20,go:'hq'},
+{id:'deploy3',name:'Deploy three operations',desc:'Keep your operative network active.',type:'launches',target:3,points:24,go:'mis'},
+{id:'combat1',name:'Win a combat engagement',desc:'Win an attack or successfully defend your network.',type:'attacks',target:1,points:28,go:'bot'},
+{id:'training',name:'Strengthen your Nano force',desc:'Train or promote Nano Bot units.',type:'training',target:1,points:32,go:'bot'},
+{id:'contracts3',name:'Complete three contracts',desc:'Finish three assignments in Mission Control.',type:'missions',target:3,points:36,go:'mis'},
+{id:'raid',name:'Complete a Nano strike',desc:'Use reconnaissance intelligence to complete a strike.',type:'raids',target:1,points:40,go:'bot'},
+{id:'combat3',name:'Win three engagements',desc:'Prove your strength in multiple battles.',type:'attacks',target:3,points:44,go:'bot'},
+{id:'upgrades3',name:'Complete three upgrades',desc:'Improve your HQ, facilities or research systems.',type:'upgrades',target:3,points:48,go:'hq'},
+{id:'contracts5',name:'Complete five contracts',desc:'Finish five assignments across Mission Control.',type:'missions',target:5,points:92,go:'mis'},
+{id:'operations8',name:'Deploy eight operations',desc:'Complete a full day of active operations.',type:'launches',target:8,points:95,go:'mis'}
+];
+var CHESTS=[
+{at:25,name:'Supply Cache',items:[['cr',1800,'Credits'],['da',350,'Data']]},
+{at:75,name:'Field Crate',items:[['cr',3200,'Credits'],['cy',35,'Cyber Chips'],['in',12,'Influence']]},
+{at:150,name:'Operative Chest',items:[['da',800,'Data'],['ex',25,'Experience'],['wi',4,'Wisdom']]},
+{at:250,name:'Advanced Cache',items:[['cr',6500,'Credits'],['cy',90,'Cyber Chips'],['in',35,'Influence']]},
+{at:375,name:'Elite Supply Chest',items:[['da',1500,'Data'],['ex',65,'Experience'],['wi',12,'Wisdom'],['cr',9000,'Credits']]},
+{at:500,name:'Grand Commander Chest',items:[['cr',18000,'Credits'],['da',3000,'Data'],['cy',250,'Cyber Chips'],['ex',120,'Experience'],['wi',30,'Wisdom'],['in',100,'Influence']]}
+];
+function $id(id){return document.getElementById(id)}
+function dayKey(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function state(){if(!window.S)return null;var s=window.S;if(!s.activity||typeof s.activity!=='object')s.activity={};var a=s.activity,k=dayKey();if(a.pipelineDay!==k){a.pipelineDay=k;a.pipelineDone={};a.pipelineClaimed=[];a.pipelineLogin=1;a.pipelineHelp=0;a.pipelinePoints=0;a.pipelineComplete=false;}if(!a.pipelineDone)a.pipelineDone={};if(!Array.isArray(a.pipelineClaimed))a.pipelineClaimed=[];if(!a.pipelineLogin)a.pipelineLogin=1;if(!Number.isFinite(a.pipelineHelp))a.pipelineHelp=0;return a}
+function progress(t,a){if(t.type==='login')return Math.min(1,a.pipelineLogin||0);if(t.type==='help')return Math.min(t.target,a.pipelineHelp||0);var old=window.S&&S.activity&&S.activity.daily;return Math.min(t.target,Math.max(0,Number(old&&old[t.type])||0))}
+function saveState(){try{if(typeof window.save==='function')window.save()}catch(e){}}
+function taskDone(t,a){return progress(t,a)>=t.target}
+function awardPoints(a){var changed=false;TASKS.forEach(function(t){if(taskDone(t,a)&&!a.pipelineDone[t.id]){a.pipelineDone[t.id]=true;a.pipelinePoints=Math.min(500,(Number(a.pipelinePoints)||0)+t.points);changed=true}});if(TASKS.every(function(t){return a.pipelineDone[t.id]}))a.pipelineComplete=true;if(changed)saveState();return changed}
+function rewardLabel(item){return item[1].toLocaleString('en-GB')+' '+item[2]}
+function showChestReward(chest){var shade=document.createElement('div');shade.className='ap-modal-shade';var modal=document.createElement('div');modal.className='ap-modal';modal.innerHTML='<div style="font-size:35px">🎁</div><h3>'+chest.name+' OPENED</h3><div style="font-size:9px;color:#b6c9a7">REWARDS TRANSFERRED TO YOUR COMMAND INVENTORY</div><div class="ap-reward-list">'+chest.items.map(function(it){return '<div class="ap-reward">'+it[2]+'<b>+'+it[1].toLocaleString('en-GB')+'</b></div>'}).join('')+'</div><button type="button">CONTINUE</button>';shade.appendChild(modal);document.body.appendChild(shade);modal.querySelector('button').onclick=function(){shade.remove()};shade.addEventListener('click',function(e){if(e.target===shade)shade.remove()})}
+function grantChest(chest){var s=window.S,a=state();chest.items.forEach(function(it){if(s.r&&typeof s.r[it[0]]==='number')s.r[it[0]]+=it[1]});a.pipelineClaimed.push(chest.at);saveState();showChestReward(chest);render()}
+function render(){
+var section=$id('t-activity');if(!section)return;var host=section.querySelector('.activity-hub');if(!host)return;var a=state();if(!a)return;awardPoints(a);
+var points=Math.min(500,Number(a.pipelinePoints)||0),opened=a.pipelineClaimed||[];
+if(a.pipelineComplete){
+host.innerHTML='<div class="ap-complete"><div class="ap-kicker">BACKDOOR HQ // DAILY OPERATIONS</div><div class="medal">🏆</div><h2>ALL MISSIONS COMPLETE!</h2><div style="font-size:22px;color:#9cffb8;font-weight:900">15 / 15</div><p>Outstanding work, Commander. You have completed every daily operation and secured today\'s progression rewards.</p><p>Come back tomorrow for a fresh set of missions, a new 500-point pipeline and another set of chests to unlock.</p><div style="margin-top:15px;border:1px solid #2d6845;border-radius:8px;padding:10px;color:#9feab5;font-size:9px">DAILY NETWORK STATUS · COMPLETE</div></div>';
+return;
+}
+var taskHtml=TASKS.map(function(t,i){var v=progress(t,a),done=!!a.pipelineDone[t.id],pct=Math.min(100,v/t.target*100);return '<div class="ap-task '+(done?'done':'')+'"><div class="ap-task-num">'+(done?'✓':String(i+1).padStart(2,'0'))+'</div><div class="ap-task-main"><b>'+t.name+'</b><p>'+t.desc+'</p><div class="ap-task-meta"><span>'+v+'/'+t.target+'</span><div class="ap-task-bar"><i style="width:'+pct+'%"></i></div></div></div><div class="ap-task-side"><span class="ap-points">+'+t.points+' PTS</span><button class="ap-go" type="button" data-ap-go="'+t.go+'">'+(done?'DONE':'GO →')+'</button></div></div>'}).join('');
+var chestHtml=CHESTS.map(function(c,i){var claimed=opened.indexOf(c.at)>=0,ready=points>=c.at&&!claimed;var pos=[5,15,30,50,75,100][i];return '<button type="button" class="ap-chest '+(claimed?'opened':ready?'ready':'')+'" data-ap-chest="'+c.at+'" style="left:'+pos+'%" '+(ready?'':'disabled')+'><span class="ap-chest-icon">'+(claimed?'✓':'▣')+'</span><small>'+c.at+'</small><span class="ap-chest-label">'+(claimed?'OPENED':ready?'TAP TO OPEN':c.at+' PTS')+'</span></button>'}).join('');
+var next=CHESTS.find(function(c){return points<c.at&&!opened.includes(c.at)})||null;
+host.innerHTML='<div class="ap-head"><div class="ap-kicker">OPERATIVE PROGRESSION // DAILY REWARD NETWORK</div><div class="ap-title">ACTIVITY <span style="color:#79ffad">BOARD</span></div><div class="ap-sub">Complete daily operations to charge the reward conduit. Each unlocked chest can be opened once per day.</div><div class="ap-score"><div><strong>'+points+'</strong><small> / 500 POINTS</small></div><small>'+Object.keys(a.pipelineDone).length+' / 15 TASKS COMPLETE</small></div></div><div class="ap-track-wrap"><div class="ap-track"><div class="ap-track-base"></div><div class="ap-track-fill" style="width:'+points/5+'%"></div>'+chestHtml+'</div><div class="ap-track-caption"><span>NETWORK CHARGE 0</span><span>'+ (next?'NEXT CHEST · '+next.at+' PTS':'ALL CHESTS REACHED')+'</span><span>500</span></div></div><div class="ap-section"><b>DAILY OPERATIONS</b><small>15 MISSIONS · EASIEST TO HARDEST</small></div><div class="ap-tasks">'+taskHtml+'</div>';
+host.querySelectorAll('[data-ap-chest]').forEach(function(btn){btn.onclick=function(){var c=CHESTS.find(function(x){return x.at===Number(btn.getAttribute('data-ap-chest'))});if(c&&points>=c.at&&!opened.includes(c.at))grantChest(c)}});host.querySelectorAll('[data-ap-go]').forEach(function(btn){btn.onclick=function(){var dest=btn.getAttribute('data-ap-go'),nav=document.querySelector('[data-test-go="'+dest+'"]');if(nav)nav.click();if(dest==='aln'){setTimeout(function(){var b=Array.from(document.querySelectorAll('#t-aln button')).find(function(x){return /help/i.test((x.textContent||'')+' '+(x.getAttribute('aria-label')||''))});if(b)b.scrollIntoView({behavior:'smooth',block:'center'})},350)}}});
+}
+var oldTrack=window.trackActivity;
+if(typeof oldTrack==='function'&&!oldTrack.__pipelineWrapped){var wrapped=function(type,amount){var out=oldTrack.apply(this,arguments);if($id('t-activity')&&!$id('t-activity').hidden)render();return out};wrapped.__pipelineWrapped=true;window.trackActivity=wrapped;try{trackActivity=wrapped}catch(e){}}
+document.addEventListener('click',function(e){var b=e.target&&e.target.closest?e.target.closest('#t-aln button'):null;if(!b)return;var label=((b.textContent||'')+' '+(b.getAttribute('aria-label')||'')).toLowerCase();if(label.indexOf('help')>=0){var a=state();if(a){a.pipelineHelp=Math.min(1,(a.pipelineHelp||0)+1);awardPoints(a);saveState();if($id('t-activity')&&!$id('t-activity').hidden)render()}}});
+var oldRender=window.renderActivity;
+window.renderActivity=render;try{renderActivity=render}catch(e){}
+document.addEventListener('click',function(e){var n=e.target&&e.target.closest?e.target.closest('[data-test-go="activity"]'):null;if(n)setTimeout(render,0)});
+document.addEventListener('visibilitychange',function(){if(!document.hidden&&$id('t-activity')&&!$id('t-activity').hidden)render()});
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',render,{once:true});else setTimeout(render,0);
+})();
+</script>
+
 </body>
 </html>
