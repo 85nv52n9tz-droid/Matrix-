@@ -2198,8 +2198,8 @@ html body .nano-tier-box,html body .nano-report-box{border:1px solid rgb(var(--r
 </style>
 <script id="fx-theme-js">
 (function(){var T={hq:['⌂','HQ // COMMAND CORE'],mis:['✦','MISSIONS // OPS BOARD'],map:['⌖','MISSION MAP // SECTOR GRID'],bot:['⬡','NANO // BOT LAB'],crew:['♟','CREW // OPERATIVE ROSTER'],rank:['▤','RANKS // GLOBAL LEADERBOARD'],activity:['▦','ACTIVITY // DATA BOARD'],competitions:['◉','COMPETITIONS // ARENA'],updates:['⟳','UPDATES // DEV LOG'],vip:['♛','VIP // ELITE LOUNGE'],shop:['▣','SHOP // SUPPLY DEPOT'],settings:['⚙','SETTINGS // SYSTEM CONTROL'],user:['◍','CHIEF // OPERATIVE PROFILE'],progression:['△','PROGRESSION // ARCHIVE'],ally:['⚑','ALLIANCE // COMMAND BOARD']},clocks=[];
-function init(){Object.keys(T).forEach(function(k){var el=document.getElementById('t-'+k);if(!el||el.querySelector(':scope>.fx-top'))return;el.classList.add('fx');var d=document.createElement('div');d.className='fx-top';d.innerHTML='<i>'+T[k][0]+'</i><b>'+T[k][1]+'</b><em></em><small class="fx-build-version"></small><u></u>';el.insertBefore(d,el.firstChild);clocks.push(d.querySelector('em'));var v=d.querySelector('.fx-build-version');if(v&&k==='hq')v.textContent='V 1.0.100';});
-function tick(){var t=new Date().toTimeString().slice(0,8);clocks.forEach(function(c){c.textContent=t});var v=document.querySelector('#t-hq>.fx-top .fx-build-version');if(v)v.textContent='V 1.0.100'}tick();setInterval(tick,1000)}
+function init(){Object.keys(T).forEach(function(k){var el=document.getElementById('t-'+k);if(!el||el.querySelector(':scope>.fx-top'))return;el.classList.add('fx');var d=document.createElement('div');d.className='fx-top';d.innerHTML='<i>'+T[k][0]+'</i><b>'+T[k][1]+'</b><em></em><small class="fx-build-version"></small><u></u>';el.insertBefore(d,el.firstChild);clocks.push(d.querySelector('em'));var v=d.querySelector('.fx-build-version');if(v&&k==='hq')v.textContent='V '+String(window.BHQ_UPDATE_VERSION||'0.0.3');});
+function tick(){var t=new Date().toTimeString().slice(0,8);clocks.forEach(function(c){c.textContent=t});var v=document.querySelector('#t-hq>.fx-top .fx-build-version');if(v)v.textContent='V '+String(window.BHQ_UPDATE_VERSION||'0.0.3')}tick();setInterval(tick,1000)}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();})();
 </script>
 
@@ -2323,6 +2323,39 @@ body{overscroll-behavior-y:none}
   #crewPicker[data-context="data-net"],#npcRewardModal{align-items:flex-start!important;place-items:start center!important}
 }
 
+
+/* v0.0.3 — full-screen touch scrolling, including Updates, Competitions and mission archive */
+[role="dialog"],[aria-modal="true"]{
+  overflow-y:auto!important;overflow-x:hidden!important;-webkit-overflow-scrolling:touch!important;
+  touch-action:pan-y!important;overscroll-behavior-y:contain!important;min-height:0;
+}
+section[id^="t-"]:not(#t-hq){
+  box-sizing:border-box;min-height:0;
+  max-height:calc(100dvh - var(--top-spacer-height,150px) - env(safe-area-inset-bottom) - 10px);
+  overflow-y:auto!important;overflow-x:hidden!important;-webkit-overflow-scrolling:touch!important;
+  touch-action:pan-y!important;overscroll-behavior-y:contain!important;scrollbar-width:thin;
+}
+#t-updates,#t-competitions{
+  min-height:0!important;
+  max-height:calc(100dvh - var(--top-spacer-height,150px) - env(safe-area-inset-bottom) - 10px)!important;
+  overflow-y:auto!important;overflow-x:hidden!important;-webkit-overflow-scrolling:touch!important;
+  touch-action:pan-y!important;overscroll-behavior:contain!important;
+  padding-bottom:max(20px,env(safe-area-inset-bottom))!important;
+}
+#t-updates #updateReleasesPane,#t-updates #updateRoadmapPane,
+#t-updates #bhqReleaseArchiveV2,#t-competitions #competitionContent{
+  min-height:0;overflow:visible;touch-action:pan-y;
+}
+#t-map #solo,#t-map #mp3,#t-map #npcRewardLogPanel{
+  min-height:0;max-width:100%;overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;touch-action:pan-y;
+}
+#npcRewardLogPanel{padding:0 2px 12px}
+#npcRewardLogPanel button{touch-action:manipulation}
+@media(max-width:600px){
+  section[id^="t-"]:not(#t-hq){padding-bottom:max(18px,env(safe-area-inset-bottom))}
+  #t-updates,#t-competitions{padding-left:8px;padding-right:8px}
+}
 </style>
 </head>
 <body>
@@ -2431,7 +2464,7 @@ body{overscroll-behavior-y:none}
  <div class="mission-section-head"><span>AVAILABLE CONTRACTS</span><small>SELECT A CONTRACT TO DEPLOY</small></div>
  <div id="mlist"></div>
 </div></section><div id="toasts"></div>
-<section id="t-map"><div id="mtop"></div><div id="solo"><div id="msub"></div><div id="mp0"><svg id="map" viewBox="0 0 200 100"></svg><div id="nd"></div></div><div id="mp1" hidden><svg id="map2" viewBox="0 0 200 100"></svg><div id="nd2"></div></div><div id="mp2" hidden><svg id="map3" viewBox="0 0 200 100"></svg><div id="nd3"></div></div><div id="mp3" hidden><div class="sub">NPC OPERATIONS // SELECT A TARGET</div><div class="npc-map-instruction"><span class="npc-live-dot"></span><b>LIVE SIGNALS DETECTED</b><span>Tap any pulsing AVAILABLE node on the map to inspect and launch that mission.</span></div><svg id="map8" viewBox="0 0 200 100"></svg><div id="npcMissionPanel"></div></div></div><div id="dnet" hidden><div class="sub" id="dnh"></div><svg id="map7" viewBox="0 0 200 100"></svg><div id="dnd"></div><div id="dnBattleLog" class="dn-battle-log"></div></div></section>
+<section id="t-map"><div id="mtop"></div><div id="solo"><div id="msub"></div><div id="mp0"><svg id="map" viewBox="0 0 200 100"></svg><div id="nd"></div></div><div id="mp1" hidden><svg id="map2" viewBox="0 0 200 100"></svg><div id="nd2"></div></div><div id="mp2" hidden><svg id="map3" viewBox="0 0 200 100"></svg><div id="nd3"></div></div><div id="mp3" hidden><div class="sub">NPC OPERATIONS // SELECT A TARGET</div><div class="npc-map-instruction"><span class="npc-live-dot"></span><b>LIVE SIGNALS DETECTED</b><span>Tap any pulsing AVAILABLE node on the map to inspect and launch that mission.</span></div><svg id="map8" viewBox="0 0 200 100"></svg><div id="npcMissionPanel"></div><div id="npcRewardLogPanel" aria-live="polite"></div></div></div><div id="dnet" hidden><div class="sub" id="dnh"></div><svg id="map7" viewBox="0 0 200 100"></svg><div id="dnd"></div><div id="dnBattleLog" class="dn-battle-log"></div></div></section>
 <section id="t-bot"><div class="nbx-stats"><div><label>CAPACITY</label><b id="nbxCap">0/0</b></div><div><label>DEFENCE</label><b id="nbxDef">0</b></div><div><label>ATTACK</label><b id="nbxAtk">0</b></div><div><label>READY BOTS</label><b id="nbxBots">0</b></div></div><div id="alert" class="al" hidden></div><div id="nanoBattleReport"></div><div class="nano-combat-split"><div id="nlab"></div><div id="nanoIncomingPanel" class="nano-incoming-card safe" aria-live="polite"><div class="nano-incoming-kicker">NANO DEFENCE // SCANNING</div><div class="nano-incoming-enemy">NO INCOMING ATTACK</div><div class="nano-incoming-meta"><span>Network secure</span><span class="nano-incoming-chance">—</span></div></div></div><div id="nanoScoutPanel" class="nano-scout-panel"></div><div id="qty"></div><div id="tiers"></div></section>
 <section id="t-rank"><div id="rtop"></div><div id="rpl"><div id="rprof"></div><div id="rsort"></div><div id="rpodium" class="rank-podium"></div><div class="rank-list-heading">GLOBAL PLAYER RANKING <small>POSITIONS 4–50</small></div><div id="rlist"></div><div id="rrep"></div></div><div id="ral" hidden><div class="sub" id="alnote"></div><div id="alpodium" class="rank-podium alliance-podium"></div><div class="rank-list-heading">ALLIANCE RANKING <small>POSITIONS 4+</small></div><div id="alist"></div></div></section>
 <section id="t-crew"><div id="csub"></div>
@@ -3009,26 +3042,33 @@ function startNpcMission(id,crew){var n=Date.now(),cfg=NPC_OPS.filter(function(x
 function requestNpcMissionConfirmation(id,crew){var cfg=NPC_OPS.filter(function(x){return x.id===id})[0];if(!cfg||operationBlocked())return;pendingNpcLaunch={id:id,crew:crew.slice(0,3)};$('mpcConfirmTitle').textContent='START '+cfg.name.toUpperCase()+'?';$('mpcConfirmCrew').textContent='CREW COMMITTED: '+crew.map(function(i){return CM[i]}).join(' · ');$('mpcConfirmModal').hidden=false}
 function closeNpcMissionConfirmation(){ $('mpcConfirmModal').hidden=true;pendingNpcLaunch=null}
 function acceptNpcMissionConfirmation(){var launch=pendingNpcLaunch;closeNpcMissionConfirmation();if(launch)startNpcMission(launch.id,launch.crew)}
-function showNpcRewardModal(entry){
-  if(!entry)return;
-  var old=$('npcRewardModal');if(old)old.remove();
-  var shade=document.createElement('div');shade.id='npcRewardModal';shade.style.cssText='position:fixed;inset:0;z-index:2147482500;display:flex;align-items:center;justify-content:center;padding:14px;background:rgba(0,5,9,.88);backdrop-filter:blur(8px);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#e2fff0';
-  var card=document.createElement('div');card.style.cssText='width:min(100%,430px);max-height:86dvh;overflow:auto;padding:17px;border:1px solid #42f5a0;border-radius:14px;background:radial-gradient(ellipse at 50% 0%,#123c2c,#06130e 72%);box-shadow:0 0 34px #24ff9a35,inset 0 0 22px #24ff9a12';
-  var kicker=document.createElement('div');kicker.textContent='MPC // OPERATION COMPLETE';kicker.style.cssText='font-size:9px;letter-spacing:2px;color:#75ffc0';
-  var title=document.createElement('h2');title.textContent=entry.mission||'NPC MISSION';title.style.cssText='margin:8px 0 4px;font-size:21px;color:#effff6';
-  var sub=document.createElement('div');sub.textContent='REWARD TRANSFER CONFIRMED';sub.style.cssText='font-size:9px;letter-spacing:1px;color:#8bbba2;margin-bottom:13px';
-  var list=document.createElement('div');list.style.cssText='display:flex;flex-direction:column;gap:6px';
-  (entry.rewards||[]).forEach(function(reward){var row=document.createElement('div');row.textContent='✓  '+reward;row.style.cssText='padding:8px 9px;border:1px solid #245b3d;border-radius:7px;background:#071b11;color:#caffdc;font-size:10px;line-height:1.35';list.appendChild(row)});
-  if(entry.contributionPoints){var cp=document.createElement('div');cp.textContent='ALLIANCE CONTRIBUTION  +'+entry.contributionPoints+' CP';cp.style.cssText='margin-top:7px;padding:8px;border:1px solid #6b5524;border-radius:7px;background:#211b0b;color:#ffdf86;font-size:10px;font-weight:900';list.appendChild(cp)}
-  var crewHead=document.createElement('div');crewHead.textContent='NEXT OPERATION // SELECT YOUR HEROES';crewHead.style.cssText='margin:15px 0 6px;color:#83ffc0;font-size:10px;font-weight:900;letter-spacing:1px';
-  var crewNow=document.createElement('div');crewNow.style.cssText='font-size:10px;color:#b8d9c6;line-height:1.5;margin-bottom:8px';
-  function updateCrewText(){crewNow.textContent=(S.npcCrew||[]).length?(S.npcCrew||[]).map(function(i){return CM[i]}).join(' · '):'No heroes selected yet. Choose up to 3 operatives for your next NPC mission.'}
-  updateCrewText();
-  var choose=document.createElement('button');choose.type='button';choose.textContent='SELECT HEROES';choose.style.cssText='width:100%;padding:11px;border:1px solid #42f5a0;border-radius:8px;background:linear-gradient(100deg,#123c29,#092016);color:#baffd3;font-weight:900;font-size:10px;letter-spacing:1px';
-  choose.onclick=function(){openCrewPicker('npc:reward','NEXT NPC MISSION TEAM',3,S.npcCrew||[],function(a){S.npcCrew=a.slice(0,3);save();updateCrewText();})};
-  var close=document.createElement('button');close.type='button';close.textContent='CLOSE MISSION REPORT';close.style.cssText='width:100%;margin-top:8px;padding:10px;border:1px solid #355b48;border-radius:8px;background:#07130e;color:#b8d9c6;font-weight:800;font-size:9px;letter-spacing:1px';
-  close.onclick=function(){shade.remove()};
-  card.appendChild(kicker);card.appendChild(title);card.appendChild(sub);card.appendChild(list);card.appendChild(crewHead);card.appendChild(crewNow);card.appendChild(choose);card.appendChild(close);shade.appendChild(card);document.body.appendChild(shade);
+function renderNpcRewardLog(){
+  var host=$('npcRewardLogPanel');if(!host)return;
+  host.innerHTML='';
+  var wrap=document.createElement('section');
+  wrap.style.cssText='margin:14px 0 22px;padding:13px;border:1px solid #247b58;border-radius:12px;background:linear-gradient(150deg,#071b14,#030b09);box-shadow:inset 0 0 22px #00ff9910;color:#dffff0;font-family:ui-monospace,SFMono-Regular,Menlo,monospace';
+  var head=document.createElement('div');head.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:10px';
+  var heading=document.createElement('div');heading.innerHTML='<small style="display:block;color:#65dca2;font-size:8px;letter-spacing:1.8px">MPC // OPERATIONS ARCHIVE</small><b style="display:block;margin-top:4px;font-size:14px;letter-spacing:.7px;color:#eafff4">MISSION REWARD LOG</b>';
+  var choose=document.createElement('button');choose.type='button';choose.textContent='SELECT NEXT CREW';choose.style.cssText='padding:9px 10px;border:1px solid #43e99b;border-radius:7px;background:#0a2a1d;color:#caffdf;font:900 8px ui-monospace,monospace;letter-spacing:.7px';
+  choose.onclick=function(){openCrewPicker('npc:reward','NEXT NPC MISSION TEAM',3,S.npcCrew||[],function(a){S.npcCrew=a.slice(0,3);save();renderNpcRewardLog();})};
+  head.appendChild(heading);head.appendChild(choose);wrap.appendChild(head);
+  var current=document.createElement('div');current.style.cssText='margin-bottom:12px;padding:9px 10px;border:1px solid #1c553c;border-radius:8px;background:#06140e;color:#9ccbb1;font-size:9px;line-height:1.5';
+  current.textContent='NEXT MISSION CREW · '+((S.npcCrew||[]).length?(S.npcCrew||[]).map(function(i){return CM[i]||('Operative '+i)}).join(' · '):'No heroes selected — choose up to 3 operatives');
+  wrap.appendChild(current);
+  var entries=(S.npcRewardLog||[]).slice(0,30);
+  if(!entries.length){var empty=document.createElement('div');empty.textContent='No completed MPC operations yet. Completed mission rewards will appear here.';empty.style.cssText='padding:16px 10px;border:1px dashed #245b43;border-radius:8px;color:#83a994;font-size:10px;line-height:1.5;text-align:center';wrap.appendChild(empty);}
+  entries.forEach(function(entry){
+    var card=document.createElement('article');card.style.cssText='margin-top:9px;padding:10px;border:1px solid #1d503a;border-radius:8px;background:linear-gradient(120deg,#0b2118,#06100c)';
+    var top=document.createElement('div');top.style.cssText='display:flex;justify-content:space-between;gap:8px;align-items:flex-start;flex-wrap:wrap';
+    var name=document.createElement('b');name.textContent=entry.mission||'NPC MISSION';name.style.cssText='color:#e7fff1;font-size:10px';
+    var date=document.createElement('small');date.textContent=entry.time?new Date(entry.time).toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}):'COMPLETED';date.style.cssText='color:#6eaa8a;font-size:8px';
+    top.appendChild(name);top.appendChild(date);card.appendChild(top);
+    var rewards=document.createElement('div');rewards.style.cssText='display:grid;gap:5px;margin-top:8px';
+    (entry.rewards||[]).forEach(function(reward){var line=document.createElement('div');line.textContent='✓ '+reward;line.style.cssText='padding:6px 8px;border:1px solid #17452f;border-radius:5px;background:#06150e;color:#bfffd5;font-size:9px;line-height:1.4';rewards.appendChild(line)});
+    if(entry.contributionPoints){var cp=document.createElement('div');cp.textContent='ALLIANCE CONTRIBUTION  +'+entry.contributionPoints+' CP';cp.style.cssText='margin-top:7px;padding:7px;border:1px solid #695322;border-radius:5px;background:#211b0b;color:#ffdf86;font-size:9px;font-weight:900';rewards.appendChild(cp)}
+    card.appendChild(rewards);wrap.appendChild(card);
+  });
+  host.appendChild(wrap);
 }
 function claimNpcMission(id){
   var run=S.npcRuns&&S.npcRuns[id],cfg=NPC_OPS.filter(function(x){return x.id===id})[0];
@@ -3049,7 +3089,7 @@ function claimNpcMission(id){
   if(S.al&&S.al.n&&Math.random()<0.42){ensureAllianceBank();var points=2+Math.floor(Math.random()*3);S.al.techPts=(S.al.techPts||0)+points;rewards.push('FREE ALLIANCE TECH · +'+points+' Research Points');}
   var npcContributionPoints=awardAllianceContribution('MPC / NPC mission '+cfg.name,1,5,'mission',rewards.join(' · ')||'No additional rewards');S.npcRewardLog=S.npcRewardLog||[];S.npcRewardLog.unshift({time:Date.now(),mission:cfg.name,rewards:rewards,contributionPoints:npcContributionPoints});if(S.npcRewardLog.length>60)S.npcRewardLog.length=60;
   log('NPC mission completed: '+cfg.name+'. '+rewards.join(' · '));chatPost('GC','mission','MPC MISSION COMPLETE',cfg.name+' — MISSION COMPLETED SUCCESSFULLY.');save();
-  render();showNpcRewardModal(S.npcRewardLog[0]); // Show a clear receipt and next-mission hero selector.
+  render();renderNpcRewardLog();
 }
 function npcMissionWatch(){var n=Date.now();Object.keys(S.npcRuns||{}).forEach(function(id){var run=S.npcRuns[id];if(run&&run.end<=n&&!run.claimed)claimNpcMission(id)})}
 var NPC_OPS=[{id:'npc1',name:'Ghost Relay',desc:'Infiltrate a lightly guarded relay station.',time:90,x:35,y:40},{id:'npc2',name:'Blacksite Server',desc:'Breach a hidden server facility.',time:180,x:100,y:24},{id:'npc3',name:'Dead Signal',desc:'Trace and disable an encrypted signal hub.',time:300,x:157,y:57},{id:'npc4',name:'Iron Vault',desc:'Penetrate a hardened data vault.',time:480,x:80,y:78}];
@@ -4267,7 +4307,7 @@ function renderCompetition(which){which=which||activeCompetitionPeriod||'daily';
  host.querySelectorAll('[data-comp-period]').forEach(function(b){b.onclick=function(){renderCompetition(b.getAttribute('data-comp-period'))}});host.querySelectorAll('[data-comp-daily-tier]').forEach(function(b){b.onclick=function(){compClaimDailyTier(Number(b.getAttribute('data-comp-daily-tier')))}});host.querySelectorAll('[data-comp-tier]').forEach(function(b){b.onclick=function(){compClaimTier(Number(b.getAttribute('data-comp-tier')))}});host.querySelectorAll('[data-comp-final]').forEach(function(b){b.onclick=function(){compClaimFinal(b.getAttribute('data-comp-final'),Number(b.getAttribute('data-comp-index')))}});
  var tabButtons=host.querySelectorAll('[data-comp-tab]');tabButtons.forEach(function(b){b.onclick=function(){tabButtons.forEach(function(x){x.classList.toggle('active',x===b)});var panel=$('compMonthlyPanel');if(!panel)return;if(b.getAttribute('data-comp-tab')==='individual'){panel.innerHTML='<div class="comp-section-title">INDIVIDUAL CHAMPIONSHIP</div><div class="comp-table">'+compRenderRows(rivals,score,'monthly',progress)+'</div>'}else{var has=!!(S.al&&S.al.n),alScore=c.monthly.allianceScore,ar=COMP_ALLIANCE_RIVALS;panel.innerHTML='<div class="comp-section-title">ALLIANCE CHAMPIONSHIP</div><p class="comp-muted">'+(has?'Your alliance: '+S.al.n+'. Eligible monthly activities contribute to this shared score.':'Create or join an alliance to enter the shared championship.')+'</p><div class="comp-table">'+compRenderRows(ar,alScore,'alliance',progress)+'</div><div class="comp-panel"><b>ALLIANCE STATISTICS</b><p class="comp-muted">Shared score earned only from monthly-eligible activity types. Alliance placement rewards are deposited into the Alliance Bank at season end.</p></div>'}}})}
 function compRenderRankCount(score,period,progress){var scale=period==='daily'?.17:period==='monthly'?4.8:1,seasonFactor=.22+.78*(Number(progress)||1);return COMP_RIVALS.filter(function(r){return Math.round(r[1]*scale*seasonFactor)>score}).length}
-function show(t){if(t==='ally')t='aln';if(t==='mis'&&Number(S.npcMissionUnread)>0){S.npcMissionUnread=0;save()}var leavingUpdateLog=tab==='updates'&&t!=='updates';if(leavingUpdateLog&&String(S.updateLogSeenVersion||'')===BHQ_UPDATE_VERSION)startSystemGiftDeliveryTimer();var previousTab=tab;tab=t;if(t==='updates'){markUpdateLogRead();renderUpdateLog()}if(t==='ally'){atab=0;allyInteriorOpen=false;}if(t==='aln')renderAln();if(t==='settings')renderSettings();if(t==='user')renderChiefProfile();if(t==='progression')renderProgressionArchive();['hq','ally','aln','activity','updates','user','progression','settings','mis','map','bot','rank','crew','vip','shop','competitions','net'].forEach(function(k){var el=$('t-'+k);if(el)el.hidden=(k!==t)&&!(crewProfileShopOpen&&k==='crew');if(tb[k])tb[k].classList.toggle('on',k===t);});document.querySelectorAll('[data-test-go]').forEach(function(x){x.classList.toggle('current',x.getAttribute('data-test-go')===t)});document.querySelectorAll('[data-rail-go]').forEach(function(x){x.classList.toggle('current',x.getAttribute('data-rail-go')===t)});if(previousTab!==t){var resetSection=function(){var pane=$('t-'+t);try{window.scrollTo(0,0)}catch(e){}if(document.scrollingElement)document.scrollingElement.scrollTop=0;document.documentElement.scrollTop=0;document.body.scrollTop=0;if(pane){pane.scrollTop=0;pane.querySelectorAll('*').forEach(function(node){if(node.closest('#nexusTerminal'))return;var cs;try{cs=getComputedStyle(node)}catch(e){}if(cs&&(cs.overflowY==='auto'||cs.overflowY==='scroll'))node.scrollTop=0})}};resetSection();requestAnimationFrame(resetSection)}render()}
+function show(t){if(t==='ally')t='aln';if(t==='mis'&&Number(S.npcMissionUnread)>0){S.npcMissionUnread=0;save()}var leavingUpdateLog=tab==='updates'&&t!=='updates';if(leavingUpdateLog&&String(S.updateLogSeenVersion||'')===BHQ_UPDATE_VERSION)startSystemGiftDeliveryTimer();var previousTab=tab;tab=t;if(t==='updates'){markUpdateLogRead();renderUpdateLog()}if(t==='map')renderNpcRewardLog();if(t==='ally'){atab=0;allyInteriorOpen=false;}if(t==='aln')renderAln();if(t==='settings')renderSettings();if(t==='user')renderChiefProfile();if(t==='progression')renderProgressionArchive();['hq','ally','aln','activity','updates','user','progression','settings','mis','map','bot','rank','crew','vip','shop','competitions','net'].forEach(function(k){var el=$('t-'+k);if(el)el.hidden=(k!==t)&&!(crewProfileShopOpen&&k==='crew');if(tb[k])tb[k].classList.toggle('on',k===t);});document.querySelectorAll('[data-test-go]').forEach(function(x){x.classList.toggle('current',x.getAttribute('data-test-go')===t)});document.querySelectorAll('[data-rail-go]').forEach(function(x){x.classList.toggle('current',x.getAttribute('data-rail-go')===t)});if(previousTab!==t){var resetSection=function(){var pane=$('t-'+t);try{window.scrollTo(0,0)}catch(e){}if(document.scrollingElement)document.scrollingElement.scrollTop=0;document.documentElement.scrollTop=0;document.body.scrollTop=0;if(pane){pane.scrollTop=0;pane.querySelectorAll('*').forEach(function(node){if(node.closest('#nexusTerminal'))return;var cs;try{cs=getComputedStyle(node)}catch(e){}if(cs&&(cs.overflowY==='auto'||cs.overflowY==='scroll'))node.scrollTop=0})}};resetSection();requestAnimationFrame(resetSection)}render()}
 function buy(o){
   if(S.hq<o.u||lvl(o)>=cap(o)||S.up[o.id])return;var c=cost(o);if(!afford(c))return;
   pay(c);
@@ -7123,14 +7163,14 @@ if(Array.isArray(BHQ_UPDATE_RELEASES)){
 <script id="bhq-player-controlled-update-check-v1092">
 (function(){
   if(Array.isArray(window.BHQ_UPDATE_RELEASES))window.BHQ_UPDATE_RELEASES.unshift({version:'1.0.100',date:'19 NOV 2026',title:'DEPLOYMENT CONFIRMATION // UPDATE LOG HANDOFF',tag:'POST-LOGIN CONFIRMATION · MANUAL UPDATE LOG ACCESS',items:['After installation, the game now allows the commander to sign in normally before showing a deployment confirmation.','The VIEW UPDATE LOG action opens the actual More → Updates → Update Log screen, rather than navigating away before the commander has confirmed.','The installed build and update-log handoff marker are stored persistently until the release archive has opened successfully.','The release archive now includes this deployment confirmation workflow.']});
-  var BHQ_UPDATE_VERSION='0.0.2';window.BHQ_UPDATE_VERSION=BHQ_UPDATE_VERSION;
+  var BHQ_UPDATE_VERSION='0.0.3';window.BHQ_UPDATE_VERSION=BHQ_UPDATE_VERSION;
   var version=BHQ_UPDATE_VERSION,checking=false,prompted=false,lastCheck=0;
   if(Array.isArray(window.BHQ_UPDATE_RELEASES))window.BHQ_UPDATE_RELEASES.unshift({version:'1.0.98',date:'19 NOV 2026',title:'HQ COMMAND CORE // LIVE BUILD INDICATOR',tag:'FORCED UPDATE · VERSION BESIDE CLOCK',items:['Added the live installed build number beside the clock in the HQ Command Core header.','Published a fresh build so the in-game updater can force the new HQ version indicator onto the Home Screen app.','Retained existing game systems, account data and the update installation flow.']});
   if(Array.isArray(window.BHQ_UPDATE_RELEASES))window.BHQ_UPDATE_RELEASES.unshift({version:'1.0.97',date:'19 NOV 2026',title:'LIVE ACCOUNT UPDATE // CONTROLLED REDEPLOYMENT',tag:'SIGNED-IN INSTALLATION TEST',items:['Reissued the current deployment as a fresh update so the installation flow can be tested while signed in with a normal commander account rather than the test area.','This deployment is a controlled update-cycle test; it does not claim the underlying iPhone Home Screen session-restoration issue is fixed.','Existing commander account data and game save data are retained.']});
   if(Array.isArray(window.BHQ_UPDATE_RELEASES))window.BHQ_UPDATE_RELEASES.unshift({version:'1.0.96',date:'19 NOV 2026',title:'NEXUS DEPLOYMENT // SESSION & UPDATE ARCHIVE REPAIR',tag:'SINGLE INSTALL · SESSION PRESERVED · RELEASE NOTES HANDOFF',items:['Removed the pre-reload Supabase token rotation that could interrupt the saved commander session on mobile browsers. The existing persisted session is now verified without forcing a refresh-token change.','Added a persistent installed-build checkpoint so a completed deployment is not offered repeatedly after the page reloads.','Reworked the post-install destination to open the actual More → Updates → Update Log screen and retain the handoff until the release archive is visible.','Enhanced the update and interface banners with animated neon cyan/green lighting, scan sweeps, pulsing edge glows and moving data accents.']});
   try{window.BHQ_UPDATE_VERSION=version;}catch(e){}
   /* Literal final version is also read by the installer when it verifies the downloaded HTML. */
-  try{window.BHQ_UPDATE_VERSION='0.0.2';}catch(e){}
+  try{window.BHQ_UPDATE_VERSION='0.0.3';}catch(e){}
   if(Array.isArray(window.BHQ_UPDATE_RELEASES))window.BHQ_UPDATE_RELEASES.unshift({version:'1.0.94',date:'19 NOV 2026',title:'UPDATE HANDOFF // SESSION & RELEASE ARCHIVE REPAIR',tag:'SESSION REFRESH · AUTOMATIC UPDATE LOG',items:['The installer now refreshes and verifies the active commander authentication session before restarting, reducing unexpected sign-outs during deployment.','After restart, Backdoor HQ reliably waits for the game interface to become ready, then opens More → Updates directly on the Update Log and renders the latest patch notes.','The update-log handoff marker is retained until the archive is successfully opened, so a delayed login restoration does not lose the destination.']});
   function newer(a,b){var as=String(a||''),bs=String(b||'');if(/^0\.0\./.test(as)&&/^1\./.test(bs))return true;if(/^1\./.test(as)&&/^0\.0\./.test(bs))return false;var x=as.split('.').map(Number),y=bs.split('.').map(Number);for(var i=0;i<Math.max(x.length,y.length);i++){var d=(x[i]||0)-(y[i]||0);if(d)return d>0;}return false;}
   function wait(ms){return new Promise(function(resolve){setTimeout(resolve,ms);});}
@@ -7302,9 +7342,19 @@ main#gameShell{height:100dvh!important;min-height:100dvh!important;max-height:10
 </style>
 <script id="bhq-v102-independent-update-archive">
 (function(){
-  var VERSION='0.0.2';
+  var VERSION='0.0.3';
   var RELEASES=[{
     version:VERSION,date:'20 NOV 2026',
+    title:'UNIFIED INTERFACE // SCROLLING & MISSION REPORTS',
+    tag:'CONSISTENT MOBILE SCROLLING · LIVE BUILD VERSION · INLINE MPC LOG',
+    items:[
+      'Standardised touch scrolling across the game screens and modal windows, including the Update Log, Competitions, Alliance, Solo Operations, Data Net and building / reward windows.',
+      'Corrected the deployment version source so the update checker, installer verification, Update Log archive and HQ clock version all display and compare the same live build number.',
+      'Moved completed MPC / NPC mission receipts out of the pop-up and into a persistent mission report section directly below the NPC operations map. The report includes rewards, alliance contribution and next-mission hero selection.',
+      'Preserved existing commander saves, mission rewards, crew selections and game systems.'
+    ]
+  },{
+    version:'0.0.2',date:'20 NOV 2026',
     title:'UPDATE ARCHIVE REBUILD // DIRECT DEPLOYMENT NOTES',
     tag:'NEW INDEPENDENT LOG SYSTEM · NO LEGACY RELEASE FEED',
     items:[
