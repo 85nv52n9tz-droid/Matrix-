@@ -2418,11 +2418,7 @@ section[id^="t-"]:not(#t-hq){
   <div id="warn" hidden></div>
 </div>
 <div class="top-spacer" aria-hidden="true"></div>
-<div id="legacyHQEngine" hidden>
-  <div id="hqmain"><div id="hqc"></div><div id="blds"></div><div id="pblds" class="bgrid" hidden></div><div id="log"></div></div>
-  <div id="bpage" hidden><button id="bback" class="back"></button><div id="bhead"></div><div id="bgrids"></div></div>
-  <div id="ppage" hidden><button id="pback" class="back"></button><div id="phead"></div><div id="pup"></div><div class="sub">Module sockets (modules come from the Shop)</div><div id="psock"></div><div id="pmods"></div><div id="presw" hidden><div class="sub">Research (costs Quantum)</div><div id="pres" class="bgrid"></div></div></div>
-</div>
+<div id="log" hidden aria-hidden="true"></div>
 <section id="t-ally" hidden><div id="acreate"><input id="aname" maxlength="20" placeholder="Alliance name" autocomplete="off"><button id="acbtn">Create alliance</button></div><div id="amain" hidden><div id="allyCampus" class="ally-campus"><div class="ally-campus-head"><div class="sub">ALLIANCE NETWORK // HOME BASE</div><b id="allyCampusName">ALLIANCE HQ</b><small>Eight specialist facilities orbit the central command core. Follow the live data links and select a building to upgrade it.</small></div><div id="allyCampusWorld" class="ally-campus-world"></div></div><div id="allyInterior" hidden><div class="ally-board" id="ally-board"><div class="ally-board-top"><div><div class="sub">ALLIANCE COMMAND // BOARD</div><div class="ally-title" id="an"></div><div class="ally-sub" id="ad"></div></div><div class="ally-emblem" aria-label="Alliance emblem"><svg viewBox="0 0 64 64"><path d="M32 4 55 16v25L32 60 9 41V16z"/><path d="M32 15 45 22v15L32 48 19 37V22z"/><path d="M24 32h16M32 24v16"/></svg><small>ALLIANCE</small></div></div><div class="ally-leadership"><div class="ally-role leader"><small>ALLIANCE LEADER</small><b id="allyLeaderName">You</b><span>Full command</span></div><div class="ally-support" id="allySupportSlots"></div></div></div><div id="allyTown" class="ally-panel"><div class="ally-town-grid"><div id="allyMemberCol"><div class="sub" id="amemh"></div><div id="amem"></div></div><div id="allyAppCol"><div class="sub" id="aapph"></div><div id="aapp"></div></div></div></div><div id="allyOther" class="ally-panel" hidden><div id="allyTerritoryIntro"><div class="sub">ALLIANCE TERRITORY // CONTROL NETWORK</div><div class="ally-info-grid"><div class="ally-info-card"><b>Alliance territories</b><span>Manage your alliance outposts, strongholds and citadels from the three regional maps below.</span></div><div class="ally-info-card"><b>Expand your influence</b><span>Select a location on a map to inspect it and spend Alliance Credits, Data Cores, Crypto Shards, War Intel and Dark Matter on upgrades.</span></div></div></div><div id="allyTerritoryMaps"><div id="asubs2"></div><div id="ap1" hidden><svg id="map4" viewBox="0 0 200 100"></svg><div id="nd4"></div></div><div id="ap2" hidden><svg id="map5" viewBox="0 0 200 100"></svg><div id="nd5"></div></div><div id="ap3" hidden><svg id="map6" viewBox="0 0 200 100"></svg><div id="nd6"></div></div></div></div><div id="ap4" hidden></div><div class="ally-tabs ally-tabs-bottom" id="allyTabs" aria-label="Alliance navigation"></div></div></div></section>
 <section id="t-hq" hidden><div class="test-shell"><div class="test-hq-status-grid" id="testHqStatusGrid"><section class="test-hq-status-card upgrades"><div class="test-hq-status-kicker">HQ &amp; BUILDING TIMERS</div><div id="testHqUpgradeStatus" class="test-hq-status-content">No active buildings</div></section></div><div class="test-viewport" id="testViewport"><div class="test-world" id="testWorld"><div class="test-building-layer" id="testBuildingLayer"></div></div></div><section class="test-hq-status-card buffs" id="testHqCrewCard"><div class="test-hq-status-kicker">ACTIVE CREW BONUSES</div><div id="testHqCrewBuffs" class="test-hq-status-content">No active crew buffs</div></section><button class="test-attack" id="testAttack" title="Incoming attack — open Nano Defence" aria-label="Incoming attack — open Nano Defence" hidden>☠<small>INCOMING</small></button><div class="test-chat" id="testChat" aria-label="Global and alliance communications" hidden>
   <div class="test-chat-bar">
@@ -3133,7 +3129,7 @@ function card(parent,cls,icon){
   parent.appendChild(c);
   return{c:c,i:c.querySelector('.ico'),t:c.querySelector('span'),e:c.querySelector('em'),m:c.querySelector('.locked'),d:c.querySelector('.desc'),p:c.querySelector('.prog'),pi:c.querySelector('i'),b:c.querySelector('.buy'),f:c.querySelector('.fin')};
 }
-var crewProfileShopOpen=false;var pendingNpcLaunch=null;var nanoTierSelected=0;var allyChips={};var allyTerritoryMapsEl=null;var pickerDone=null,pickerContext='',pickerSelected=[],pickerMax=2,npcSelected='npc1',shopMode='general',shopModeBtns=[];var E={},tab='hq',sel='sf',chips={},tb={},qty=1,qb=[],qv=[],rsort='hq',rb=[],rbv=[],rows=[],lastOrd='',bview=null,mb=[],csub=0,cview=null,csb=[],cqty=1,cqb=[],cqv=[],pks={},rinfo=-1,pconf=false,pview=null,psb=[],pmb={};
+var crewProfileShopOpen=false;var pendingNpcLaunch=null;var nanoTierSelected=0;var allyChips={};var allyTerritoryMapsEl=null;var pickerDone=null,pickerContext='',pickerSelected=[],pickerMax=2,npcSelected='npc1',shopMode='general',shopModeBtns=[];var E={},tab='hq',sel='sf',chips={},tb={},qty=1,qb=[],qv=[],rsort='hq',rb=[],rbv=[],rows=[],lastOrd='',mb=[],csub=0,cview=null,csb=[],cqty=1,cqb=[],cqv=[],pks={},rinfo=-1,pconf=false;
 function initTestChat(){
   var panel=$('testChat'),expand=$('testChatExpand'),list=$('testChatFeedList'),name=$('testChatName'),preview=$('testChatText'),gc=$('testChatGC'),ac=$('testChatAC'),title=$('testChatFeedTitle'),form=$('testChatCompose'),input=$('testChatInput');
   if(!panel||!expand||!list||!name||!preview||!gc||!ac||!form||!input)return;
@@ -3207,8 +3203,6 @@ $('progressionReportClose').onclick=function(){$('progressionReportModal').hidde
   ARS.forEach(function(r){var d=document.createElement('div');d.className='chip ally-chip';d.title=r[1];d.style.color=r[2];d.hidden=true;d.innerHTML='<div class="cl"><b>'+r[1].charAt(0).toUpperCase()+'</b></div><small></small>';$('chips').appendChild(d);allyChips[r[0]]={d:d,v:d.querySelector('b'),r:d.querySelector('small')}});
   [['hq','HQ'],['updates','Updates'],['mis','Missions'],['map','Map'],['bot','Nano'],['rank','Ranks'],['crew','Crew'],['user','User'],['settings','Settings'],['vip','VIP'],['shop','Shop']].forEach(function(t){var b=t[0]==='updates'?$('updateLogTab'):document.createElement('button');if(t[0]!=='updates')b.innerHTML=ic(t[0])+'<span>'+t[1]+'</span>';b.onclick=function(){show(t[0])};tb[t[0]]=b;if(['user','settings','vip','shop'].indexOf(t[0])>=0){var rb=document.querySelector('[data-rail-go="'+t[0]+'"]');if(rb){tb[t[0]]=rb;rb.onclick=function(){show(t[0])};}}else if(t[0]!=='updates'&&['hq','mis','map','bot','crew','rank'].indexOf(t[0])<0){$('tabs').appendChild(b);}});
   var nxButton=document.createElement('button');nxButton.type='button';nxButton.id='nexusOpen';nxButton.innerHTML='<span class="nx-mark">⌘</span><span class="nx-label">NEXUS<small id="nxButtonState">ONLINE</small></span>';nxButton.title='Open NEXUS terminal';nxButton.onclick=nxOpen;var firstUtility=$('hbtns').querySelector('[data-rail-go]');if(firstUtility)$('hbtns').insertBefore(nxButton,firstUtility);else $('hbtns').appendChild(nxButton);
-  E.hq=card($('hqc'),'hq','hq');E.hq.equip=document.createElement('div');E.hq.equip.className='hq-income-equipment';E.hq.c.querySelector('.row').insertAdjacentElement('afterend',E.hq.equip);E.hq.t.textContent='Headquarters';E.hq.b.onclick=upHQ;E.hq.f.onclick=function(){finish('hq')};E.hq.assign=document.createElement('button');E.hq.assign.className='buy crew-assignment-control';E.hq.assign.textContent='Select HQ crew';E.hq.c.querySelector('.bd').appendChild(E.hq.assign);E.hq.assign.onclick=function(){openCrewPicker('hq','HEADQUARTERS CREW',4,crewFor('hq'),function(a){S.crewSlots.hq=a;save();render()})};E.hq.def=document.createElement('button');E.hq.def.className='buy crew-assignment-control';E.hq.def.textContent='Select defence team';E.hq.c.querySelector('.bd').appendChild(E.hq.def);E.hq.def.onclick=function(){openCrewPicker('defence','HQ DEFENCE TEAM',15,S.defenceCrew||[],function(a){S.defenceCrew=a;save();render()})};
-  B.forEach(function(o){var e=E[o.id]=card($('blds'),'',o.id);e.t.textContent=o.name;e.d.textContent=o.desc;e.c.className+=' bld';e.o=document.createElement('button');e.o.className='opn';e.o.textContent='Open';e.o.title='Open upgrades';e.b.parentNode.appendChild(e.o);e.o.onclick=function(){if(lvl(o)>0)openB(o.id)};e.b.onclick=function(){buy(o)};e.f.onclick=function(){finish(o.id)}});
   M.forEach(function(o){var e=E[o.id]=card($('mlist'),'','mis');e.c.classList.add('mission-contract');e.t.textContent=o.name;e.d.textContent=o.desc;e.d.parentNode.insertBefore(e.m,e.d);e.meta=document.createElement('div');e.meta.className='mission-contract-meta';e.d.insertAdjacentElement('afterend',e.meta);e.tag=document.createElement('div');e.tag.className='mission-contract-tag';e.tag.textContent='AVAILABLE CONTRACT';e.c.appendChild(e.tag);e.b.onclick=function(){mission(o)}});
   [[N,'nd'],[T,'nd2'],[C,'nd3']].forEach(function(a,mi){var e=E[a[1]]=card($(a[1]),'','map');e.b.onclick=function(){buy(a[0].filter(function(n){return n.id===msel[mi]})[0])}});
   var cc=$('crew');
@@ -3233,8 +3227,6 @@ $('progressionReportClose').onclick=function(){$('progressionReportModal').hidde
     c.hidden=true;$(z[0]).appendChild(c);z[1][j]=o})});
   var yr=document.createElement('div');yr.className='rk me';yr.innerHTML='<div class="rb"><b>'+(window.BHQ_USERNAME||'You')+' (leader)</b><small></small></div>';$('amem').insertBefore(yr,$('amem').firstChild);aYou=yr;
   for(var q2=0;q2<ALCAP-1;q2++){var er=document.createElement('div');er.className='rk';er.style.opacity=0.5;er.innerHTML='<div class="rb"><b>Open slot</b><small>Waiting for a player to join</small></div>';er.hidden=true;$('amem').appendChild(er);aEmp.push(er)}
-  E.bh=card($('bhead'),'hq','node');E.bh.b.parentNode.hidden=true;$('bback').textContent='\u2190 Back to HQ';$('bback').onclick=closeB;
-  B.forEach(function(o){var g=document.createElement('div');g.className='bgrid';g.id='bg-'+o.id;g.hidden=true;$('bgrids').appendChild(g);for(var j=0;j<10;j++)(function(j){var e=E['u'+o.id+j]=card(g,'',o.id);e.t.textContent=UN[o.id][j];e.m.style.color='var(--pi)';e.b.onclick=function(){ubBuy(o,j)}})(j)});
   ['Training','Roster','Nightfall'].forEach(function(t,i){var b=document.createElement('button');b.onclick=function(){if(i===1&&S.tr<1)return;csub=i;cview=null;render()};b.textContent=t;$('csub').appendChild(b);csb.push(b)});
   $('nfItems').addEventListener('click',function(ev){var b=ev.target.closest('[data-nf]');if(!b)return;var id=b.getAttribute('data-nf');if(S.vipItems[id])equipNightfall(id);else{shopMode='vip';show('shop')}});
   $('cback').textContent='✕ CLOSE';$('cback').onclick=function(){cview=null;render()};
@@ -3264,12 +3256,6 @@ $('progressionReportClose').onclick=function(){$('progressionReportModal').hidde
   ['Income','Offence','Defence'].forEach(function(t,i){var b=document.createElement('button');b.textContent=t;b.onclick=function(){stab=i;render()};$('stabs').appendChild(b);stb.push(b)});
   IT.forEach(function(it){var c=document.createElement('button');c.className='st';c.title=it.n;c.innerHTML=ic(it.i)+'<b></b><small></small>';c.querySelector('svg').style.color=itCol(it);c.querySelector('b').textContent=it.n;c.onclick=function(){ssl[itTab(it)]=it.id;openShopItem(it.id)};$('sgrid').appendChild(c);STL[it.id]={c:c,s:c.querySelector('small')}});
   E.sd=card($('sdet'),'','shop');E.sd.m.style.color='var(--pi)';E.sd.b.onclick=function(){if(shopMode==='general')ibuy(IM[ssl[stab]])};
-  PB.forEach(function(o){var e=E[o.id]=card($('pblds'),'',o.i);e.t.textContent=o.name;e.t.style.color=o.col;e.d.textContent=o.desc;e.i.style.color=o.col;e.c.style.borderColor=o.col;e.c.className+=' bld';e.o=document.createElement('button');e.o.className='opn';e.o.textContent='Open';e.o.title='Open';e.b.parentNode.appendChild(e.o);e.o.onclick=function(){if(lvl(o)>0)openP(o.id)};e.b.onclick=function(){buy(o)};e.f.onclick=function(){finish(o.id)}});
-  E.ph=card($('phead'),'hq','atom');E.ph.b.parentNode.hidden=true;E.pu=card($('pup'),'','atom');E.pu.b.onclick=function(){buy(PM[pview])};E.pu.f.onclick=function(){finish(pview)};
-  $('pback').textContent='\u2190 Back to HQ';$('pback').onclick=closeP;
-  [0,1].forEach(function(k){var b=document.createElement('button');b.className='pk';b.onclick=function(){unsock(k)};$('psock').appendChild(b);psb.push(b)});
-  IT.forEach(function(it){if(!it.m)return;var b=document.createElement('button');b.className='pk';b.onclick=function(){sock(it.id)};$('pmods').appendChild(b);pmb[it.id]=b});
-  RSH.forEach(function(r){var e=E['rs'+r.id]=card($('pres'),'','atom');e.t.textContent=r.n;e.d.textContent=r.d;e.m.style.color='var(--pi)';e.b.onclick=function(){rbuy(r)}});
   $('warn').onclick=function(e){if(e.target.className==='xb'){disInc=S.inc?S.inc.end:0;render()}else show('bot')};$('alert').onclick=function(e){if(e.target.className==='xb'){disInc=S.inc?S.inc.end:0;render()}};
   [['hq','HQ level'],['pw','Power']].forEach(function(a){var b=document.createElement('button');b.textContent=a[1];b.onclick=function(){rsort=a[0];lastOrd='';render()};$('rsort').appendChild(b);rb.push(b);rbv.push(a[0])});
   for(var j=0;j<=S.rv.length;j++)(function(j){var c=document.createElement('div'),me=j===S.rv.length;c.className='rk'+(me?' me':'');c.innerHTML='<div class="rn"></div><div class="rb"><b></b><small></small></div><div class="ra"><span></span><div class="rbt"><button class="ab inf">Info</button></div></div><div class="rx" hidden></div>';var bs=c.querySelectorAll('button'),o={c:c,n:c.querySelector('.rn'),nm:c.querySelector('b'),s:c.querySelector('small'),pc:c.querySelector('.ra span'),bi:bs[0],rx:c.querySelector('.rx')};if(me)c.querySelector('.ra').hidden=true;else{o.bi.onclick=function(){rinfo=rinfo===j?-1:j;render()}}rows.push(o);if(!me)$('rlist').appendChild(c)})(j);
@@ -3402,7 +3388,7 @@ function atkP(){return power()*(1+crewBonus(S.attackCrew||[],1,'atk')+crewBonus(
 function defP(){return power()*(1+crewBonus(S.defenceCrew||[],2,'def')+crewBonus(S.defenceCrew||[],5,'pw')+rsum('def')+vipCombatBonus('def')+(boostActive('defence')?0.3:0)+(boostActive('fortress')?0.6:0)+techCount('bat_def')*.02+techCount('usr_power')*.02+techCount('bat_nano')*.02+allianceBuildingBonus('def'))}
 function itemFlat(r){var ids=crewFor('hq');Object.keys(S.crewSlots||{}).forEach(function(k){if(k!=='hq')ids=ids.concat(crewFor(k))});ids=ids.filter(function(v,i,a){return a.indexOf(v)===i});ids.forEach(function(i){[S.eq[i],S.eq2[i]].forEach(function(id){var it=id&&IM[id];if(it&&it.res)r[it.res]+=irate(it)})})}
 function equipmentIncomeSummary(){var hq=crewFor('hq').slice(),all=[] ,pct=0,flat={cr:0,da:0,cy:0,ex:0,in:0,qt:0};Object.keys(S.crewSlots||{}).forEach(function(k){all=all.concat(crewFor(k))});all=all.filter(function(v,i,a){return a.indexOf(v)===i});hq=hq.filter(function(v,i,a){return a.indexOf(v)===i});hq.forEach(function(i){if(!crewReady(i).ok)return;if(i!==20)pct+=gval(i,4);[S.eq[i],S.eq2[i]].forEach(function(id){var it=id&&IM[id];if(it&&it.pct==='all')pct+=it.val})});all.forEach(function(i){if(!crewReady(i).ok)return;[S.eq[i],S.eq2[i]].forEach(function(id){var it=id&&IM[id];if(it&&it.res)flat[it.res]+=irate(it)})});return{pct:pct*(1+rsum('crew')),flat:flat}}
-function renderEquipmentIncomeSummary(){var x=equipmentIncomeSummary(),labels={cr:'Credits',da:'Data',cy:'Crypto',ex:'Exploits',in:'Influence',qt:'Quantum'},parts=[];Object.keys(x.flat).forEach(function(k){if(x.flat[k]>0)parts.push('+'+fmt(x.flat[k])+'/s '+labels[k])});var html='<b>EQUIPPED CREW EQUIPMENT // PASSIVE INCOME</b><span class="eq-line eq-total">+'+(x.pct*100).toFixed(1)+'% all-resource bonus from equipped HQ crew items</span>'+(parts.length?'<span class="eq-line">'+parts.join(' · ')+'</span>':'<span class="eq-line">No resource-specific production items equipped on HQ crew</span>')+'<span class="eq-line eq-note">Resource-specific bonuses are listed separately and do not change the purple all-income percentage.</span>';if(E.hq&&E.hq.equip)E.hq.equip.innerHTML=html;var visible=$('testIncomeEquipment');if(visible)visible.innerHTML=html;}
+function renderEquipmentIncomeSummary(){var x=equipmentIncomeSummary(),labels={cr:'Credits',da:'Data',cy:'Crypto',ex:'Exploits',in:'Influence',qt:'Quantum'},parts=[];Object.keys(x.flat).forEach(function(k){if(x.flat[k]>0)parts.push('+'+fmt(x.flat[k])+'/s '+labels[k])});var html='<b>EQUIPPED CREW EQUIPMENT // PASSIVE INCOME</b><span class="eq-line eq-total">+'+(x.pct*100).toFixed(1)+'% all-resource bonus from equipped HQ crew items</span>'+(parts.length?'<span class="eq-line">'+parts.join(' · ')+'</span>':'<span class="eq-line">No resource-specific production items equipped on HQ crew</span>')+'<span class="eq-line eq-note">Resource-specific bonuses are listed separately and do not change the purple all-income percentage.</span>';var visible=$('testIncomeEquipment');if(visible)visible.innerHTML=html;}
 
 function ibuy(it){if(S.hq<it.u)return;var c=iprice(it);if(!afford(c))return;pay(c);S.inv[it.id]=(S.inv[it.id]||0)+1;log('Bought '+it.n);toast(it.n+' purchased.');save();render()}
 function equip(i,id,sl){var arr=sl===2?S.eq2:S.eq;if(!recruited(i))return;if(id){var it=IM[id];if(!it||it.m||!!it.b!==(sl===2))return;if(arr[i]!==id&&(S.inv[id]||0)-worn(id)<1)return}arr[i]=id||'';save();render()}
@@ -3527,23 +3513,6 @@ function ubC(o,j){return scale(o.cost,6*Math.pow(2.3,j))}
 function ubE(j){return 0.1+0.02*j}
 function upBonus(o){var t=0;for(var j=0;j<10;j++)if(S.ub[o.id+j])t+=ubE(j);return t}
 function ubBuy(o,j){if(S.ub[o.id+j]||S.hq<UU[j])return;var c=ubC(o,j);if(!afford(c))return;pay(c);S.ub[o.id+j]=1;log('Installed '+UN[o.id][j]+' (+'+Math.round(ubE(j)*100)+'% '+NM[o.res]+')');save();render()}
-function openB(id){bview=id;$('hqmain').hidden=true;$('bpage').hidden=false;B.forEach(function(o){$('bg-'+o.id).hidden=o.id!==id});render()}
-function closeB(){bview=null;$('hqmain').hidden=false;$('bpage').hidden=true;render()}
-function renderB(){
-  var o=B.filter(function(b){return b.id===bview})[0],h=E.bh,l=lvl(o),n=0,j;
-  for(j=0;j<10;j++)if(S.ub[o.id+j])n++;
-  h.t.textContent=o.name;h.e.textContent=l+'/'+cap(o);h.i.innerHTML=ic(o.id);
-  var cb=buildingCrewBonus(o);h.m.textContent=l?'+'+fmt(out(o,l)*mult()*(1+cb))+'/s '+NM[o.res]+' · crew +'+(cb*100).toFixed(1).replace(/\.0$/,'')+'%':'';
-  h.d.innerHTML='Upgrades <span class="lv">'+n+'/10</span> \u00b7 <span class="pi">+'+Math.round(upBonus(o)*100)+'% '+NM[o.res]+' output</span>. New upgrades unlock as your HQ levels up.';
-  if(!h.assign){h.assign=document.createElement('button');h.assign.className='buy crew-assignment-control';h.c.querySelector('.bd').appendChild(h.assign)}h.assign.textContent='Crew assigned: '+crewFor(o.id).length+'/2 · +'+(buildingCrewBonus(o)*100).toFixed(1).replace(/\.0$/,'')+'% · Select';h.assign.onclick=function(){openCrewPicker('building:'+o.id,o.name.toUpperCase()+' CREW',2,crewFor(o.id),function(a){S.crewSlots[o.id]=a;save();render()})};
-  for(j=0;j<10;j++){
-    var e=E['u'+o.id+j],c=ubC(o,j);e.c.hidden=UU[j]>S.hq+1;
-    e.e.textContent='HQ '+UU[j];e.m.textContent='+'+Math.round(ubE(j)*100)+'% output';e.d.textContent=UD[j];
-    if(S.ub[o.id+j]){e.b.textContent='Installed';e.b.disabled=true;e.c.style.opacity=0.7}
-    else if(S.hq<UU[j]){e.b.textContent='Unlocks at HQ level '+UU[j];e.b.disabled=true;e.c.style.opacity=0.5}
-    else{e.c.style.opacity=1;e.b.innerHTML=csh(c);e.b.disabled=!afford(c)}
-  }
-}
 function renderMapTab(){
   mt.forEach(function(b,i){var active=mtop===(i===0?0:2);b.classList.toggle('on',active);b.setAttribute('aria-pressed',active?'true':'false')});
   $('solo').hidden=mtop!==0;$('dnet').hidden=mtop!==2;
@@ -4354,7 +4323,7 @@ function showPrestigeTransition(from,to){
 function prestigeNow(){
   var previousPrestige=Number(S.pr)||0,prePrestigeSnapshot=progressionSnapshot('pre-prestige');
   B.forEach(function(o){S.lv[o.id]=0;delete S.up[o.id];for(var j=0;j<10;j++)delete S.ub[o.id+j]});
-  S.pr=1;bview=null;$('hqmain').hidden=false;$('bpage').hidden=true;
+  S.pr=1;
   progressionRecordPrestige(prePrestigeSnapshot,previousPrestige,1);
   log('PRESTIGE! Your old buildings are gone. Six prestige buildings are now available. A legacy network keeps a steady income flowing so you can build them.');showPrestigeTransition(previousPrestige,1);
 }
@@ -4368,23 +4337,8 @@ function upHQ(){
   pconf=false;pay(c);var n=Date.now();S.up.hq={s:n,end:n+upTime('hq',S.hq+S.pr+1)*1000};
   log(ph?'Started Prestige HQ upgrade to P'+(S.pr+1):pre?'Started prestige. Your old buildings are removed when it finishes.':'Started HQ upgrade to level '+(S.hq+1));save();render();
 }
-function openP(id){pview=id;$('hqmain').hidden=true;$('ppage').hidden=false;render()}
-function closeP(){pview=null;$('hqmain').hidden=false;$('ppage').hidden=true;render()}
-function sock(id){var a=S.ps[pview]||(S.ps[pview]=['','']);if((S.inv[id]||0)-worn(id)<1||(a[0]&&a[1]))return;a[a[0]?1:0]=id;save();render()}
-function unsock(k){var a=S.ps[pview];if(a&&a[k]){a[k]='';save();render()}}
 function rcost(r){return{qt:Math.ceil(40*Math.pow(1.8,S.rs[r.id]||0))}}
 function rbuy(r){if((S.rs[r.id]||0)>=10*S.pr)return;var c=rcost(r);if(!afford(c))return;pay(c);S.rs[r.id]=(S.rs[r.id]||0)+1;log('Researched '+r.n+' level '+S.rs[r.id]);save();render()}
-function renderP(){
-  var o=PM[pview],h=E.ph,l=lvl(o),a=S.ps[o.id]||['',''];
-  h.t.textContent=o.name;h.t.style.color=o.col;h.i.innerHTML=ic(o.i);h.i.style.color=o.col;h.e.textContent='lv '+l+'/'+cap(o);
-  var cb=buildingCrewBonus(o);h.m.textContent=l?'+'+fmt(out(o,l)*mult()*(1+cb))+'/s '+NM[o.res]+' · crew +'+(cb*100).toFixed(1).replace(/\.0$/,'')+'%':'';
-  h.d.innerHTML=o.desc+' Modules: <span class="pi">+'+Math.round(modB(o)*100)+'% output</span>';if(!h.assign){h.assign=document.createElement('button');h.assign.className='buy crew-assignment-control';h.c.querySelector('.bd').appendChild(h.assign)}h.assign.textContent='Crew assigned: '+crewFor(o.id).length+'/2 · +'+(buildingCrewBonus(o)*100).toFixed(1).replace(/\.0$/,'')+'% · Select';h.assign.onclick=function(){openCrewPicker('building:'+o.id,o.name.toUpperCase()+' CREW',2,crewFor(o.id),function(a){S.crewSlots[o.id]=a;save();render()})};
-  E.pu.t.textContent='Upgrade';E.pu.i.style.color=o.col;leveled(E.pu,o);
-  psb.forEach(function(b,k){b.textContent='Socket '+(k+1)+': '+(a[k]?IM[a[k]].n+' (tap to remove)':'empty');b.className='pk'+(a[k]?' on':'')});
-  IT.forEach(function(it){if(!it.m)return;var b=pmb[it.id],own=S.inv[it.id]||0,free=own-worn(it.id);b.hidden=own<1;b.disabled=free<1||!!(a[0]&&a[1]);b.textContent='Install: '+it.n+' \u00b7 '+itFx(it)+' \u00b7 '+free+' free'});
-  $('presw').hidden=o.id!=='tech';
-  if(o.id==='tech')RSH.forEach(function(r){var e=E['rs'+r.id],l2=S.rs[r.id]||0,c=rcost(r);e.e.textContent='lv '+l2+'/'+(10*S.pr);e.m.textContent='+'+Math.round(l2*r.v*100)+'%';if(l2>=10*S.pr){e.b.textContent='At prestige cap';e.b.disabled=true}else{e.b.textContent='Research \u00b7 '+cs(c);e.b.disabled=!afford(c)}});
-}
 var autoMissionConfirmUntil=0;
 function autoMissionTaskForTarget(id){return (S.autoMissionTasks||[]).filter(function(t){return t&&t.target===id})[0]||null}
 function autoMissionTaskForHero(i){return (S.autoMissionTasks||[]).filter(function(t){return t&&t.crew===i})[0]||null}
@@ -4902,24 +4856,9 @@ function render(){
   compSyncCalendarButton();
   if(tab==='progression')renderProgressionArchive();
   var r=rates(),m=mult(),wb=$('warn');
-  dnSync();wb.hidden=true;renderTestArea();var npcUnread=Math.max(0,Number(S.npcMissionUnread)||0),npcBadge=$('npcMissionTabBadge');if(npcBadge){npcBadge.textContent=npcUnread>99?'99+':String(npcUnread);npcBadge.hidden=npcUnread===0;}var npcOpsTab=mb[3];if(npcOpsTab)npcOpsTab.setAttribute('aria-label',npcUnread?'NPC Missions · '+npcUnread+' completed rewards ready':'NPC Missions');
+  dnSync();wb.hidden=true;renderTestArea();renderEquipmentIncomeSummary();var npcUnread=Math.max(0,Number(S.npcMissionUnread)||0),npcBadge=$('npcMissionTabBadge');if(npcBadge){npcBadge.textContent=npcUnread>99?'99+':String(npcUnread);npcBadge.hidden=npcUnread===0;}var npcOpsTab=mb[3];if(npcOpsTab)npcOpsTab.setAttribute('aria-label',npcUnread?'NPC Missions · '+npcUnread+' completed rewards ready':'NPC Missions');
   tb.bot.style.color=S.inc?'#ff6b5a':'';
   var inAlliance=tab==='ally';ensureAllianceBank();RS.forEach(function(x){chips[x[0]].d.hidden=inAlliance;chips[x[0]].v.textContent=fmtResource(S.r[x[0]]);chips[x[0]].r.textContent='+'+fmtResource(r[x[0]])+'/s'});ARS.forEach(function(x){var ar=allianceRates();allyChips[x[0]].d.hidden=!inAlliance;allyChips[x[0]].v.textContent=fmtResource(S.al.res[x[0]]);allyChips[x[0]].r.textContent='+'+fmtResource(ar[x[0]])+'/s'});chips.qt.d.hidden=inAlliance||S.pr<1;chips.qt.d.style.display=chips.qt.d.hidden?'none':'';$('chips').style.gridTemplateColumns='repeat('+(inAlliance?5:(S.pr>0?6:5))+',1fr)';
-  if(tab==='hq'){
-    var h=E.hq,ph=S.pr>0,need=ph?preqs():reqs(),ok=need.every(function(x){return x.ok}),lv0=ph?10*S.pr:S.hq,done=ph&&S.pr>=5;
-    h.t.textContent=ph?'Prestige HQ':'Headquarters';
-    h.e.textContent=ph?'P'+S.pr+'/5':S.hq+'/'+MAXHQ;h.assign.textContent='HQ income crew: '+crewFor('hq').length+'/4';h.def.textContent='Defence team: '+(S.defenceCrew||[]).length+'/15';h.m.textContent='+'+Math.round((m-1)*100)+'% to all income';renderEquipmentIncomeSummary();
-    h.d.innerHTML=done?'Prestige HQ complete.':(ph?'Requires all 6 buildings at level <span class="lv">'+lv0+'</span>.':(S.hq>=MAXHQ?'Ready to prestige.':'Requires all 4 buildings at level <span class="lv">'+S.hq+'</span>.'));
-    if(done){h.p.hidden=true;h.f.hidden=true;h.b.textContent='Prestige HQ at max';h.b.disabled=true}
-    else if(S.up.hq)timerUI(h,'hq',S.hq+S.pr+1);
-    else{var hc=ph?pHqCost():hqCost(),pre=!ph&&S.hq>=MAXHQ;h.p.hidden=true;h.f.hidden=true;
-      h.b.textContent=(pconf&&pre?'Tap again to confirm. Old buildings will be removed. ':(pre?'Prestige to P1':ph?'Upgrade to P'+(S.pr+1):'Upgrade HQ'))+' \u00b7 '+cs(hc)+' \u00b7 '+fmtT(upTime('hq',S.hq+S.pr+1));h.b.disabled=!ok||!afford(hc)}
-    $('blds').hidden=ph;$('pblds').hidden=!ph;
-    B.forEach(function(o){leveled(E[o.id],o);E[o.id].o.disabled=lvl(o)<1});
-    if(S.pr>0)PB.forEach(function(o){leveled(E[o.id],o);E[o.id].o.disabled=lvl(o)<1});
-    if(bview)renderB();
-    if(pview)renderP();
-  }
   if(tab==='user')renderChiefProfile();
   if(tab==='mis')renderMis();
   if(tab==='ally')renderAllyTab();
