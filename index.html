@@ -2458,6 +2458,26 @@ section[id^="t-"]:not(#t-hq){
 @media(max-width:390px){.rank-own-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.rank-title-row h2{font-size:21px}.rank-signal{padding:6px}.rank-pulse-stats b{font-size:12px}}
 @media(prefers-reduced-motion:reduce){.rank-command-head:after,.rank-signal i{animation:none!important}}
 </style>
+<style id="hq-nexus-pipeline-network">
+/* Route every HQ facility through the same layered, animated conduit design as NEXUS. */
+.hq-building-pipelines{position:absolute;inset:0;width:100%;height:100%;z-index:2;overflow:visible;pointer-events:none}
+.hq-pipe-link .nexus-pipe-outer{fill:none;stroke:#07151b;stroke-width:17;stroke-linecap:round;opacity:.98}
+.hq-pipe-link .nexus-pipe-inner{fill:none;stroke-width:10;stroke-linecap:round;opacity:.96;filter:url(#hqBuildingPipeGlow)}
+.hq-pipe-link .nexus-pipe-flow{fill:none;stroke-width:3.5;stroke-linecap:round;stroke-dasharray:5 15;animation:nexusPipeRun 1.7s linear infinite,hqPipePulse 1.5s ease-in-out infinite;filter:url(#hqBuildingPipeGlow)}
+.hq-pipe-link .nexus-pipe-node{stroke-width:4;filter:url(#hqBuildingPipeGlow);animation:nexusPulse 2s ease-in-out infinite,hqPipeNodePulse 1.5s ease-in-out infinite}
+.hq-pipe-idle .nexus-pipe-inner{stroke:#791c2a}
+.hq-pipe-idle .nexus-pipe-flow{stroke:#ff3449}
+.hq-pipe-idle .nexus-pipe-node{fill:#ff5263;stroke:#ff172f}
+.hq-pipe-upgrading .nexus-pipe-inner{stroke:#126b3d}
+.hq-pipe-upgrading .nexus-pipe-flow{stroke:#24ff83}
+.hq-pipe-upgrading .nexus-pipe-node{fill:#aaffca;stroke:#22ff83}
+.hq-pipe-instant .nexus-pipe-inner{stroke:#777}
+.hq-pipe-instant .nexus-pipe-flow{stroke:#fff}
+.hq-pipe-instant .nexus-pipe-node{fill:#fff;stroke:#fff}
+@keyframes hqPipePulse{0%,100%{opacity:.62}50%{opacity:1}}
+@keyframes hqPipeNodePulse{0%,100%{opacity:.68;r:6}50%{opacity:1;r:9}}
+@media(prefers-reduced-motion:reduce){.hq-pipe-link .nexus-pipe-flow,.hq-pipe-link .nexus-pipe-node{animation:none}}
+</style>
 </head>
 <body>
 <div id="authGate">
@@ -4809,7 +4829,10 @@ function renderTestArea(){
   list.forEach(function(o,i){
     var xy=spots[i],x=xy[0],y=xy[1],lv=lvl(o),maximum=cap(o),complete=lv>=maximum,canUpgrade=!complete&&S.hq>=o.u&&!S.up[o.id]&&afford(cost(o)),col=o.col||(o.res==='cr'?'#ffc933':o.res==='da'?'#55c9ff':o.res==='cy'?'#65e89a':o.res==='ex'?'#ff786b':'#bd91ff'),glyph=ic(o.i||o.res||'node');
     var stage=lv<=4?1:Math.min(7,Math.floor((lv-5)/5)+2),arch=!prestige?' tron-b':'';
-    var sx=centreX*10,sy=centreY*7,ex=x*10,ey=y*7,dx=ex-sx,dy=ey-sy,bend=(i%2?1:-1)*Math.min(42,Math.max(18,Math.abs(dx)*.12));paths+='<path d="M'+sx+' '+sy+' C'+(sx+dx*.28)+' '+(sy+dy*.22+bend)+' '+(sx+dx*.72)+' '+(sy+dy*.78-bend)+' '+ex+' '+ey+'" class="hq-flow-link '+(canUpgrade?'upgrade-link':'')+'" stroke="'+(canUpgrade?'#58f6ff':complete?'#6aebff':'#397eaa')+'" stroke-width="'+(canUpgrade?'3.5':complete?'2.5':'1.8')+'" opacity="'+(canUpgrade?'.98':complete?'.8':'.55')+'" '+(canUpgrade||complete?'':'stroke-dasharray="5 8"')+'/>';
+    var sx=centreX*10,sy=centreY*7,ex=x*10,ey=y*7,dx=ex-sx,dy=ey-sy,bend=(i%2?1:-1)*Math.min(42,Math.max(18,Math.abs(dx)*.12)),up=S.up&&S.up[o.id],pipeState='idle';
+    if(up){var pipeRemaining=Math.max(0,(up.end-Date.now())/1000),pipeFinishCost=finCost(o.id,lvl(o)+1,pipeRemaining);pipeState=S.r.in>=pipeFinishCost?'instant':'upgrading'}
+    var pipeD='M'+sx+' '+sy+' C'+(sx+dx*.22)+' '+(sy+dy*.12+bend)+' '+(sx+dx*.42)+' '+(sy+dy*.38-bend)+' '+(sx+dx*.5)+' '+(sy+dy*.5)+' C'+(sx+dx*.58)+' '+(sy+dy*.62+bend)+' '+(sx+dx*.78)+' '+(sy+dy*.88-bend)+' '+ex+' '+ey;
+    paths+='<g class="hq-pipe-link hq-pipe-'+pipeState+'"><path class="nexus-pipe-outer" d="'+pipeD+'"/><path class="nexus-pipe-inner" d="'+pipeD+'"/><path class="nexus-pipe-flow" d="'+pipeD+'"/><circle class="nexus-pipe-node" cx="'+ex+'" cy="'+ey+'" r="8"/></g>';
     html+='<div class="test-building normal-building'+(complete?' complete':'')+(canUpgrade?' upgrade-ready':'')+arch+'" data-test-building="'+o.id+'" data-visual-stage="'+stage+'" data-building-level="'+lv+'" style="left:'+x+'%;top:'+y+'%;--bw:clamp(50px,11vw,64px);--bh:48px;--accent:'+col+';transform:translate(-50%,-50%)">'+(prestige?'<div class="structure"><i class="arch-side arch-side-a"></i><i class="arch-side arch-side-b"></i><i class="arch-spire"></i><i class="arch-core"></i><i class="arch-energy"></i><span class="glyph">'+glyph+'</span></div>':'<div class="structure tron" style="color:'+(TRC[o.id]||'#28e6ff')+'">'+tronBld(o.id,lv)+'</div>')+'<b class="building-name">'+o.name+'</b><small class="building-level">LV '+lv+' / '+maximum+'</small><button class="test-building-tap" aria-label="Open '+o.name+' upgrades"></button></div>';
   });
   var hqLevel=Math.max(1,Math.min(30,Number(S.hq)||1));
@@ -4818,7 +4841,7 @@ function renderTestArea(){
   html+='<div class="test-building hq'+(bulk.ready?' bulk-ready':'')+(prestige?'':' tron-hq')+'" data-hq-level="'+hqLevel+'" data-hq-stage="'+hqStage+'" style="left:'+centreX+'%;top:'+centreY+'%;--hq-rise:'+hqRise+'px;--hq-width:'+hqWidth+'px;--hq-core:'+hqCore+'px;--hq-accent:hsl('+hqHue+',92%,68%);--hq-crown-w:'+hqCrown+'%;--hq-ring-w:'+hqRing+'%;--hq-spire-height:'+hqSpire+'px;transform:translate(-50%,-50%)">'+(prestige?'<div class="structure"><i class="hq-arch-platform"></i><i class="hq-arch-wing wing-left"></i><i class="hq-arch-wing wing-right"></i><i class="hq-arch-core"></i><i class="hq-arch-crown"></i><i class="hq-arch-ring ring-low"></i><i class="hq-arch-ring ring-high"></i><i class="hq-arch-spire"></i><i class="hq-arch-beacon"></i><i class="hq-arch-window"></i><span class="glyph">⌂</span><i class="roof-mark">BD // HQ</i></div>':'<div class="structure tron" style="color:'+tronHqColor(hqLevel)+'">'+tronHq(hqLevel)+'</div>')+'<b class="building-name">'+(prestige?'PRESTIGE HQ':'CENTRAL HQ')+'</b><small class="building-level">'+(bulk.ready?'BATCH AVAILABLE':prestige?'PRESTIGE P'+S.pr:'HQ LEVEL '+S.hq+' / 30')+'</small><button class="test-hq-tap" id="testHqTap" aria-label="'+(bulk.ready?'Batch available: upgrade all buildings one level':'Open HQ requirements and upgrade controls')+'"></button></div>';
   html+='<div class="nexus-hq-building" data-nexus-building="true" role="button" tabindex="0" aria-label="Enter NEXUS AI network"><div class="nexus-building-beacon"></div><div class="nexus-building-crown"></div><div class="nexus-building-shell"><div class="nexus-building-glass"><span>⌘</span><i></i><i></i><i></i></div><div class="nexus-building-core"></div><div class="nexus-building-wing left"></div><div class="nexus-building-wing right"></div></div><b class="nexus-building-name">NEXUS</b><small class="nexus-building-sub">AI NETWORK // ONLINE</small><button class="nexus-building-tap" type="button" aria-label="Enter NEXUS AI network"></button></div>';
   var nexusPipes='<svg class="nexus-pipeline" viewBox="0 0 1000 700" preserveAspectRatio="none" aria-hidden="true"><defs><filter id="nexusPipeGlow"><feGaussianBlur stdDeviation="5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path class="nexus-pipe-outer" d="M500 155 C455 205 555 225 500 270 S455 340 500 395"/><path class="nexus-pipe-inner" d="M500 155 C455 205 555 225 500 270 S455 340 500 395"/><path class="nexus-pipe-flow" d="M500 155 C455 205 555 225 500 270 S455 340 500 395"/><circle class="nexus-pipe-node" cx="500" cy="270" r="8"/></svg>';
-  var nextSceneHtml=nexusPipes+'<svg class="test-data-links" viewBox="0 0 1000 700" preserveAspectRatio="none" aria-hidden="true"><g fill="none">'+paths+'</g></svg>'+html;if(layer.dataset.renderedScene!==nextSceneHtml){layer.innerHTML=nextSceneHtml;layer.dataset.renderedScene=nextSceneHtml;}
+  var nextSceneHtml=nexusPipes+'<svg class="hq-building-pipelines" viewBox="0 0 1000 700" preserveAspectRatio="none" aria-hidden="true"><defs><filter id="hqBuildingPipeGlow"><feGaussianBlur stdDeviation="5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>'+paths+'</svg>'+html;if(layer.dataset.renderedScene!==nextSceneHtml){layer.innerHTML=nextSceneHtml;layer.dataset.renderedScene=nextSceneHtml;}
   if(testHqModalOpen)renderTestHqModal();
   if(testBuildingModalId)renderTestBuildingModal();
   if(testInsideId)renderTestInside();
@@ -7409,10 +7432,18 @@ main#gameShell{height:100dvh!important;min-height:100dvh!important;max-height:10
 </style>
 <script id="bhq-v102-independent-update-archive">
 (function(){
-  var VERSION='0.0.5';
-  try{window.BHQ_UPDATE_VERSION='0.0.5';}catch(e){}
-  try{window.BHQ_UPDATE_VERSION='0.0.4';}catch(e){}
+  var VERSION='0.0.6';
+  try{window.BHQ_UPDATE_VERSION=VERSION;}catch(e){}
   var RELEASES=[{
+    version:VERSION,date:'20 NOV 2026',
+    title:'HQ NETWORK // NEXUS PIPELINE OVERHAUL',
+    tag:'UNIFIED WAVY CONDUITS · LIVE RED / GREEN / WHITE STATUS PULSES',
+    items:[
+      'Replaced the old HQ building connection lines with layered, wavy pipelines matching the NEXUS conduit design.',
+      'Idle facilities pulse red, facilities with an active upgrade pulse green, and active upgrades that can be instantly finished with available Influence pulse white.',
+      'Pipeline status updates with the live building timers and Influence balance. Existing building positions, upgrade costs, timers and commander saves are unchanged.'
+    ]
+  },{
     version:VERSION,date:'20 NOV 2026',
     title:'GLOBAL RANKINGS // ALLIANCE NETWORK OVERHAUL',
     tag:'NEW ALLIANCE LEADERBOARD · OPERATIVE RANKING REDESIGN · FUTURISTIC COMMAND UI',
