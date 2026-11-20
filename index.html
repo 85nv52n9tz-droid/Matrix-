@@ -8740,5 +8740,78 @@ body:has(#t-bot:not([hidden])){position:fixed!important;inset:0!important;width:
 }
 </style>
 
+
+<style id="bhq-nano-fixed-layout-v2">
+/* Keep Nano as a fixed viewport; no page scroll and no resizing when recon state changes. */
+#t-bot[hidden]{display:none!important}
+#t-bot:not([hidden]){
+ display:flex!important;flex-direction:column!important;gap:3px!important;
+ height:calc(100dvh - 178px)!important;min-height:0!important;max-height:calc(100dvh - 178px)!important;
+ overflow:hidden!important;box-sizing:border-box!important;padding:3px 5px 2px!important;
+}
+body:has(#t-bot:not([hidden])){height:100dvh!important;min-height:100dvh!important;max-height:100dvh!important;overflow:hidden!important;overscroll-behavior:none!important}
+html:has(#t-bot:not([hidden])){height:100%!important;overflow:hidden!important}
+#t-bot .nbx-stats{flex:0 0 auto!important;margin:0 0 2px!important;padding:4px!important;gap:4px!important}
+#t-bot .nano-combat-split{flex:0 0 54px!important;height:54px!important;min-height:54px!important;max-height:54px!important;grid-template-columns:minmax(0,1fr)!important;grid-template-rows:54px!important;margin:0!important;overflow:hidden!important}
+#t-bot #nlab,#t-bot #nlab>.card,#t-bot .nano-lab-head{height:54px!important;min-height:54px!important;max-height:54px!important;overflow:hidden!important;box-sizing:border-box!important;margin:0!important;padding:4px!important}
+#t-bot .nano-lab-head{display:flex!important;align-items:center!important;gap:5px!important}
+#t-bot .nano-lab-head>.ico{width:24px!important;min-width:24px!important;height:24px!important}
+#t-bot .nano-lab-head .name{font-size:9px!important;line-height:1.1!important}
+#t-bot .nano-lab-head .desc{font-size:6px!important;line-height:1.1!important;margin:1px 0!important}
+#t-bot .nano-lab-head .nano-defence-inline{font-size:6px!important;min-height:16px!important;padding:2px!important;margin-top:2px!important}
+#t-bot #nanoIncomingPanel{display:none!important}
+#t-bot #nanoBattleReport{display:none!important}
+#t-bot #nanoScoutPanel{flex:0 0 132px!important;height:132px!important;min-height:132px!important;max-height:132px!important;overflow:hidden!important;box-sizing:border-box!important;margin:2px 0!important;padding:4px!important}
+#t-bot #nanoScoutPanel .nano-ops-head{padding:0 0 2px!important;margin:0 0 2px!important}
+#t-bot #nanoScoutPanel .nano-ops-title b{font-size:8px!important}
+#t-bot #nanoScoutPanel .nano-ops-route{padding:1px 0!important;font-size:5px!important}
+#t-bot #nanoScoutPanel .nano-scout-actions{gap:3px!important;margin:2px 0!important}
+#t-bot #nanoScoutPanel .nano-scout-actions button{min-height:21px!important;padding:3px 2px!important;font-size:6px!important}
+#t-bot #nanoScoutPanel .nano-scout-grid{gap:3px!important}
+#t-bot #nanoScoutPanel .nano-scout-grid label{padding:2px!important;font-size:6px!important}
+#t-bot #nanoScoutPanel .nano-scout-grid select,#t-bot #nanoScoutPanel .nano-scout-grid input{height:21px!important;margin-top:1px!important;font-size:7px!important}
+#t-bot #nanoScoutPanel .nano-scout-status{max-height:23px!important;overflow:hidden!important;margin:2px 0!important;padding:3px!important;font-size:6px!important;line-height:1.1!important}
+#t-bot #nanoScoutPanel .nano-scout-status small{font-size:6px!important}
+#t-bot #nanoScoutPanel .nano-scout-footnote{display:none!important}
+#t-bot #qty{flex:0 0 auto!important;max-height:22px!important;overflow:hidden!important;margin:1px 0!important;padding:0!important}
+#t-bot #tiers{
+ flex:1 1 0!important;min-height:0!important;height:auto!important;max-height:none!important;
+ display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
+ grid-template-rows:repeat(2,minmax(0,1fr))!important;grid-auto-rows:minmax(0,1fr)!important;
+ gap:4px!important;align-content:stretch!important;overflow:hidden!important;
+ padding:12px 4px 3px!important;margin:1px 0 0!important;box-sizing:border-box!important;
+}
+#t-bot #tiers .nano-tier-card,#t-bot #tiers .card{min-width:0!important;min-height:0!important;height:100%!important;max-height:100%!important;padding:3px!important;gap:1px!important;overflow:hidden!important;box-sizing:border-box!important}
+#t-bot #tiers .ico{width:24px!important;min-width:24px!important;height:24px!important;margin:0 auto!important}
+#t-bot #tiers .ico svg{width:20px!important;height:20px!important}
+#t-bot #tiers .name,#t-bot #tiers .title{font-size:7px!important;line-height:1.05!important}
+#t-bot #tiers .desc,#t-bot #tiers small{font-size:5.5px!important;line-height:1.05!important}
+#t-bot #tiers button{min-height:18px!important;padding:2px 3px!important;font-size:6px!important}
+@media(max-height:740px){
+ #t-bot:not([hidden]){height:calc(100dvh - 165px)!important;max-height:calc(100dvh - 165px)!important}
+ #t-bot #nanoScoutPanel{flex-basis:120px!important;height:120px!important;min-height:120px!important;max-height:120px!important}
+}
+</style>
+<script id="bhq-event-dock-routing-v2">
+(function(){
+ function openDestination(which){
+  if(['activity','daily','weekly','monthly','alliance'].indexOf(which)<0)return;
+  try{
+   if(typeof originalShow==='function')originalShow('events');
+   if(typeof ensureEventsShell==='function')ensureEventsShell();
+   if(typeof activateEventPage==='function')activateEventPage(which);
+   else if(typeof openEventPage==='function')openEventPage(which);
+  }catch(err){console.error('Event navigation failed',err)}
+ }
+ window.openEventDestination=openDestination;
+ document.addEventListener('click',function(e){
+  var button=e.target&&e.target.closest?e.target.closest('#iosDock [data-event-dock-choice]'):null;
+  if(!button)return;
+  e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();
+  openDestination(button.getAttribute('data-event-dock-choice'));
+ },true);
+})();
+</script>
+
 </body>
 </html>
