@@ -3131,6 +3131,9 @@ function showNanoBattleReport(newBattle){
 }
 function closeNanoBattleReport(){var m=$('nanoReportModal');if(m)m.hidden=true;if(S.lastBattle&&!S.lastBattle.dismissed){S.lastBattle.dismissed=true;save()}}
 function nanoScoutBotCount(){return (S.nb||[]).reduce(function(a,b){return a+(Number(b)||0)},0)}
+window.BHQ_WORLD_SNAPSHOT=function(){return {hq:Number(S.hq)||1,bots:nanoScoutBotCount(),tiers:(S.nb||[]).map(Number),attackPower:Number($('nbxAtk')?.textContent?.replace(/[^0-9.]/g,''))||power(),defencePower:Number($('nbxDef')?.textContent?.replace(/[^0-9.]/g,''))||0,research:S.rs||{}}};
+window.addEventListener('message',function(e){if(e.origin!==location.origin||!e.data||e.data.kind!=='MATRIX_WORLD_REQUEST')return;try{e.source.postMessage({kind:'MATRIX_WORLD_SNAPSHOT',data:window.BHQ_WORLD_SNAPSHOT()},e.origin)}catch(err){}});
+
 function nanoScoutTakeBots(qty){var taken=[],left=qty;for(var i=5;i>=0&&left>0;i--){var n=Math.min(left,Math.max(0,Number(S.nb[i])||0));if(n){S.nb[i]-=n;taken.push({tier:i,count:n});left-=n}}return left?null:taken}
 function nanoScoutReturnBots(taken,loss){var total=(taken||[]).reduce(function(a,x){return a+x.count},0),lost=Math.min(total,Math.max(0,Math.floor(loss||0))),left=lost;for(var i=0;i<(taken||[]).length;i++){var x=taken[i],l=Math.min(left,x.count);x.count-=l;left-=l} (taken||[]).forEach(function(x){S.nb[x.tier]=(S.nb[x.tier]||0)+x.count});return lost}
 function nanoScoutCrewOptions(selected){var a=[];for(var i=0;i<15;i++)if(recruited(i))a.push('<option value="'+i+'" '+(Number(selected)===i?'selected':'')+'>'+CM[i]+'</option>');return a.join('')}
@@ -9176,3 +9179,11 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 var n=0,interval=setInterval(function(){attach();if(++n>30)clearInterval(interval)},300);
 })();
 </script>
+
+<style id="nano-mobile-layout-repair-20261122">
+/* Keep the nano page contained within the usable game viewport on iPhone. */
+#t-bot{box-sizing:border-box!important;margin-top:0!important;padding-top:6px!important;min-height:0!important;max-width:100%!important;overflow-y:auto!important;overflow-x:hidden!important;align-content:start!important;justify-content:flex-start!important;scroll-margin-top:0!important}
+#t-bot .nbx-stats{position:relative!important;top:auto!important;transform:none!important;margin-top:0!important}
+#t-bot .nano-combat-split,#t-bot #nanoScoutPanel,#t-bot #tiers{position:relative!important;top:auto!important;bottom:auto!important;transform:none!important}
+#t-bot #tiers{min-height:0!important;max-height:none!important}
+</style>
