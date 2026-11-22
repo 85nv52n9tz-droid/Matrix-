@@ -1,0 +1,1 @@
+Cyber Arena prototype. The playable index.html is provided separately for testing; this folder is isolated from the live game.
